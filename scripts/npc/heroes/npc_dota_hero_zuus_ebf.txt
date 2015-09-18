@@ -1,0 +1,12 @@
+//=================================================================================================================
+// HERO: Legion comander
+//=================================================================================================================
+"npc_dota_hero_zuus_ebf"
+{
+	"override_hero"			"npc_dota_hero_legion_commander"
+	"Ability1"					"legion_commander_overwhelming_odds"					// Ability 1
+	"Ability2"					"legion_commander_press_the_attack"					// Ability 2
+	"Ability3"					"legion_commander_moment_of_courage"						// Ability 3
+	"Ability4"				"lc_ebf_war_fury"
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}

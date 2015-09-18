@@ -1,0 +1,14 @@
+//=================================================================================================================
+// HERO: skywrath
+//=================================================================================================================
+"npc_dota_hero_undying_ebf"
+{
+	"override_hero"			"npc_dota_hero_undying"
+	"Ability1"					"undying_decay_ebf"					// Ability 4
+	"Ability2"					"undying_soul_rip_ebf"					// Ability 4
+	"Ability3"					"undying_summon_zombies"					// Ability 4
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}
+
+
+

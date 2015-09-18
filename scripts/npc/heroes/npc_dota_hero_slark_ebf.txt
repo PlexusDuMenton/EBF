@@ -1,0 +1,9 @@
+//=================================================================================================================
+// HERO: slark
+//=================================================================================================================
+"npc_dota_hero_slark_ebf"
+{
+	"override_hero"			"npc_dota_hero_slark"
+	"Ability3"					"slark_ebf_damage_steal"					// Ability 2
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}

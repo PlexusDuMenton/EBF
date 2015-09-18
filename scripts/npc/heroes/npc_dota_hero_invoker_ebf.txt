@@ -1,0 +1,9 @@
+//=================================================================================================================
+// HERO: skywrath
+//=================================================================================================================
+"npc_dota_hero_invoker_ebf"
+{
+	"override_hero"			"npc_dota_hero_invoker"
+	"Ability17"					"lua_attribute_bonus"					// Ability 4
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}

@@ -1,0 +1,10 @@
+//=================================================================================================================
+// HERO: skywrath
+//=================================================================================================================
+"npc_dota_hero_skywrath_mage_ebf"
+{
+	"override_hero"			"npc_dota_hero_skywrath_mage"
+	"Ability2"					"skywrath_mage_concussive_shot_datadriven"					// Ability 4
+	"Ability4"					"skywrath_mage_mystic_flare_datadriven"					// Ability 4
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}

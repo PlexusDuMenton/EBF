@@ -1,0 +1,9 @@
+//=================================================================================================================
+// HERO: doom
+//=================================================================================================================
+"npc_dota_hero_doom_bringer_ebf"
+{
+	"override_hero"			"npc_dota_hero_doom_bringer"
+	"Ability1"					"doom_devour"					// Ability 2
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}

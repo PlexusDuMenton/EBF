@@ -1,0 +1,9 @@
+//=================================================================================================================
+// HERO: skywrath
+//=================================================================================================================
+"npc_dota_hero_clinkz_ebf"
+{
+	"override_hero"			"npc_dota_hero_clinkz"
+	"Ability4"					"clinkz_death_pact_custom"					// Ability 4
+	"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+}
