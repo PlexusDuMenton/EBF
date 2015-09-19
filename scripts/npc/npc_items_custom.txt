@@ -7315,7 +7315,7 @@
 					{
 						"ScriptFile"			"lua_item/simple_item.lua"
 						"Function"				"Splash_melee"
-						"damage_on_hit"		"%attack_damage"
+						"damage_on_hit"			"%attack_damage"
 					}
 					"FireEffect"
 					{
@@ -9133,6 +9133,313 @@
 						"LifestealPercent"		"%lifesteal"
 					}
 				}
+			}
+		}
+	}
+	//=================================================================================================================
+		// Chronos shard
+		//=================================================================================================================
+		"item_ares_shard"
+		{
+			"ID"							"1255"
+
+			// General
+			//-------------------------------------------------------------------------------------------------------------
+			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+			"BaseClass"						"item_datadriven"
+			"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+			"AbilityTextureName"			"item_ares_shard"
+			"ItemKillable"					"0"
+
+			// Stats
+			//-------------------------------------------------------------------------------------------------------------
+			"AbilityCastRange"				"100"
+			"AbilityCastPoint"				"0.0"
+			
+			// Item Info
+			//-------------------------------------------------------------------------------------------------------------
+			"ItemCost"						"200"
+			"ItemShopTags"					"consumable"
+			"ItemQuality"					"consumable"
+			"ItemStackable"					"1"
+			"ItemShareability"  "ITEM_FULLY_SHAREABLE"
+			"ItemPermanent"					"0"
+			"ItemInitialCharges"			"1"
+			"precache"
+		    {
+		        "soundfile"         "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+		        "particle"          "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
+		        "particle"          "particles/status_fx/status_effect_beserkers_call.vpcf"
+		    }
+			"OnSpellStart"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"lua_item/simple_item.lua"
+					"Function"				"ares_powder"
+				}
+				"ApplyModifier"
+				{
+					"Target" 
+					{
+						"Center" "CASTER"
+						"Radius" "600"
+						"Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					}
+					"ModifierName" "ares_shard"
+				}
+				"FireSound"
+		        {
+		            "EffectName"    "Hero_Axe.Berserkers_Call"
+		            "Target"        "CASTER"
+		        }
+				"FireEffect"
+		        {
+		            "EffectName"        "particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
+		            "EffectAttachType"  "start_at_customorigin"
+
+		            "ControlPointEntities"
+		            {
+		                "CASTER"    "follow_origin"
+		                "CASTER"    "follow_origin"
+		                "CASTER"    "follow_origin"
+		            }
+		        }
+				"SpendCharge"
+				{}
+			}
+
+			"Modifiers"
+			{
+				"ares_shard"
+				{
+					"TextureName" "item_ares_shard"
+					"Duration" "%debuff_duration"
+					"OnDestroy" 
+					{
+						"RunScript"
+						{
+							"ScriptFile"			"lua_item/simple_item.lua"
+							"Function"				"ares_powder_end"
+						}
+					}
+				}
+			}
+
+			// Special	
+			//-------------------------------------------------------------------------------------------------------------
+			"AbilitySpecial"
+			{
+				"01"
+				{
+					"var_type"				"FIELD_FLOAT"
+					"debuff_duration"			"7.5"
+				}
+				"02"
+				{
+					"var_type"				"FIELD_INTEGER"
+					"Radius"			"1000"
+				}
+			}
+		}
+
+	"item_recipe_midas_greave"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1256"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"AbilityTextureName"            "item_midas_greave"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"1510"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_midas_greave"
+		"ItemRequirements"
+		{
+			"01"						"item_midas_2;item_boots;item_orb_of_doom"
+		}
+	}
+	"item_midas_greave"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1257"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_midas_greave"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"8000"
+		"ItemShopTags"					"boots"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"passive_midas_2"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"AllowIllusionDuplicate"    "0"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Midas2_OnHit"
+						"damage_on_hit"		"%attack_damage"
+					}
+				}
+			}
+		    "midas_greave_passive"
+		    {
+		        "Passive" "1"  
+		        "IsHidden" "1"  
+		        "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+		        "Properties"
+		        {
+		            "MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE" "%bonus_speed"
+		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+		        }
+		    }
+
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"			"100"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_speed"	"100"
+			}
+		}
+	}
+
+	"item_recipe_heart_boots"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1257"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"AbilityTextureName"            "item_heart_boots"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"130"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_heart_boots"
+		"ItemRequirements"
+		{
+			"01"						"item_heart_titan;item_boots;item_orb_of_doom"
+		}
+	}
+	"item_heart_boots"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1258"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_heart_boots"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"9000"
+		"ItemShopTags"					"boots"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"heart_boots"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+		        "Properties"
+		        {
+		            "MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE" "%bonus_speed"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+		        }
+		    }
+			"hearth_regen"
+			{
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"%health_regen_percent"
+				}
+			}
+		}
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_regen_percent"			"2"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_strength"			"300"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max"			"5000"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"			"100"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_speed"	"100"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"	"20"
 			}
 		}
 	}

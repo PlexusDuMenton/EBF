@@ -2,6 +2,86 @@
 "DOTAUnits"
 {
 	"Version"	"1"	
+	//Start of file npc_dummy_blank.txt
+	// Made by BMD
+	"npc_dummy_blank"
+	{
+		// General
+		//
+		"BaseClass" "npc_dota_base_additive" // Class of entity of link to.
+		"Model" "models/development/invisiblebox.vmdl" // Model.
+		"SoundSet" "Creep_Good_Range" // Name of sound set.
+		"Level" "0"
+		"UnitLabel" "healing_ward"
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1" "" // Ability 1.
+		"Ability2" "" // Ability 2.
+		"Ability3" "" // Ability 3.
+		"Ability4" "" // Ability 4.
+		"Ability5" "" // Ability 5.
+		"Ability6" "" // Ability 6 - Extra.
+		"Ability7" "" // Ability 7 - Extra.
+		"Ability8" "" // Ability 8 - Extra.
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical" "0" // Physical protection.
+		"MagicalResistance" "0" // Magical protection.
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK" // Type of attack - melee, ranged, etc.
+		"AttackDamageMin" "0" // Damage range min.
+		"AttackDamageMax" "0" // Damage range max.
+		"AttackDamageType" "DAMAGE_TYPE_ArmorPhysical"
+		"AttackRate" "1" // Speed of attack.
+		"AttackAnimationPoint" "0.5" // Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange" "800" // Range within a target can be acquired.
+		"AttackRange" "500" // Range within a target can be attacked.
+		"ProjectileModel" "" // Particle system model for projectile.
+		"ProjectileSpeed" "900" // Speed of projectile.
+		// Attributes
+		//----------------------------------------------------------------
+		"AttributePrimary" "DOTA_ATTRIBUTE_STRENGTH"
+		"AttributeBaseStrength" "0" // Base strength
+		"AttributeStrengthGain" "0" // Strength bonus per level.
+		"AttributeBaseIntelligence" "0" // Base intelligence
+		"AttributeIntelligenceGain" "0" // Intelligence bonus per level.
+		"AttributeBaseAgility" "0" // Base agility
+		"AttributeAgilityGain" "0" // Agility bonus per level.
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP" "0" // Experience earn.
+		"BountyGoldMin" "0" // Gold earned min.
+		"BountyGoldMax" "0" // Gold earned max.
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName" "DOTA_HULL_SIZE_SMALL" // Hull type used for navigation/locomotion.
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND" // Type of locomotion - ground, air
+		"MovementSpeed" "450" // Speed
+		"MovementTurnRate" "10" // Turning rate.
+		"FollowRange" "250" // Distance to keep when following
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth" "1" // Base health.
+		"StatusHealthRegen" "0" // Health regeneration rate.
+		"StatusMana" "0" // Base mana.
+		"StatusManaRegen" "0" // Mana regeneration rate.
+		// Team
+		//----------------------------------------------------------------
+		"TeamName" "DOTA_TEAM_GOODGUYS" // Team name.
+		"CombatClassAttack" "DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend" "DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass" "DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange" "0" // Range of vision during day light.
+		"VisionNighttimeRange" "0" // Range of vision at night time.
+		// Bots
+		//----------------------------------------------------------------
+		"AttackDesire" "1.5" // How much bots want to attack them vs other non-hero things
+	}
 "npc_dummy_unit"
   {
     // General
@@ -1676,7 +1756,7 @@
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_naga_siren.vsndevts"
 		"IdleSoundLoop"				"Hero_NagaSiren.IdleLoop"
 		"ModelScale"				"0.7"
-		"Level"						"9"
+		"Level"						"7"
 		
 		// Abilities
 		//----------------------------------------------------------------
@@ -2599,7 +2679,7 @@
 		"BaseClass"					"npc_dota_creature"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
 		"SoundSet"					"n_creep_Melee"
-		"Level"						"13"
+		"Level"						"5"
 		"ModelScale" 				"2.45"
 		"IsNeutralUnitType"			"1"
 		"ConsideredHero"			"1"
@@ -9594,8 +9674,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"9999"			// Physical protection.
-		"MagicalResistance"			"-100"		// Magical protection.
+		"ArmorPhysical"				"5000"			// Physical protection.
+		"MagicalResistance"			"-150"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -9714,8 +9794,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"9999"			// Physical protection.
-		"MagicalResistance"			"-50"		// Magical protection.
+		"ArmorPhysical"				"7500"			// Physical protection.
+		"MagicalResistance"			"-100"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -9835,7 +9915,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"9999"			// Physical protection.
-		"MagicalResistance"			"0"		// Magical protection.
+		"MagicalResistance"			"-50"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -9937,7 +10017,7 @@
 		"Model"						"models/heroes/warlock/warlock.mdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
-		"Level"						"80"
+		"Level"						"51"
 		"ModelScale" 				"2.0"
 		"ConsideredHero"			"1"
 		"MinimapIcon"				"minimap_enemyicon"
@@ -9951,20 +10031,21 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"			// Physical protection.
+		"ArmorPhysical"				"2500"			// Physical protection.
 		"MagicalResistance"			"90"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"1000000"		// Damage range min.
-		"AttackDamageMax"			"2000000"		// Damage range max.
-		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"200000"		// Damage range min.
+		"AttackDamageMax"			"400000"		// Damage range max.
+		"AttackRate"				"1.0"		// Speed of attack.
 		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"15000"		// Range within a target can be acquired.
 		"AttackRange"				"700"		// Range within a target can be attacked.
-		"ProjectileModel"			""			// Particle system model for projectile.
-		"ProjectileSpeed"			"0"			// Speed of projectile.		
+		"ProjectileModel"			"warlock_base_attack"							// Particle system model for projectile.
+		"ProjectileSpeed"			"1200"									// Speed of projectile.
+	
 		// Bounds
 		//----------------------------------------------------------------
 		"BoundsHullName"			"DOTA_HULL_SIZE_REGULAR"			// Hull type used for navigation/locomotion.
@@ -9987,7 +10068,144 @@
 		//----------------------------------------------------------------
 		"StatusHealth"				"7500000"		// Base health.
 		"StatusHealthRegen"			"1000"			// Health regeneration rate.
-		"StatusMana"				"100"			// Base mana.
+		"StatusMana"				"400"			// Base mana.
+		"StatusManaRegen"			"400"			// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"800"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_SOFT"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			//Basic AI State
+			//------------------------------------------------------------
+			"States"
+			{
+				"Invade"
+				{
+					"Name"				"Invade"
+					"Aggression"		"97.0"
+					"Avoidance"			"60.0"
+					"Support"			"60.0"
+					"RoamDistance"  "1000.0"
+				}
+			}
+
+			//Level Up Parameters
+			//------------------------------------------------------------
+			"HPGain"					"8000"
+			"DamageGain"				"300"
+			"ArmorGain"					"10"
+			"MagicResistGain"			"50"
+			"MoveSpeedGain"				"0"
+			"BountyGain"				"0"
+			"XPGain"					"200"
+			
+			"DefaultState"				"Invade"
+			
+			"OffensiveAbilities"
+			{
+				"Ability1"
+				{
+					"Name"				"boss_invoke_golem_1"
+					"AOE"                "1"
+       				"Radius"             "2500"
+					"MinimumTargets"	"1"
+				}
+			}
+			"EscapeAbilities"
+			{
+				"Ability2"
+				{
+					"Name"				"boss_invoke_golem_2"
+					"AOE"                "1"
+       				"Radius"             "2500"
+					"MinimumTargets"	"1"
+				}
+			}
+			"DefensiveAbilities"
+			{
+				"Ability3"
+				{
+					"Name"				"boss_trueform_warlock"
+					"AOE"                "1"
+       				"Radius"             "2500"
+					"MinimumTargets"	"1"
+				}
+			}
+			"DisableResistance"			"80.0"
+		}
+	}
+
+	"npc_dota_boss32_trueform"
+	{
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/warlock/archivist_golem/archivist_golem.mdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"Level"						"99"
+		"ModelScale" 				"2.0"
+		"ConsideredHero"			"1"
+		"MinimapIcon"				"minimap_enemyicon"
+		"MinimapIconSize"			"350"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"boss_melee_fire_orb"			// Ability 1.
+		"Ability2"					"boss_meteor"			// Ability 1.
+		"Ability3"					"boss_true_strike"			// Ability 1.
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"9999"			// Physical protection.
+		"MagicalResistance"			"0"		// Magical protection.
+		
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"2000000"		// Damage range min.
+		"AttackDamageMax"			"4000000"		// Damage range max.
+		"AttackRate"				"0.7"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"15000"		// Range within a target can be acquired.
+		"AttackRange"				"300"		// Range within a target can be attacked.
+		"ProjectileModel"			""							// Particle system model for projectile.
+		"ProjectileSpeed"			"0"									// Speed of projectile.
+	
+		// Bounds
+		//----------------------------------------------------------------
+		"BoundsHullName"			"DOTA_HULL_SIZE_REGULAR"			// Hull type used for navigation/locomotion.
+		"RingRadius"				"300"
+		"HealthBarOffset"			"320"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"60000"		// Experience earn.
+		"BountyGoldMin"				"0"			// Gold earned min.
+		"BountyGoldMax"				"0"			// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"522"		// Speed.
+		"MovementTurnRate"			"0.5"		// Turning rate.
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"10000000"		// Base health.
+		"StatusHealthRegen"			"1000"			// Health regeneration rate.
+		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
 		
 		// Vision
@@ -10015,9 +10233,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"0.0"
-					"Support"			"0.0"
-					"RoamDistance" 		"1500.0"
+					"Avoidance"			"50.0"
+					"Support"			"75.0"
 				}
 			}
 
@@ -10037,18 +10254,17 @@
 			{
 				"Ability1"
 				{
-					"Name"				"boss_invoke_golem_1"
-					"UseAtHealthPercent"  "99"
+					"Name"				"boss_melee_fire_orb"
+					"AOE"                "1"
+       				"Radius"             "2000"
+					"MinimumTargets" "1"
 				}
 				"Ability2"
 				{
-					"Name"				"boss_invoke_golem_2"
-					"UseAtHealthPercent"  "75"
-				}
-				"Ability3"
-				{
-					"Name"				"boss_trueform_warlock"
-					"UseAtHealthPercent"  "50"
+					"Name"				"boss_meteor"
+					"AOE"                "1"
+       				"Radius"             "2000"
+					"MinimumTargets" "1"
 				}
 			}
 			"DisableResistance"			"80.0"

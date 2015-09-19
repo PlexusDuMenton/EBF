@@ -797,9 +797,26 @@
 		"UnitBoss_8"
 		{
 			"NPCName"				"npc_dota_boss31_vh"
-			"TotalUnitsToSpawn"		"3"
+			"TotalUnitsToSpawn"		"2"
 			"UnitsPerSpawn"			"1"
-			"SpawnInterval"			"30"
+			"SpawnInterval"			"60"
+		}
+	}
+	"Round32" // Boss 32
+	{
+		"round_quest_title"			"#DOTA_Holdout_Round_Boss32_Quest_Title"
+		"round_title"				"#DOTA_Holdout_Round_Boss32_Title"
+		"MaxGold"					"0"
+		"BagCount"					"0"
+		"BagVariance"				"0"
+		"FixedXP"					"0"
+		
+		"UnitBoss_8"
+		{
+			"NPCName"				"npc_dota_boss32_vh"
+			"TotalUnitsToSpawn"		"1"
+			"UnitsPerSpawn"			"1"
+			"SpawnInterval"			"1"
 		}
 	}
 

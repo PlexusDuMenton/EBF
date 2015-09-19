@@ -211,7 +211,6 @@ function CHoldoutGameMode:InitGameMode()
 	-- Register OnThink with the game engine so it is called every 0.25 seconds
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
 end
-
 -- Evaluate the state of the game
 
 -- Read and assign configurable keyvalues if applicable

@@ -5,7 +5,14 @@ if simple_item == nil then
     simple_item = {} -- Creates an array to let us beable to index simple_item when creating new functions
     simple_item.__index = simple_item
 end
- 
+
+-- Clears the force attack target upon expiration
+function BerserkersCallEnd( keys )
+    local target = keys.target
+
+    target:SetForceAttackTarget(nil)
+end
+
 function simple_item:new() -- Creates the new class
     print ( '[simple_item] simple_item:new' )
     o = o or {}
@@ -29,6 +36,40 @@ function Cooldown_powder(keys)
     end
 end
 
+function ares_powder(keys)
+    local caster = keys.caster
+    local radius = item:GetLevelSpecialValueFor("Radius", 0)
+    caster.ennemyunit = FindUnitsInRadius(caster:GetTeam(),
+                              caster:GetAbsOrigin(),
+                              nil,
+                              radius,
+                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_ALL,
+                              DOTA_UNIT_TARGET_FLAG_NONE,
+                              FIND_ANY_ORDER,
+                              false)
+    for _,unit in pairs(caster.ennemyunit) do
+        unit:SetForceAttackTarget(nil)
+        if caster:IsAlive() then
+            local order = 
+            {
+                UnitIndex = target:entindex(),
+                OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+                TargetIndex = caster:entindex()
+            }
+            ExecuteOrderFromTable(order)
+        else
+            unit:Stop()
+        end
+        unit:SetForceAttackTarget(caster)
+    end
+end
+function ares_powder_end(keys)
+
+    for _,unit in pairs(caster.ennemyunit) do
+        unit:SetForceAttackTarget(nil)
+    end
+end
 function blood_booster(keys)
     local caster = keys.caster
     local item = keys.ability

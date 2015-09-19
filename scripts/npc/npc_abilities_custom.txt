@@ -21,6 +21,142 @@
 	    }
 	}
 
+	"boss_meteor"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"            "invoker_chaos_meteor"
+		
+		"precache"
+	    {
+	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf"
+	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
+	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor_burn_debuff.vpcf"
+	    }
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"2000"
+		
+		"AbilityCastAnimation"			"ACT_DOTA_SPAWN"	// Activity
+		"AnimationPlaybackRate"			"0.4"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"30"
+		"AbilityCastPoint"				"1.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "land_time"             "3.0"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+	        "02"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "travel_distance"       "0"
+	        }
+	        "03"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "travel_speed"          "25"
+	        }
+	        "04"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "burn_duration"         "15.0"
+	        }
+		}
+		
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnSpellStart"
+	    {
+	        "RunScript"
+	        {
+	            "ScriptFile"                                "lua_boss/boss_32_meteor.lua"
+	            "Function"                                  "meteor_on_spell_start"
+	            "Target"                                    "POINT"
+	            "LandTime"                                  "%land_time"
+	            "TravelSpeed"                               "%travel_speed"
+	            "VisionDistance"                            "%vision_distance"
+	            "EndVisionDuration"                         "%end_vision_duration"
+	        }
+	    }
+	    "OnDeath"
+		{
+			"RunScript"
+		        {
+		            "ScriptFile"                                "lua_boss/boss_32_meteor.lua"
+		            "Function"                                  "money_and_exp_gain"
+		        }
+		}
+		"OnAbilityPhaseStart"
+		{
+			"CreateThinker"
+				{
+					"ModifierName"	"target_telegraph_fx"
+					"Target"		"CASTER"
+				}
+		}
+
+	    
+	    "Modifiers"
+	    {
+	        "meteor_property"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            
+	            "States"
+	            {
+	                "MODIFIER_STATE_NO_UNIT_COLLISION"      "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NO_TEAM_MOVE_TO"        "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NO_TEAM_SELECT"         "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_COMMAND_RESTRICTED"     "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_ATTACK_IMMUNE"          "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_MAGIC_IMMUNE"           "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_INVULNERABLE"           "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NOT_ON_MINIMAP"         "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_UNSELECTABLE"           "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_OUT_OF_GAME"            "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NO_HEALTH_BAR"          "MODIFIER_STATE_VALUE_ENABLED"
+	            }
+	        }
+	        "fire_aura_debuff"
+	        {
+	            "Duration"          "%burn_duration"
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "1"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%armor_debuff"
+					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+	        }
+	    }
+	}
+
 	"boss_melee_fire_orb"
 	{
 		// General
@@ -1345,7 +1481,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"1600"
+				"speed"			"800"
 			}
 			"06"
 			{
@@ -1633,7 +1769,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"1000"
+				"speed"			"500"
 			}
 			"06"
 			{
@@ -1853,7 +1989,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"2400"
+				"speed"			"1200"
 			}
 			"06"
 			{
@@ -2141,7 +2277,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"2000"
+				"speed"			"1000"
 			}
 			"06"
 			{
@@ -2356,7 +2492,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"2500"
+				"speed"			"1250"
 			}
 			"06"
 			{
@@ -2644,7 +2780,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"speed"			"2000"
+				"speed"			"1000"
 			}
 			"06"
 			{
@@ -2902,7 +3038,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"		"1200"
+				"radius"		"700"
 			}
 			"02"
 			{
@@ -2958,7 +3094,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"		"1200"
+				"radius"		"1000"
 			}
 			"02"
 			{
@@ -4514,7 +4650,7 @@
 	        "01"
 	        {
 	            "var_type"                  "FIELD_FLOAT"
-	            "zombie_duration"             "5"
+	            "zombie_duration"             "4 5 6 7 8 9 10"
 	        }
 	        "02"
 	        {
@@ -4558,6 +4694,225 @@
 	            "GrantsXP"      "1"
 	            "SpawnRadius"   "%spawn_distance"
 	        }
+	  	}
+	}
+	"boss_invoke_golem_1"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "AbilityTextureName"            "undying_summon_zombies"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	    "precache"
+	    {
+	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
+	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
+	    }   
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.3 0.3 0.3 0.3"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "360"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "145"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"                  "FIELD_FLOAT"
+	            "golem_count"             "1"
+	        }
+	        "02"
+	        {
+	            "var_type"                  "FIELD_INTEGER"
+	            "spawn_distance"            "400"   
+	        }
+	    }
+
+	    "OnSpellStart"
+	    {
+	        "AttachEffect"
+	        {
+	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+	            "EffectName"    "start_at_customorigin"
+	            "Target"        "CASTER"    
+	        }   
+
+	        "SpawnUnit"
+	        {
+	            "UnitName"      "npc_dota_boss31"
+	            "Target"
+	            {
+	                "Center"    "CASTER"
+	            }
+
+	            "UnitCount" "%golem_count" 
+	            "UnitLimit" "%golem_count"
+	            "GrantsGold"    "0"
+	            "GrantsXP"      "0"
+	            "SpawnRadius"   "%spawn_distance"
+	        }
+	  	}
+	}
+	"boss_invoke_golem_2"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "AbilityTextureName"            "undying_summon_zombies"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	    "precache"
+	    {
+	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
+	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
+	    }   
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.3"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "360"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "145"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"                  "FIELD_FLOAT"
+	            "golem_count"             "2"
+	        }
+	        "02"
+	        {
+	            "var_type"                  "FIELD_INTEGER"
+	            "spawn_distance"            "400"   
+	        }
+	    }
+
+	    "OnSpellStart"
+	    {
+		    "RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		    	"Function" "clean_golem"
+		    }
+
+	        "AttachEffect"
+	        {
+	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+	            "EffectName"    "start_at_customorigin"
+	            "Target"        "CASTER"    
+	        }   
+
+	        "SpawnUnit"
+	        {
+	            "UnitName"      "npc_dota_boss31"
+	            "Target"
+	            {
+	                "Center"    "CASTER"
+	            }
+
+	            "UnitCount" "%golem_count" 
+	            "UnitLimit" "%golem_count"
+	            "GrantsGold"    "0"
+	            "GrantsXP"      "0"
+	            "SpawnRadius"   "%spawn_distance"
+	        }
+	  	}
+	}
+
+	"boss_trueform_warlock"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "AbilityTextureName"            "undying_summon_zombies"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	    "precache"
+	    {
+	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
+	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
+	    }   
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.3 0.3 0.3 0.3"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "16"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "145"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "OnSpellStart"
+	    {
+			"RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		    	"Function" "boss_invoke_golem_destroy_skill"
+		    }
+		    "RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		    	"Function" "clean_golem"
+		    }
+
+	        "AttachEffect"
+	        {
+	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+	            "EffectName"    "start_at_customorigin"
+	            "Target"        "CASTER"    
+	        }   
+
+	        "SpawnUnit"
+	        {
+	            "UnitName"      "npc_dota_boss32_trueform"
+	            "Target"
+	            {
+	                "Center"    "CASTER"
+	            }
+
+	            "UnitCount" "1" 
+	            "UnitLimit" "1"
+	            "GrantsGold"    "0"
+	            "GrantsXP"      "0"
+	            "SpawnRadius"   "0"
+	        }
+	        "RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		    	"Function" "KillCaster"
+		    }
 	  	}
 	}
 
@@ -4858,7 +5213,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"chance_to_kill"		"5 10 12 14 16 18 20"
+				"chance_to_kill"		"20 25 30 35 40 50 60"
 			}
 			"02"
 			{
@@ -5002,7 +5357,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"chance_to_kill"		"10 15 20 25 30 40 50"
+				"chance_to_kill"		"50 55 60 65 70 80 90"
 			}
 			"02"
 			{
@@ -10350,7 +10705,7 @@
 			{
 				"UnitName"			"npc_dota_boss26"
 				"UnitCount"			"%number_of_big"
-				"UnitLimit"			"3"
+				"UnitLimit"			"1"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"
@@ -10383,7 +10738,7 @@
 			{
 				"UnitName"			"npc_dota_boss26_mini"
 				"UnitCount"			"%number_of_small"
-				"UnitLimit"			"6"
+				"UnitLimit"			"3"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"
@@ -10522,7 +10877,7 @@
 			{
 				"UnitName"			"npc_dota_boss26_h"
 				"UnitCount"			"%number_of_big"
-				"UnitLimit"			"4"
+				"UnitLimit"			"2"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"
@@ -10555,7 +10910,7 @@
 			{
 				"UnitName"			"npc_dota_boss26_mini_h"
 				"UnitCount"			"%number_of_small"
-				"UnitLimit"			"8"
+				"UnitLimit"			"4"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"
@@ -10694,7 +11049,7 @@
 			{
 				"UnitName"			"npc_dota_boss26_vh"
 				"UnitCount"			"%number_of_big"
-				"UnitLimit"			"5"
+				"UnitLimit"			"3"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"
@@ -10727,7 +11082,7 @@
 			{
 				"UnitName"			"npc_dota_boss26_mini_vh"
 				"UnitCount"			"%number_of_small"
-				"UnitLimit"			"10"
+				"UnitLimit"			"5"
 				"SpawnRadius"		"750"
 				"Target"			"CASTER"
 				"OnSpawn"

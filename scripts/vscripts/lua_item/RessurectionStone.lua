@@ -23,7 +23,7 @@ function Ressurection(keys)
         for itemSlot = 0, 5, 1 do
                 local Item = killedUnit:GetItemInSlot( itemSlot )
                 if Item ~= nil and Item:GetName() == itemName and killedUnit:IsRealHero()  then
-                        print ('YOLO')
+                        print ('BY THE POWER OF THE GREAT RESSURECTION STONE ! I CALL YOU SHINERON ! RESSURECT ME !')
                         if not killedUnit:IsAlive() then
                                 Timers:CreateTimer(2,function()
                                         killedUnit:RespawnHero(false, false, false)

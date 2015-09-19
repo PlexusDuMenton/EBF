@@ -12,13 +12,10 @@ function OnExitMap(trigger)
         FindClearSpaceForUnit(ent, Vector(2230.66, -3206.13, 256), true)
         if not ent:HasModifier("modifier_movespeed_minus_constant") then
             applier:ApplyDataDrivenModifier(ent, ent, "modifier_movespeed_minus_constant", {})
+            ent:SetModifierStackCount("modifier_movespeed_minus_constant", ent, 1)
         end
-
-        local health_stacks = strength * hp_adjustment
-        ent:SetModifierStackCount("modifier_movespeed_minus_constant", ent, health_stacks)
-
+        print ("someone try to leave the map , tp back to spawn")
     end
-    print ("someone try to leave the map , tp back to spawn")
 end
 
 function OnWaterEnter(trigger)

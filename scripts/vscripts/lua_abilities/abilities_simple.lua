@@ -80,6 +80,11 @@ function KillTarget(keys)
     target:ForceKill(true)
 end
 
+function KillCaster(keys)
+    local caster = keys.caster
+    caster:ForceKill(true)
+end
+
 function HauntFunction(keys)
     local modifierName = "haunt"
     local caster = keys.caster
@@ -415,9 +420,14 @@ end
 function boss_invoke_golem_destroy_skill(keys)
     local caster = keys.caster
     local ability = keys.ability
-    caster:RemoveAbility(ability)
+    caster:RemoveAbility(ability:GetName())
 end
 
+function golem_clean(keys)
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_boss31")) do
+        unit:ForceKill(true)
+    end
+end
 
 
 
