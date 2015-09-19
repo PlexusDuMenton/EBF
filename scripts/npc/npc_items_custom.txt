@@ -6228,6 +6228,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"1218"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/quelling_blade.mdl"
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_midas_2"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"

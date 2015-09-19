@@ -11757,12 +11757,12 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_health_regen"		"20 40 60 100 200 350 500"
+				"bonus_health_regen"		"40 60 100 200 350 500 750"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_armor"				"15 30 45 70 85 100 150"
+				"bonus_armor"				"30 45 70 85 100 150 200"
 			}
 		}
 	}
@@ -22712,7 +22712,9 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
+		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
+
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -28215,7 +28217,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"base_attack_time"		"1.6 1.4 1.2 1.0 0.8 0.6 0.4"
+				"base_attack_time"		"1.6 1.4 1.2 1.0 0.9 0.8 0.7"
 			}
 			"04"
 			{
