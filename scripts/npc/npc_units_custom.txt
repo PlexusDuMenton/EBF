@@ -10263,8 +10263,8 @@
 				{
 					"Name"				"boss_meteor"
 					"AOE"                "1"
-       				"Radius"             "2000"
-					"MinimumTargets" "1"
+       				"Radius"             "750"
+					"MinimumTargets" "5"
 				}
 			}
 			"DisableResistance"			"80.0"
@@ -10393,7 +10393,7 @@
 					"MinimumTargets"	"1"
 				}
 			}
-			"DisableResistance"			"80.0"
+			"DisableResistance"			"90.0"
 		}
 	}
 
@@ -10517,7 +10517,7 @@
 					"MinimumTargets" "1"
 				}
 			}
-			"DisableResistance"			"80.0"
+			"DisableResistance"			"90.0"
 		}
 	}
 	"npc_dota_boss32_vh"
@@ -10652,11 +10652,11 @@
 					"MinimumTargets"	"1"
 				}
 			}
-			"DisableResistance"			"80.0"
+			"DisableResistance"			"99.0"
 		}
 	}
 
-	"npc_dota_boss32_trueform"
+	"npc_dota_boss32_trueform_vh"
 	{
 		// General
 		//----------------------------------------------------------------
@@ -10776,7 +10776,7 @@
 					"MinimumTargets" "1"
 				}
 			}
-			"DisableResistance"			"80.0"
+			"DisableResistance"			"99.0"
 		}
 	}
 

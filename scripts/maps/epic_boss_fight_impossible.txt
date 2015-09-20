@@ -520,7 +520,7 @@
 	}
 	"Round21" // Boss 20
 	{
-		"round_quest_title"			"#DOTA_Holdout_Round_Boss20Quest_Title"
+		"round_quest_title"			"#DOTA_Holdout_Round_Boss20_Quest_Title"
 		"round_title"				"#DOTA_Holdout_Round_Boss20_Title"
 		"MaxGold"					"30000"
 		"BagCount"					"300"
