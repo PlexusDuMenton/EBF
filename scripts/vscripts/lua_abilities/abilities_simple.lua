@@ -17,6 +17,22 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+
+
+function check_spawn( keys )
+    local caster = keys.caster
+    local ability = keys.ability
+    Timers:CreateTimer(function()
+        print ("test")
+        if caster:GetHealth() <= caster:GetMaxHealth()*0.3 then
+            ability:ApplyDataDrivenModifier( caster, caster, "spawn_trueform", {} )
+            return
+        else
+            return 0.25
+        end
+    end)
+end
+
 --[[
     Author: kritth
     Date: 7.1.2015.
@@ -75,6 +91,14 @@ function heat_seeking_missile_seek_targets( keys )
     local units = FindUnitsInRadius(
         caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
     )
+     for itemSlot = 0, 5, 1 do
+                        local Item = caster:GetItemInSlot( itemSlot )
+                        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
+                            units = FindUnitsInRadius(
+        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 99999, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
+    )
+                        end
+                    end
     
     -- Seek out target
     local count = 0
@@ -775,8 +799,12 @@ function spiked_carapace_reflect( keys )
                             damage = damageTaken*damage_multiplier,
                             damage_type = DAMAGE_TYPE_PURE
                         }
-    keys.ability:ApplyDataDrivenModifier( caster, attacker, "modifier_spiked_carapaced_stun_datadriven", { } )
-    ApplyDamage(damageTable)
+     if not caster.carapaced_units[ attacker:entindex() ] then
+      keys.ability:ApplyDataDrivenModifier( caster, attacker, "modifier_spiked_carapaced_stun_datadriven", { } )
+      caster.carapaced_units[ attacker:entindex() ] = attacker
+      ApplyDamage(damageTable)
+    end
+
 end
 --[[Author: Pizzalol
     Date: 26.02.2015.

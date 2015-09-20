@@ -4991,8 +4991,8 @@
 	    // General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"             "ability_datadriven"
-	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-	    "AbilityTextureName"            "undying_summon_zombies"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "fire_aura"
 	    "MaxLevel"						"1"
 
 	    // Precache
@@ -5002,69 +5002,79 @@
 	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
 	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
 	    }   
-	    
-	    // Casting
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCastPoint"              "0.0"
-
-	    // Time     
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "16"
-
-	    // Cost
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityManaCost"               "0"
-
-	    // Special
-	    //-------------------------------------------------------------------------------------------------------------
-	    "OnSpellStart"
-	    {
-			"RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "boss_invoke_golem_destroy_skill"
+	  	"modifiers"
+	  	{
+	  		"passive_warlock_cantdie"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "Properties"
+		        {
+		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
+		        }
+		        "OnCreated"
+		        {
+		        	"RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "check_spawn"
+		   		    }
+		        }
 		    }
-		    "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "clean_golem"
-		    }
+		    "spawn_trueform"
+	  		{	
+				"IsHidden"	 "1"
+		        "OnCreated"
+		        {
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "boss_invoke_golem_destroy_skill"
+				    }
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "clean_golem"
+				    }
 
-	        "AttachEffect"
-	        {
-	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-	            "EffectName"    "start_at_customorigin"
-	            "Target"        "CASTER"    
-	        }   
+			        "AttachEffect"
+			        {
+			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+			            "EffectName"    "start_at_customorigin"
+			            "Target"        "CASTER"    
+			        }   
 
-	        "SpawnUnit"
-	        {
-	            "UnitName"      "npc_dota_boss32_trueform"
-	            "Target"
-	            {
-	                "Center"    "CASTER"
-	            }
+			        "SpawnUnit"
+			        {
+			            "UnitName"      "npc_dota_boss32_trueform"
+			            "Target"
+			            {
+			                "Center"    "CASTER"
+			            }
 
-	            "UnitCount" "1" 
-	            "UnitLimit" "1"
-	            "GrantsGold"    "0"
-	            "GrantsXP"      "0"
-	            "SpawnRadius"   "0"
-	        }
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "KillCaster"
+			            "UnitCount" "2" 
+			            "UnitLimit" "2"
+			            "GrantsGold"    "0"
+			            "GrantsXP"      "0"
+			            "SpawnRadius"   "0"
+			        }
+			        "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "KillCaster"
+				    }
+			   	}
 		    }
 	  	}
+
 	}
 	"boss_trueform_warlock_h"
 	{
 	    // General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"             "ability_datadriven"
-	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-	    "AbilityTextureName"            "undying_summon_zombies"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "fire_aura"
 	    "MaxLevel"						"1"
 
 	    // Precache
@@ -5074,59 +5084,68 @@
 	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
 	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
 	    }   
-	    
-	    // Casting
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCastPoint"              "0.0"
-
-	    // Time     
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "16"
-
-	    // Cost
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityManaCost"               "0"
-
-	    // Special
-	    //-------------------------------------------------------------------------------------------------------------
-	    "OnSpellStart"
-	    {
-			"RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "boss_invoke_golem_destroy_skill"
+	  	"modifiers"
+	  	{
+	  		"passive_warlock_cantdie"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "Properties"
+		        {
+		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
+		        }
+		        "OnCreated"
+		        {
+		        	"RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "check_spawn"
+		   		    }
+		        }
 		    }
-		    "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "clean_golem"
-		    }
+		    "spawn_trueform"
+	  		{	
+				"IsHidden"	 "1"
+		        "OnCreated"
+		        {
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "boss_invoke_golem_destroy_skill"
+				    }
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "clean_golem"
+				    }
 
-	        "AttachEffect"
-	        {
-	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-	            "EffectName"    "start_at_customorigin"
-	            "Target"        "CASTER"    
-	        }   
+			        "AttachEffect"
+			        {
+			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+			            "EffectName"    "start_at_customorigin"
+			            "Target"        "CASTER"    
+			        }   
 
-	        "SpawnUnit"
-	        {
-	            "UnitName"      "npc_dota_boss32_trueform_h"
-	            "Target"
-	            {
-	                "Center"    "CASTER"
-	            }
+			        "SpawnUnit"
+			        {
+			            "UnitName"      "npc_dota_boss32_trueform_h"
+			            "Target"
+			            {
+			                "Center"    "CASTER"
+			            }
 
-	            "UnitCount" "1" 
-	            "UnitLimit" "1"
-	            "GrantsGold"    "0"
-	            "GrantsXP"      "0"
-	            "SpawnRadius"   "0"
-	        }
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "KillCaster"
+			            "UnitCount" "2" 
+			            "UnitLimit" "2"
+			            "GrantsGold"    "0"
+			            "GrantsXP"      "0"
+			            "SpawnRadius"   "0"
+			        }
+			        "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "KillCaster"
+				    }
+			   	}
 		    }
 	  	}
 	}
@@ -5135,8 +5154,8 @@
 	    // General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"             "ability_datadriven"
-	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-	    "AbilityTextureName"            "undying_summon_zombies"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "fire_aura"
 	    "MaxLevel"						"1"
 
 	    // Precache
@@ -5146,59 +5165,68 @@
 	        "soundfile"     "sounds/vo/undying/undying_moans_02.vsnd"
 	        "particle"      "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"           
 	    }   
-	    
-	    // Casting
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCastPoint"              "0.0"
-
-	    // Time     
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "16"
-
-	    // Cost
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityManaCost"               "0"
-
-	    // Special
-	    //-------------------------------------------------------------------------------------------------------------
-	    "OnSpellStart"
-	    {
-			"RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "boss_invoke_golem_destroy_skill"
+	  	"modifiers"
+	  	{
+	  		"passive_warlock_cantdie"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "Properties"
+		        {
+		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
+		        }
+		        "OnCreated"
+		        {
+		        	"RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "check_spawn"
+		   		    }
+		        }
 		    }
-		    "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "clean_golem"
-		    }
+		    "spawn_trueform"
+	  		{	
+				"IsHidden"	 "1"
+		        "OnCreated"
+		        {
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "boss_invoke_golem_destroy_skill"
+				    }
+				    "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "clean_golem"
+				    }
 
-	        "AttachEffect"
-	        {
-	            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-	            "EffectName"    "start_at_customorigin"
-	            "Target"        "CASTER"    
-	        }   
+			        "AttachEffect"
+			        {
+			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
+			            "EffectName"    "start_at_customorigin"
+			            "Target"        "CASTER"    
+			        }   
 
-	        "SpawnUnit"
-	        {
-	            "UnitName"      "npc_dota_boss32_trueform_vh"
-	            "Target"
-	            {
-	                "Center"    "CASTER"
-	            }
+			        "SpawnUnit"
+			        {
+			            "UnitName"      "npc_dota_boss32_trueform_vh"
+			            "Target"
+			            {
+			                "Center"    "CASTER"
+			            }
 
-	            "UnitCount" "2" 
-	            "UnitLimit" "2"
-	            "GrantsGold"    "0"
-	            "GrantsXP"      "0"
-	            "SpawnRadius"   "0"
-	        }
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		    	"Function" "KillCaster"
+			            "UnitCount" "2" 
+			            "UnitLimit" "2"
+			            "GrantsGold"    "0"
+			            "GrantsXP"      "0"
+			            "SpawnRadius"   "0"
+			        }
+			        "RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				    	"Function" "KillCaster"
+				    }
+			   	}
 		    }
 	  	}
 	}
