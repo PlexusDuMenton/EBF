@@ -17,6 +17,125 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+--[[
+    Author: kritth
+    Date: 7.1.2015.
+    Fire missiles if there are targets, else play dud
+
+    edited by frenchdeath to going with epic boss fight change
+]]
+function rearm_start( keys )
+    local caster = keys.caster
+    local ability = keys.ability
+    local abilityLevel = ability:GetLevel()
+    if abilityLevel <= 3 then 
+        ability:ApplyDataDrivenModifier( caster, caster, "modifier_rearm_level_1_datadriven", {} )
+    elseif abilityLevel <= 5 then 
+        ability:ApplyDataDrivenModifier( caster, caster, "modifier_rearm_level_2_datadriven", {} )
+    else
+        ability:ApplyDataDrivenModifier( caster, caster, "modifier_rearm_level_3_datadriven", {} )
+    end
+end
+
+function rearm_refresh_cooldown( keys )
+    local caster = keys.caster
+    
+    -- Reset cooldown for abilities
+    for i = 0, caster:GetAbilityCount() - 1 do
+        local ability = caster:GetAbilityByIndex( i )
+        if ability and ability ~= keys.ability then
+            ability:EndCooldown()
+        end
+    end
+    
+    for i = 0, 5 do
+        local item = caster:GetItemInSlot( i )
+        if item and not exempt_table( item:GetAbilityName() ) then
+            item:EndCooldown()
+        end
+    end
+end
+
+function heat_seeking_missile_seek_targets( keys )
+    -- Variables
+    local caster = keys.caster
+    local ability = keys.ability
+    local particleName = "particles/units/heroes/hero_tinker/tinker_missile.vpcf"
+    local modifierDudName = "modifier_heat_seeking_missile_dud"
+    local projectileSpeed = 900
+    local radius = ability:GetLevelSpecialValueFor( "radius", ability:GetLevel() - 1 )
+    local max_targets = ability:GetLevelSpecialValueFor( "targets", ability:GetLevel() - 1 )
+    local targetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
+    local targetType = DOTA_UNIT_TARGET_ALL
+    local targetFlag = ability:GetAbilityTargetFlags() -- DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS
+    local projectileDodgable = false
+    local projectileProvidesVision = false
+    
+    -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
+    local units = FindUnitsInRadius(
+        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
+    )
+    
+    -- Seek out target
+    local count = 0
+    for k, v in pairs( units ) do
+        if count < max_targets then
+            local projTable = {
+                Target = v,
+                Source = caster,
+                Ability = ability,
+                EffectName = particleName,
+                bDodgeable = projectileDodgable,
+                bProvidesVision = projectileProvidesVision,
+                iMoveSpeed = projectileSpeed, 
+                vSpawnOrigin = caster:GetAbsOrigin()
+            }
+            ProjectileManager:CreateTrackingProjectile( projTable )
+            count = count + 1
+        else
+            break
+        end
+    end
+    
+    -- If no unit is found, fire dud
+    if count == 0 then
+        ability:ApplyDataDrivenModifier( caster, caster, modifierDudName, {} )
+    end
+end
+
+function heat_seeking_missile_seek_damage( keys )
+    -- Variables
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+    local damage = ability:GetAbilityDamage() 
+
+    local damageTable = {
+                                victim = target,
+                                attacker = caster,
+                                damage = damage,
+                                damage_type = DAMAGE_TYPE_MAGICAL
+                            }
+                    for itemSlot = 0, 5, 1 do
+                        local Item = caster:GetItemInSlot( itemSlot )
+                        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
+                            local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
+                            local damageTable = {
+                                victim = target,
+                                attacker = caster,
+                                damage = agh_damage,
+                                damage_type = DAMAGE_TYPE_PURE
+                            }
+                        end
+                    end
+                    ApplyDamage( damageTable )
+    
+    -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
+    
+end
+
+------------------------------------------------------------------------------
+
 
 function Cooldown_Pure(keys)
     local ability = keys.ability
@@ -476,7 +595,6 @@ function mystic_flare_start( keys )
                 local damage_per_hero = damage_per_interval
                 for k, v in pairs( units ) do
                     -- Apply damage
-                    print (v)
                     local damageTable = {
                                 victim = v,
                                 attacker = caster,
@@ -494,7 +612,6 @@ function mystic_flare_start( keys )
                             }
                         end
                     end
-                    print (damage_per_hero)
                     ApplyDamage( damageTable )
                     
                     -- Fire sound

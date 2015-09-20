@@ -795,10 +795,10 @@
 	{
 		"round_quest_title"			"#DOTA_Holdout_Round_Boss32_Quest_Title"
 		"round_title"				"#DOTA_Holdout_Round_Boss32_Title"
-		"MaxGold"					"0"
-		"BagCount"					"0"
+		"MaxGold"					"10000" //90000 in fact
+		"BagCount"					"1"
 		"BagVariance"				"5000"
-		"FixedXP"					"0"
+		"FixedXP"					"100000"//500000 in fact
 		
 		"UnitBoss_8"
 		{

@@ -21,6 +21,9 @@
 	    }
 	}
 
+
+
+
 	"boss_meteor"
 	{
 		// General
@@ -5531,6 +5534,277 @@
 
 
 	}
+
+	"tinker_rearm_datadriven"
+{
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"             "ability_datadriven"
+    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+    "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+    "AbilityTextureName"            "tinker_rearm"
+    "AbilityCastAnimation"          "ACT_DOTA_CHANNEL_ABILITY_4"
+    "MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"7"
+
+    // Casting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastPoint"              "0.53 0.53 0.53 0.53"
+    "AbilityChannelTime"            "5 4 3 2 1 0.5 0.2"
+    
+    // Time     
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"               "9 8 7 6 5 3 1"
+
+    // Cost
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityManaCost"               "150 250 350 500 2000 4000 8000"
+    
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_FLOAT"
+            "channel_tooltip"           "5 4 3 2 1 0.5 0.2"
+        }
+    }
+    
+    // Data Driven
+    //-------------------------------------------------------------------------------------------------------------
+    "precache"
+    {
+        "soundfile"             "soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
+        "particle"              "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+    }
+    
+    "OnAbilityPhaseStart"
+    {
+        "FireSound"
+        {
+            "Target"            "CASTER"
+            "EffectName"        "Hero_Tinker.RearmStart"
+        }
+    }
+    
+    "OnSpellStart"
+    {
+        "FireSound"
+        {
+            "Target"            "CASTER"
+            "EffectName"        "Hero_Tinker.Rearm"
+        }
+    
+        "RunScript"
+        {
+            "ScriptFile"        "lua_abilities/abilities_simple.lua"
+            "Function"          "rearm_start"
+        }
+    }
+    
+    "OnChannelInterrupted"
+    {
+        "RemoveModifier"
+        {
+            "Target"            "CASTER"
+            "ModifierName"      "modifier_rearm_level_1_datadriven"
+        }
+        
+        "RemoveModifier"
+        {
+            "Target"            "CASTER"
+            "ModifierName"      "modifier_rearm_level_2_datadriven"
+        }
+        
+        "RemoveModifier"
+        {
+            "Target"            "CASTER"
+            "ModifierName"      "modifier_rearm_level_3_datadriven"
+        }
+    }
+    
+    "OnChannelSucceeded"
+    {
+        "RunScript"
+        {
+            "ScriptFile"        "lua_abilities/abilities_simple.lua"
+            "Function"          "rearm_refresh_cooldown"
+        }
+    }
+    
+    "Modifiers"
+    {
+        "modifier_rearm_level_1_datadriven"
+        {
+            "IsHidden"          "0"
+        
+            "Duration"          "%channel_tooltip"
+            
+            "EffectName"        "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+            "EffectAttachType"  "follow_origin"
+            
+            "OverrideAnimation" "ACT_DOTA_TINKER_REARM1"
+        }
+        
+        "modifier_rearm_level_2_datadriven"
+        {
+            "IsHidden"          "0"
+        
+            "Duration"          "%channel_tooltip"
+            
+            "EffectName"        "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+            "EffectAttachType"  "follow_origin"
+            
+            "OverrideAnimation" "ACT_DOTA_TINKER_REARM2"
+        }
+        
+        "modifier_rearm_level_3_datadriven"
+        {
+            "IsHidden"          "0"
+        
+            "Duration"          "%channel_tooltip"
+            
+            "EffectName"        "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+            "EffectAttachType"  "follow_origin"
+            
+            "OverrideAnimation" "ACT_DOTA_TINKER_REARM3"
+        }
+    }
+}
+
+
+	"tinker_missile_ebf"
+{
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"             "ability_datadriven"
+    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+    "FightRecapLevel"               "1"
+    "AbilityTextureName"            "tinker_heat_seeking_missile"
+    "MaxLevel"						"7"
+	"LevelsBetweenUpgrades"			"5"
+
+    // Casting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastPoint"              "0 0 0 0"
+    
+    // Time     
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"               "25.0 25.0 25.0 25.0"
+
+    // Damage.
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityDamage"                 "500 1000 2000 4000 8000 16000 32000"
+
+    // Cost
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityManaCost"               "120 140 160 180"
+
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    { 
+        "01"
+        {
+            "var_type"          "FIELD_INTEGER"
+            "radius"            "1000 1250 1500 1750 2000 2250 2500"
+        }
+        "02"
+        {
+            "var_type"          "FIELD_INTEGER"
+            "targets"           "1 2 2 2 3 3 4"
+        }
+        "03"
+        {
+            "var_type"          "FIELD_INTEGER"
+            "speed"             "500 600 700 800 900 1000 1500"
+        }
+        "04"
+        {
+            "var_type"          "FIELD_INTEGER"
+            "damage_agh"             "750 1500 3125 6250 12500 25000 50000"
+        }
+    }
+    
+    // Datadriven
+    //-------------------------------------------------------------------------------------------------------------
+    "precache"
+    {
+        "soundfile"             "soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
+        "particle"              "particles/units/heroes/hero_tinker/tinker_missile.vpcf"
+        "particle"              "particles/units/heroes/hero_tinker/tinker_missle_explosion.vpcf"
+        "particle"              "particles/units/heroes/hero_tinker/tinker_missile_dud.vpcf"
+    }
+    
+    "OnSpellStart"
+    {
+        "FireSound"
+        {
+            "Target"            "CASTER"
+            "EffectName"        "Hero_Tinker.Heat-Seeking_Missile"
+        }
+    
+        "RunScript"
+        {
+            "ScriptFile"        "lua_abilities/abilities_simple.lua"
+            "Function"          "heat_seeking_missile_seek_targets"
+        }
+    }
+    
+    "OnProjectileHitUnit"
+    {
+        "FireSound"
+        {
+            "Target"            "TARGET"
+            "EffectName"        "Hero_Tinker.Heat-Seeking_Missile.Impact"
+        }
+    
+        "FireEffect"
+        {
+            "Target"            "TARGET"
+            "EffectName"        "particles/units/heroes/hero_tinker/tinker_missle_explosion.vpcf"
+            "EffectAttachType"  "start_at_customorigin"
+            "ControlPointEntities"
+            {
+                "TARGET"        "attach_origin"
+            }
+        }
+    
+        "RunScript"
+        {
+        	"Target"			"TARGET"
+            "ScriptFile"        "lua_abilities/abilities_simple.lua"
+            "Function"          "heat_seeking_missile_seek_damage"
+        }
+    }
+    
+    "Modifiers"
+    {
+        "modifier_heat_seeking_missile_dud"
+        {
+            "IsHidden"          "1"
+            "IsPurgable"        "0"
+            
+            "Duration"          "1.0"
+            
+            "EffectName"        "particles/units/heroes/hero_tinker/tinker_missile_dud.vpcf"
+            "EffectAttachType"  "start_at_origin"
+            
+            "OnCreated"
+            {
+                "FireSound"
+                {
+                    "Target"    "TARGET"
+                    "EffectName"    "Hero_Tinker.Heat-Seeking_Missile_Dud"
+                }
+            }
+        }
+    }
+}
+
 
 	"clinkz_death_pact_custom"
 	{
