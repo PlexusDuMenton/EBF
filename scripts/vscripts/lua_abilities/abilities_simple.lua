@@ -118,9 +118,10 @@ function heat_seeking_missile_seek_damage( keys )
                             }
                     for itemSlot = 0, 5, 1 do
                         local Item = caster:GetItemInSlot( itemSlot )
+                        if Item ~= nil then print (Item:GetName()) end
                         if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
                             local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
-                            local damageTable = {
+                            damageTable = {
                                 victim = target,
                                 attacker = caster,
                                 damage = agh_damage,
@@ -128,6 +129,7 @@ function heat_seeking_missile_seek_damage( keys )
                             }
                         end
                     end
+                    print (damageTable.damage)
                     ApplyDamage( damageTable )
     
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
@@ -604,7 +606,7 @@ function mystic_flare_start( keys )
                     for itemSlot = 0, 5, 1 do
                         local Item = caster:GetItemInSlot( itemSlot )
                         if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-                            local damageTable = {
+                            damageTable = {
                                 victim = v,
                                 attacker = caster,
                                 damage = damage_per_hero,
