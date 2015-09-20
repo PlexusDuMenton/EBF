@@ -50,7 +50,7 @@ function rearm_refresh_cooldown( keys )
     
     for i = 0, 5 do
         local item = caster:GetItemInSlot( i )
-        if item and not exempt_table( item:GetAbilityName() ) then
+        if item then
             item:EndCooldown()
         end
     end
@@ -273,7 +273,7 @@ function Devour_doom(keys)
     local duration = ability:GetLevelSpecialValueFor("duration", level-1)
     local kill_rand = math.random(1,100)
     if kill_rand <= chance_to_kill then
-        if unit:GetLevel() <= level_kill then
+        if target:GetLevel() <= level_kill then
             target:ForceKill(true)
         end
         gold = gold * 10
@@ -426,7 +426,7 @@ function Death_Pact(event)
     caster:SetModifierStackCount( damage_modifier, ability, damage_gain )
 
     if kill_rand <= chance_to_kill then
-        if unit:GetLevel() <= level_kill then
+        if target:GetLevel() <= level_kill then
             target:ForceKill(true)
         end
         ability:StartCooldown(cool_down_eating)

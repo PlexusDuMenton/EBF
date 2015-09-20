@@ -50,7 +50,7 @@ function meteor_on_spell_start(keys)
             local fire_aura_duration = keys.ability:GetLevelSpecialValueFor("burn_duration", 0)
             for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
                 unit:SetHealth(unit:GetHealth()/10)
-                if unit:GetHealth()<=0 then unit:FoceKill(true) end
+                if unit:GetHealth()<=0 then unit:ForceKill(true) end
                 keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_aura_debuff", {duration = fire_aura_duration})
             end
             
