@@ -5,11 +5,34 @@
 if CHoldoutGameRound == nil then
 	CHoldoutGameRound = class({})
 end
+require( "libraries/Timers" )
 require("internal/util")
 function CHoldoutGameRound:OnPlayerDisconnected( event )
+	print('Player Disconnected ' .. tostring(keys.userid))
+  	local player = keys.userid
+	player.disconnected=true
 	self._DisconnectedPlayer = self._DisconnectedPlayer + 1
+	Timers:CreateTimer(60,function()
+		if player.disconnected == true then
+			print('Player ' .. tostring(keys.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
+			for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+				local totalgold = unit:GetGold() + (self._nRoundNumber^1.3)*100
+			    unit:SetGold(0 , false)
+	            unit:SetGold(totalgold, true)
+			end
+			local hero = player:GetSelectedHeroEntity(player)
+			for itemSlot = 0, 5, 1 do
+          		local Item = hero:GetItemInSlot( itemSlot )
+            		hero:RemoveItem(Item)
+            end
+            hero:SetGold(0, true)
+		end
+	end)
 end
 function CHoldoutGameRound:OnPlayerReconnected( event )
+	print('Player Reconnected ' .. tostring(keys.userid))
+	local player = keys.userid
+	player.disconnected=false
 	self._DisconnectedPlayer = self._DisconnectedPlayer - 1
 end
 function CHoldoutGameRound:ReadConfiguration( kv, gameMode, roundNumber )

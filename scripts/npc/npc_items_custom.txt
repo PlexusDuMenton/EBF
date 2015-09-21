@@ -6119,7 +6119,6 @@
 		    "item_zero_debuff"
     		{
 		        "IsDebuff" "1"  
-		        "Attributes" "MODIFIER_ATTRIBUTE_MULTIPLE" //This makes duplicate items stack their properties
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_percentage"
@@ -9441,6 +9440,74 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_armor"	"20"
 			}
+		}
+	}
+	"item_nerf_hammer"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"9999"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_nerf_hammer"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"999999"
+		"ItemShopTags"					"nerf"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"nerf"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"precache"
+		{
+			"particle_folder"				"particles/test_particle"
+			"soundfile"					"soundevents/game_sounds/ability_melee_smash.vsndevts"
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"nerf_hammer"
+			{	
+				"passive" "1"
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"check_admin"
+					}
+				}
+				"OnAttackLanded"
+				{
+					"RunScript"
+		            {
+		                  "ScriptFile" "lua_abilities/abilities_simple.lua"
+		                  "Function" "KillTarget"
+		            }
+		            "AttachEffect"
+					{
+						"EffectName"		"particles/test_particle/ogre_melee_smash.vpcf"
+						"EffectAttachType"	"follow_origin"
+						"Target"			"CASTER"
+						
+						"ControlPoints"
+						{
+							"00"		"0 0 0"
+							"01"		"999999 0 0"
+							"02"		"0 0 0"
+						}
+					}
+					"DestroyTrees"
+					{
+						"Target"			"TARGET"
+						"Radius"			"250"
+					}
+				}
+		    }
 		}
 	}
 }

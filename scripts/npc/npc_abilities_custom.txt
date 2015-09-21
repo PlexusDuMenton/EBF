@@ -3550,12 +3550,12 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage_aura"		"75 150 300 600 1000 5000 12000"
+				"bonus_damage_aura"		"200 400 800 1600 3200 5000 12000"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"		"150 300 600 1200 2000 8000 18000"
+				"bonus_damage"		"400 800 1600 3200 5000 8000 18000"
 			}
 			"03"
 			{
@@ -5004,66 +5004,19 @@
 	    }   
 	  	"modifiers"
 	  	{
-	  		"passive_warlock_cantdie"
+	  		"passive_warlock_die"
 	  		{	
 				"IsHidden"	 "1"
 				"Passive"	 "1"
-		        "Properties"
+		        "OnDestroy"
 		        {
-		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
-		        }
-		        "OnCreated"
-		        {
-		        	"RunScript"
+			        "RunScript"
 		        	{
 		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
-			    		"Function" "check_spawn"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss32_trueform"
 		   		    }
 		        }
-		    }
-		    "spawn_trueform"
-	  		{	
-				"IsHidden"	 "1"
-		        "OnCreated"
-		        {
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "boss_invoke_golem_destroy_skill"
-				    }
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "clean_golem"
-				    }
-
-			        "AttachEffect"
-			        {
-			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-			            "EffectName"    "start_at_customorigin"
-			            "Target"        "CASTER"    
-			        }   
-
-			        "SpawnUnit"
-			        {
-			            "UnitName"      "npc_dota_boss32_trueform"
-			            "Target"
-			            {
-			                "Center"    "CASTER"
-			            }
-
-			            "UnitCount" "2" 
-			            "UnitLimit" "2"
-			            "GrantsGold"    "0"
-			            "GrantsXP"      "0"
-			            "SpawnRadius"   "0"
-			        }
-			        "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "KillCaster"
-				    }
-			   	}
 		    }
 	  	}
 
@@ -5086,66 +5039,19 @@
 	    }   
 	  	"modifiers"
 	  	{
-	  		"passive_warlock_cantdie"
+	  		"passive_warlock_die"
 	  		{	
 				"IsHidden"	 "1"
 				"Passive"	 "1"
-		        "Properties"
+		        "OnDestroy"
 		        {
-		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
-		        }
-		        "OnCreated"
-		        {
-		        	"RunScript"
+			        "RunScript"
 		        	{
 		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
-			    		"Function" "check_spawn"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss32_trueform_h"
 		   		    }
 		        }
-		    }
-		    "spawn_trueform"
-	  		{	
-				"IsHidden"	 "1"
-		        "OnCreated"
-		        {
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "boss_invoke_golem_destroy_skill"
-				    }
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "clean_golem"
-				    }
-
-			        "AttachEffect"
-			        {
-			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-			            "EffectName"    "start_at_customorigin"
-			            "Target"        "CASTER"    
-			        }   
-
-			        "SpawnUnit"
-			        {
-			            "UnitName"      "npc_dota_boss32_trueform_h"
-			            "Target"
-			            {
-			                "Center"    "CASTER"
-			            }
-
-			            "UnitCount" "2" 
-			            "UnitLimit" "2"
-			            "GrantsGold"    "0"
-			            "GrantsXP"      "0"
-			            "SpawnRadius"   "0"
-			        }
-			        "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "KillCaster"
-				    }
-			   	}
 		    }
 	  	}
 	}
@@ -5167,66 +5073,20 @@
 	    }   
 	  	"modifiers"
 	  	{
-	  		"passive_warlock_cantdie"
+	  		"passive_warlock_die"
 	  		{	
 				"IsHidden"	 "1"
 				"Passive"	 "1"
-		        "Properties"
+		        "OnDestroy"
 		        {
-		           	"MODIFIER_PROPERTY_MIN_HEALTH" "1500000" 
-		        }
-		        "OnCreated"
-		        {
-		        	"RunScript"
+			        "RunScript"
 		        	{
 		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
-			    		"Function" "check_spawn"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss32_trueform_vh"
+			    		"number_of_unit"		"2"
 		   		    }
 		        }
-		    }
-		    "spawn_trueform"
-	  		{	
-				"IsHidden"	 "1"
-		        "OnCreated"
-		        {
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "boss_invoke_golem_destroy_skill"
-				    }
-				    "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "clean_golem"
-				    }
-
-			        "AttachEffect"
-			        {
-			            "EffectName"    "particles/units/heroes/hero_lycan/lycan_summon_wolves_cast.vpcf"
-			            "EffectName"    "start_at_customorigin"
-			            "Target"        "CASTER"    
-			        }   
-
-			        "SpawnUnit"
-			        {
-			            "UnitName"      "npc_dota_boss32_trueform_vh"
-			            "Target"
-			            {
-			                "Center"    "CASTER"
-			            }
-
-			            "UnitCount" "2" 
-			            "UnitLimit" "2"
-			            "GrantsGold"    "0"
-			            "GrantsXP"      "0"
-			            "SpawnRadius"   "0"
-			        }
-			        "RunScript"
-				    {
-				        "ScriptFile" "lua_abilities/abilities_simple.lua"
-				    	"Function" "KillCaster"
-				    }
-			   	}
 		    }
 	  	}
 	}

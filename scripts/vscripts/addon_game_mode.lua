@@ -26,9 +26,14 @@ function Precache( context )
 	--PrecacheResource( "particle", "particles/generic_gameplay/winter_effects_hero.vpcf", context )
 	PrecacheResource( "particle", "particles/items2_fx/veil_of_discord.vpcf", context )	
 	PrecacheResource( "particle_folder", "particles/frostivus_gameplay", context )
+	
 	PrecacheItemByNameSync( "item_tombstone", context )
 	PrecacheItemByNameSync( "item_bag_of_gold", context )
 	PrecacheItemByNameSync( "item_slippers_of_halcyon", context )
+
+    PrecacheUnitByNameSync("npc_dota_boss32_trueform", context)
+    PrecacheUnitByNameSync("npc_dota_boss32_trueform_h", context)
+    PrecacheUnitByNameSync("npc_dota_boss32_trueform_vh", context)
 end
 
 -- Actually make the game mode when we activate

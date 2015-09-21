@@ -17,20 +17,15 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
-
-
-function check_spawn( keys )
+function spawn_unit( keys )
     local caster = keys.caster
-    local ability = keys.ability
-    Timers:CreateTimer(function()
-        print ("test")
-        if caster:GetHealth() <= caster:GetMaxHealth()*0.3 then
-            ability:ApplyDataDrivenModifier( caster, caster, "spawn_trueform", {} )
-            return
-        else
-            return 0.25
-        end
-    end)
+    local unit = keys.unit_to_spawn
+    if keys.number_of_unit==nil then keys.number_of_unit=1 end
+    for i = 0, keys.number_of_unit-1 do
+        local entUnit = CreateUnitByName( unit ,caster:GetAbsOrigin() + RandomVector(RandomInt(400,400)), true, nil, nil, DOTA_TEAM_BADGUYS )
+    end
+    
+    print ("ça marche !")
 end
 
 --[[

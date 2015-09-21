@@ -182,6 +182,20 @@ function Midas_OnHit(keys)
     end
 end
 
+function check_admin(keys)
+    local caster = keys.caster
+    local item = keys.ability
+    local ID = caster:GetPlayerID()
+    if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
+        print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
+    else
+        Timers:CreateTimer(0.3,function()
+            FireGameEvent( 'custom_error_show', { player_ID = ID, _error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
+            caster:RemoveItem(item)
+        end)
+    end
+end
+
 function Midas2_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability
