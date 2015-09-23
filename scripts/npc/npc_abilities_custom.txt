@@ -21,7 +21,216 @@
 	    }
 	}
 
+	"splitted_a"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
 
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_b"
+			    		"number_of_unit"	"2"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_a_h"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_b_h"
+			    		"number_of_unit"	"2"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_a_vh"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_b_vh"
+			    		"number_of_unit"	"3"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_b"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_c"
+			    		"number_of_unit"	"2"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_b_h"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_c_h"
+			    		"number_of_unit"	"2"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_b_vh"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_c_vh"
+			    		"number_of_unit"	"3"
+		   		    }
+		        }
+		    }
+	  	}
+	}
+	"splitted_c_vh"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "dark_seer_wall_of_replica"
+	    "MaxLevel"						"1"
+
+	    // Precache
+	    //-------------------------------------------------------------------------------------------------------------
+	  	"modifiers"
+	  	{
+	  		"passive_golem_die"
+	  		{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+		        "OnDestroy"
+		        {
+			        "RunScript"
+		        	{
+		        	    "ScriptFile" "lua_abilities/abilities_simple.lua"
+			    		"Function" "spawn_unit"
+			    		"unit_to_spawn"		"npc_dota_boss12_d_vh"
+			    		"number_of_unit"	"3"
+		   		    }
+		        }
+		    }
+	  	}
+	}
 
 
 	"boss_meteor"
@@ -100,14 +309,6 @@
 	            "EndVisionDuration"                         "%end_vision_duration"
 	        }
 	    }
-	    "OnDeath"
-		{
-			"RunScript"
-		        {
-		            "ScriptFile"                                "lua_boss/boss_32_meteor.lua"
-		            "Function"                                  "money_and_exp_gain"
-		        }
-		}
 		"OnAbilityPhaseStart"
 		{
 			"CreateThinker"
@@ -155,6 +356,18 @@
 				{
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%armor_debuff"
 					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+	        }
+	        "passive_check_death"
+	        {
+	        	"passive" "1"
+		        "OnDestroy"
+				{
+					"RunScript"
+				        {
+				            "ScriptFile"                                "lua_boss/boss_32_meteor.lua"
+				            "Function"                                  "money_and_exp_gain"
+				        }
 				}
 	        }
 	    }
@@ -4484,12 +4697,12 @@
 			"03"
 			{
 				"var_type"              "FIELD_INTEGER"
-				"damage"                "200 400 800 1600 3200 6400 12800"
+				"damage"                "400 800 1600 3200 6400 12800 25000"
 			}
 			"04"
 			{
 				"var_type"              "FIELD_FLOAT"
-				"health_bonus_per_unit"      "50 100 200 400 800 1600 3200"
+				"health_bonus_per_unit"      "100 200 400 800 1600 3200 6400"
 			}
 		}
 		
@@ -4579,7 +4792,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"20 18 16 14 12 10 8.0"
+		"AbilityCooldown"				"20 18 16 14 11 7 3.0"
 		"AbilityTextureName"			"undying_soul_rip_ebf"
 		"OnSpellStart"
 			{
@@ -4653,7 +4866,7 @@
 	        "01"
 	        {
 	            "var_type"                  "FIELD_FLOAT"
-	            "zombie_duration"             "4 5 6 7 8 9 10"
+	            "zombie_duration"             "4 6 8 10 12 14 16"
 	        }
 	        "02"
 	        {
@@ -5585,7 +5798,7 @@
 
     // Damage.
     //-------------------------------------------------------------------------------------------------------------
-    "AbilityDamage"                 "500 1000 2000 4000 8000 16000 32000"
+    "AbilityDamage"                 "500 1000 2000 4000 8000 16000 24000"
 
     // Cost
     //-------------------------------------------------------------------------------------------------------------
@@ -5613,7 +5826,7 @@
         "04"
         {
             "var_type"          "FIELD_INTEGER"
-            "damage_agh"             "750 1500 3125 6250 12500 25000 50000"
+            "damage_agh"             "750 1500 3125 6250 12500 25000 37500"
         }
     }
     

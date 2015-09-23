@@ -167,16 +167,15 @@ function Midas_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability
     local damage = keys.damage_on_hit
-    local bonus_gold = math.floor(damage ^ 0.08 /2) + 1
+    local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
     local ID = 0
 
     if item:IsCooldownReady() and not caster:IsIllusion() then
-        for ID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
-            if PlayerResource:GetTeam( ID ) == DOTA_TEAM_GOODGUYS then
-                    local totalgold = PlayerResource:GetSelectedHeroEntity(ID):GetGold() + bonus_gold
-                    PlayerResource:GetSelectedHeroEntity(ID):SetGold(0 , false)
-                    PlayerResource:GetSelectedHeroEntity(ID):SetGold(totalgold, true)
-            end
+        for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if not unit:IsIllusion() then
+            local totalgold = unit:GetGold() + gold
+            unit:SetGold(0 , false)
+            unit:SetGold(totalgold, true)
         end
         item:StartCooldown(0.25)
     end
@@ -200,18 +199,17 @@ function Midas2_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability
     local damage = keys.damage_on_hit
-    local bonus_gold = math.floor(damage ^ 0.13 / 2) + 1
+    local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
 
     if item:IsCooldownReady() and not caster:IsIllusion() then
-        for ID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
-            if PlayerResource:GetTeam( ID ) == DOTA_TEAM_GOODGUYS then
-                    local totalgold = PlayerResource:GetSelectedHeroEntity(ID):GetGold() + bonus_gold
-                    PlayerResource:GetSelectedHeroEntity(ID):SetGold(0 , false)
-                    PlayerResource:GetSelectedHeroEntity(ID):SetGold(totalgold, true)
-            end
+        for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if not unit:IsIllusion() then
+            local totalgold = unit:GetGold() + gold
+            unit:SetGold(0 , false)
+            unit:SetGold(totalgold, true)
         end
-        item:StartCooldown(0.20)
+        item:StartCooldown(0.25)
     end
 end
 

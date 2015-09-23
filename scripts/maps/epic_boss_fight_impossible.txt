@@ -341,10 +341,10 @@
 		
 		"UnitBoss_8"
 		{
-			"NPCName"				"npc_dota_boss12_a"
-			"TotalUnitsToSpawn"		"10"
-			"UnitsPerSpawn"			"2"
-			"SpawnInterval"			"3"
+			"NPCName"				"npc_dota_boss12_a_vh"
+			"TotalUnitsToSpawn"		"1"
+			"UnitsPerSpawn"			"1"
+			"SpawnInterval"			"1"
 		}
 	}
 	

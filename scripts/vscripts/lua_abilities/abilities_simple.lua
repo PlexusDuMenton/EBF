@@ -303,9 +303,11 @@ function Devour_doom(keys)
         ability:StartCooldown(duration)
     end
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        local totalgold = unit:GetGold() + gold
-        unit:SetGold(0 , false)
-        unit:SetGold(totalgold, true)
+        if not unit:IsIllusion() then
+            local totalgold = unit:GetGold() + gold
+            unit:SetGold(0 , false)
+            unit:SetGold(totalgold, true)
+        end
     end
 end
 

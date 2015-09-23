@@ -5157,17 +5157,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_all_stats"		"450"
+				"bonus_all_stats"		"150"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health"			"15000"
+				"bonus_health"			"5000"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana"			"12000"
+				"bonus_mana"			"3000"
 			}
 		}
 	}

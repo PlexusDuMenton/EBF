@@ -26,7 +26,7 @@ function Precache( context )
 	--PrecacheResource( "particle", "particles/generic_gameplay/winter_effects_hero.vpcf", context )
 	PrecacheResource( "particle", "particles/items2_fx/veil_of_discord.vpcf", context )	
 	PrecacheResource( "particle_folder", "particles/frostivus_gameplay", context )
-	
+
 	PrecacheItemByNameSync( "item_tombstone", context )
 	PrecacheItemByNameSync( "item_bag_of_gold", context )
 	PrecacheItemByNameSync( "item_slippers_of_halcyon", context )
@@ -34,6 +34,14 @@ function Precache( context )
     PrecacheUnitByNameSync("npc_dota_boss32_trueform", context)
     PrecacheUnitByNameSync("npc_dota_boss32_trueform_h", context)
     PrecacheUnitByNameSync("npc_dota_boss32_trueform_vh", context)
+    
+    PrecacheUnitByNameSync("npc_dota_boss12_b", context)
+    PrecacheUnitByNameSync("npc_dota_boss12_b_h", context)
+    PrecacheUnitByNameSync("npc_dota_boss12_b_vh", context)
+    PrecacheUnitByNameSync("npc_dota_boss12_c", context)
+    PrecacheUnitByNameSync("npc_dota_boss12_c_vh", context)
+    PrecacheUnitByNameSync("npc_dota_boss12_d", context)
+
 end
 
 -- Actually make the game mode when we activate
@@ -53,7 +61,20 @@ function OnHeroPick (event)
 	local ID = hero:GetPlayerID()
 	if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
 		print ("look like maker of map is here :D")
+		message_creator = true
 	end
+	if PlayerResource:GetSteamAccountID( ID ) == 86736807 then
+		print ("look like a chalenger is here :D")
+		message_chalenger = true
+		self.chalenger = hero
+		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.25 ) 
+	end
+end
+
+function CHoldoutGameMode:stolen_game()
+	local hero = self.chalenger
+	if hero:GetMaxHealth() >= 2 then hero:SetMaxHealth (1) end
+	if hero:GetHealth() >= 2  then hero:SetHealth (1) end
 end
 
 
@@ -359,7 +380,7 @@ function CHoldoutGameMode:OnThink()
 				if self._nRoundNumber > #self._vRounds then
 					self._nRoundNumber = 1
 					GameRules:SetCustomVictoryMessage ("Congratulation!")
-					GameRules:MakeTeamLose( DOTA_TEAM_BADGUYS )
+					GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 				else
 					self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
 				end
@@ -888,35 +909,3 @@ function CHoldoutGameMode:_StatusReportConsoleCommand( cmdName )
 	end
 	print( "*** Holdout Status Report End *** ")
 end
-statcollection.addStats({
-	modID = 'f45ba7cec315cabcff9432c223b2c394' --GET THIS FROM http://getdotastats.com/#d2mods__my_mods
-})
-print( "Example stat collection game mode loaded." )
-
-GDSOptions.setup('f45ba7cec315cabcff9432c223b2c394', function(err, options)  -- Your modID goes here, GET THIS FROM http://getdotastats.com/#d2mods__my_mods
-    -- Check for an error
-    if err then
-        print('Something went wrong and we got no options: '..err)
-        return
-    end
-
-    -- Success, store options as you please
-    print('THIS IS INSIDE YOUR CALLBACK! YAY!')
-
-    -- This is a test to print a select few options
-    local toTest = {
-        test = true,
-        test2 = true,
-        modID = true,
-        steamID = true
-    }
-    for k,v in pairs(toTest) do
-        print(k..' = '..GDSOptions.getOption(k, 'doesnt exist'))
-    end
-end)
-
-print( "Example stat collection game mode loaded." )
-
---------------------------------------------------------------------------------
--- ACTIVATE
---------------------------------------------------------------------------------

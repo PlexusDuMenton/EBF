@@ -7,6 +7,7 @@
 
     modified by FrenchDeath to the actual stage for Boss usage
 ================================================================================================================= ]]
+require("addon_game_mode")
 function meteor_on_spell_start(keys)
     local caster_point = keys.caster:GetAbsOrigin()
     local target_point = keys.target_points[1]
@@ -119,13 +120,29 @@ function meteor_on_spell_start(keys)
 end
 
 function money_and_exp_gain(keys)
+   
+    print ("round is done")
+    print (CHoldoutGameMode._nRoundNumber)
+    if CHoldoutGameMode._currentRound ~= nil then
+            CHoldoutGameMode._currentRound:End()
+           CHoldoutGameMode._currentRound = nil
+        end
+    CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + 20
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+        if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+            unit:ForceKill(true)
+        end
+        if delay ~= nil then
+            CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
+        end
+        CHoldoutGameMode:_RefreshPlayers()
+    end
     local caster = keys.caster
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         unit:AddExperience (500000,false,false)
     end
     local gold = 0
     local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
-    print (PlayerNumber)
     local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
     gold = 90000 * GoldMultiplier
     local newItem = CreateItem( "item_bag_of_gold", nil, nil )

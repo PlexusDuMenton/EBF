@@ -1274,12 +1274,12 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"15.0 15.0 15.0 15.0"
+		"AbilityCooldown"				"25"
 		"AbilityDuration"				"1.0 1.25 1.5 1.75"
 
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"500 1200 3000 6000 10000 15000 35000"
+		"AbilityDamage"					"1500 3000 6000 10000 15000 35000 50000"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -1429,7 +1429,7 @@
 
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"3200 6400 12800 25000 50000 100000"
+		"AbilityDamage"					"3200 6400 12800 25000 50000 100000 200000"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -1457,7 +1457,7 @@
 			"04"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"echo_slam_echo_damage"		"1000 2000 4000 8000 16000 32000"
+				"echo_slam_echo_damage"		"1000 2000 4000 8000 16000 32000 64000"
 			}
 		}
 	}
@@ -12177,7 +12177,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"32.0 28.0 24.0 20.0 16.0"
+		"AbilityCooldown"				"32.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -12203,7 +12203,7 @@
 			"02"
 			{	
 				"var_type"			"FIELD_FLOAT"
-				"duration"			"10.5 10.5 10.5 10.5"
+				"duration"			"5.5"
 			}
 			"03"
 			{	
@@ -12233,7 +12233,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"15.0"
+		"AbilityCooldown"				"15.0 14 13 12 11 10 9"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -15017,6 +15017,8 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -28073,7 +28075,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"5"
-		"MaxLevel"						"7"
+		"MaxLevel"						"0"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
@@ -33613,7 +33615,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL | DOTA_UNIT_TARGET_MECHANICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSCIAL"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
@@ -33649,12 +33651,12 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"damage"					"1500 5000 10000 35000 50000 100000 250000"
+				"damage"					"5000 10000 35000 50000 100000 250000 500000"
 			}
 			"04"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"partial_damage"			"1200 4000 80000 20000 35000 50000 100000"
+				"partial_damage"			"4000 80000 20000 35000 50000 100000 250000"
 			}
 			"05"
 			{

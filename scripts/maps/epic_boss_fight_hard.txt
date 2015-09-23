@@ -335,7 +335,7 @@
 		"round_quest_title"			"#DOTA_Holdout_Round_Boss11_Quest_Title"
 		"round_title"				"#DOTA_Holdout_Round_Boss11_Title"
 		"MaxGold"					"17000"
-		"BagCount"					"30"
+		"BagCount"					"2"
 		"BagVariance"				"5"
 		"FixedXP"					"11000"
 		
@@ -353,15 +353,16 @@
 		"round_quest_title"			"#DOTA_Holdout_Round_Boss12_Quest_Title"
 		"round_title"				"#DOTA_Holdout_Round_Boss12_Title"
 		"MaxGold"					"18000"
-		"BagVariance"				"5"
+		"BagCount"					"1"
+		"BagVariance"				"1"
 		"FixedXP"					"12000"
 		
 		"UnitBoss_8"
 		{
-			"NPCName"				"npc_dota_boss12_a"
-			"TotalUnitsToSpawn"		"5"
+			"NPCName"				"npc_dota_boss12_a_h"
+			"TotalUnitsToSpawn"		"1"
 			"UnitsPerSpawn"			"1"
-			"SpawnInterval"			"3"
+			"SpawnInterval"			"1"
 		}
 	}
 	
