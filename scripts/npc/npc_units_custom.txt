@@ -2396,7 +2396,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"50"			// Physical protection.
-		"MagicalResistance"			"80"		// Magical protection.
+		"MagicalResistance"			"50"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2489,8 +2489,8 @@
 		"Ability1"					"splitted_a_h"			// Ability 1.
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"75"			// Physical protection.
-		"MagicalResistance"			"80"		// Magical protection.
+		"ArmorPhysical"				"60"			// Physical protection.
+		"MagicalResistance"			"60"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2584,7 +2584,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"100"			// Physical protection.
-		"MagicalResistance"			"80"		// Magical protection.
+		"MagicalResistance"			"100"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2685,8 +2685,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"25"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"ArmorPhysical"				"20"			// Physical protection.
+		"MagicalResistance"			"20"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2786,8 +2786,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"50"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"ArmorPhysical"				"30"			// Physical protection.
+		"MagicalResistance"			"30"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2888,7 +2888,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"50"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"MagicalResistance"			"50"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -2983,7 +2983,7 @@
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"10"			// Physical protection.
-		"MagicalResistance"			"30"		// Magical protection.
+		"MagicalResistance"			"10"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -3076,8 +3076,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"30"			// Physical protection.
-		"MagicalResistance"			"30"		// Magical protection.
+		"ArmorPhysical"				"15"			// Physical protection.
+		"MagicalResistance"			"15"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -3170,8 +3170,8 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"50"			// Physical protection.
-		"MagicalResistance"			"30"		// Magical protection.
+		"ArmorPhysical"				"25"			// Physical protection.
+		"MagicalResistance"			"25"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -3260,12 +3260,12 @@
 		
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"splitted_c_vh"			// Ability 1.
+		"Ability1"					""			// Ability 1.
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"50"			// Physical protection.
-		"MagicalResistance"			"30"		// Magical protection.
+		"ArmorPhysical"				"0"			// Physical protection.
+		"MagicalResistance"			"0"		// Magical protection.
 
 		// Attack
 		//----------------------------------------------------------------
@@ -10698,8 +10698,6 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"boss_invoke_golem_1"			// Ability 1.
-		"Ability2"					"boss_invoke_golem_2"			// Ability 1.
 		"Ability3"					"boss_trueform_warlock"			// Ability 1.
 
 		// Armor
@@ -10959,7 +10957,6 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"boss_invoke_golem_1_h"			// Ability 1.
 		"Ability3"					"boss_trueform_warlock_h"			// Ability 1.
 
 		// Armor
@@ -11208,7 +11205,6 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"boss_invoke_golem_1_vh"			// Ability 1.
 		"Ability3"					"boss_trueform_warlock_vh"			// Ability 1.
 
 		// Armor

@@ -3020,7 +3020,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"16100"
+		"ItemCost"						"3220"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
@@ -3120,7 +3120,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"46700"
+		"ItemCost"						"9340"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -3507,17 +3507,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"160"
+				"bonus_agility"			"300"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"150"
+				"bonus_damage"			"300"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"40"
+				"bonus_evasion"			"30"
 			}
 			"04"
 			{
@@ -4660,17 +4660,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"500"
+				"bonus_agility"			"1000"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"500"
+				"bonus_damage"			"1000"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"50"
+				"bonus_evasion"			"35"
 			}
 			"04"
 			{
@@ -4743,17 +4743,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"1500"
+				"bonus_agility"			"3000"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"1500"
+				"bonus_damage"			"3000"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"60"
+				"bonus_evasion"			"40"
 			}
 			"04"
 			{
@@ -4810,7 +4810,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"126700"
+		"ItemCost"						"25340"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -5518,7 +5518,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"31408"	
+		"ItemCost"						"31568"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -5527,7 +5527,7 @@
 		"ItemResult"					"item_bahamut_chest"
 		"ItemRequirements"
 		{
-			"01"						"item_divine_armor;item_orb_bahamut;item_divinesoul"
+			"01"						"item_divine_armor;item_orb_bahamut"
 		}
 	}
 	"item_bahamut_chest"
@@ -5542,7 +5542,7 @@
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"140000"
+		"ItemCost"						"100000"
 		"ItemShopTags"					"damage;unique;armor"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"armor"
@@ -5606,7 +5606,6 @@
 				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"		"%bonus_range"
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"%health_regen_percent"
 					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
@@ -5689,11 +5688,6 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_attackspeed"			"500"
 			}	
-			"07"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_range"			"1000"
-			}
 			"08"
 			{
 				"var_type"				"FIELD_INTEGER"
@@ -6714,7 +6708,7 @@
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_agi"							"300"
+				"bonus_agi"							"350"
 			}
 			"03"
 			{
@@ -7409,7 +7403,7 @@
 		"ItemResult"					"item_midas_fury"
 		"ItemRequirements"
 		{
-			"01"						"item_midas_2;item_storm_fury;item_orb_divine;item_unstable_stone"
+			"01"						"item_midas_3;item_storm_fury;item_orb_divine;item_unstable_stone"
 		}
 	}
 	"item_midas_fury"
@@ -9253,7 +9247,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"1510"	
+		"ItemCost"						"510"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -9262,7 +9256,7 @@
 		"ItemResult"					"item_midas_greave"
 		"ItemRequirements"
 		{
-			"01"						"item_midas_2;item_boots;item_orb_of_doom"
+			"01"						"item_midas_3;item_boots;item_orb_of_doom"
 		}
 	}
 	"item_midas_greave"
@@ -9508,6 +9502,72 @@
 					}
 				}
 		    }
+		}
+	}
+	"item_recipe_midas_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1259"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"AbilityTextureName"            "item_skadi2"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"2000"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_midas_3"
+		"ItemRequirements"
+		{
+			"01"						"item_midas_2"
+		}
+	}
+
+	"item_midas_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1260"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Model"							"models/props_gameplay/quelling_blade.mdl"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_midas_3"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"1000"
+		"ItemShopTags"					"int"
+		"AbilityCooldown"				"0.25"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"Modifiers"
+		{
+			"passive_midas_2"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"AllowIllusionDuplicate"    "0"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Midas2_OnHit"
+						"damage_on_hit"		"%attack_damage"
+					}
+				}
+			}
 		}
 	}
 }

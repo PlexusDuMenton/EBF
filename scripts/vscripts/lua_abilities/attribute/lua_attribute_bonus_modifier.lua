@@ -40,6 +40,11 @@ function lua_attribute_bonus_modifier:GetModifierBonusStats_All(nType, nBonus)
 	local hAbility = self:GetAbility()
 	local nLevel = hAbility:GetLevel()
 	if self.Primary == nType then nLevel = nLevel*1.4 end
+	if self.Primary == nType then 
+		return ((hAbility:GetSpecialValueFor( "attribute_bonus_per_level" ) + nBonus + (nBonus*nBonus*0.01)) * nLevel*(nLevel*0.1)-(nLevel))*1.3 + nLevel + 2^((nLevel*0.85)/5)
+	else
+		return ((hAbility:GetSpecialValueFor( "attribute_bonus_per_level" ) + nBonus + (nBonus*nBonus*0.01)) * nLevel*(nLevel*0.1)-(nLevel))*1.3 + nLevel + 2^(nLevel/5)
+	end
 	--
-	return ((hAbility:GetSpecialValueFor( "attribute_bonus_per_level" ) + nBonus + (nBonus*nBonus*0.01)) * nLevel*(nLevel*0.1)-(nLevel))*1.3 + nLevel
+	
 end

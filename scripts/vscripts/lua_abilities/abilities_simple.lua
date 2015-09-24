@@ -16,6 +16,39 @@ end
 function abilities_simple:start() -- Runs whenever the abilities_simple.lua is ran
     print('[abilities_simple] abilities_simple started!')
 end
+function Give_Control( keys )
+    print ("YOLO")
+    local target = keys.target
+    local caster = keys.caster
+    local PlayerID = caster:GetMainControllingPlayer() 
+    target:SetTeam(caster:GetTeam())
+    target:SetControllableByPlayer( PlayerID, false)
+end
+
+function End_Control( keys )
+    local target = keys.target
+    local caster = keys.caster
+    local level = keys.ability:GetLevelSpecialValueFor( "agh_level" , keys.ability:GetLevel() - 1 ) * 0.01
+    target:SetTeam(DOTA_TEAM_BADGUYS)
+    target:SetControllableByPlayer( -1, false)
+    local regen_health = target:GetMaxHealth()*0.15
+    for itemSlot = 0, 5, 1 do
+        local Item = caster:GetItemInSlot( itemSlot )
+        if Item ~= nil then print (Item:GetName()) end
+        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
+            if target:GetLevel() <= level then
+                target:ForceKill(true)
+            else
+                regen_health = target:GetMaxHealth()*0.5
+            end
+        end
+    end
+    target:SetHealth(target:GetHealth()+regen_health)
+    if target:GetHealth() > target:GetMaxHealth() then 
+        target:SetHealth(target:GetMaxHealth())
+    end
+end
+
 
 function spawn_unit( keys )
     local caster = keys.caster
@@ -90,8 +123,9 @@ function heat_seeking_missile_seek_targets( keys )
                         local Item = caster:GetItemInSlot( itemSlot )
                         if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
                             units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 99999, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
+        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 3000, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
     )
+                            max_targets = max_targets*2
                         end
                     end
     
@@ -144,7 +178,7 @@ function heat_seeking_missile_seek_damage( keys )
                                 victim = target,
                                 attacker = caster,
                                 damage = agh_damage,
-                                damage_type = DAMAGE_TYPE_PURE
+                                damage_type = DAMAGE_TYPE_MAGICAL
                             }
                         end
                     end
@@ -156,6 +190,25 @@ function heat_seeking_missile_seek_damage( keys )
 end
 
 ------------------------------------------------------------------------------
+--[[Author: Pizzalol
+    Date: 09.02.2015.
+    Triggers when the unit attacks
+    Checks if the attack target is the same as the caster
+    If true then trigger the counter helix if its not on cooldown]]
+function CounterHelix( keys )
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+    local helix_modifier = keys.helix_modifier
+
+    -- If the caster has the helix modifier then do not trigger the counter helix
+    -- as its considered to be on cooldown
+    if target == caster and not caster:HasModifier(helix_modifier) then
+        ability:ApplyDataDrivenModifier(caster, caster, helix_modifier, {})
+    end
+end
+
+
 
 
 function Cooldown_Pure(keys)
@@ -289,19 +342,12 @@ function Devour_doom(keys)
     local ability = keys.ability
     local level = ability:GetLevel()
     local gold = ability:GetLevelSpecialValueFor("gold", level-1)
-    local level_kill = ability:GetLevelSpecialValueFor("chance_to_kill", level-1)
-    local chance_to_kill = ability:GetLevelSpecialValueFor("level_kill", level-1)
     local duration = ability:GetLevelSpecialValueFor("duration", level-1)
     local kill_rand = math.random(1,100)
-    if kill_rand <= chance_to_kill then
-        if target:GetLevel() <= level_kill then
-            target:ForceKill(true)
-        end
-        gold = gold * 10
-        ability:ApplyDataDrivenModifier( caster, target, modifierName, {duration = duration})
-        target:SetModifierStackCount( modifierName, ability, 1)
-        ability:StartCooldown(duration)
-    end
+    gold = gold
+    ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = duration})
+    target:SetModifierStackCount( modifierName, ability, 1)
+    ability:StartCooldown(duration)
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         if not unit:IsIllusion() then
             local totalgold = unit:GetGold() + gold
@@ -408,6 +454,7 @@ function Soul_Rip(keys)
             if target:GetHealth() >= target:GetMaxHealth() then target:SetHealth(target:GetMaxHealth()) end
         end
     end)
+
 end
 
 function Death_Pact(event)
@@ -415,11 +462,7 @@ function Death_Pact(event)
     local caster = event.caster
     local target = event.target
     local ability = event.ability
-    local level_kill = ability:GetLevelSpecialValueFor("level_kill", level-1)
     local duration = ability:GetLevelSpecialValueFor( "duration" , ability:GetLevel() - 1 )
-    local chance_to_kill = ability:GetLevelSpecialValueFor("chance_to_kill", ability:GetLevel()-1)
-    local cool_down_eating = ability:GetLevelSpecialValueFor("cool_down_eating", ability:GetLevel()-1)
-    local kill_rand = math.random(1,100)
     -- Health Gain
     local health_gain_pct = ability:GetLevelSpecialValueFor( "hp_percent" , ability:GetLevel() - 1 ) * 0.01
     local target_health = target:GetMaxHealth()
@@ -427,18 +470,13 @@ function Death_Pact(event)
     -- Damage Gain
     local damage_gain_pct = ability:GetLevelSpecialValueFor( "damage_percent" , ability:GetLevel() - 1 ) * 0.01
     local damage_gain = math.floor(target_health * damage_gain_pct)
-
-    if kill_rand > chance_to_kill then
-        health_gain=health_gain/3
-        damage_gain=damage_gain/3
-        local damageTable = {
-                                victim = target,
-                                attacker = caster,
-                                damage = health_gain,
-                                damage_type = DAMAGE_TYPE_PURE
-                            }
-        ApplyDamage( damageTable )
-    end
+    local damageTable = {
+                            victim = target,
+                            attacker = caster,
+                            damage = health_gain/3,
+                            damage_type = DAMAGE_TYPE_PURE
+                        }
+    ApplyDamage( damageTable )
     local health_modifier = "modifier_death_pact_health"
     ability:ApplyDataDrivenModifier(caster, caster, health_modifier, { duration = duration })
     caster:SetModifierStackCount( health_modifier, ability, health_gain )
@@ -447,13 +485,6 @@ function Death_Pact(event)
     local damage_modifier = "modifier_death_pact_damage"
     ability:ApplyDataDrivenModifier(caster, caster, damage_modifier, { duration = duration })
     caster:SetModifierStackCount( damage_modifier, ability, damage_gain )
-
-    if kill_rand <= chance_to_kill then
-        if target:GetLevel() <= level_kill then
-            target:ForceKill(true)
-        end
-        ability:StartCooldown(cool_down_eating)
-    end
 
     print("Gained "..damage_gain.." damage and  "..health_gain.." health")
     caster.death_pact_health = health_gain

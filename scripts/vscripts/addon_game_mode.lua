@@ -34,7 +34,7 @@ function Precache( context )
     PrecacheUnitByNameSync("npc_dota_boss32_trueform", context)
     PrecacheUnitByNameSync("npc_dota_boss32_trueform_h", context)
     PrecacheUnitByNameSync("npc_dota_boss32_trueform_vh", context)
-    
+
     PrecacheUnitByNameSync("npc_dota_boss12_b", context)
     PrecacheUnitByNameSync("npc_dota_boss12_b_h", context)
     PrecacheUnitByNameSync("npc_dota_boss12_b_vh", context)
@@ -85,6 +85,7 @@ function CHoldoutGameMode:InitGameMode()
 	self._nRoundNumber = 1
 	self._currentRound = nil
 	self._regenround25 = false
+	self._regenround13 = false
 	self._check_check_dead = false
 	self._flLastThinkGameTime = nil
 	self._check_dead = false
@@ -337,14 +338,30 @@ function CHoldoutGameMode:OnGameRulesStateChange()
 end
 
 function CHoldoutGameMode:_regenlifecheck()
-	if self._regenround25 == false and self._nRoundNumber >= 25 then
+	if self._regenround25 == false and self._nRoundNumber >= 26 then
 		self._regenround25 = true
 		local messageinfo = {
 		message = "One life has been gained , you just hit a checkpoint !",
 		duration = 5
 		}
 		FireGameEvent("show_center_message",messageinfo)   
-		self._checkpoint = 25
+		self._checkpoint = 26
+		Life._MaxLife = Life._MaxLife + 1
+		Life._life = Life._life + 1
+		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
+   		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._MaxLife )
+		-- value on the bar
+		LifeBar:SetTextReplaceValue( SUBQUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
+		LifeBar:SetTextReplaceValue( SUBQUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._MaxLife )
+	end
+	if self._regenround13 == false and self._nRoundNumber >= 14 then
+		self._regenround13 = true
+		local messageinfo = {
+		message = "One life has been gained , you just hit a checkpoint !",
+		duration = 5
+		}
+		FireGameEvent("show_center_message",messageinfo)   
+		self._checkpoint = 14
 		Life._MaxLife = Life._MaxLife + 1
 		Life._life = Life._life + 1
 		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
@@ -440,7 +457,7 @@ function CHoldoutGameMode:_CheckForDefeat()
 		print (self._check_check_dead)
 		if self._check_dead == false then
 			self._check_check_dead = false
-			Timers:CreateTimer(2.1,function()
+			Timers:CreateTimer(2.0,function()
 				if self._check_check_dead == false then
 					self._check_dead = true
 				else
@@ -484,15 +501,17 @@ end
 
 function CHoldoutGameMode:_OnLose()
 	--[[Say(nil,"You just lose all your life , a vote start to chose if you want to continue or not", false)
-	if self._checkpoint == 25 then
+	if self._checkpoint == 14 then
+		Say(nil,"if you continue you will come back to round 13 , you keep all the current item and gold gained", false)
+	elif self._checkpoint == 26 then
 		Say(nil,"if you continue you will come back to round 25 , you keep all the current item and gold gained", false)
-	elseif self._checkpoint == 45 then
+	elseif self._checkpoint == 46 then
 		Say(nil,"if you continue you will come back to round 45 , you keep with all the current item and gold gained", false)
-	elseif self._checkpoint == 60 then
+	elseif self._checkpoint == 61 then
 		Say(nil,"if you continue you will come back to round 60 , you keep with all the current item and gold gained", false)
-	elseif self._checkpoint == 75 then
+	elseif self._checkpoint == 76 then
 		Say(nil,"if you continue you will come back to round 75 , you keep with all the current item and gold gained", false)
-	elseif self._checkpoint == 90 then
+	elseif self._checkpoint == 91 then
 		Say(nil,"if you continue you will come back to round 90 , you keep with all the current item and gold gained", false)
 	else
 		Say(nil,"if you continue you will come back to round begin and have all your money and item erased", false)
@@ -640,6 +659,9 @@ function CHoldoutGameMode:OnEntityKilled( event )
 	            	self._check_check_dead = true
 	            	check_tombstone = false
 	            	self._check_dead = false
+	            	if Life._life == 1 then
+	            		AllRPlayersDead = false
+	            	end
 	        end
 	    end
 	    if killedUnit:GetName() == ( "npc_dota_hero_skeleton_king") then
@@ -668,6 +690,7 @@ function CHoldoutGameMode:OnEntityKilled( event )
 			print (reincarnation_CD)
 			print (reincarnation_CD_total)
 			if reincarnation_level >= 1 and reincarnation_CD >= reincarnation_CD_total - 5 then
+				AllRPlayersDead = false
 				check_tombstone = false
 				self._check_dead = false
 				self._check_check_dead = true
