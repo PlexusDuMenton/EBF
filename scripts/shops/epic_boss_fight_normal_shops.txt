@@ -28,6 +28,7 @@
 		"item" "item_orb_of_shadows"
 		"item" "item_heart_boots"
 		"item" "item_midas_greave"
+		"item" "item_sheepstick_2"
 	}
 	"weapons_armor"
 	{

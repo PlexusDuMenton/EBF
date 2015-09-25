@@ -16,8 +16,31 @@ end
 function abilities_simple:start() -- Runs whenever the abilities_simple.lua is ran
     print('[abilities_simple] abilities_simple started!')
 end
+
+function sacrifice(keys)
+    local caster = keys.caster
+    local agh=false
+
+     for itemSlot = 0, 5, 1 do
+        local Item = caster:GetItemInSlot( itemSlot )
+        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
+            agh=true
+        end
+    end
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if not unit:IsAlive() and agh == true then
+            unit:RespawnUnit()
+        end
+        if unit:IsAlive() then
+            unit:SetHealth( unit:GetMaxHealth() )
+            unit:SetMana( unit:GetMaxMana() )
+        end
+    end
+    caster:ForceKill(true)
+end
+
+
 function Give_Control( keys )
-    print ("YOLO")
     local target = keys.target
     local caster = keys.caster
     local PlayerID = caster:GetMainControllingPlayer() 

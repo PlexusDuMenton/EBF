@@ -10703,9 +10703,8 @@
 			}
 		}
 	}
-	
 	//=================================================================================================================
-	// Ability: Phantom Assassins Stifling Dagger
+	// Ability: Phantom Assassin's Stifling Dagger
 	//=================================================================================================================
 	"phantom_assassin_stifling_dagger"
 	{
@@ -10714,7 +10713,7 @@
 		"ID"					"5190"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"LevelsBetweenUpgrades"			"5"
@@ -10733,10 +10732,7 @@
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"30 25 20 15"
-		
-		//Damage
-		"AbilityDamage"					"300 600 1200 2400 4800 10000 20000"
-			
+
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
@@ -10755,6 +10751,16 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"duration"			"1 1 2 2 3 3 4"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"hero_damage"			"300 600 1200 2400 4800 10000 20000"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"creep_damage"			"300 600 1200 2400 4800 10000 20000"
 			}
 		}
 	}
@@ -23208,6 +23214,9 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -23229,7 +23238,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"creep_damage"				"200 400 600 800"
+				"creep_damage"				"300 600 1200 2400 4800 9600 20000"
 			}
 			"03"
 			{
@@ -23293,6 +23302,9 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"5487"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_TOGGLE"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -23309,12 +23321,12 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_attack_speed"		"40 50 60 70"
+				"bonus_attack_speed"		"20 30 40 50 60 75 100"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_damage_pct"			"-5 -10 -15 -20"
+				"bonus_damage_pct"			"-5 -10 -15 -20 -30 -40 -50"
 			}
 			"03"
 			{

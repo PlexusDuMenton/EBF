@@ -122,21 +122,25 @@ end
 function money_and_exp_gain(keys)
    
     print ("round is done")
-    print (CHoldoutGameMode._nRoundNumber)
+    local messageinfo = {
+        message = "This is some test message, if it fire and game don't end , message me about this , else, well don't take care of this",
+        duration = 5
+        }
     if CHoldoutGameMode._currentRound ~= nil then
-            CHoldoutGameMode._currentRound:End()
-           CHoldoutGameMode._currentRound = nil
-        end
+        CHoldoutGameMode._currentRound:End()
+        CHoldoutGameMode._currentRound = nil
+        FireGameEvent("show_center_message",messageinfo)   
+    end
     CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + 20
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
         if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
             unit:ForceKill(true)
         end
-        if delay ~= nil then
-            CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
-        end
-        CHoldoutGameMode:_RefreshPlayers()
     end
+    if delay ~= nil then
+        CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
+    end
+    CHoldoutGameMode:_RefreshPlayers()
     local caster = keys.caster
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         unit:AddExperience (500000,false,false)
@@ -151,4 +155,4 @@ function money_and_exp_gain(keys)
     local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
     local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
     newItem:LaunchLoot( true, 300, 0.75, dropTarget )
-end
+ends

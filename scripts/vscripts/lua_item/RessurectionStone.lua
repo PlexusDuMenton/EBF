@@ -19,22 +19,18 @@ end
 
 function Ressurection(keys)
         local killedUnit = EntIndexToHScript( keys.caster_entindex )
-        local itemName = tostring(keys.ability:GetAbilityName())
-        for itemSlot = 0, 5, 1 do
-                local Item = killedUnit:GetItemInSlot( itemSlot )
-                if Item ~= nil and Item:GetName() == itemName and killedUnit:IsRealHero()  then
-                        print ('BY THE POWER OF THE GREAT RESSURECTION STONE ! I CALL YOU SHINERON ! RESSURECT ME !')
-                        if not killedUnit:IsAlive() then
-                                Timers:CreateTimer(2,function()
-                                        killedUnit:RespawnHero(false, false, false)
-                                        if Item:GetCurrentCharges() == 1 then
-                                        	killedUnit:RemoveItem(Item)
-                                   		end
-                                        if Item:GetCurrentCharges() > 1 then
-                                        	Item:SetCurrentCharges(Item:GetCurrentCharges()-1)
-                                        end
-                                end)
-                        end
+        local Item = keys.ability
+        if not killedUnit:IsAlive() and Item:IsCooldownReady() then
+            print ('BY THE POWER OF THE GREAT RESSURECTION STONE ! I CALL YOU SHINERON ! RESSURECT ME !')
+            Item:StartCooldown(60)
+            Timers:CreateTimer(2,function()
+                killedUnit:RespawnHero(false, false, false)
+                if Item:GetCurrentCharges() == 1 then
+                    killedUnit:RemoveItem(Item)
                 end
+                if Item:GetCurrentCharges() > 1 then
+                    Item:SetCurrentCharges(Item:GetCurrentCharges()-1)
+                end
+            end)
         end
 end

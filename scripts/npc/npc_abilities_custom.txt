@@ -507,7 +507,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -698,7 +698,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -889,7 +889,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -1732,7 +1732,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -2240,7 +2240,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -2743,7 +2743,7 @@
 							"ControlPoints"
 							{
 								"00" "0 0 0"
-								"01" "%impact_radius 0 0"
+								"01" "%impact_radius+200 0 0"
 								"02" "6 0 1" // telegraph
 								"03" "200 0 0"
 								"04" "0 0 0"
@@ -5999,43 +5999,18 @@
 		{
 			"01"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"chance_to_kill"		"50 55 60 65 70 80 90"
+				"var_type"				"FIELD_FLOAT"
+				"hp_percent"	"5 6.5 8 9.5 11 12 15"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hp_percent"	"5 6.5 8 9.5 11 12 15"
+				"damage_percent"			"0.1 0.2 0.3 0.4 0.5 0.75 1.0"
 			}
 			"03"
 			{
-				"var_type"				"FIELD_FLOAT"
-				"damage_percent"			"2.5 3.0 3.5 4.5 5.5 7.0 9.0"
-			}
-			"04"
-			{
 				"var_type"				"FIELD_INTEGER"
-				"duration"		"30 40 50 60 70 80 90"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"cool_down_eating"		"500 450 400 350 300 250 200"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"hp_percent_fail"	"1.67 2.17 2.67 3.17 3.67 4.17 5"
-			}
-			"07"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"damage_percent_fail"			"0.83 1.0 1.17 1.5 1.83 2.33 3.0"
-			}
-			"08"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"level_kill"		"5 10 15 20 25 50 75"
+				"duration"		"30 35 40 45 50 55 60"
 			}
 
 		}
@@ -6301,7 +6276,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -6435,7 +6410,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -6599,7 +6574,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -6763,7 +6738,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -6930,7 +6905,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7101,7 +7076,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7270,7 +7245,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7441,7 +7416,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7612,7 +7587,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7788,7 +7763,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -7959,7 +7934,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -8144,7 +8119,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -8329,7 +8304,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -8507,7 +8482,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -8678,7 +8653,7 @@
 						"ControlPoints"
 						{
 							"00" "0 0 0"
-							"01" "%impact_radius 0 0"
+							"01" "%impact_radius+200 0 0"
 							"02" "6 0 1" // telegraph
 							"03" "200 0 0"
 							"04" "0 0 0"
@@ -13048,6 +13023,78 @@
 			{
 				"var_type"						"FIELD_FLOAT"
 				"stun_duration"					"2.0 2.5 3.0 4.0"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Io : Sacrifice
+	//=================================================================================================================
+	"wisp_sacrifice"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityTextureName"    "wisp_sacrifice"
+		"LevelsBetweenUpgrades"			"7"
+		"MaxLevel"						"7"
+	
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.35 0.35 0.35 0.35"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"300"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityModifierSupportValue"	"999"	// Applies multiple modifiers
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "sacrifice"
+			}	
+
+			"ApplyModifier"
+			{
+				"ModifierName" "invulnerable_wisp"
+				"Target"
+				{
+					"Center" "CASTER"
+					"Radius" "99999"
+					"Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types" "DOTA_UNIT_TARGET_ALL"
+				}
+			}
+		}
+
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"invul_duration"					"1.0 1.5 2.0 2.5 3.0 3.5 4.0"
+			}
+		}
+		"Modifiers"
+		{
+			
+			"invulnerable_wisp"
+			{
+				"duration"		"%invul_duration"
+				"States"
+				{
+					"MODIFIER_STATE_INVULNERABLE"  "MODIFIER_STATE_VALUE_ENABLED"
+				}
 			}
 		}
 	}

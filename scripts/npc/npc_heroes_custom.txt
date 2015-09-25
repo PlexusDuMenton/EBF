@@ -175,4 +175,10 @@
 		"Ability4"				"witch_doctor_witch_control"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
+	"npc_dota_hero_wisp_ebf"
+	{
+		"override_hero"			"npc_dota_hero_wisp"
+		"Ability7"				"wisp_sacrifice"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
 }
