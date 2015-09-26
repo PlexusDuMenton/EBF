@@ -70,52 +70,18 @@ function ares_powder_end(keys)
         unit:SetForceAttackTarget(nil)
     end
 end
-function blood_booster(keys)
-    local caster = keys.caster
-    local item = keys.ability
-    local modifierName = "blood_booster"
-    caster.tank_booster = true
-    local health_stacks = 0
-    
-    if caster:IsRealHero() then 
-        local testcount = 0
-        Timers:CreateTimer(0.1,function()
-            if caster.tank_booster == true then
-                local str = caster:GetStrength()
-                if str ~= health_stacks then
-                    health_stacks = caster:GetStrength()
-                    adjute_HP(keys)
-                    if caster:HasModifier( modifierName ) then
-                        caster:SetModifierStackCount( modifierName, caster, health_stacks)
-                    else
-                        item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
-                        caster:SetModifierStackCount( modifierName, caster, health_stacks)
-                    end
-                end  
-                return 0.2
-            else
-                caster:SetModifierStackCount( modifierName, caster, 0)
-            end
-        end)
-    end
-end
-
-
-function blood_booster_end(keys)
-    local caster = keys.caster
-    caster.tank_booster = false
-end
 
 function tank_booster(keys)
     local caster = keys.caster
     local item = keys.ability
+    print ("test")
     local modifierName = "health_booster"
     caster.tank_booster = true
     local health_stacks = 0
     
     if caster:IsRealHero() then 
-        local testcount = 0
-        Timers:CreateTimer(0.1,function()
+        Timers:CreateTimer(0.3,function()
+            print ("test")
             if caster.tank_booster == true then
                 local str = caster:GetStrength()
                 if str ~= health_stacks then
@@ -190,7 +156,7 @@ function check_admin(keys)
         print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
     else
         Timers:CreateTimer(0.3,function()
-            FireGameEvent( 'custom_error_show', { player_ID = ID, _error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
+            FireGameEvent( 'custom_error_show', { player_ID = ID, error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
             caster:RemoveItem(item)
         end)
     end

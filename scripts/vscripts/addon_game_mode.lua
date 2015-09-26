@@ -655,7 +655,7 @@ function CHoldoutGameMode:OnEntityKilled( event )
 	if killedUnit and killedUnit:IsRealHero() then
 		for itemSlot = 0, 5, 1 do
 	        local Item = killedUnit:GetItemInSlot( itemSlot )
-	        if Item ~= nil and Item:GetName() == "item_ressurection_stone" then
+	        if Item ~= nil and Item:GetName() == "item_ressurection_stone" and Item:IsCooldownReady() then
 	            	self._check_check_dead = true
 	            	check_tombstone = false
 	            	self._check_dead = false

@@ -7696,7 +7696,7 @@
 
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"60 120 240 480 960 1820 3640"
+		"AbilityDamage"					"480 960 1820 3640 8000 16000 32000"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -7790,7 +7790,7 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"heal"						"25 50 100 200 400 800 1600"
+				"heal"						"100 200 400 800 1600 3200 6400"
 			}
 			"04"
 			{
@@ -7829,7 +7829,7 @@
 
 		// Damage.
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"250 500 1000 2000 5000 9000 15000 30000"
+		"AbilityDamage"					"500 1000 2000 5000 9000 15000 30000 50000"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -7851,8 +7851,8 @@
 			}
 			"03"
 			{
-				"var_type"					"FIELD_INTEGER"
-				"bonus_damage"				"1 1 1 2 2 2 3"
+				"var_type"					"FIELD_FLOAT"
+				"bonus_damage"				"1.0 1.5 2.0 2.5 3.0 3.5 4"
 			}
 			"04"
 			{
@@ -19861,7 +19861,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
-		"LevelsBetweenUpgrades"			"7"
+		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
 
 		// Casting
@@ -19922,7 +19922,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
-		"LevelsBetweenUpgrades"			"7"
+		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
 		
 		// Casting
@@ -19970,7 +19970,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"					"5428"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"LevelsBetweenUpgrades"			"7"
+		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
 	
 		// Special
@@ -20002,6 +20002,8 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"FightRecapLevel"				"2"
+		"LevelsBetweenUpgrades"			"7"
+		"MaxLevel"						"7"
 		
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------

@@ -5590,12 +5590,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"gold"	"100 200 400 800 1200 1600 2000"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"duration"		"375 350 325 300 250 200 150"
+				"total_gold"	"500 1000 2000 4000 6000 8000 10000"
 			}
 		}
 		"Modifiers"
@@ -6132,6 +6127,11 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"agh_level"		"5 10 15 20 25 50 75"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"hp_regen"		"18 15 12 9 6 3 0"
 			}
 		}
 		"Modifiers"

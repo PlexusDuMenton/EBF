@@ -1,4 +1,5 @@
 require( "libraries/Timers" )
+require( "lua_abilities/Check_Aghanim" )
 
 if abilities_simple == nil then
     print ( '[abilities_simple] creating abilities_simple' )
@@ -19,16 +20,9 @@ end
 
 function sacrifice(keys)
     local caster = keys.caster
-    local agh=false
 
-     for itemSlot = 0, 5, 1 do
-        local Item = caster:GetItemInSlot( itemSlot )
-        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-            agh=true
-        end
-    end
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if not unit:IsAlive() and agh == true then
+        if not unit:IsAlive() and HasCustomScepter(caster) then
             unit:RespawnUnit()
         end
         if unit:IsAlive() then
@@ -51,19 +45,16 @@ end
 function End_Control( keys )
     local target = keys.target
     local caster = keys.caster
-    local level = keys.ability:GetLevelSpecialValueFor( "agh_level" , keys.ability:GetLevel() - 1 ) * 0.01
+    local level = keys.ability:GetLevelSpecialValueFor( "agh_level" , keys.ability:GetLevel() - 1 )
     target:SetTeam(DOTA_TEAM_BADGUYS)
     target:SetControllableByPlayer( -1, false)
-    local regen_health = target:GetMaxHealth()*0.15
-    for itemSlot = 0, 5, 1 do
-        local Item = caster:GetItemInSlot( itemSlot )
-        if Item ~= nil then print (Item:GetName()) end
-        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-            if target:GetLevel() <= level then
+    local hp_percent = keys.ability:GetLevelSpecialValueFor( "hp_regen" , keys.ability:GetLevel() - 1 ) * 0.01
+    local regen_health = target:GetMaxHealth()*hp_percent
+    if HasCustomScepter(caster) then
+        if target:GetLevel() <= level then
                 target:ForceKill(true)
-            else
-                regen_health = target:GetMaxHealth()*0.5
-            end
+        else
+            regen_health = 0
         end
     end
     target:SetHealth(target:GetHealth()+regen_health)
@@ -114,10 +105,12 @@ function rearm_refresh_cooldown( keys )
             ability:EndCooldown()
         end
     end
-    
+
+    local no_refresh_item = {["item_sheepstick_2"] = true,["item_ressurection_stone"] = true}
+
     for i = 0, 5 do
         local item = caster:GetItemInSlot( i )
-        if item then
+        if item and not no_refresh_item[ item:GetAbilityName() ] then
             item:EndCooldown()
         end
     end
@@ -140,18 +133,12 @@ function heat_seeking_missile_seek_targets( keys )
     
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
     local units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
-    )
-     for itemSlot = 0, 5, 1 do
-                        local Item = caster:GetItemInSlot( itemSlot )
-                        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-                            units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 3000, targetTeam, targetType, targetFlag, FIND_CLOSEST, false
-    )
-                            max_targets = max_targets*2
-                        end
-                    end
-    
+        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
+    if HasCustomScepter(caster) then
+        units = FindUnitsInRadius(
+        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 3000, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
+        max_targets = max_targets*2
+    end   
     -- Seek out target
     local count = 0
     for k, v in pairs( units ) do
@@ -187,26 +174,21 @@ function heat_seeking_missile_seek_damage( keys )
     local damage = ability:GetAbilityDamage() 
 
     local damageTable = {
-                                victim = target,
-                                attacker = caster,
-                                damage = damage,
-                                damage_type = DAMAGE_TYPE_MAGICAL
-                            }
-                    for itemSlot = 0, 5, 1 do
-                        local Item = caster:GetItemInSlot( itemSlot )
-                        if Item ~= nil then print (Item:GetName()) end
-                        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-                            local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
-                            damageTable = {
-                                victim = target,
-                                attacker = caster,
-                                damage = agh_damage,
-                                damage_type = DAMAGE_TYPE_MAGICAL
-                            }
-                        end
-                    end
-                    print (damageTable.damage)
-                    ApplyDamage( damageTable )
+        victim = target,
+        attacker = caster,
+        damage = damage,
+        damage_type = DAMAGE_TYPE_MAGICAL
+    }
+    if HasCustomScepter(caster) then
+        local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
+            damageTable = {
+            victim = target,
+            attacker = caster,
+            damage = agh_damage,
+            damage_type = DAMAGE_TYPE_MAGICAL
+        }
+    end
+    ApplyDamage( damageTable )
     
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
     
@@ -364,16 +346,23 @@ function Devour_doom(keys)
     local target = keys.target
     local ability = keys.ability
     local level = ability:GetLevel()
-    local gold = ability:GetLevelSpecialValueFor("gold", level-1)
+    local gold = ability:GetLevelSpecialValueFor("total_gold", level-1)
     local duration = ability:GetLevelSpecialValueFor("duration", level-1)
     local kill_rand = math.random(1,100)
     gold = gold
     ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = duration})
     target:SetModifierStackCount( modifierName, ability, 1)
     ability:StartCooldown(duration)
+    local total_unit = 0
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         if not unit:IsIllusion() then
-            local totalgold = unit:GetGold() + gold
+            total_unit = total_unit + 1
+        end
+    end
+    local gold_per_player = gold / total_unit
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if not unit:IsIllusion() then
+            local totalgold = unit:GetGold() + gold_per_player
             unit:SetGold(0 , false)
             unit:SetGold(totalgold, true)
         end
@@ -678,18 +667,14 @@ function mystic_flare_start( keys )
                                 damage = damage_per_hero,
                                 damage_type = DAMAGE_TYPE_MAGICAL
                             }
-                    for itemSlot = 0, 5, 1 do
-                        local Item = caster:GetItemInSlot( itemSlot )
-                        if Item ~= nil and Item:GetName() == "item_ultimate_scepter" then
-                            damageTable = {
-                                victim = v,
-                                attacker = caster,
-                                damage = damage_per_hero,
-                                damage_type = DAMAGE_TYPE_PURE
-                            }
-                        end
+                    if HasCustomScepter(caster) then
+                        damageTable = {
+                        victim = v,
+                        attacker = caster,
+                        damage = damage_per_hero,
+                        damage_type = DAMAGE_TYPE_PURE
+                        }
                     end
-                    ApplyDamage( damageTable )
                     
                     -- Fire sound
                     StartSoundEvent( soundTarget, v )
@@ -856,58 +841,6 @@ function spiked_carapace_reflect( keys )
       ApplyDamage(damageTable)
     end
 
-end
---[[Author: Pizzalol
-    Date: 26.02.2015.
-    Purges positive buffs from the target]]
-function DoomPurge( keys )
-    local target = keys.target
-
-    -- Purge
-    local RemovePositiveBuffs = true
-    local RemoveDebuffs = false
-    local BuffsCreatedThisFrameOnly = false
-    local RemoveStuns = false
-    local RemoveExceptions = false
-
-    local modifierName = "modifier_doom_datadriven"
-
-    local caster = keys.caster
-    local ability = keys.ability
-    local current_stack = target:GetModifierStackCount( modifierName, ability )
-    local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
-    for itemSlot = 0, 5, 1 do
-        local Item = caster:GetItemInSlot( itemSlot )
-        if Item ~= nil and Item:GetName() == "ultimate_scepter" then
-            duration = ability:GetLevelSpecialValueFor("duration_scepter", ability:GetLevel() - 1)
-        end
-    end
-    print (duration)
-    ability:ApplyDataDrivenModifier( caster, target, modifierName, {duration = duration})
-    target:SetModifierStackCount( modifierName, ability, 1)
-    target:Purge( RemovePositiveBuffs, RemoveDebuffs, BuffsCreatedThisFrameOnly, RemoveStuns, RemoveExceptions)
-end
-
---[[Author: Pizzalol
-    Date: 26.02.2015.
-    The deny check is run every frame, if the target is within deny range then apply the deniable state for the
-    duration of 2 frames]]
-function DoomDenyCheck( keys )
-    local caster = keys.caster
-    local target = keys.target
-    local ability = keys.ability
-    local ability_level = ability:GetLevel() - 1
-
-    local deny_pct = ability:GetLevelSpecialValueFor("deniable_pct", ability_level)
-    local modifier = keys.modifier
-
-    local target_hp = target:GetHealth()
-    local target_max_hp = target:GetMaxHealth()
-    local target_hp_pct = (target_hp / target_max_hp) * 100
-
-    if target_hp_pct <= deny_pct then
-        ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = 0.06})
-    end
 end
 
 -- Stops the sound from playing

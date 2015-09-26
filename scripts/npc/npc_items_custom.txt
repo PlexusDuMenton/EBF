@@ -8904,7 +8904,7 @@
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
      			}
      		}
-     		"ste_eff"
+     		"health_booster_effect"
      		{
      			"Passive"                	"1"
      			"IsHidden"                  "1"
@@ -9062,7 +9062,7 @@
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
      			}
      		}
-     		"bb_eff"
+     		"health_booster_effect"
      		{
      			"Passive"                	"1"
      			"IsHidden"                  "1"
@@ -9071,7 +9071,7 @@
 	     			"RunScript"
 		        	{
 		        		"ScriptFile"			"lua_item/simple_item.lua"
-						"Function"				"blood_booster"
+						"Function"				"tank_booster"
 		        	}
      			}
      			"OnDestroy"
@@ -9079,16 +9079,16 @@
 	     			"RunScript"
 		        	{
 		        		"ScriptFile"			"lua_item/simple_item.lua"
-						"Function"				"blood_booster_end"
+						"Function"				"tank_booster_end"
 		        	}
 		        	"RemoveModifier"
 			        {
-			            "ModifierName" "blood_booster"
+			            "ModifierName" "health_booster"
 			            "Target" "CASTER"
 			        }
      			}
 	    	}
-	    	"blood_booster"
+	    	"health_booster"
 	    	{
 	    		"IsHidden"                  "1"
             	"Attributes"    "MODIFIER_ATTRIBUTE_PERMANENT | MODIFIER_ATTRIBUTE_MULTIPLE"
