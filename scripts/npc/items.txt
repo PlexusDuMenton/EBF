@@ -535,7 +535,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"860"
+		"ItemCost"						"800"
 		"ItemShopTags"					"attack_speed"
 		"ItemQuality"					"common"
 		"ItemAliases"					"moon shard"

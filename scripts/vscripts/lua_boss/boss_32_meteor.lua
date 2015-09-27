@@ -50,7 +50,7 @@ function meteor_on_spell_start(keys)
             chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Loop")  --Emit a sound that will follow the meteor.
             local fire_aura_duration = keys.ability:GetLevelSpecialValueFor("burn_duration", 0)
             for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-                unit:SetHealth(unit:GetHealth()/10)
+                unit:SetHealth(unit:GetHealth()/2)
                 if unit:GetHealth()<=0 then unit:ForceKill(true) end
                 keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_aura_debuff", {duration = fire_aura_duration})
             end
@@ -143,12 +143,21 @@ function money_and_exp_gain(keys)
     CHoldoutGameMode:_RefreshPlayers()
     local caster = keys.caster
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        unit:AddExperience (500000,false,false)
+        if GetMapName() == "epic_boss_fight_impossible" then
+            unit:AddExperience (200000,false,false)
+        else
+            unit:AddExperience (400000,false,false)
+        end
     end
     local gold = 0
     local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
     local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
-    gold = 90000 * GoldMultiplier
+    if GetMapName() == "epic_boss_fight_impossible" then
+            gold = 40000 * GoldMultiplier
+        else
+            gold = 80000 * GoldMultiplier
+        end
+    
     local newItem = CreateItem( "item_bag_of_gold", nil, nil )
     newItem:SetPurchaseTime( 0 )
     newItem:SetCurrentCharges( gold )

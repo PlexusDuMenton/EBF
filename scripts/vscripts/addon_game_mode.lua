@@ -234,9 +234,11 @@ function CHoldoutGameMode:InitGameMode()
 	ListenToGameEvent( "player_reconnected", Dynamic_Wrap( CHoldoutGameMode, 'OnPlayerReconnected' ), self )
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CHoldoutGameMode, 'OnEntityKilled' ), self )
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( CHoldoutGameMode, "OnGameRulesStateChange" ), self )
+	ListenToGameEvent('player_connect_full', Dynamic_Wrap( CHoldoutGameMode, 'OnConnectFull'), self)
 
 	-- Register OnThink with the game engine so it is called every 0.25 seconds
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
+	
 end
 -- Evaluate the state of the game
 
@@ -260,6 +262,12 @@ function CHoldoutGameMode:_ReadGameConfiguration()
 end
 
 -- Verify spawners if random is set
+function CHoldoutGameMode:OnConnectFull()
+	SendToServerConsole("dota_combine_models 0")
+    SendToConsole("dota_combine_models 0")
+    SendToConsole("dota_health_per_vertical_marker 1000")
+end
+
 function CHoldoutGameMode:ChooseRandomSpawnInfo()
 	if #self._vRandomSpawnsList == 0 then
 		error( "Attempt to choose a random spawn, but no random spawns are specified in the data." )
@@ -344,6 +352,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		message = "One life has been gained , you just hit a checkpoint !",
 		duration = 5
 		}
+		SendToConsole("dota_health_per_vertical_marker 100000")
 		FireGameEvent("show_center_message",messageinfo)   
 		self._checkpoint = 26
 		Life._MaxLife = Life._MaxLife + 1
@@ -360,6 +369,8 @@ function CHoldoutGameMode:_regenlifecheck()
 		message = "One life has been gained , you just hit a checkpoint !",
 		duration = 5
 		}
+		SendToConsole("dota_combine_models 0")
+		SendToConsole("dota_health_per_vertical_marker 10000")
 		FireGameEvent("show_center_message",messageinfo)   
 		self._checkpoint = 14
 		Life._MaxLife = Life._MaxLife + 1
@@ -396,6 +407,7 @@ function CHoldoutGameMode:OnThink()
 				self._nRoundNumber = self._nRoundNumber + 1
 				if self._nRoundNumber > #self._vRounds then
 					self._nRoundNumber = 1
+					SendToConsole("dota_health_per_vertical_marker 250")
 					GameRules:SetCustomVictoryMessage ("Congratulation!")
 					GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 				else
@@ -518,7 +530,7 @@ function CHoldoutGameMode:_OnLose()
 	end
 	Say(nil,"If you want to retry , type YES in thes chat if you don't want type no , no vote will be taken as a yes", false)
 	Say(nil,"At least Half of the player have to vote yes for game to restart on last check points", false)]]
-
+	SendToConsole("dota_health_per_vertical_marker 250")
 	GameRules:SetGameWinner( DOTA_TEAM_BADGUYS )
 end
 

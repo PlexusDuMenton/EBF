@@ -129,6 +129,10 @@ function Pierce(keys)
     ApplyDamage(damageTable)
 end
 
+function CD_Bahamut(keys)
+    keys.ability:StartCooldown(33)
+end
+
 function Midas_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability

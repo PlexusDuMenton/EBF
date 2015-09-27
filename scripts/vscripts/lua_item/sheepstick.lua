@@ -5,6 +5,7 @@
 function sheepstick_start( keys )
     local target = keys.target
     local model = keys.model
+    print ("test")
 
     if target:IsIllusion() then
         target:ForceKill(true)

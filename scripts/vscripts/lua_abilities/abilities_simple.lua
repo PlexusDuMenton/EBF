@@ -18,6 +18,212 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+function projectile_cloud( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/units/heroes/hero_shadow_demon/shadow_demon_shadow_poison_projectile.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 1000,
+        fStartRadius = 300,
+        fEndRadius = 500,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = caster:GetForwardVector() * 300,
+    }
+    projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+end
+function projectile_spear( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/light_spear.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 5000,
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = caster:GetForwardVector() * 1200,
+        vAcceleration = caster:GetForwardVector() * 200
+    }
+    projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+end
+function projectile_lol_orbs( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+    local count = 0
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local direction = caster:GetForwardVector()
+    local projectileTable = {}
+    print ("yolo")
+    Timers:CreateTimer(0.1,function()
+        count = count +1
+        if count <= 70 then
+            projectileTable = {
+                Ability = ability,
+                EffectName = "particles/boss/boss_shadows_orb.vpcf",
+                vSpawnOrigin = casterPoint,
+                fDistance = 5000,
+                fStartRadius = 80,
+                fEndRadius = 80,
+                fExpireTime = GameRules:GetGameTime() + 5,
+                Source = caster,
+                bHasFrontalCone = true,
+                bReplaceExisting = false,
+                bProvidesVision = false,
+                iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+                iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+                iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+                vVelocity = caster:GetForwardVector() * 500,
+            }
+            projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+            return 0.08
+        end
+    end)
+end
+function test()
+    print ("test")
+end
+
+--[[
+    Author: Noya
+    Date: April 5, 2015
+    Return a front position at a distance
+]]
+function ShadowrazePoint( event )
+    local caster = event.caster
+    local fv = caster:GetForwardVector()
+    local origin = caster:GetAbsOrigin()
+    local distance = event.distance
+    
+    local front_position = origin + fv * distance
+    local result = {}
+    table.insert(result, front_position)
+
+    return result
+
+end
+
+function Shadowraze_effect( event )
+    local caster = event.caster
+    local fv = caster:GetForwardVector()
+    local origin = caster:GetAbsOrigin()
+    local distance = 900
+    
+    local front_position = origin + fv * distance
+
+    local ability = keys.ability
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf",
+        vSpawnOrigin = front_position,
+        fDistance = 5,
+        fStartRadius = 1,
+        fEndRadius = 1,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        bDeleteOnHit = false,
+        vVelocity = caster:GetForwardVector() * 0,
+    }
+    projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+end
+
+--[[ 
+     Author: Noya
+     Date: 26 September 2015
+     Creates projectiles in 360 degrees with a time interval between them
+--]]
+function projectile_dark_orbs( event )
+    local caster = event.caster
+    local ability = event.ability
+    local origin = caster:GetAbsOrigin()
+    local projectile_count = 80 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
+    local speed = 700
+    local time_interval = 0.05 -- Time between each launch
+
+    local info = {
+        EffectName =  "particles/boss/boss_shadows_orb.vpcf",
+        Ability = ability,
+        vSpawnOrigin = origin,
+        fDistance = 1250,
+        fStartRadius = 75,
+        fEndRadius = 75,
+        Source = caster,
+        bHasFrontalCone = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        --fMaxSpeed = 5200,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        fExpireTime = GameRules:GetGameTime() + 7,
+        vVelocity = 0.0, --vVelocity = caster:GetForwardVector() * 1800,
+        iMoveSpeed = speed,
+    }
+
+    origin.z = 0
+    info.vVelocity = origin:Normalized() * speed
+
+    --Creates the projectiles in 1440 degrees
+    Timers:CreateTimer(1.0,function()
+        local projectiles_created = 0
+        for i=-720,720,(1440/projectile_count) do
+            local time = projectiles_created * time_interval
+            projectiles_created = projectiles_created + 1
+
+            --EmitSoundOn("", caster) --Add a sound if you wish!
+            Timers:CreateTimer(time, function()
+                info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), caster:GetForwardVector()) * speed
+                projectile = ProjectileManager:CreateLinearProjectile( info )
+            end)
+        end
+    end)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function sacrifice(keys)
     local caster = keys.caster
 
@@ -99,14 +305,15 @@ function rearm_refresh_cooldown( keys )
     local caster = keys.caster
     
     -- Reset cooldown for abilities
+    local no_refresh_skill = {["omniknight_guardian_angel"] = true}
     for i = 0, caster:GetAbilityCount() - 1 do
         local ability = caster:GetAbilityByIndex( i )
-        if ability and ability ~= keys.ability then
+        if ability and ability ~= keys.ability and not no_refresh_skill[ ability:GetAbilityName() ] then
             ability:EndCooldown()
         end
     end
 
-    local no_refresh_item = {["item_sheepstick_2"] = true,["item_ressurection_stone"] = true}
+    local no_refresh_item = {["item_sheepstick_2"] = true,["item_ressurection_stone"] = true,["item_refresher"] = true,["item_bahamut_chest"]= true}
 
     for i = 0, 5 do
         local item = caster:GetItemInSlot( i )
@@ -675,6 +882,7 @@ function mystic_flare_start( keys )
                         damage_type = DAMAGE_TYPE_PURE
                         }
                     end
+                    ApplyDamage(damageTable)
                     
                     -- Fire sound
                     StartSoundEvent( soundTarget, v )

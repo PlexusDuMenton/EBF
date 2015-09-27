@@ -2046,7 +2046,7 @@
 			"ItemDroppable"                 "1"
 			"AbilityBehavior"						"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 			"BaseClass"								"item_datadriven"
-			"ItemCost"										"14305"
+			"ItemCost"										"12625"
 			"ItemShopTags"									"damage;unique"
 			"ItemQuality"									"artifact"
 			"ItemAliases"									"desolator"
@@ -2550,7 +2550,7 @@
 		"ItemSellable"					"1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemDroppable"					"1"
-		"ItemCost"						"3381"
+		"ItemCost"						"3380"
 		"ItemShopTags"					"damage;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"heart"
@@ -2740,7 +2740,7 @@
 		"ItemSellable"					"1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemDroppable"					"1"
-		"ItemCost"						"17653"
+		"ItemCost"						"17560"
 		"ItemShopTags"					"damage;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"heart"
@@ -3120,7 +3120,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"9340"
+		"ItemCost"						"8620"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -3315,7 +3315,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-			"ItemCost"										"2"    
+			"ItemCost"										"940"    
 			"ItemShopTags"									""
 				
 		// Recipe
@@ -3347,7 +3347,7 @@
 			"AbilityUnitTargetType"					"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 			"BaseClass"								"item_datadriven"
 			"AbilityManaCost"								"0"
-			"ItemCost"										"21049"
+			"ItemCost"										"22000"
 			"ItemShopTags"									"agi;int;str;damage;attack_speed;unique"
 			"ItemQuality"									"artifact"
 			"ItemAliases"									"doom;mjollnir"
@@ -3485,16 +3485,16 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"1066"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		//"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
 		// Stats		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"35.0"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemCost"						"4175"
 		"BaseClass"						"item_butterfly"
 		"AbilityTextureName"			"item_butterfly2"
+		"Model"                         "models/props_gameplay/red_box.vmdl" 
+    	"Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
 		"ItemShopTags"					"agi;damage;evasion;attack_speed"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bfly;butterfly"
@@ -3524,17 +3524,35 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_attack_speed"	"80"
 			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_move_speed"	"70"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"6"
-			}
 		}
+	    
+	    "Modifiers"
+	    {
+	        "item_butterfly_passive"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
+	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
+	            }
+	            
+	        }
+	        "modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+	    }
 	}
 
 	//=================================================================================================================
@@ -3577,7 +3595,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"7001"
+		"ItemCost"						"7000"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"death scythe"
 		"ItemDeclarations"				"DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
@@ -3649,7 +3667,7 @@
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"128725"
+		"ItemCost"						"28426"
 		"ItemShopTags"					"damage;unique;armor"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"armor"
@@ -4186,7 +4204,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"7632"	
+		"ItemCost"						"6375"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -4214,7 +4232,7 @@
 		"ItemSellable"					"1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemDroppable"					"1"
-		"ItemCost"						"62000"
+		"ItemCost"						"60000"
 		"ItemShopTags"					"damage;unique;health;divine;T5;damage"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"soul"
@@ -4638,16 +4656,13 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"1186"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		//"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-
-		// Stats		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"30.0"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemCost"						"12455"
-		"BaseClass"						"item_butterfly"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_butterfly3"
+		"Model"                         "models/props_gameplay/red_box.vmdl" 
+    	"Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
 		"ItemShopTags"					"agi;damage;evasion;attack_speed"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bfly;butterfly"
@@ -4677,17 +4692,38 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_attack_speed"	"120"
 			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_move_speed"	"100"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"6"
-			}
 		}
+		
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+	    "Modifiers"
+	    {
+	        "item_butterfly_passive"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
+	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
+	            }
+	            
+	        }
+	        "modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+	    }
 	}
 	//=================================================================================================================
 	// Recipe: Butterfly 4
@@ -4721,16 +4757,16 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"1188"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		//"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 
 		// Stats		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"30.0"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
-		"ItemCost"						"31456"
-		"BaseClass"						"item_butterfly"
+		"ItemCost"						"31455"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_butterfly4"
+		"Model"                         "models/props_gameplay/red_box.vmdl" 
+    	"Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
 		"ItemShopTags"					"agi;damage;evasion;attack_speed"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bfly;butterfly"
@@ -4760,17 +4796,34 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_attack_speed"	"200"
 			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_move_speed"	"120"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"6"
-			}
 		}
+		"Modifiers"
+	    {
+	        "item_butterfly_passive"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
+	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
+	            }
+	            
+	        }
+	        "modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+	    }
 	}
 	//=================================================================================================================
 	// Recipe: Octarina Core 4
@@ -4810,7 +4863,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"25340"
+		"ItemCost"						"24620"
 		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
@@ -5518,7 +5571,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"31568"	
+		"ItemCost"						"31514"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -5550,7 +5603,6 @@
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 
 		"AbilityCastPoint"	"0.4"
-		"AbilityCooldown"	"33"
 		"AbilityManaCost"	"0"
 		"OnSpellStart"
 		{	
@@ -5559,6 +5611,16 @@
 				"ModifierName"			"immunityaoe"
 				"Target"				"CASTER"
 			}
+			"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"CD_Bahamut"
+					}
+				}
+
+
 		}
 
 
@@ -6762,7 +6824,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
+		"ItemCost"						"2440"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -6790,7 +6852,7 @@
 		"ItemSellable"					"1"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemDroppable"					"1"
-		"ItemCost"						"63788"
+		"ItemCost"						"60000"
 		"ItemShopTags"					"damage;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"heart"
@@ -6836,7 +6898,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"			"8000"
+				"bonus_strength"			"7000"
 			}
 			"03"
 			{
@@ -6880,7 +6942,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"2260"
+		"ItemCost"						"2200"
 		"ItemShopTags"					"int"
 		"ItemQuality"					"magic"
 		"ItemAliases"					"ring"
@@ -6945,7 +7007,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"7120"
+		"ItemCost"						"7000"
 		"ItemShopTags"					"int"
 		"ItemQuality"					"magic"
 		"ItemAliases"					"ring"
@@ -6986,7 +7048,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"5910"	
+		"ItemCost"						"5970"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -7251,7 +7313,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"2710"
+		"ItemCost"						"2770"
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -7418,7 +7480,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"37320"
+		"ItemCost"						"33140"
 		"ItemShopTags"					"int"
 		"AbilityCooldown"				"0.25"
 		"ItemQuality"					"artifact"
@@ -9271,7 +9333,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"8000"
+		"ItemCost"						"9000"
 		"ItemShopTags"					"boots"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"ring"
@@ -9338,7 +9400,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"130"	
+		"ItemCost"						"20"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -9347,7 +9409,7 @@
 		"ItemResult"					"item_heart_boots"
 		"ItemRequirements"
 		{
-			"01"						"item_heart_titan;item_boots;item_orb_of_doom"
+			"01"						"item_heart_titan;item_tranquil_boots;item_orb_of_doom"
 		}
 	}
 	"item_heart_boots"
@@ -9541,7 +9603,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"1000"
+		"ItemCost"						"3000"
 		"ItemShopTags"					"int"
 		"AbilityCooldown"				"0.25"
 		"ItemQuality"					"artifact"
@@ -9654,18 +9716,6 @@
 				"Target"				"TARGET"
 				"ModifierName"		"item_sheepstick_2_effect"
 			}
-			"DelayedAction"
-            {
-            	"Delay" "%duration"
-            	"Action"
-            	{
-			        "RemoveModifier"
-			        {
-			        	"ModifierName"	"item_sheepstick_2_effect"
-			        	"Target"		"TARGET"
-			        }
-				}
-			}
 		}
 		"Modifiers"
 		{
@@ -9685,7 +9735,7 @@
 			}
 		    "item_sheepstick_2_effect"
     		{
-		        "IsDebuff" "1"  
+		        "duration"	"99999"
 		        "OnCreated"
 	            {
 	                "RunScript"
@@ -9700,6 +9750,18 @@
 	                    "ScriptFile"        "lua_item/sheepstick.lua"
 	                    "Function"          "HideWearables"
 	                }
+	                "DelayedAction"
+		            {
+		            	"Delay" "%duration"
+		            	"Action"
+		            	{
+					        "RemoveModifier"
+					        {
+					        	"ModifierName"	"item_sheepstick_2_effect"
+					        	"Target"		"TARGET"
+					        }
+						}
+					}
 	            }
 
 	            "OnDestroy"
@@ -9760,5 +9822,105 @@
 				"duration"							"3.0"
 			}
 		}
+	}
+	//=================================================================================================================
+	// Recipe: Butterfly 5
+	//=================================================================================================================
+	"item_recipe_butterfly5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1263"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_tranquil_boots"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"8544"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_butterfly5"
+		"ItemRequirements"
+		{
+			"01"						"item_butterfly4;item_orb_bahamut"
+		}
+	}	
+	//=================================================================================================================
+	// Butterfly 5
+	//=================================================================================================================
+	"item_butterfly5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1264"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemCost"						"80000"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_butterfly5"
+		"Model"                         "models/props_gameplay/red_box.vmdl" 
+    	"Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+		"ItemShopTags"					"agi;damage;evasion;attack_speed"
+		"ItemQuality"					"epic"
+		"ItemAliases"					"bfly;butterfly"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_agility"			"8000"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"5000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_evasion"			"45"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attack_speed"	"300"
+			}
+		}
+		"Modifiers"
+	    {
+	        "item_butterfly_passive"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
+	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
+	            }
+	            
+	        }
+	        "modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+	    }
 	}
 }
