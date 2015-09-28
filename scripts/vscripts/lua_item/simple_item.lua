@@ -130,7 +130,14 @@ function Pierce(keys)
 end
 
 function CD_Bahamut(keys)
-    keys.ability:StartCooldown(33)
+    keys.ability:StartCooldown(40)
+end
+
+function CD_pure(keys)
+    local CD = keys.cooldown
+    if keys.ability:GetCooldownTimeRemaining() <=CD then
+        keys.ability:StartCooldown(CD)
+    end
 end
 
 function Midas_OnHit(keys)
@@ -139,10 +146,11 @@ function Midas_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
     local ID = 0
-
+    print (CHoldoutGameMode.midas_gold_on_round)
+    CHoldoutGameMode.midas_gold_on_round = CHoldoutGameMode.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if not unit:IsIllusion() then
+            if not unit:IsIllusion() and CHoldoutGameMode.midas_gold_on_round <= CHoldoutGameMode._nRoundNumber*100 then
                 local totalgold = unit:GetGold() + bonus_gold
                 unit:SetGold(0 , false)
                 unit:SetGold(totalgold, true)
@@ -172,10 +180,10 @@ function Midas2_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
-
+    CHoldoutGameMode.midas_gold_on_round = CHoldoutGameMode.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if not unit:IsIllusion() then
+            if not unit:IsIllusion() and CHoldoutGameMode.midas_gold_on_round <= CHoldoutGameMode._nRoundNumber*100 then
                 local totalgold = unit:GetGold() + bonus_gold
                 unit:SetGold(0 , false)
                 unit:SetGold(totalgold, true)

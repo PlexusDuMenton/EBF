@@ -91,6 +91,7 @@ function CHoldoutGameMode:InitGameMode()
 	self._check_dead = false
 	self._timetocheck = 0
 	self._freshstart = true
+	self.midas_gold_on_round = 0
 	Life = SpawnEntityFromTableSynchronous( "quest", { 
 		name = "Life", 
 		title = "#LIFETITLE" } )
@@ -404,6 +405,7 @@ function CHoldoutGameMode:OnThink()
 						PlayerResource:ResetBuybackCostTime( nPlayerID )
 					end
 				end
+				self.midas_gold_on_round = 0
 				self._nRoundNumber = self._nRoundNumber + 1
 				if self._nRoundNumber > #self._vRounds then
 					self._nRoundNumber = 1

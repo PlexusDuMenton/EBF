@@ -4204,7 +4204,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"6375"	
+		"ItemCost"						"6373"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -5611,16 +5611,11 @@
 				"ModifierName"			"immunityaoe"
 				"Target"				"CASTER"
 			}
-			"OnAttackLanded"
-				{
-					"RunScript"
-					{
-						"ScriptFile"			"lua_item/simple_item.lua"
-						"Function"				"CD_Bahamut"
-					}
-				}
-
-
+			"RunScript"
+			{
+				"ScriptFile"			"lua_item/simple_item.lua"
+				"Function"				"CD_Bahamut"
+			}
 		}
 
 
@@ -9716,6 +9711,12 @@
 				"Target"				"TARGET"
 				"ModifierName"		"item_sheepstick_2_effect"
 			}
+			"RunScript"
+			{
+				"ScriptFile"			"lua_item/simple_item.lua"
+				"Function"				"CD_pure"
+				"cooldown"				"40"
+			}
 		}
 		"Modifiers"
 		{
@@ -9887,7 +9888,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"45"
+				"bonus_evasion"			"50"
 			}
 			"04"
 			{

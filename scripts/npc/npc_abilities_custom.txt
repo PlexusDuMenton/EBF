@@ -197,15 +197,31 @@
 
 		// Modifiers
 		//-------------------------------------------------------------------------------------------------------------	
+		"Modifiers"
+		{	
+			"fire_aura_debuff"
+	        {
+	            "Duration"          "5"
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+	        }
+		}
 		"OnProjectileHitUnit"
 	    {
 	        "DeleteOnHit"                   "1"
 	        
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		        "Function" "test"
-		    }
+	        "ApplyModifier"
+	        {
+	            "Target"                    "TARGET"
+	            "ModifierName"              "fire_aura_debuff"
+	        }
 
 	        "Damage"
 			{
@@ -400,15 +416,31 @@
 
 		// Modifiers
 		//-------------------------------------------------------------------------------------------------------------	
+		"Modifiers"
+		{	
+			"fire_aura_debuff"
+	        {
+	            "Duration"          "5"
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+	        }
+		}
 		"OnProjectileHitUnit"
 	    {
 	        "DeleteOnHit"                   "1"
 	        
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		        "Function" "test"
-		    }
+	        "ApplyModifier"
+	        {
+	            "Target"                    "TARGET"
+	            "ModifierName"              "fire_aura_debuff"
+	        }
 
 	        "Damage"
 			{
@@ -601,15 +633,32 @@
 
 		// Modifiers
 		//-------------------------------------------------------------------------------------------------------------	
+		"Modifiers"
+		{	
+			"fire_aura_debuff"
+	        {
+	            "Duration"          "7.5"
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+	        }
+		}
 		"OnProjectileHitUnit"
 	    {
-	        "DeleteOnHit"                   "1"
+	        "DeleteOnHit"                   "0"
 	        
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		        "Function" "test"
-		    }
+	        "ApplyModifier"
+	        {
+	            "Target"                    "TARGET"
+	            "ModifierName"              "fire_aura_debuff"
+	        }
+
 
 	        "Damage"
 			{
@@ -6385,14 +6434,14 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
 		"MaxLevel"						"7"
-		"LevelsBetweenUpgrades"			"6"
+		"LevelsBetweenUpgrades"			"5"
 		"AbilityCastRange"				"700"
 		"AbilityCastPoint"				"0.3 0.3 0.3"
 		"AbilityCastAnimation"			"ACT_DOTA_CHANNEL_ABILITY_4"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"200.0 175.0 150.0 125.0 100.0 75.0 50.0"
+		"AbilityCooldown"				"150.0"
 		"AbilityTextureName"			"doom_devour"
 		"OnSpellStart"
 			{
