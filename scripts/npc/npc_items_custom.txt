@@ -3517,7 +3517,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"30"
+				"bonus_evasion"			"40"
 			}
 			"04"
 			{
@@ -4685,7 +4685,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"35"
+				"bonus_evasion"			"45"
 			}
 			"04"
 			{
@@ -4789,7 +4789,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"40"
+				"bonus_evasion"			"50"
 			}
 			"04"
 			{
@@ -9924,4 +9924,114 @@
 	        }
 	    }
 	}
+	//=================================================================================================================
+	// Recipe: Dagon
+	//=================================================================================================================
+	"item_recipe_Dagon_Mystic"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1265"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_tranquil_boots"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"23456"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_Dagon_Mystic"
+		"ItemRequirements"
+		{
+			"01"						"item_dagon_5;item_divine_ring"
+		}
+	}	
+	//=================================================================================================================
+	// Butterfly 5
+	//=================================================================================================================
+	"item_Dagon_Mystic"
+	{
+		// General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"                     "item_datadriven"
+    "ID"                            "1266" 
+    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+    "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+    "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
+    "Model"                         "models/props_gameplay/red_box.vmdl" 
+    "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+    "AbilityTextureName"            "item_dagon_mystic"
+    "FightRecapLevel"               "1"
+    
+    // Stats        
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastRange"              "1200"
+    "AbilityCastPoint"              "0.0"
+    "AbilityCooldown"               "30"
+    "AbilityManaCost"               "5000"
+
+    "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+    
+    // Item Info
+    //-------------------------------------------------------------------------------------------------------------
+    "ItemCost"                      "60000"
+    "ItemShopTags"                  "damage;int;str;agi;hard_to_tag"
+    "ItemQuality"                   "rare"  
+    "ItemAliases"                   "dagon"
+    "precache"
+		{
+			"particle"				"particles/dagon_mystic.vpcf"
+		}
+    
+    
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "bonus_intellect"       "6000"
+        }
+        "02"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "damage_base"                "1000"
+        }
+        "03"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "damage_per_int"                "20"
+        }
+        "04"
+        {
+            "var_type"              "FIELD_INTEGER"
+            "range_tooltip"         "1200"
+        }
+       
+    }
+    
+    "OnSpellStart"
+    {
+        "RunScript"
+        {
+        	"ScriptFile"			"lua_item/simple_item.lua"
+            "Function"          "item_dagon_datadriven_on_spell_start"
+        }
+    }
+    
+    "Modifiers"
+    {
+        "modifier_item_dagon_datadriven"
+        {
+            "Passive"           "1"
+            "IsHidden"          "1"
+            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+            
+            "Properties"
+            {
+                "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"       "%bonus_intellect"
+            }
+        }
+    }
 }

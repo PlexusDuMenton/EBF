@@ -5975,7 +5975,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_damage"				"300 1500 5000"
+				"bonus_damage"				"1500 5000 25000"
 			}
 			"02"
 			{
@@ -13703,8 +13703,8 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"5264"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_NO"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"5"
@@ -23242,7 +23242,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"creep_damage"				"600 1200 2400 4800 9600 20000 40000"
+				"creep_damage"				"300 600 1200 2400 4800 9600 20000"
 			}
 			"03"
 			{

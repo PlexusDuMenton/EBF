@@ -10795,17 +10795,6 @@
 			"XPGain"					"200"
 			
 			"DefaultState"				"Invade"
-
-			"DefensiveAbilities"
-			{
-				"Ability3"
-				{
-					"Name"				"boss_trueform_warlock"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
 			"DisableResistance"			"80.0"
 		}
 	}
@@ -10896,8 +10885,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -10926,7 +10915,7 @@
 				{
 					"Name"				"boss_meteor"
 					"AOE"                "1"
-       				"Radius"             "750"
+       				"Radius"             "3000"
 					"MinimumTargets" "5"
 				}
 			}
@@ -11034,27 +11023,6 @@
 			"XPGain"					"200"
 			
 			"DefaultState"				"Invade"
-			
-			"OffensiveAbilities"
-			{
-				"Ability1"
-				{
-					"Name"				"boss_invoke_golem_1_vh"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
-			"DefensiveAbilities"
-			{
-				"Ability3"
-				{
-					"Name"				"boss_trueform_warlock_h"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
 			"DisableResistance"			"90.0"
 		}
 	}
@@ -11145,8 +11113,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -11175,7 +11143,7 @@
 				{
 					"Name"				"boss_meteor"
 					"AOE"                "1"
-       				"Radius"             "2000"
+       				"Radius"             "3000"
 					"MinimumTargets" "1"
 				}
 			}
@@ -11283,36 +11251,6 @@
 			
 			"DefaultState"				"Invade"
 			
-			"OffensiveAbilities"
-			{
-				"Ability1"
-				{
-					"Name"				"boss_invoke_golem_1_vh"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
-			"EscapeAbilities"
-			{
-				"Ability2"
-				{
-					"Name"				"boss_invoke_golem_2_vh"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
-			"DefensiveAbilities"
-			{
-				"Ability3"
-				{
-					"Name"				"boss_trueform_warlock_vh"
-					"AOE"                "1"
-       				"Radius"             "2500"
-					"MinimumTargets"	"1"
-				}
-			}
 			"DisableResistance"			"99.0"
 		}
 	}
@@ -11403,8 +11341,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -11433,7 +11371,7 @@
 				{
 					"Name"				"boss_meteor"
 					"AOE"                "1"
-       				"Radius"             "2000"
+       				"Radius"             "5000"
 					"MinimumTargets" "1"
 				}
 			}
@@ -11496,7 +11434,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"5000000"		// Base health.
+		"StatusHealth"				"1000000"		// Base health.
 		"StatusHealthRegen"			"1000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -11526,8 +11464,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0"
+					"Support"			"0"
 				}
 			}
 
@@ -11648,8 +11586,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -11687,8 +11625,8 @@
 		"Ability2"					"boss_summon_eidolon"			// Ability 2.
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"ArmorPhysical"				"17"			// Physical protection.
+		"MagicalResistance"			"300"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -11722,7 +11660,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"25000000"		// Base health.
+		"StatusHealth"				"12500000"		// Base health.
 		"StatusHealthRegen"			"5000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -11752,8 +11690,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -11845,7 +11783,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"7500000"		// Base health.
+		"StatusHealth"				"1500000"		// Base health.
 		"StatusHealthRegen"			"1000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -11875,8 +11813,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -11896,14 +11834,14 @@
 			{
 				"Ability1"
 				{
-					"Name"				"boss_demoniac_cloud"
+					"Name"				"boss_demoniac_cloud_h"
 					"AOE"                "1"
        				"Radius"             "700"
 					"MinimumTargets" "1"
 				}
 				"Ability2"
 				{
-					"Name"				"boss_shadows_orb"
+					"Name"				"boss_shadows_orb_h"
 					"AOE"                "1"
        				"Radius"             "2000"
 					"MinimumTargets" "1"
@@ -11932,8 +11870,8 @@
 		"Ability2"					"boss_summon_eidolon"			// Ability 2.
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"ArmorPhysical"				"34"			// Physical protection.
+		"MagicalResistance"			"300"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -11967,7 +11905,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"37500000"		// Base health.
+		"StatusHealth"				"20000000"		// Base health.
 		"StatusHealthRegen"			"5000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -11997,8 +11935,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -12055,7 +11993,7 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"999999"			// Physical protection.
+		"ArmorPhysical"				""			// Physical protection.
 		"MagicalResistance"			"0"		// Magical protection.
 		
 		// Attack
@@ -12090,7 +12028,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"10000000"		// Base health.
+		"StatusHealth"				"2000000"		// Base health.
 		"StatusHealthRegen"			"1000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -12120,8 +12058,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 
@@ -12141,14 +12079,14 @@
 			{
 				"Ability1"
 				{
-					"Name"				"boss_demoniac_cloud"
+					"Name"				"boss_demoniac_cloud_vh"
 					"AOE"                "1"
        				"Radius"             "700"
 					"MinimumTargets" "1"
 				}
 				"Ability2"
 				{
-					"Name"				"boss_shadows_orb"
+					"Name"				"boss_shadows_orb_vh"
 					"AOE"                "1"
        				"Radius"             "2000"
 					"MinimumTargets" "1"
@@ -12177,8 +12115,8 @@
 		"Ability2"					"boss_summon_eidolon"			// Ability 2.
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"0"			// Physical protection.
-		"MagicalResistance"			"100"		// Magical protection.
+		"ArmorPhysical"				"50"			// Physical protection.
+		"MagicalResistance"			"300"		// Magical protection.
 		
 		// Attack
 		//----------------------------------------------------------------
@@ -12212,7 +12150,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"50000000"		// Base health.
+		"StatusHealth"				"25000000"		// Base health.
 		"StatusHealthRegen"			"5000"			// Health regeneration rate.
 		"StatusMana"				"500"			// Base mana.
 		"StatusManaRegen"			"50"			// Mana regeneration rate.		 
@@ -12242,8 +12180,8 @@
 				{
 					"Name"				"Invade"
 					"Aggression"		"100.0"
-					"Avoidance"			"50.0"
-					"Support"			"75.0"
+					"Avoidance"			"0.0"
+					"Support"			"0.0"
 				}
 			}
 

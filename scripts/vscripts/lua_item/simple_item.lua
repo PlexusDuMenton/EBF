@@ -4,6 +4,8 @@ if simple_item == nil then
     print ( '[simple_item] creating simple_item' )
     simple_item = {} -- Creates an array to let us beable to index simple_item when creating new functions
     simple_item.__index = simple_item
+    simple_item.midas_gold_on_round = 0
+    simple_item._round = 1
 end
 
 -- Clears the force attack target upon expiration
@@ -13,6 +15,11 @@ function BerserkersCallEnd( keys )
     target:SetForceAttackTarget(nil)
 end
 
+function simple_item:SetRoundNumer(round)
+    simple_item._round = round
+    simple_item.midas_gold_on_round = 0
+    print (simple_item._round)
+end
 function simple_item:new() -- Creates the new class
     print ( '[simple_item] simple_item:new' )
     o = o or {}
@@ -140,23 +147,49 @@ function CD_pure(keys)
     end
 end
 
+function item_dagon_datadriven_on_spell_start(keys)
+    local caster = keys.caster
+    local item = keys.ability
+    local int_multiplier = item:GetLevelSpecialValueFor("damage_per_int", 0) 
+    local damage = caster:GetIntellect() * int_multiplier + 1000
+    print (damage)
+    local dagon_particle = ParticleManager:CreateParticle("particles/dagon_mystic.vpcf",  PATTACH_ABSORIGIN_FOLLOW, keys.caster)
+    ParticleManager:SetParticleControlEnt(dagon_particle, 1, keys.target, PATTACH_POINT_FOLLOW, "attach_hitloc", keys.target:GetAbsOrigin(), false)
+    local particle_effect_intensity =  caster:GetIntellect() --Control Point 2 in Dagon's particle effect takes a number between 400 and 800, depending on its level.
+    ParticleManager:SetParticleControl(dagon_particle, 2, Vector(particle_effect_intensity))
+    
+    keys.caster:EmitSound("DOTA_Item.Dagon.Activate")
+    keys.target:EmitSound("DOTA_Item.Dagon5.Target")
+        
+    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,})
+end
+
+
 function Midas_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
     local ID = 0
-    print (CHoldoutGameMode.midas_gold_on_round)
-    CHoldoutGameMode.midas_gold_on_round = CHoldoutGameMode.midas_gold_on_round + bonus_gold
+    print (simple_item.midas_gold_on_round)
+    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if not unit:IsIllusion() and CHoldoutGameMode.midas_gold_on_round <= CHoldoutGameMode._nRoundNumber*100 then
-                local totalgold = unit:GetGold() + bonus_gold
-                unit:SetGold(0 , false)
-                unit:SetGold(totalgold, true)
+            if GetMapName() == "epic_boss_fight_impossible" then
+                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*250 then
+                    local totalgold = unit:GetGold() + bonus_gold
+                    unit:SetGold(0 , false)
+                    unit:SetGold(totalgold, true)
+                end
+            else
+                if not unit:IsIllusion() then
+                    local totalgold = unit:GetGold() + bonus_gold
+                    unit:SetGold(0 , false)
+                    unit:SetGold(totalgold, true)
+                    item:StartCooldown(0.25)
+                end
             end
         end
-        item:StartCooldown(0.25)
     end
 end
 
@@ -180,16 +213,24 @@ function Midas2_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
-    CHoldoutGameMode.midas_gold_on_round = CHoldoutGameMode.midas_gold_on_round + bonus_gold
+    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if not unit:IsIllusion() and CHoldoutGameMode.midas_gold_on_round <= CHoldoutGameMode._nRoundNumber*100 then
-                local totalgold = unit:GetGold() + bonus_gold
-                unit:SetGold(0 , false)
-                unit:SetGold(totalgold, true)
+            if GetMapName() == "epic_boss_fight_impossible" then
+                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*500 then
+                    local totalgold = unit:GetGold() + bonus_gold
+                    unit:SetGold(0 , false)
+                    unit:SetGold(totalgold, true)
+                end
+            else
+                if not unit:IsIllusion() then
+                    local totalgold = unit:GetGold() + bonus_gold
+                    unit:SetGold(0 , false)
+                    unit:SetGold(totalgold, true)
+                    item:StartCooldown(0.20)
+                end
             end
         end
-        item:StartCooldown(0.25)
     end
 end
 

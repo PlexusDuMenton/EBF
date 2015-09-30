@@ -20,13 +20,150 @@
 	        }
 	    }
 	}
+
+	"crystal_maiden_crystal_spear"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"            "crystal_maiden_crystal_spear"
+		"MaxLevel"  "7"
+	    "LevelsBetweenUpgrades" "5"
+		
+		"precache"
+		{
+			"particle"				"particles/crystal_maiden_projectil_spawner_work.vpcf"
+			"particle"				"particles/ice_spear.vpcf"
+		}
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1000"
+		"AbilityCastAnimation"			"ACT_DOTA_SPAWN"	// Activity
+		"AnimationPlaybackRate"			"0.8"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"30 28 26 24 22 20 17.5"
+		"AbilityCastPoint"				"0.5"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		        "Function" "projectile_crystal"
+		    }
+		}
+		"Modifiers"
+		{
+			"slow_effect_spear"
+			{
+				"duration" "5.0"
+				"Properties"
+	            {
+	                "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"  "%slow_percent"
+	            }
+			}
+		}
+
+
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnProjectileHitUnit"
+	    {
+	        "DeleteOnHit"                   "0"
+	        
+	        "ApplyModifier"
+	        {
+	            "Target"                    "TARGET"
+	            "ModifierName"              "slow_effect_spear"
+	        }
+
+	        "Damage"
+			{
+				"Type"			"DAMAGE_TYPE_MAGICAL"
+				"Damage"		"%damage"
+				"Target" "TARGET"
+			}
+	    }
+	    "AbilitySpecial"
+		{
+			"01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "damage"             "500 1000 2000 4000 8000 16000 32000"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+	        "02"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "delay"             "3.0 2.75 2.5 2.25 2.0 1.75 1.5"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+	        "03"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "source_count"             "1 1 2 2 3 3 4"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+	        "04"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "distance"             "500 600 700 800 900 1000 1200"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+	        "05"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "slow_percent"             "-10 -12 -14 -16 -18 -20 -25"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	"boss_demoniac_cloud"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -81,6 +218,18 @@
 					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
 				}
 	        }
+	        "Pure_Shield"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE" "1" 
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL" "1"
+				}
+	        }
 		}
 		"OnProjectileHitUnit"
 	    {
@@ -113,7 +262,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -212,6 +361,7 @@
 					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
 				}
 	        }
+
 		}
 		"OnProjectileHitUnit"
 	    {
@@ -245,7 +395,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -300,6 +450,18 @@
 					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
 				}
 	        }
+	        "Pure_Shield"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE" "1" 
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL" "1"
+				}
+	        }
 		}
 		"OnProjectileHitUnit"
 	    {
@@ -332,7 +494,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -463,7 +625,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -518,6 +680,18 @@
 					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
 				}
 	        }
+	        "Pure_Shield"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE" "1" 
+					"MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL" "1"
+				}
+	        }
 		}
 		"OnProjectileHitUnit"
 	    {
@@ -550,7 +724,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -682,7 +856,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
@@ -770,7 +944,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"

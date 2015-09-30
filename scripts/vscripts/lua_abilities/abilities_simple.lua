@@ -1,5 +1,7 @@
+
 require( "libraries/Timers" )
 require( "lua_abilities/Check_Aghanim" )
+
 
 if abilities_simple == nil then
     print ( '[abilities_simple] creating abilities_simple' )
@@ -70,6 +72,133 @@ function projectile_spear( keys )
         vAcceleration = caster:GetForwardVector() * 200
     }
     projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+end
+function projectile_crystal( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+    local projectile_count = 7 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
+    local number_of_source = ability:GetLevelSpecialValueFor("source_count", ability:GetLevel()-1)
+    local delay = ability:GetLevelSpecialValueFor("delay", ability:GetLevel()-1)
+    local distance = ability:GetLevelSpecialValueFor("distance", ability:GetLevel()-1)
+    local time_interval = 0.20
+    local speed = 600
+    local forward = caster:GetForwardVector()
+
+    local casterPoint = caster:GetAbsOrigin()
+    print (delay)
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/crystal_maiden_projectil_spawner_work.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 900 + (delay * 300),
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 6,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = forward * 300,
+    }
+        projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+    local info = {
+        Ability = ability,
+        EffectName = "particles/ice_spear.vpcf",
+        vSpawnOrigin = casterPoint + forward * 600,
+        fDistance = distance,
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 10,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = true,
+        vVelocity = forward * 600,
+    }
+
+    --Creates the projectiles in 360 degrees
+    if number_of_source == 1 or number_of_source > 2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                i = i+180
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    info.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile_1 = ProjectileManager:CreateLinearProjectile( info )
+                end)
+            end
+        end)
+    end
+    if number_of_source >=2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                if number_of_source == 3 then
+                    i = i - 30
+                end
+                i = i+90
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    info.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300 * delay + forward * 75
+                    info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile_2 = ProjectileManager:CreateLinearProjectile( info )
+                end)
+            end
+        end)
+    end
+    if number_of_source >=2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                i = i+270
+                if number_of_source == 3 then
+                    i = i + 30
+                end
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    info.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile_3 = ProjectileManager:CreateLinearProjectile( info )
+                end)
+            end
+        end)
+    end
+    if number_of_source == 4 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    info.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile_4 = ProjectileManager:CreateLinearProjectile( info )
+                end)
+            end
+        end)
+    end
 end
 function projectile_lol_orbs( keys )
     local ability = keys.ability

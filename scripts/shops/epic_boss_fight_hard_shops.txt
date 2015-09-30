@@ -91,7 +91,7 @@
 	"item" "item_gungnir"
 	"item" "item_tank_booster"
 	"item" "item_blood_booster"
-
+	"item" "item_Dagon_Mystic"
 	}
 	"magics"
 	{
