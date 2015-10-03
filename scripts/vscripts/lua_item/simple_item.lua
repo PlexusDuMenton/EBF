@@ -1,4 +1,5 @@
 require( "libraries/Timers" )
+require( "lua_abilities/Check_Aghanim" )
 
 if simple_item == nil then
     print ( '[simple_item] creating simple_item' )
@@ -87,24 +88,14 @@ function tank_booster(keys)
     local health_stacks = 0
     
     if caster:IsRealHero() then 
-        Timers:CreateTimer(0.3,function()
-            print ("test")
-            if caster.tank_booster == true then
-                local str = caster:GetStrength()
-                if str ~= health_stacks then
-                    health_stacks = caster:GetStrength()
-                    adjute_HP(keys)
-                    if caster:HasModifier( modifierName ) then
-                        caster:SetModifierStackCount("health_booster", caster, health_stacks)
-                    else
-                        item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
-                        caster:SetModifierStackCount( modifierName, caster, health_stacks)
-                    end
-                end  
-                return 0.2
-            else
-                caster:SetModifierStackCount("health_booster", caster, 0)
+        Timers:CreateTimer(0.5,function()
+            health_stacks = caster:GetStrength()
+            if caster:GetModifierStackCount( modifierName, ability ) ~= health_stacks and caster.tank_booster == true and item ~= nil then
+                item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
+                caster:SetModifierStackCount( modifierName, caster, health_stacks)
+                adjute_HP(keys)
             end
+            return 0.5
         end)
     end
 end
@@ -120,6 +111,40 @@ end
 function tank_booster_end(keys)
     local caster = keys.caster
     caster.tank_booster = false
+    caster:SetModifierStackCount("health_booster", caster, 0)
+    caster:RemoveModifierByName( "health_booster" )
+end
+
+function Berserker(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local item = keys.ability
+    caster.check = true
+    
+    Timers:CreateTimer(0.5,function()
+        if HasCustomItem(caster,item) then
+            local damage_total = item:GetLevelSpecialValueFor("health_percent_damage", item:GetLevel()-1) * caster:GetMaxHealth() * 0.01
+            if caster:GetModifierStackCount( "berserker_bonus_damage", ability ) ~= damage_total and caster.check == true and item ~= nil then
+                if caster:IsRealHero() then
+                    item:ApplyDataDrivenModifier(caster, caster, "berserker_bonus_damage", {})
+                    caster:SetModifierStackCount( "berserker_bonus_damage", item, damage_total )
+                end
+            end
+            return 0.5
+        end
+    end)
+end
+
+function Berserker_destroy(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local item = keys.ability
+    local health_reduction = item:GetLevelSpecialValueFor("health_percent_lose", item:GetLevel()-1) * caster:GetMaxHealth() * 0.01
+    caster.check = false
+    Timers:CreateTimer(0.1,function()
+        caster:SetModifierStackCount( "berserker_bonus_damage", item, 0 )
+        caster:RemoveModifierByName( "berserker_bonus_damage" )
+    end)
 end
 
 function Pierce(keys)
@@ -234,24 +259,19 @@ function Midas2_OnHit(keys)
     end
 end
 
-function Berserker(keys)
+
+
+function Berserker_damage(keys)
     local caster = keys.caster
     local target = keys.target
     local item = keys.ability
     local health_reduction = item:GetLevelSpecialValueFor("health_percent_lose", item:GetLevel()-1) * caster:GetMaxHealth() * 0.01
-    local damage_total = item:GetLevelSpecialValueFor("health_percent_damage", item:GetLevel()-1) * caster:GetMaxHealth() * 0.01
 
     if caster:IsRealHero() then
         caster:SetHealth(caster:GetHealth()-health_reduction)
         if caster:GetHealth() <=0 then
           caster:SetHealth(1)
         end
-        local damageTable = {victim = target,
-                        attacker = caster,
-                        damage = damage_total,
-                        damage_type = DAMAGE_TYPE_PHYSICAL,
-                        }
-        ApplyDamage(damageTable)
     end
 end
 

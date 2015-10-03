@@ -728,7 +728,7 @@ function CHoldoutGameMode:OnEntityKilled( event )
 				end
 			end
 		end	
-		if check_tombstone == true then
+		if check_tombstone == true and killedUnit.NoTombStone ~= true then
 			local newItem = CreateItem( "item_tombstone", killedUnit, killedUnit )
 			newItem:SetPurchaseTime( 0 )
 			newItem:SetPurchaser( killedUnit )

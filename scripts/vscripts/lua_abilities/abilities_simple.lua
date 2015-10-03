@@ -20,6 +20,44 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+function Crystal_aura(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+
+    Timers:CreateTimer(0.5,function()
+            if caster:IsAlive() then
+                local damage_total = ability:GetLevelSpecialValueFor("mana_percent_damage", ability:GetLevel()-1) * caster:GetMaxMana() * 0.01
+                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+                    if unit:IsAlive() then
+                        ability:ApplyDataDrivenModifier( caster, unit, "crystal_aura_indication", {} )
+                        if unit:GetModifierStackCount( "crystal_bonus_damage", ability ) ~= damage_total then
+                            if unit:IsRealHero() then
+                                ability:ApplyDataDrivenModifier(caster, unit, "crystal_bonus_damage", {})
+                                unit:SetModifierStackCount( "crystal_bonus_damage", ability, damage_total )
+                            end
+                        end
+                    end
+                end
+            end
+            return 0.5
+
+    end)
+end
+
+function Crystal_aura_death(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+                    Timers:CreateTimer(0.1,function()
+                        unit:SetModifierStackCount( "crystal_bonus_damage", ability, 0 )
+                        unit:RemoveModifierByName( "crystal_bonus_damage" )
+                        unit:RemoveModifierByName( "crystal_aura_indication" )
+                    end)
+    end
+end
+
 function projectile_cloud( keys )
     local ability = keys.ability
     local caster = keys.caster
@@ -339,7 +377,65 @@ function projectile_dark_orbs( event )
     end)
 end
 
+function projectile_death_orbs( event )
+    local caster = event.caster
+    local ability = event.ability
+    local origin = caster:GetAbsOrigin()
+    local projectile_count = 6 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
+    local speed = 700
+    local time_interval = 0.05 -- Time between each launch
 
+    local info = {
+        EffectName =  "particles/econ/items/necrolyte/necrophos_sullen/necro_sullen_pulse_friend_head.vpcf",
+        Ability = ability,
+        vSpawnOrigin = origin,
+        fDistance = 1250,
+        fStartRadius = 75,
+        fEndRadius = 75,
+        Source = caster,
+        bHasFrontalCone = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        --fMaxSpeed = 5200,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        fExpireTime = GameRules:GetGameTime() + 7,
+        vVelocity = 0.0, --vVelocity = caster:GetForwardVector() * 1800,
+        iMoveSpeed = speed,
+    }
+
+    origin.z = 0
+    info.vVelocity = origin:Normalized() * speed
+
+    --Creates the projectiles in 1440 degrees
+    local projectiles_launched = 0
+    local projectiles_to_launch = 10
+    Timers:CreateTimer(0.5,function()
+        projectiles_launched = projectiles_launched + 1
+        for angle=-90,90,(180/projectile_count) do
+            for i=0,projectile_count,1 do
+                angle = (projectiles_launched-1)*2 + angle
+                info.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,angle,0), caster:GetForwardVector()) * speed
+                projectile = ProjectileManager:CreateLinearProjectile( info )
+            end
+        end
+        if projectiles_launched <= projectiles_to_launch then return 0.5 end
+    end)
+end
+function projectile_death_orbs_hit( event )
+    local target = event.target
+    if target:GetHealth() <= target:GetMaxHealth()/10 then 
+        target.NoTombStone = true
+        target:ForceKill(True)
+        Timers:CreateTimer(10.0,function()
+            target.NoTombStone = false
+        end)
+    else 
+        target:SetHealth(target:GetMaxHealth()*0.08)
+    end
+    
+end
 
 
 
@@ -357,7 +453,7 @@ function sacrifice(keys)
     local caster = keys.caster
 
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if not unit:IsAlive() and HasCustomScepter(caster) then
+        if not unit:IsAlive() and HasCustomScepter(caster) == true then
             unit:RespawnUnit()
         end
         if unit:IsAlive() then
@@ -385,7 +481,7 @@ function End_Control( keys )
     target:SetControllableByPlayer( -1, false)
     local hp_percent = keys.ability:GetLevelSpecialValueFor( "hp_regen" , keys.ability:GetLevel() - 1 ) * 0.01
     local regen_health = target:GetMaxHealth()*hp_percent
-    if HasCustomScepter(caster) then
+    if HasCustomScepter(caster) == true then
         if target:GetLevel() <= level then
                 target:ForceKill(true)
         else
@@ -470,7 +566,7 @@ function heat_seeking_missile_seek_targets( keys )
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
     local units = FindUnitsInRadius(
         caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
-    if HasCustomScepter(caster) then
+    if HasCustomScepter(caster) == true then
         units = FindUnitsInRadius(
         caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 3000, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
         max_targets = max_targets*2
@@ -515,7 +611,7 @@ function heat_seeking_missile_seek_damage( keys )
         damage = damage,
         damage_type = DAMAGE_TYPE_MAGICAL
     }
-    if HasCustomScepter(caster) then
+    if HasCustomScepter(caster) == true then
         local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
             damageTable = {
             victim = target,
@@ -1003,7 +1099,7 @@ function mystic_flare_start( keys )
                                 damage = damage_per_hero,
                                 damage_type = DAMAGE_TYPE_MAGICAL
                             }
-                    if HasCustomScepter(caster) then
+                    if HasCustomScepter(caster) == true then
                         damageTable = {
                         victim = v,
                         attacker = caster,
