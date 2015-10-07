@@ -8,13 +8,13 @@ end
 require( "libraries/Timers" )
 require("internal/util")
 function CHoldoutGameRound:OnPlayerDisconnected( event )
-	print('Player Disconnected ' .. tostring(keys.userid))
-  	local player = keys.userid
+	print('Player Disconnected ' .. tostring(event.userid))
+  	local player = event.userid
 	player.disconnected=true
 	self._DisconnectedPlayer = self._DisconnectedPlayer + 1
 	Timers:CreateTimer(60,function()
 		if player.disconnected == true then
-			print('Player ' .. tostring(keys.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
+			print('Player ' .. tostring(event.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
 			for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
 				local totalgold = unit:GetGold() + (self._nRoundNumber^1.3)*100
 			    unit:SetGold(0 , false)
@@ -30,8 +30,8 @@ function CHoldoutGameRound:OnPlayerDisconnected( event )
 	end)
 end
 function CHoldoutGameRound:OnPlayerReconnected( event )
-	print('Player Reconnected ' .. tostring(keys.userid))
-	local player = keys.userid
+	print('Player Reconnected ' .. tostring(event.userid))
+	local player = event.userid
 	player.disconnected=false
 	self._DisconnectedPlayer = self._DisconnectedPlayer - 1
 end
@@ -193,7 +193,7 @@ function CHoldoutGameRound:OnNPCSpawned( event )
 		table.insert( self._vEnemiesRemaining, spawnedUnit )
 		local ability = spawnedUnit:FindAbilityByName("true_sight_boss")
 		if not ability ~= nil then
-			if GetMapName() == "epic_boss_fight_impossible" then spawnedUnit:AddAbility('true_sight_boss') end
+			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then spawnedUnit:AddAbility('true_sight_boss') end
 		end
 		spawnedUnit:SetDeathXP( 0 )
 		spawnedUnit.unitName = spawnedUnit:GetUnitName()

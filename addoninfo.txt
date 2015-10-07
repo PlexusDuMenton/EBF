@@ -1,6 +1,6 @@
 "AddonInfo"
 {
-	maps			"epic_boss_fight_normal epic_boss_fight_hard epic_boss_fight_impossible"
+	maps			"epic_boss_fight_normal epic_boss_fight_hard epic_boss_fight_impossible epic_boss_fight_challenger"
 	"IsPlayable"	"1"
 	"epic_boss_fight_normal"
 	{
@@ -11,6 +11,10 @@
 					"MaxPlayers"                    "7"
 	}
 	"epic_boss_fight_impossible"
+	{
+					"MaxPlayers"                    "7"
+	}
+	"epic_boss_fight_challenger"
 	{
 					"MaxPlayers"                    "7"
 	}

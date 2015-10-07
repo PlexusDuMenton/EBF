@@ -58,8 +58,7 @@ function meteor_on_spell_start(keys)
             --Store the damage to deal in a variable attached to the dummy unit, so leveling Exort after Meteor is cast will have no effect.
             chaos_meteor_dummy_unit.invoker_chaos_meteor_parent_caster = keys.caster
         
-            local chaos_meteor_duration = travel_distance / keys.TravelSpeed
-            local chaos_meteor_velocity_per_frame = velocity_per_second * .03
+            local chaos_meteor_duration = 0.1
             
             --It would seem that the Chaos Meteor projectile needs to be attached to a particle in order to move and roll and such.
             local projectile_information =  
@@ -82,12 +81,11 @@ function meteor_on_spell_start(keys)
                 iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_NONE,
                 iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
                 iUnitTargetType = DOTA_UNIT_TARGET_NONE ,
-                fExpireTime = GameRules:GetGameTime() + chaos_meteor_duration + keys.EndVisionDuration,
+                fExpireTime = GameRules:GetGameTime() + chaos_meteor_duration,
             }
             local endTime = GameRules:GetGameTime() + chaos_meteor_duration
             Timers:CreateTimer({
                 callback = function()
-                    chaos_meteor_dummy_unit:SetAbsOrigin(chaos_meteor_dummy_unit:GetAbsOrigin() + chaos_meteor_velocity_per_frame)
                     if GameRules:GetGameTime() > endTime then
                         --Stop the sound, particle, and damage when the meteor disappears.
                         chaos_meteor_dummy_unit:StopSound("Hero_Invoker.ChaosMeteor.Loop")
@@ -97,16 +95,12 @@ function meteor_on_spell_start(keys)
                         Timers:CreateTimer({
                             endTime = keys.EndVisionDuration,
                             callback = function()
+                                print ("this must work now, i hope")
                                 chaos_meteor_dummy_unit:SetDayTimeVisionRange(0)
                                 chaos_meteor_dummy_unit:SetNightTimeVisionRange(0)
                                 
                                 --Remove the dummy unit after the burn damage modifiers are guaranteed to have all expired.
-                                Timers:CreateTimer({
-                                    endTime = keys.BurnDuration,
-                                    callback = function()
-                                        chaos_meteor_dummy_unit:RemoveSelf()
-                                    end
-                                })
+
                             end
                         })
                         return 
@@ -126,14 +120,16 @@ function money_and_exp_gain(keys)
         message = "This is some test message, if it fire and game don't end , message me about this , else, well don't take care of this",
         duration = 5
         }
+    print (CHoldoutGameMode._currentRound)
     if CHoldoutGameMode._currentRound ~= nil then
+        print ("peperonie")
         CHoldoutGameMode._currentRound:End()
         CHoldoutGameMode._currentRound = nil
         FireGameEvent("show_center_message",messageinfo)   
     end
     CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + 20
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
-        if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+        if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS and unit:GetName ~= "npc_dota_boss32_trueform_vh" then
             unit:ForceKill(true)
         end
     end
@@ -143,7 +139,7 @@ function money_and_exp_gain(keys)
     CHoldoutGameMode:_RefreshPlayers()
     local caster = keys.caster
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if GetMapName() == "epic_boss_fight_impossible" then
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
             unit:AddExperience (200000,false,false)
         else
             unit:AddExperience (400000,false,false)
@@ -152,16 +148,17 @@ function money_and_exp_gain(keys)
     local gold = 0
     local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
     local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
-    if GetMapName() == "epic_boss_fight_impossible" then
-            gold = 40000 * GoldMultiplier
-        else
-            gold = 80000 * GoldMultiplier
-        end
-    
-    local newItem = CreateItem( "item_bag_of_gold", nil, nil )
-    newItem:SetPurchaseTime( 0 )
-    newItem:SetCurrentCharges( gold )
-    local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
-    local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
-    newItem:LaunchLoot( true, 300, 0.75, dropTarget )
-ends
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+        gold = 4000 * GoldMultiplier
+    else
+        gold = 8000 * GoldMultiplier
+    end
+    for i=0,10,1 do
+        local newItem = CreateItem( "item_bag_of_gold", nil, nil )
+        newItem:SetPurchaseTime( 0 )
+        newItem:SetCurrentCharges( gold )
+        local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
+        local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
+        newItem:LaunchLoot( true, 300, 0.75, dropTarget )
+    end
+end

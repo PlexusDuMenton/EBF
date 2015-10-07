@@ -33,7 +33,7 @@ function simple_item:start() -- Runs whenever the simple_item.lua is ran
 end
 function Cooldown_powder(keys)
     local item = keys.ability
-    if GetMapName() == "epic_boss_fight_impossible" then
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
         item:StartCooldown(60)
     end
     if GetMapName() == "epic_boss_fight_hard" then
@@ -189,19 +189,67 @@ function item_dagon_datadriven_on_spell_start(keys)
     ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,})
 end
 
+function ShowPopup( data )
+    if not data then return end
+
+    local target = data.Target or nil
+    if not target then error( "ShowNumber without target" ) end
+    local number = tonumber( data.Number or nil )
+    local pfx = data.Type or "miss"
+    local player = data.Player or nil
+    local color = data.Color or Vector( 255, 255, 255 )
+    local duration = tonumber( data.Duration or 1 )
+    local presymbol = tonumber( data.PreSymbol or nil )
+    local postsymbol = tonumber( data.PostSymbol or nil )
+
+    local path = "particles/msg_fx/msg_" .. pfx .. ".vpcf"
+    local particle = ParticleManager:CreateParticle(path, PATTACH_OVERHEAD_FOLLOW, target)
+    if player ~= nil then
+        local particle = ParticleManager:CreateParticleForPlayer( path, PATTACH_OVERHEAD_FOLLOW, target, player)
+    end
+
+    local digits = 0
+    if number ~= nil then digits = #tostring( number ) end
+    if presymbol ~= nil then digits = digits + 1 end
+    if postsymbol ~= nil then digits = digits + 1 end
+
+    ParticleManager:SetParticleControl( particle, 1, Vector( presymbol, number, postsymbol ) )
+    ParticleManager:SetParticleControl( particle, 2, Vector( duration, digits, 0 ) )
+    ParticleManager:SetParticleControl( particle, 3, color )
+end
+
 
 function Midas_OnHit(keys)
     local caster = keys.caster
     local item = keys.ability
+    local player = PlayerResource:GetPlayer( caster:GetPlayerID() )
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
     local ID = 0
-    print (simple_item.midas_gold_on_round)
     simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if GetMapName() == "epic_boss_fight_impossible" then
-                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*250 then
+            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*150 then
+
+                    local left_gold = (simple_item._round*150) - simple_item.midas_gold_on_round
+                    if caster.show_popup ~= true then
+                        caster.show_popup = true
+                        ShowPopup( {
+                        Target = keys.caster,
+                        PreSymbol = 8,
+                        PostSymbol = 2,
+                        Color = Vector( 255, 200, 33 ),
+                        Duration = 0.5,
+                        Number = left_gold,
+                        pfx = "gold",
+                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
+                        } )
+                        Timers:CreateTimer(3.0,function()
+                            caster.show_popup = false
+                        end)
+                    end
+
                     local totalgold = unit:GetGold() + bonus_gold
                     unit:SetGold(0 , false)
                     unit:SetGold(totalgold, true)
@@ -233,16 +281,37 @@ function check_admin(keys)
 end
 
 function Midas2_OnHit(keys)
+    local target = keys.target
     local caster = keys.caster
     local item = keys.ability
+    local player = PlayerResource:GetPlayer( caster:GetPlayerID() )
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
     simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if GetMapName() == "epic_boss_fight_impossible" then
-                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*500 then
+            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*300 then
+
+                    local left_gold = (simple_item._round*300) - simple_item.midas_gold_on_round
+                    if caster.show_popup ~= true then
+                        caster.show_popup = true
+                        ShowPopup( {
+                        Target = keys.caster,
+                        PreSymbol = 8,
+                        PostSymbol = 2,
+                        Color = Vector( 255, 200, 33 ),
+                        Duration = 0.5,
+                        Number = left_gold,
+                        pfx = "gold",
+                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
+                        } )
+                        Timers:CreateTimer(3.0,function()
+                            caster.show_popup = false
+                        end)
+                    end
+
                     local totalgold = unit:GetGold() + bonus_gold
                     unit:SetGold(0 , false)
                     unit:SetGold(totalgold, true)

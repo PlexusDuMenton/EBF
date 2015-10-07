@@ -63,19 +63,25 @@ function OnHeroPick (event)
 	if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
 		print ("look like maker of map is here :D")
 		message_creator = true
-	end
+	end 
 	if PlayerResource:GetSteamAccountID( ID ) == 86736807 then
 		print ("look like a chalenger is here :D")
 		message_chalenger = true
 		self.chalenger = hero
 		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.25 ) 
 	end
+	if PlayerResource:GetSteamAccountID( ID ) == 25195578 then --http://steamcommunity.com/id/Froggera/
+		print ("look like a naughty guy is here :D")
+		message_chalenger = true
+		self.chalenger = hero
+		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.1 ) 
+	end
 end
 
-function CHoldoutGameMode:stolen_game()
+function CHoldoutGameMode:Chalenger()
 	local hero = self.chalenger
-	if hero:GetMaxHealth() >= 2 then hero:SetMaxHealth (1) end
 	if hero:GetHealth() >= 2  then hero:SetHealth (1) end
+	return 0.1
 end
 
 
@@ -107,6 +113,10 @@ function CHoldoutGameMode:InitGameMode()
 	if GetMapName() == "epic_boss_fight_impossible" then Life._life = 6 
 		GameRules:SetHeroSelectionTime( 30.0 )
 		Life._MaxLife = 6
+	end
+	if GetMapName() == "epic_boss_fight_challenger" then Life._life = 1 
+		GameRules:SetHeroSelectionTime( 30.0 )
+		Life._MaxLife = 1
 	end
 	LifeBar = SpawnEntityFromTableSynchronous( "subquest_base", { 
            show_progress_bar = true, 
@@ -340,7 +350,11 @@ end
 function CHoldoutGameMode:OnGameRulesStateChange()
 	local nNewState = GameRules:State_Get()
 	if nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
-		ShowGenericPopup( "#holdout_instructions_title", "#holdout_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+		if GetMapName() ~= "epic_boss_fight_challenger" then
+			ShowGenericPopup( "#holdout_instructions_title", "#holdout_instructions_body", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+		else
+			ShowGenericPopup( "#holdout_instructions_title_challenger", "#holdout_instructions_body_challenger", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
+		end
 	elseif nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
 	end
@@ -728,14 +742,16 @@ function CHoldoutGameMode:OnEntityKilled( event )
 				end
 			end
 		end	
-		if check_tombstone == true and killedUnit.NoTombStone ~= true then
-			local newItem = CreateItem( "item_tombstone", killedUnit, killedUnit )
-			newItem:SetPurchaseTime( 0 )
-			newItem:SetPurchaser( killedUnit )
-			local tombstone = SpawnEntityFromTableSynchronous( "dota_item_tombstone_drop", {} )
-			tombstone:SetContainedItem( newItem )
-			tombstone:SetAngles( 0, RandomFloat( 0, 360 ), 0 )
-			FindClearSpaceForUnit( tombstone, killedUnit:GetAbsOrigin(), true )	
+		if GetMapName() ~= "epic_boss_fight_challenger" then
+			if check_tombstone == true and killedUnit.NoTombStone ~= true then
+				local newItem = CreateItem( "item_tombstone", killedUnit, killedUnit )
+				newItem:SetPurchaseTime( 0 )
+				newItem:SetPurchaser( killedUnit )
+				local tombstone = SpawnEntityFromTableSynchronous( "dota_item_tombstone_drop", {} )
+				tombstone:SetContainedItem( newItem )
+				tombstone:SetAngles( 0, RandomFloat( 0, 360 ), 0 )
+				FindClearSpaceForUnit( tombstone, killedUnit:GetAbsOrigin(), true )	
+			end
 		end
 	end
 end

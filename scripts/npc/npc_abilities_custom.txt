@@ -20,6 +20,361 @@
 	        }
 	    }
 	}
+	"Blood_Seeker_Blood_Smell"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"Blood_Seeker_Blood_Smell"
+		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"5"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "percent"                "0.5 1.0 1.5 2.0 3.5 4.25 5.0"
+	        }
+	    }
+
+	    "Modifiers"
+	    {
+	    	"blood_passive"
+	    	{
+	    		"IsHidden"	 "1"
+				"Passive"	 "1"
+				"OnAttackLanded"
+				{
+   					"RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				        "Function" "Blood_Seeker_Blood_Smell"
+				    }
+				}
+			}
+	    }
+	}
+
+	"juggernaut_blade_dance_ebf"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"juggernaut_blade_dance"
+		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"5"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "critical_bonus"                "200 250 300 350 400 500 600"
+	        }
+	        "02"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "critical_chance"                "5 10 15 20 25 30 35"
+	        }
+	    }
+
+	    "Modifiers"
+	    {
+	    	"jugger_crit_passive"
+	    	{
+	    		"IsHidden"	 "1"
+				"Passive"	 "1"
+				"OnAttackStart"
+				{
+					"Random"
+					{
+   						"Chance" "%critical_chance"
+   						"PseudoRandom" "DOTA_PSEUDO_RANDOM_JUGG_CRIT"
+   						"OnSuccess"
+   						{
+   							"ApplyModifier"
+							{
+								"ModifierName" 	"critical_strike_2"
+								"Target" 		"CASTER"
+							}
+   						}
+   						"OnFailure"
+   						{}
+					}
+				}
+				"OnAttackLanded"
+				{
+   					"RemoveModifier"
+					{
+						"ModifierName" 	"critical_strike_2"
+						"Target" 		"CASTER"
+					}
+				}
+			}
+			"critical_strike_2"
+			{
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" 	"%critical_bonus"
+				}
+			}
+	    }
+	}
+
+	"viper_nethertoxin_ebf"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName"			"viper_nethertoxin"
+		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"5"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "percent"                "0.5 1.0 1.5 2.0 3.5 4.25 5.0"
+	        }
+	    }
+
+	    "Modifiers"
+	    {
+	    	"nethertoxin_passive"
+	    	{
+	    		"IsHidden"	 "1"
+				"Passive"	 "1"
+				"OnAttackLanded"
+				{
+   					"RunScript"
+				    {
+				        "ScriptFile" "lua_abilities/abilities_simple.lua"
+				        "Function" "viper_nethertoxin"
+				    }
+				}
+			}
+	    }
+	}
+
+	"boss_death_orb"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"            "death_orb"
+		
+		"precache"
+		{
+			"particle"				"particles/death_spear.vpcf"
+		}
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1000"
+		"AbilityCastAnimation"			"ACT_DOTA_SPAWN"	// Activity
+		"AnimationPlaybackRate"			"0.8"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"60"
+		"AbilityCastPoint"				"0.5"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0 0 0 0"
+
+		
+		"OnAbilityPhaseStart"
+		{
+			"CreateThinker"
+			{
+				"ModifierName"	"target_telegraph_fx"
+				"Target"		"CASTER"
+			}
+		}
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"	"stun_skill"
+				"Target"	"CASTER"
+			}
+			"RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		        "Function" "projectile_death_orbs"
+		    }
+		}
+		"Modifiers"
+		{
+			"stun_skill"
+			{
+				"duration" "5.0"
+				"States"
+				{	
+					"MODIFIER_STATE_STUNNED"  "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"target_telegraph_fx"
+			{
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/econ/generic/generic_aoe_shockwave_1/generic_aoe_shockwave_1.vpcf"
+						"EffectAttachType"	"follow_origin"
+						"Target"			"CASTER"
+						"ControlPoints"
+						{
+							"00" "0 0 0"
+							"01" "500 0 0"
+							"02" "6 0 1" // telegraph
+							"03" "200 0 0"
+							"04" "0 0 0"
+						}
+					}
+				}
+			}
+		}
+
+
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnProjectileHitUnit"
+	    {
+	        "DeleteOnHit"                   "1"
+
+	        "RunScript"
+		    {
+		        "ScriptFile" "lua_abilities/abilities_simple.lua"
+		        "Function" "projectile_death_orbs_hit"
+		    }
+	    }
+	}
+
+
+	"boss_death_time"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "death_timer"
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.5"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "20.0"
+
+	    // Damage.
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "0"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"          "FIELD_INTEGER"
+	            "radius" "2000"       
+	        }
+	    }
+
+	    "precache"
+	    {
+	        "particle"  "particles/generic_aoe_persistent_circle_1/death_timer_glow_rev.vpcf"
+	    }
+
+	    		
+	    "OnSpellStart"
+	    {
+	    	"CreateThinker"
+			{
+				"ModifierName"	"target_telegraph_fx"
+				"Target"		"CASTER"
+			}
+	    	"RunScript"
+	    	{
+	    		"ScriptFile"    "lua_abilities/abilities_simple.lua"
+	            "Function"      "boss_death_time"
+	    	}
+	    }
+	    "Modifiers"
+		{
+			"target_telegraph_fx"
+			{
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/econ/generic/generic_aoe_shockwave_1/generic_aoe_shockwave_1.vpcf"
+						"EffectAttachType"	"follow_origin"
+						"Target"			"CASTER"
+						"ControlPoints"
+						{
+							"00" "0 0 0"
+							"01" "%radius+300 0 0"
+							"02" "6 0 1" // telegraph
+							"03" "175 250 75"
+							"04" "0 0 0"
+						}
+					}
+				}
+			}
+		}
+	}
+
+	"boss_blink_on_far"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "death_blink"
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.1"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "15.0"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "0"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    		
+	    "OnSpellStart"
+	    {
+	    	"RunScript"
+	    	{
+	    		"ScriptFile"    "lua_abilities/abilities_simple.lua"
+	            "Function"      "boss_blink_on_far"
+	    	}
+	    }
+	}
 
 	"crystal_maiden_frozen_aura"
 	{
@@ -190,107 +545,7 @@
 		}
 	}
 
-	"boss_shadows_orb"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
-		"AbilityTextureName"            "shadows_orb"
-		
-		"precache"
-		{
-			"particle"				"particles/boss/boss_shadows_orb.vpcf"
-		}
-		
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"1000"
-		"AbilityCastAnimation"			"ACT_DOTA_SPAWN"	// Activity
-		"AnimationPlaybackRate"			"0.8"						// Animation speed multiplier
-		"AnimationIgnoresModelScale"	"1"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"60"
-		"AbilityCastPoint"				"3.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0 0 0 0"
-
-		
-		"OnAbilityPhaseStart"
-		{
-			"CreateThinker"
-			{
-				"ModifierName"	"target_telegraph_fx"
-				"Target"		"CASTER"
-			}
-		}
-		"OnSpellStart"
-		{
-			"ApplyModifier"
-			{
-				"ModifierName"	"stun_skill"
-				"Target"	"CASTER"
-			}
-			"RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		        "Function" "projectile_death_orbs"
-		    }
-		}
-		"Modifiers"
-		{
-			"stun_skill"
-			{
-				"duration" "5.0"
-				"States"
-				{	
-					"MODIFIER_STATE_STUNNED"  "MODIFIER_STATE_VALUE_ENABLED"
-				}
-			}
-			"target_telegraph_fx"
-			{
-				"OnCreated"
-				{
-					"AttachEffect"
-					{
-						"EffectName"		"particles/econ/generic/generic_aoe_shockwave_1/generic_aoe_shockwave_1.vpcf"
-						"EffectAttachType"	"follow_origin"
-						"Target"			"CASTER"
-						"ControlPoints"
-						{
-							"00" "0 0 0"
-							"01" "500 0 0"
-							"02" "6 0 1" // telegraph
-							"03" "200 0 0"
-							"04" "0 0 0"
-						}
-					}
-				}
-			}
-		}
-
-
-		// Modifiers
-		//-------------------------------------------------------------------------------------------------------------	
-		"OnProjectileHitUnit"
-	    {
-	        "DeleteOnHit"                   "1"
-
-	        "RunScript"
-		    {
-		        "ScriptFile" "lua_abilities/abilities_simple.lua"
-		        "Function" "projectile_death_orbs_hit"
-		    }
-	    }
-	}
-
+	
 
 
 
@@ -2396,7 +2651,7 @@
 
 	    // Stats        
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "12"
+	    "AbilityCooldown"               "20"
 	    "AbilityCastPoint"              "0"
 
 	    // Cost
@@ -2538,7 +2793,7 @@
 
 	    // Stats        
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "12"
+	    "AbilityCooldown"               "20"
 	    "AbilityCastPoint"              "0"
 
 	    // Cost
@@ -2680,7 +2935,7 @@
 
 	    // Stats        
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "12"
+	    "AbilityCooldown"               "20"
 	    "AbilityCastPoint"              "0"
 
 	    // Cost
@@ -6301,7 +6556,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"health_per_unit"		"40 80 160 320 640 1280 2560"
+				"health_per_unit"		"320 640 1280 2560 5000 10000 20000"
 			}
 			"02"
 			{
@@ -7327,7 +7582,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"		"3 3.5 4 4.5 5 6 7"
+				"duration"		"4 5 6 7 8 9 10"
 			}
 			"02"
 			{
@@ -7341,12 +7596,14 @@
 			}
 		}
 		"Modifiers"
-		{
+		{	
 			"Disabled_silence"
 			{
-				"states"
+				"duration"	"99999"
+				"States"
 				{
-					"MODIFIER_STATE_SILENCED"       "MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_SILENCED"       		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_SPECIALLY_DENIABLE"       "MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -7401,7 +7658,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_self"		"250 500 1000 2000 4000 6000 8000"
+				"bonus_mana_self"		"250 500 1000 2000 4000 8000 12000"
 			}
 			"02"
 			{

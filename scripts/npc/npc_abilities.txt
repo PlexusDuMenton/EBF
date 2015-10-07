@@ -1766,12 +1766,12 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"damage_bonus"				"50 150 250 400 1200 3000 8000"
+				"damage_bonus"				"50 150 250 400 1200 3000 5000"
 			}
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"cleave_damage"				"100 110 120 130 140 150 175 200"
+				"cleave_damage"				"100 105 110 115 120 125 130"
 			}
 		}
 	}
@@ -2377,7 +2377,7 @@
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"damage_scepter"			"8000 16000 32000 50000 100000 200000 40000"
+				"damage_scepter"			"8000 16000 32000 50000 100000 200000 400000"
 			} 
 			"03"
 			{
@@ -25922,8 +25922,8 @@
 		"ID"							"5567"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"LevelsBetweenUpgrades"			"5"
-		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"9"
+		"MaxLevel"						"4"
 		
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -25954,12 +25954,12 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"move_slow"					"10 15 20 25 30 35 40"
+				"move_slow"					"10 20 30 40"
 			}
 			"04"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"attack_slow"				"10 20 30 40 50 60 75"
+				"attack_slow"				"10 30 50 70"
 			}
 
 		}
@@ -28220,7 +28220,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"40"
+		"AbilityCooldown"				"41"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------

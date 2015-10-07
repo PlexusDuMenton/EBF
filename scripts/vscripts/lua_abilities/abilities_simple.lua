@@ -58,6 +58,99 @@ function Crystal_aura_death(keys)
     end
 end
 
+function ShowPopup( data )
+    if not data then return end
+
+    local target = data.Target or nil
+    if not target then error( "ShowNumber without target" ) end
+    local number = tonumber( data.Number or nil )
+    local pfx = data.Type or "miss"
+    local player = data.Player or nil
+    local color = data.Color or Vector( 255, 255, 255 )
+    local duration = tonumber( data.Duration or 1 )
+    local presymbol = tonumber( data.PreSymbol or nil )
+    local postsymbol = tonumber( data.PostSymbol or nil )
+
+    local path = "particles/msg_fx/msg_" .. pfx .. ".vpcf"
+    local particle = ParticleManager:CreateParticle(path, PATTACH_OVERHEAD_FOLLOW, target)
+    if player ~= nil then
+        local particle = ParticleManager:CreateParticleForPlayer( path, PATTACH_OVERHEAD_FOLLOW, target, player)
+    end
+
+    local digits = 0
+    if number ~= nil then digits = #tostring( number ) end
+    if presymbol ~= nil then digits = digits + 1 end
+    if postsymbol ~= nil then digits = digits + 1 end
+
+    ParticleManager:SetParticleControl( particle, 1, Vector( presymbol, number, postsymbol ) )
+    ParticleManager:SetParticleControl( particle, 2, Vector( duration, digits, 0 ) )
+    ParticleManager:SetParticleControl( particle, 3, color )
+end
+
+function viper_nethertoxin(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+    local missing_health = target:GetMaxHealth() - target:GetHealth()
+    local damage = math.floor(ability:GetLevelSpecialValueFor("percent", ability:GetLevel()-1) * missing_health * 0.01) + 1
+    local damageTable = {
+        victim = target,
+        attacker = caster,
+        damage = damage,
+        damage_type = DAMAGE_TYPE_MAGICAL
+    }
+
+    ApplyDamage( damageTable )
+    if caster.show_popup ~= true then
+                    caster.show_popup = true
+                    ShowPopup( {
+                    Target = keys.caster,
+                    PreSymbol = 1,
+                    PostSymbol = 5,
+                    Color = Vector( 50, 255, 100 ),
+                    Duration = 1.5,
+                    Number = damage,
+                    pfx = "damage",
+                    Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
+                } )
+                Timers:CreateTimer(3.0,function()
+                    caster.show_popup = false
+                end)
+    end
+end
+
+function Blood_Seeker_Blood_Smell(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local ability = keys.ability
+    local missing_health = target:GetMaxHealth() - target:GetHealth()
+    local damage = math.floor(ability:GetLevelSpecialValueFor("percent", ability:GetLevel()-1) * missing_health * 0.01) + 1
+    local damageTable = {
+        victim = target,
+        attacker = caster,
+        damage = damage,
+        damage_type = DAMAGE_TYPE_PHYSICAL
+    }
+
+    ApplyDamage( damageTable )
+    if caster.show_popup ~= true then
+                    caster.show_popup = true
+                    ShowPopup( {
+                    Target = keys.caster,
+                    PreSymbol = 1,
+                    PostSymbol = 4,
+                    Color = Vector( 255, 50, 10 ),
+                    Duration = 1.5,
+                    Number = damage,
+                    pfx = "damage",
+                    Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
+                } )
+                Timers:CreateTimer(3.0,function()
+                    caster.show_popup = false
+                end)
+    end
+end
+
 function projectile_cloud( keys )
     local ability = keys.ability
     local caster = keys.caster
@@ -325,6 +418,57 @@ function Shadowraze_effect( event )
     projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
 end
 
+function boss_death_time( keys )
+    print ("death timer")
+    local caster = keys.caster
+    local origin = caster:GetAbsOrigin()
+    local ability = keys.ability
+    local timer = 5.0
+    local Death_range = ability:GetLevelSpecialValueFor("radius", 0)
+    local targetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
+    local targetType = DOTA_UNIT_TARGET_ALL
+    local targetFlag = ability:GetAbilityTargetFlags()
+    local check = false
+    local units = FindUnitsInRadius(
+        caster:GetTeamNumber(), origin, caster, FIND_UNITS_EVERYWHERE, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
+    for _,unit in pairs( units ) do
+        print (unit:GetName())
+        local particle = ParticleManager:CreateParticle("particles/generic_aoe_persistent_circle_1/death_timer_glow_rev.vpcf",PATTACH_POINT_FOLLOW,unit)
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then timer = 4.0 else timer = 5.0 end
+        Timers:CreateTimer(timer,function()
+            local vDiff = unit:GetAbsOrigin() - caster:GetAbsOrigin()
+            if vDiff:Length2D() < Death_range then
+                unit.NoTombStone = true
+                unit:ForceKill(true)
+                Timers:CreateTimer(10.0,function()
+                    unit.NoTombStone = false
+                end)
+            end
+        end)
+        break
+    end
+end
+
+function boss_blink_on_far( keys )
+    local caster = keys.caster
+    local origin = caster:GetAbsOrigin()
+    local ability = keys.ability
+    local targetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
+    local targetType = DOTA_UNIT_TARGET_HERO
+    local targetFlag = ability:GetAbilityTargetFlags()
+    ProjectileManager:ProjectileDodge(keys.caster)  --Disjoints disjointable incoming projectiles.
+    
+    ParticleManager:CreateParticle("particles/items_fx/blink_dagger_start.vpcf", PATTACH_ABSORIGIN, keys.caster)
+    keys.caster:EmitSound("DOTA_Item.BlinkDagger.Activate")
+    local units = FindUnitsInRadius(
+        caster:GetTeamNumber(), origin, caster, 5000, targetTeam, targetType, targetFlag, FIND_FARTHEST , false)
+    for _,unit in pairs( units ) do
+
+        FindClearSpaceForUnit(caster, unit:GetAbsOrigin(), true)
+        break
+    end
+end
+
 --[[ 
      Author: Noya
      Date: 26 September 2015
@@ -381,15 +525,15 @@ function projectile_death_orbs( event )
     local caster = event.caster
     local ability = event.ability
     local origin = caster:GetAbsOrigin()
-    local projectile_count = 6 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
+    local projectile_count = 3 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
     local speed = 700
     local time_interval = 0.05 -- Time between each launch
 
     local info = {
-        EffectName =  "particles/econ/items/necrolyte/necrophos_sullen/necro_sullen_pulse_friend_head.vpcf",
+        EffectName =  "particles/death_spear.vpcf",
         Ability = ability,
         vSpawnOrigin = origin,
-        fDistance = 1250,
+        fDistance = 3000,
         fStartRadius = 75,
         fEndRadius = 75,
         Source = caster,
@@ -410,7 +554,7 @@ function projectile_death_orbs( event )
 
     --Creates the projectiles in 1440 degrees
     local projectiles_launched = 0
-    local projectiles_to_launch = 10
+    local projectiles_to_launch = 7
     Timers:CreateTimer(0.5,function()
         projectiles_launched = projectiles_launched + 1
         for angle=-90,90,(180/projectile_count) do
@@ -425,14 +569,20 @@ function projectile_death_orbs( event )
 end
 function projectile_death_orbs_hit( event )
     local target = event.target
-    if target:GetHealth() <= target:GetMaxHealth()/10 then 
+    if target:GetHealth() <= target:GetMaxHealth()/4 then 
         target.NoTombStone = true
-        target:ForceKill(True)
-        Timers:CreateTimer(10.0,function()
+        target:ForceKill(true)
+        Timers:CreateTimer(1.0,function()
             target.NoTombStone = false
         end)
     else 
-        target:SetHealth(target:GetMaxHealth()*0.08)
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+            target:SetHealth(target:GetHealth()*0.1 + 1)
+        elseif GetMapName() == "epic_boss_fight_hard"then
+            target:SetHealth(target:GetHealth()*0.5 + 1)
+        else 
+            target:SetHealth(target:GetHealth()*0.75 + 1)
+        end
     end
     
 end

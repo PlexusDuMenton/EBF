@@ -833,4 +833,21 @@
 			"SpawnInterval"			"1"
 		}
 	}
+	"Round34" // Boss 34
+	{
+		"round_quest_title"			"#DOTA_Holdout_Round_Boss34_Quest_Title"
+		"round_title"				"#DOTA_Holdout_Round_Boss34_Title"
+		"MaxGold"					"125000"
+		"BagCount"					"1"
+		"BagVariance"				"0"
+		"FixedXP"					"600000"
+		
+		"UnitBoss_8"
+		{
+			"NPCName"				"npc_dota_boss34_h"
+			"TotalUnitsToSpawn"		"1"
+			"UnitsPerSpawn"			"1"
+			"SpawnInterval"			"1"
+		}
+	}
 }
