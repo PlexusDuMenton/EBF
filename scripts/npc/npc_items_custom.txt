@@ -10066,84 +10066,210 @@
 	"item_Dagon_Mystic"
 	{
 		// General
-    //-------------------------------------------------------------------------------------------------------------
-    "BaseClass"                     "item_datadriven"
-    "ID"                            "1266" 
-    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-    "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
-    "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
-    "Model"                         "models/props_gameplay/red_box.vmdl" 
-    "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
-    "AbilityTextureName"            "item_dagon_mystic"
-    "FightRecapLevel"               "1"
-    
-    // Stats        
-    //-------------------------------------------------------------------------------------------------------------
-    "AbilityCastRange"              "1200"
-    "AbilityCastPoint"              "0.0"
-    "AbilityCooldown"               "30"
-    "AbilityManaCost"               "5000"
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"                     "item_datadriven"
+	    "ID"                            "1266" 
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	    "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+	    "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
+	    "Model"                         "models/props_gameplay/red_box.vmdl" 
+	    "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+	    "AbilityTextureName"            "item_dagon_mystic"
+	    "FightRecapLevel"               "1"
+	    
+	    // Stats        
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastRange"              "1200"
+	    "AbilityCastPoint"              "0.0"
+	    "AbilityCooldown"               "30"
+	    "AbilityManaCost"               "5000"
 
-    "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-    
-    // Item Info
-    //-------------------------------------------------------------------------------------------------------------
-    "ItemCost"                      "40000"
-    "ItemShopTags"                  "damage;int;str;agi;hard_to_tag"
-    "ItemQuality"                   "rare"  
-    "ItemAliases"                   "dagon"
-    "precache"
+	    "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+	    
+	    // Item Info
+	    //-------------------------------------------------------------------------------------------------------------
+	    "ItemCost"                      "40000"
+	    "ItemShopTags"                  "damage;int;str;agi;hard_to_tag"
+	    "ItemQuality"                   "rare"  
+	    "ItemAliases"                   "dagon"
+	    "precache"
+			{
+				"particle"				"particles/dagon_mystic.vpcf"
+			}
+	    
+	    
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "bonus_intellect"       "6000"
+	        }
+	        "02"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "damage_base"                "1000"
+	        }
+	        "03"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "damage_per_int"                "20"
+	        }
+	        "04"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "range_tooltip"         "1200"
+	        }
+	       
+	    }
+	    
+	    "OnSpellStart"
+	    {
+	        "RunScript"
+	        {
+	        	"ScriptFile"			"lua_item/simple_item.lua"
+	            "Function"          "item_dagon_datadriven_on_spell_start"
+	        }
+	    }
+	    
+	    "Modifiers"
+	    {
+	        "modifier_item_dagon_datadriven"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"       "%bonus_intellect"
+	            }
+	        }
+	    }
+	}
+	//=================================================================================================================
+	// Recipe: Cursed Gauntlet
+	//=================================================================================================================
+	"item_recipe_gauntlet_cursed"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1267"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"370"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_gauntlet_cursed"
+		"ItemRequirements"
 		{
-			"particle"				"particles/dagon_mystic.vpcf"
+			"01"						"item_gauntlets;item_orb_of_doom;item_zweihander"
 		}
-    
-    
-    "AbilitySpecial"
-    {
-        "01"
-        {
-            "var_type"              "FIELD_INTEGER"
-            "bonus_intellect"       "6000"
-        }
-        "02"
-        {
-            "var_type"              "FIELD_INTEGER"
-            "damage_base"                "1000"
-        }
-        "03"
-        {
-            "var_type"              "FIELD_INTEGER"
-            "damage_per_int"                "20"
-        }
-        "04"
-        {
-            "var_type"              "FIELD_INTEGER"
-            "range_tooltip"         "1200"
-        }
-       
-    }
-    
-    "OnSpellStart"
-    {
-        "RunScript"
-        {
-        	"ScriptFile"			"lua_item/simple_item.lua"
-            "Function"          "item_dagon_datadriven_on_spell_start"
-        }
-    }
-    
-    "Modifiers"
-    {
-        "modifier_item_dagon_datadriven"
-        {
-            "Passive"           "1"
-            "IsHidden"          "1"
-            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
-            
-            "Properties"
-            {
-                "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"       "%bonus_intellect"
-            }
-        }
-    }
+	}
+	
+	//=================================================================================================================
+	// Helm
+	//=================================================================================================================
+	"item_gauntlet_cursed"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1268"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_gauntlet_cursed"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"7000"
+		"ItemShopTags"					"damage;unique"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"cursed"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+
+
+		"Modifiers"
+		{
+			"gauntlet_cursed"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all"
+		            "MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all"
+		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all"
+				}
+				"OnAttackLanded"
+				{
+   					"Random"
+					{
+   						"Chance" "%cursed_chance"
+   						"OnSuccess"
+   						{
+   							"ApplyModifier"
+							{
+								"ModifierName" 	"cursed_effect"
+								"Target" 		"TARGET"
+							}
+   						}
+   						"OnFailure"
+   						{}
+					}
+				}
+			}
+			"cursed_effect"
+			{
+				"Duration"          "%cursed_duration"
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "0"
+	            "Properties"
+				{
+					"MODIFIER_PROPERTY_DISABLE_HEALING" "1" 
+				}
+			}
+		}
+
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"cursed_chance"			"5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"cursed_duration"			"2"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"				"260"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"				"150"
+			}
+		}
+	}
 }

@@ -22,7 +22,7 @@ function OnWaterEnter(trigger)
     local ent = trigger.activator
     if not ent then return end
     if ent:IsAlive() then
-    ent.InWater = true
+        ent.InWater = true
         return
     end
 end
@@ -30,9 +30,6 @@ end
 function OnWaterExit(trigger)
     local ent = trigger.activator
     if not ent then return end
-    if ent:IsAlive() then
-    	ent.InWater = false
-    ent:RemoveModifierByName("outside_map_ability_modifier") 
-        return
-    end
+    ent.InWater = false
+    return
 end

@@ -28,6 +28,9 @@ function Precache( context )
 	PrecacheResource( "particle", "particles/items2_fx/veil_of_discord.vpcf", context )	
 	PrecacheResource( "particle_folder", "particles/frostivus_gameplay", context )
 
+	PrecacheResource( "soundfile", "soundevents/game_sounds_custom.vsndevts", context)
+	PrecacheResource( "soundfile", "soundevents/music.vsndevts", context)
+
 	PrecacheItemByNameSync( "item_tombstone", context )
 	PrecacheItemByNameSync( "item_bag_of_gold", context )
 	PrecacheItemByNameSync( "item_slippers_of_halcyon", context )
@@ -49,37 +52,25 @@ end
 function Activate()
 	GameRules.holdOut = CHoldoutGameMode()
 	GameRules.holdOut:InitGameMode()	
-	ListenToGameEvent("dota_player_pick_hero", OnHeroPick, nil)
+	
 end
 
-function OnHeroPick (event)
- 	local hero = EntIndexToHScript(event.heroindex)
-	hero:RemoveAbility('attribute_bonus')
-	stats:ModifyStatBonuses(hero)
-	hero:AddAbility('lua_attribute_bonus')
-	hero:SetGold(0 , false)
-	hero:SetGold(24 , true)
-	local ID = hero:GetPlayerID()
-	if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
-		print ("look like maker of map is here :D")
-		message_creator = true
-	end 
-	if PlayerResource:GetSteamAccountID( ID ) == 86736807 then
-		print ("look like a chalenger is here :D")
-		message_chalenger = true
-		self.chalenger = hero
-		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.25 ) 
-	end
-	if PlayerResource:GetSteamAccountID( ID ) == 25195578 then --http://steamcommunity.com/id/Froggera/
-		print ("look like a naughty guy is here :D")
-		message_chalenger = true
-		self.chalenger = hero
-		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.1 ) 
-	end
+function DeleteAbility( unit)
+    unit:FindAllByName( "npc_dota_creature")
+end
+function TeachAbility( unit, ability_name, level )
+    if not level then level = 1 end
+        unit:AddAbility(ability_name)
+        local ability = unit:FindAbilityByName(ability_name)
+        if ability then
+            ability:SetLevel(tonumber(level))
+            return ability
+        end
 end
 
 function CHoldoutGameMode:Chalenger()
 	local hero = self.chalenger
+
 	if hero:GetHealth() >= 2  then hero:SetHealth (1) end
 	return 0.1
 end
@@ -98,6 +89,7 @@ function CHoldoutGameMode:InitGameMode()
 	self._check_dead = false
 	self._timetocheck = 0
 	self._freshstart = true
+	self.boss_master_id = -1
 	Life = SpawnEntityFromTableSynchronous( "quest", { 
 		name = "Life", 
 		title = "#LIFETITLE" } )
@@ -134,7 +126,14 @@ function CHoldoutGameMode:InitGameMode()
 
 
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 7)
-	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 0 )
+	if GetMapName() == "epic_boss_fight_boss_master" then Life._life = 9 
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 1 )
+		GameRules:SetHeroSelectionTime( 45.0 )
+		Life._MaxLife = 9
+	else 
+		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 0 )
+	end
+
 
 	self:_ReadGameConfiguration()
 	GameRules:SetHeroRespawnEnabled( false )
@@ -230,7 +229,6 @@ function CHoldoutGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels( true )
     GameRules:GetGameModeEntity():SetCustomHeroMaxLevel( 75 )
     GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel( xpTable )
-    if GetMapName() == "defender_boss" or GetMapName() == "defender_boss_desert" or GetMapName() == "defender_boss_show" then GameRules:GetGameModeEntity():SetThink( "stolen_game", self, 0.01 ) end
 	-- Custom console commands
 	Convars:RegisterCommand( "holdout_test_round", function(...) return self:_TestRoundConsoleCommand( ... ) end, "Test a round of holdout.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "holdout_spawn_gold", function(...) return self._GoldDropConsoleCommand( ... ) end, "Spawn a gold bag.", FCVAR_CHEAT )
@@ -245,13 +243,88 @@ function CHoldoutGameMode:InitGameMode()
 	ListenToGameEvent( "player_reconnected", Dynamic_Wrap( CHoldoutGameMode, 'OnPlayerReconnected' ), self )
 	ListenToGameEvent( "entity_killed", Dynamic_Wrap( CHoldoutGameMode, 'OnEntityKilled' ), self )
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( CHoldoutGameMode, "OnGameRulesStateChange" ), self )
+	ListenToGameEvent("dota_player_pick_hero", Dynamic_Wrap( CHoldoutGameMode, "OnHeroPick"), self )
 	ListenToGameEvent('player_connect_full', Dynamic_Wrap( CHoldoutGameMode, 'OnConnectFull'), self)
+	ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(CHoldoutGameMode, 'OnAbilityUsed'), self)
+
+	CustomGameEventManager:RegisterListener('Boss_Master', Dynamic_Wrap( CHoldoutGameMode, 'Boss_Master'))
+	CustomGameEventManager:RegisterListener('mute_sound', Dynamic_Wrap( CHoldoutGameMode, 'mute_sound'))
+	CustomGameEventManager:RegisterListener('unmute_sound', Dynamic_Wrap( CHoldoutGameMode, 'unmute_sound'))
 
 	-- Register OnThink with the game engine so it is called every 0.25 seconds
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
 	
 end
--- Evaluate the state of the game
+
+function CHoldoutGameMode:OnAbilityUsed(keys)
+	--will be used in future :p
+	local player = PlayerResource:GetPlayer(keys.PlayerID)
+	local abilityname = keys.abilityname
+end
+
+function CHoldoutGameMode:OnHeroPick (event)
+ 	local hero = EntIndexToHScript(event.heroindex)
+	hero:RemoveAbility('attribute_bonus')
+	stats:ModifyStatBonuses(hero)
+	hero:AddAbility('lua_attribute_bonus')
+	local ID = hero:GetPlayerID()
+	hero:SetGold(0 , false)
+	hero:SetGold(24 , true)
+	if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
+		print ("look like maker of map is here :D")
+		message_creator = true
+	end 
+	--[[if PlayerResource:GetSteamAccountID( ID ) == 86736807 then
+		print ("look like a chalenger is here :D")
+		message_chalenger = true
+		self.chalenger = hero
+		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.25 ) 
+	end]]
+	if PlayerResource:GetSteamAccountID( ID ) == 25195578 then
+		print ("look like a naughty guy is here :D")
+		message_chalenger = true
+		self.chalenger = hero
+		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.1 ) 
+	end
+	if hero:GetTeamNumber() == DOTA_TEAM_BADGUYS then 
+		TeachAbility (hero , "hide_hero")
+		hero:AddNoDraw()
+		self.boss_master_id = ID
+    end
+end
+
+function CHoldoutGameMode:mute_sound (event)
+ 	local ID = event.pID
+ 	local player = PlayerResource:GetPlayer(ID)
+ 	StopSoundOn("music.music",player)
+ 	player.NoMusic = true
+end
+function CHoldoutGameMode:unmute_sound (event)
+ 	local ID = event.pID
+ 	local player = PlayerResource:GetPlayer(ID)
+ 	player:SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0)
+ 	EmitSoundOnClient("music.music",player)
+ 	player.NoMusic = false
+end
+
+function CHoldoutGameMode:Boss_Master (event)
+ 	local ID = event.pID
+ 	local commandname = event.Command
+ 	local player = PlayerResource:GetPlayer(ID)
+ 	if commandname == "magic_immunity_1" then
+
+ 	elseif commandname == "magic_immunity_2" then
+
+ 	elseif commandname == "damage_immunity" then
+
+ 	elseif commandname == "double_damage" then
+
+ 	elseif commandname == "quad_damage" then
+
+ 	end
+ 	
+end
+
 
 -- Read and assign configurable keyvalues if applicable
 function CHoldoutGameMode:_ReadGameConfiguration()
@@ -275,8 +348,8 @@ end
 -- Verify spawners if random is set
 function CHoldoutGameMode:OnConnectFull()
 	SendToServerConsole("dota_combine_models 0")
-    SendToConsole("dota_combine_models 0")
-    SendToConsole("dota_health_per_vertical_marker 1000")
+    SendToConsole("dota_combine_models 0") 
+    SendToServerConsole("dota_health_per_vertical_marker 1000")
 end
 
 function CHoldoutGameMode:ChooseRandomSpawnInfo()
@@ -285,19 +358,6 @@ function CHoldoutGameMode:ChooseRandomSpawnInfo()
 		return nil
 	end
 	return self._vRandomSpawnsList[ RandomInt( 1, #self._vRandomSpawnsList ) ]
-end
-
-function CHoldoutGameMode:stolen_game()
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
-	GameRules:GetGameModeEntity():SetThink( "stolen_game", self, 0.01 ) 
-	self._vLootItemDropsList = {}
-	if type( kvLootDrops ) ~= "table" then
-		local life = self.Life
-		life = life + 7
-	end
-	GameRules:GetGameModeEntity():SetThink( "stolen_game", self, 0.01 ) 
-	return 0.01
 end
 
 -- Verify valid spawns are defined and build a table with them from the keyvalues file
@@ -356,7 +416,20 @@ function CHoldoutGameMode:OnGameRulesStateChange()
 			ShowGenericPopup( "#holdout_instructions_title_challenger", "#holdout_instructions_body_challenger", "", "", DOTA_SHOWGENERICPOPUP_TINT_SCREEN )
 		end
 	elseif nNewState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
+		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+			local player = PlayerResource:GetPlayer(nPlayerID)
+			if player ~= nil then
+				print ("play music")
+				Timers:CreateTimer(0.1,function()
+								if player.NoMusic ~= true then
+									print ("replay music")
+									EmitSoundOnClient("music.music",player)
+									return 480
+								end
+							end)
+				self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
+			end
+		end
 	end
 end
 
@@ -367,7 +440,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		message = "One life has been gained , you just hit a checkpoint !",
 		duration = 5
 		}
-		SendToConsole("dota_health_per_vertical_marker 100000")
+		SendToServerConsole("dota_health_per_vertical_marker 100000")
 		FireGameEvent("show_center_message",messageinfo)   
 		self._checkpoint = 26
 		Life._MaxLife = Life._MaxLife + 1
@@ -385,7 +458,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		duration = 5
 		}
 		SendToConsole("dota_combine_models 0")
-		SendToConsole("dota_health_per_vertical_marker 10000")
+		SendToServerConsole("dota_health_per_vertical_marker 10000")
 		FireGameEvent("show_center_message",messageinfo)   
 		self._checkpoint = 14
 		Life._MaxLife = Life._MaxLife + 1
@@ -509,9 +582,11 @@ function CHoldoutGameMode:_CheckForDefeat()
 				end
 			end
 			for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-				local totalgold = unit:GetGold() + ((((self._nRoundNumber/1.5)+5)/((Life._life/2) +0.5))*500)
-	            unit:SetGold(0 , false)
-	            unit:SetGold(totalgold, true)
+				if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+					local totalgold = unit:GetGold() + ((((self._nRoundNumber/1.5)+5)/((Life._life/2) +0.5))*500)
+		            unit:SetGold(0 , false)
+		            unit:SetGold(totalgold, true)
+	        	end
 			end
 			if delay ~= nil then
 				self._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
@@ -661,6 +736,12 @@ function CHoldoutGameMode:OnNPCSpawned( event )
 		spawnedUnit:SetBountyGain( 0 )
 		spawnedUnit:SetXPGain( 0 )
 		spawnedUnit:CreatureLevelUp( PlayerResource:GetTeamPlayerCount()  )
+		if spawnedUnit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+			Timers:CreateTimer(0.1,function()
+				spawnedUnit:SetOwner(PlayerResource:GetSelectedHeroEntity(self.boss_master_id))
+				spawnedUnit:SetControllableByPlayer(self.boss_master_id,true)
+			end)
+		end
 	end
 end
 
@@ -669,11 +750,13 @@ end
 function CHoldoutGameMode:OnPlayerReconnected( event )
 	local nReconnectedPlayerID = event.PlayerID
 	for _,hero in pairs( Entities:FindAllByClassname( "npc_dota_hero" ) ) do
-		if hero:IsRealHero() then
-			self:_SpawnHeroClientEffects( hero, nReconnectedPlayerID )
+		if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+			if hero:IsRealHero() then
+				self:_SpawnHeroClientEffects( hero, nReconnectedPlayerID )
+			end
+			self._DisconnectedPlayer = self._DisconnectedPlayer - 1
 		end
 	end
-	self._DisconnectedPlayer = self._DisconnectedPlayer - 1
 end
 
 
@@ -731,13 +814,15 @@ function CHoldoutGameMode:OnEntityKilled( event )
 				end
 				if reincarnation_level >= 6 then
 					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-						Timers:CreateTimer(2,function()
-							if not unit:IsAlive() then 
-								unit:RespawnUnit()
-							end
-							unit:SetHealth( unit:GetMaxHealth() )
-							unit:SetMana( unit:GetMaxMana() )
-						end)
+						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+							Timers:CreateTimer(2,function()
+								if not unit:IsAlive() then 
+									unit:RespawnUnit()
+								end
+								unit:SetHealth( unit:GetMaxHealth() )
+								unit:SetMana( unit:GetMaxMana() )
+							end)
+						end
 					end
 				end
 			end

@@ -11,21 +11,25 @@ function CHoldoutGameRound:OnPlayerDisconnected( event )
 	print('Player Disconnected ' .. tostring(event.userid))
   	local player = event.userid
 	player.disconnected=true
+	local hero = player:GetSelectedHeroEntity(player)
 	self._DisconnectedPlayer = self._DisconnectedPlayer + 1
 	Timers:CreateTimer(60,function()
 		if player.disconnected == true then
-			print('Player ' .. tostring(event.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
-			for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-				local totalgold = unit:GetGold() + (self._nRoundNumber^1.3)*100
-			    unit:SetGold(0 , false)
-	            unit:SetGold(totalgold, true)
-			end
-			local hero = player:GetSelectedHeroEntity(player)
-			for itemSlot = 0, 5, 1 do
-          		local Item = hero:GetItemInSlot( itemSlot )
-            		hero:RemoveItem(Item)
-            end
-            hero:SetGold(0, true)
+			if hero:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+				print('Player ' .. tostring(event.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
+				for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+					local totalgold = unit:GetGold() + (self._nRoundNumber^1.3)*100
+					unit:SetGold(0 , false)
+			        unit:SetGold(totalgold, true)
+				end
+				for itemSlot = 0, 5, 1 do
+	          		local Item = hero:GetItemInSlot( itemSlot )
+	            	hero:RemoveItem(Item)
+	            end
+	            hero:SetGold(0, true)
+	        else
+	        	print('Player ' .. tostring(event.name) .."didn't boss are still independant , but it's still sad")
+	        end
 		end
 	end)
 end
@@ -129,8 +133,8 @@ function CHoldoutGameRound:End()
 	self._vEventHandles = {}
 
 	for _,unit in pairs( FindUnitsInRadius( DOTA_TEAM_BADGUYS, Vector( 0, 0, 0 ), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )) do
-		if not unit:IsTower() then
-			UTIL_RemoveImmediate( unit )
+		if not unit:IsTower() or unit:IsHero() == false then
+			UTIL_Remove( unit )
 		end
 	end
 
@@ -139,7 +143,7 @@ function CHoldoutGameRound:End()
 	end
 
 	if self._entQuest then
-		UTIL_RemoveImmediate( self._entQuest )
+		UTIL_Remove( self._entQuest )
 		self._entQuest = nil
 		self._entKillCountSubquest = nil
 	end
@@ -189,14 +193,15 @@ function CHoldoutGameRound:OnNPCSpawned( event )
 	end
 
 	if spawnedUnit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
-		spawnedUnit:SetMustReachEachGoalEntity(true)
 		table.insert( self._vEnemiesRemaining, spawnedUnit )
 		local ability = spawnedUnit:FindAbilityByName("true_sight_boss")
 		if not ability ~= nil then
 			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then spawnedUnit:AddAbility('true_sight_boss') end
 		end
+		if GetMapName() == "epic_boss_fight_boss_master" then spawnedUnit:AddAbility('true_sight_boss') end
 		spawnedUnit:SetDeathXP( 0 )
 		spawnedUnit.unitName = spawnedUnit:GetUnitName()
+
 	end
 end
 
@@ -240,7 +245,9 @@ function CHoldoutGameRound:_CheckForGoldBagDrop( killedUnit )
 		exptogain = self._nExpRemainingInRound
 	end
 	for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-		unit:AddExperience (exptogain,false,false)
+		if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+			unit:AddExperience (exptogain,false,false)
+		end
 	end
 	if nCoreUnitsRemaining <= 0 then
 		nGoldToDrop = self._nGoldRemainingInRound

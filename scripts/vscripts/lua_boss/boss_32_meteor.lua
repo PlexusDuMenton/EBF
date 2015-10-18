@@ -50,9 +50,11 @@ function meteor_on_spell_start(keys)
             chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Loop")  --Emit a sound that will follow the meteor.
             local fire_aura_duration = keys.ability:GetLevelSpecialValueFor("burn_duration", 0)
             for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-                unit:SetHealth(unit:GetHealth()/2)
-                if unit:GetHealth()<=0 then unit:ForceKill(true) end
-                keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_aura_debuff", {duration = fire_aura_duration})
+                if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+                    unit:SetHealth(unit:GetHealth()/2)
+                    if unit:GetHealth()<=0 then unit:ForceKill(true) end
+                    keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_aura_debuff", {duration = fire_aura_duration})
+                end
             end
             
             --Store the damage to deal in a variable attached to the dummy unit, so leveling Exort after Meteor is cast will have no effect.
@@ -139,10 +141,12 @@ function money_and_exp_gain(keys)
     CHoldoutGameMode:_RefreshPlayers()
     local caster = keys.caster
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-            unit:AddExperience (200000,false,false)
-        else
-            unit:AddExperience (400000,false,false)
+        if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                unit:AddExperience (200000,false,false)
+            else
+                unit:AddExperience (400000,false,false)
+            end
         end
     end
     local gold = 0
