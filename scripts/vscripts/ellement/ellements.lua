@@ -59,7 +59,7 @@ function invoker_replace_orb(keys, particle_filepath)
     --placed into keys.caster.invoked_orbs[3], the old [3] is moved into [2], and the old [2] is moved into [1].
     --Therefore, the oldest orb is located in [1], and the newest is located in [3].
     --Now, shift the ordered list of currently summoned orbs down, and add the newest orb to the queue.
-    f keys.caster:GetLevel() >= 75 then
+    if keys.caster:GetLevel() >= 75 then
         keys.caster.invoked_orbs[6] = keys.caster.invoked_orbs[5]
     end
     if keys.caster:GetLevel() >= 60 then
@@ -206,4 +206,35 @@ end
 
 function ice_on_spell_start(keys)
     invoker_replace_orb(keys, "particles/invoker_quas_orb_test.vpcf")
+end
+
+function reset(keys)
+    local number = 1
+    if keys.caster:GetLevel() == 75 then
+        number = 6
+    elseif keys.caster:GetLevel() >= 60 then
+        number = 5
+    elseif keys.caster:GetLevel() >= 40 then
+        number = 4
+    elseif keys.caster:GetLevel() >= 25 then
+        number = 3
+    elseif keys.caster:GetLevel() >= 10 then
+        number = 2
+    end
+    while keys.caster:HasModifier("ellement_wind_modifiers") do
+        keys.caster:RemoveModifierByName("ellement_wind_modifiers")
+    end
+    while keys.caster:HasModifier("ellement_fire_modifiers") do
+        keys.caster:RemoveModifierByName("ellement_fire_modifiers")
+    end
+    while keys.caster:HasModifier("ellement_ice_modifiers") do
+        keys.caster:RemoveModifierByName("ellement_ice_modifiers")
+    end
+    for i=1, number, 1 do
+        if keys.caster.invoked_orbs_particle[i] ~= nil then
+            ParticleManager:DestroyParticle(keys.caster.invoked_orbs_particle[i], false)
+            keys.caster.invoked_orbs_particle[i] = nil
+        end
+    end
+    keys.caster.invoked_orbs = nil
 end

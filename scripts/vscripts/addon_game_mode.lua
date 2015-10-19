@@ -67,6 +67,14 @@ function TeachAbility( unit, ability_name, level )
             return ability
         end
 end
+function levelAbility( unit, ability_name, level )
+    if not level then level = 1 end
+        local ability = unit:FindAbilityByName(ability_name)
+        if ability then
+            ability:SetLevel(tonumber(level))
+            return ability
+        end
+end
 
 function CHoldoutGameMode:Chalenger()
 	local hero = self.chalenger
@@ -264,6 +272,7 @@ end
 
 function CHoldoutGameMode:OnHeroPick (event)
  	local hero = EntIndexToHScript(event.heroindex)
+ 	if hero:GetName() == "npc_dota_hero_invoker" then levelAbility( hero, "invoker_reset", 1) end
 	hero:RemoveAbility('attribute_bonus')
 	stats:ModifyStatBonuses(hero)
 	hero:AddAbility('lua_attribute_bonus')

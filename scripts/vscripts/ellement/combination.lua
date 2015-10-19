@@ -7,6 +7,9 @@ function On_Spell_Start( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
+	if keys.caster.invoked_orbs == nil then return end
+	caster.last_used_skill = "none"
+    caster.projectile_table = {}
 	caster.invocation_power_fire = 0
 	caster.invocation_power_wind = 0
 	caster.invocation_power_ice = 0
@@ -34,9 +37,6 @@ function On_Spell_Start( keys )
             end
         end
 	end
-	print ("wind power : ".. caster.invocation_power_wind)
-	print ("fire power : ".. caster.invocation_power_fire)
-	print ("ice power : ".. caster.invocation_power_ice)
 	local ice_color = Vector(0, 153, 204)
     local wind_color = Vector(204, 0, 153)
     local fire_color = Vector(255, 102, 0)
@@ -44,45 +44,49 @@ function On_Spell_Start( keys )
 	local ice = caster.invocation_power_ice
     local wind = caster.invocation_power_wind
     local fire = caster.invocation_power_fire
+    print ("wind power : ".. wind)
+	print ("fire power : ".. fire)
+	print ("ice power : ".. ice)
 
     --Skill with Main ellement : Fire
-    if fire >= ice + wind then --Very High Damage + DoT
-		if fire >= 2.6 and fire <= 5 then
-			--Fire spear
-		elseif fire >= 5 and fire <= 10 then
-			--multiple Fire spear
-		elseif fire >= 10 
-			--explosive Fire Spear (AOE :O)
+    if fire > ice + wind then --Very High Damage + DoT
+    	print ("fire")
+		if fire > 2.51 and fire <= 5 then
+			caster.last_used_skill = "fire_spear"
+			projectile_fire_spear( keys )
+		elseif fire > 5 and fire <= 10 then
+            caster.last_used_skill = "multiple_fire_spear"
+			projectile_multiple_fire_spear( keys , fire)
+		elseif fire > 10 then
+			caster.last_used_skill = "explosive_fire_spear"
+            projectile_fire_spear( keys )
 		else
-			--bonus damage aura (30 sec , bonus depend on character level and power of ellement)
+			poweraura( keys , fire)
 		end
-
-	--Skill with Main ellement : Wind
-	elseif wind >= ice + fire then --medium/High damage + slow + knockback
-		if wind >= 2.6 and wind <= 5 then
+	elseif wind > ice + fire then --medium/High damage + slow + knockback
+		print ("wind")
+		if wind >= 2.51 and wind <= 5 then
 			--Simple wind , knockback and medium damage
 		elseif wind >= 5 and wind <= 10 then
 			--Turnado
-		elseif wind >= 10 
+		elseif wind > 10 then
 			--Tempest (multiple turnado)
 		else
-			--bonus speed/attack speed aura (30 sec)
+			speedaura( keys , wind)
 		end
-
-	--Skill with Main ellement : Ice
-	elseif ice >= wind + fire then --Low Damage , Slow/disable
-		if ice >= 2.6 and ice <= 5 then
+	elseif ice > wind + fire then --Low Damage , Slow/disable
+		print ("ice")
+		if ice >= 2.51 and ice <= 5 then
 			--Ice Spike (front)
-		elseif ice >= 5 and ice <= 10 then
+		elseif ice > 5 and ice <= 10 then
 			--Ice Spike Aoe 
-		elseif ice >= 10 
+		elseif ice > 10 then
 			--Frost Spike AOE (Stun)
 		else
-			--Slow ennemy on attack
+			frosttouch( keys )
 		end
-
-    --Skill with Ice and Fire mix
-	elseif ice + fire >= 2*wind then 
+	elseif ice + fire > 2*wind then 
+		print ("ice + fire")
 		if fire >= 1.5*ice then 
 			if ice + fire >= 10 then --high Damage
 				--Steam Tempest
@@ -102,16 +106,15 @@ function On_Spell_Start( keys )
 				--Water Stream
 			end
 		end
-
-    --Skill with Ice and Wind mix
-	elseif ice + wind >= 2*fire then --Medium/Low damage ,High slow and disable
+	elseif ice + wind > 2*fire then --Medium/Low damage ,High slow and disable
+		print ("ice + wind")
 		if ice >= 1.5*wind then
 			if ice + wind >= 10 then
 				--Ice Meteor
 			else 
 				--iceball ability
 			end
-		if wind >= 1.5*ice then
+		elseif wind >= 1.5*ice then
 			if ice + wind >= 10 then
 				--BLizzard
 			else
@@ -119,14 +122,15 @@ function On_Spell_Start( keys )
 			end
 		else
 			if ice + wind >= 10 then
-				--iceshard lvl 2 (crystal maiden like)
+				caster.last_used_skill = "iceshard2"
+				projectile_iceshard2(keys , ice, wind, fire)
 			else 
-				--iceshard lvl 1 
+				caster.last_used_skill = "iceshard1"
+				projectile_iceshard1(keys , ice, wind, fire)
 			end
 		end
-
-    --Skill with Wind and Fire mix
-	elseif wind + fire >= 2* ice then --Very High Damage and DoT
+	elseif wind + fire > 2* ice then --Very High Damage and DoT
+		print ("wind + fire")
 		if fire >= 1.5*wind then
 			if fire + wind >= 10 then
 				--meteor
@@ -134,7 +138,7 @@ function On_Spell_Start( keys )
 				--fireball
 			end
 
-		if wind >= 1.5*fire then
+		elseif wind >= 1.5*fire then
 			if fire + wind >= 10 then
 				--FireExplosion
 			else
@@ -147,16 +151,346 @@ function On_Spell_Start( keys )
 				--Fire turnado
 			end
 		end
-
-    --Skill with both of 3 ellement
 	else
-		if fire + wind + ice >= 7.5 then
-			--Global heal
+		if fire + wind + ice >= 7.5 and fire + wind + ice < 15 then
+			print ("glocal heal")
+			global_heal( keys, fire, ice, wind)
 		elseif fire + wind + ice >= 15 then
-			--Arcana Laser (HUGE damage , slow ennemy , apply DOT , but set a high cooldown on combine skill :p)
+			print ("arcana_laser")
+			
 		else
-			--personal heal
+			personal_heal( keys, fire, ice, wind)
 		end
 	end
 end
 
+function slow_modifier_caster_hit(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    local target = keys.target
+    local ice = caster.invocation_power_ice
+    ability:ApplyDataDrivenModifier(caster, target, "slow_modifier_display", {duration = 5})
+    ability:ApplyDataDrivenModifier(caster, target, "slow_modifier", {duration = 5})
+    target:SetModifierStackCount( "slow_modifier", ability, math.floor(ice*(20) ) )
+end
+
+function frosttouch( keys )
+    local caster = keys.caster
+    local ability = keys.ability
+    ability:ApplyDataDrivenModifier(caster, caster, "slow_modifier_caster", {duration = 20})
+end
+
+function speedaura( keys , wind)
+    local caster = keys.caster
+    local ability = keys.ability
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if unit:GetTeam() == keys.caster:GetTeam() then
+            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura_display", {duration = 20})
+            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura", {duration = 20})
+            unit:SetModifierStackCount( "speed_aura", ability, math.floor(wind*(75+keys.caster:GetLevel() ) ) )
+        end
+    end
+end
+
+function poweraura( keys , fire)
+    local ability = keys.ability
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if unit:GetTeam() == keys.caster:GetTeam() then
+            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura_display", {duration = 20})
+            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura", {duration = 20})
+            unit:SetModifierStackCount( "power_aura", ability, math.floor(fire*((keys.caster:GetLevel()/2)^1.3)*50) )
+        end
+    end
+end
+function ShowPopup( data )
+    if not data then return end
+
+    local target = data.Target or nil
+    if not target then error( "ShowNumber without target" ) end
+    local number = tonumber( data.Number or nil )
+    local pfx = data.Type or "miss"
+    local player = data.Player or nil
+    local color = data.Color or Vector( 255, 255, 255 )
+    local duration = tonumber( data.Duration or 1 )
+    local presymbol = tonumber( data.PreSymbol or nil )
+    local postsymbol = tonumber( data.PostSymbol or nil )
+
+    local path = "particles/msg_fx/msg_" .. pfx .. ".vpcf"
+    local particle = ParticleManager:CreateParticle(path, PATTACH_OVERHEAD_FOLLOW, target)
+    if player ~= nil then
+        local particle = ParticleManager:CreateParticleForPlayer( path, PATTACH_OVERHEAD_FOLLOW, target, player)
+    end
+
+    local digits = 0
+    if number ~= nil then digits = #tostring( number ) end
+    if presymbol ~= nil then digits = digits + 1 end
+    if postsymbol ~= nil then digits = digits + 1 end
+
+    ParticleManager:SetParticleControl( particle, 1, Vector( presymbol, number, postsymbol ) )
+    ParticleManager:SetParticleControl( particle, 2, Vector( duration, digits, 0 ) )
+    ParticleManager:SetParticleControl( particle, 3, color )
+end
+
+function personal_heal( keys, fire, ice, wind)
+	local caster = keys.caster
+	local percent = (fire + ice + wind)*0.1
+	local heal = math.floor(caster:GetMaxHealth()*percent)
+	caster:SetHealth(caster:GetHealth() + heal)
+                        ShowPopup( {
+	                        Target = keys.caster,
+	                        PreSymbol = 8,
+	                        PostSymbol = 2,
+	                        Color = Vector( 0, 255, 33 ),
+	                        Duration = 0.5,
+	                        Number = heal,
+	                        pfx = "heal",
+	                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
+                        } )
+end
+function global_heal( keys, fire, ice, wind)
+	local caster = keys.caster
+	local percent = (fire + ice + wind)*0.1
+	print (percent)
+	for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+		if unit:GetTeam() == caster:GetTeam() then
+			local heal = math.floor(unit:GetMaxHealth()*percent)
+			unit:SetHealth(unit:GetHealth() + heal)
+			 ShowPopup( {
+	                        Target = keys.unit,
+	                        PreSymbol = 8,
+	                        PostSymbol = 2,
+	                        Color = Vector( 0, 255, 33 ),
+	                        Duration = 0.5,
+	                        Number = heal,
+	                        pfx = "heal",
+	                        Player = PlayerResource:GetPlayer( unit:GetPlayerID() )
+                        } )
+		end
+	end
+end
+
+
+function projectile_multiple_fire_spear( keys , fire)
+    local ability = keys.ability
+    local caster = keys.caster
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/fire_spear.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 5000,
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = caster:GetForwardVector() * 600,
+        vAcceleration = caster:GetForwardVector() * 200
+    }
+    local created_projectile = 0
+    Timers:CreateTimer(0.05, function()
+    	created_projectile = created_projectile + 1
+    	angle = (created_projectile*90)/fire
+        projectileTable.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,angle-60,0), caster:GetForwardVector()) * 600
+        fire_spear_simple = ProjectileManager:CreateLinearProjectile( projectileTable )
+        if created_projectile <= fire then
+            return 0.05
+        end
+    end)
+end
+
+function projectile_fire_spear( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/fire_spear.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 5000,
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = caster:GetForwardVector() * 600,
+        vAcceleration = caster:GetForwardVector() * 200
+    }
+    fire_spear_simple = ProjectileManager:CreateLinearProjectile(projectileTable)
+    print (fire_spear_simple)
+    caster.projectile_table[1] = fire_spear_simple
+end
+
+function projectile_iceshard1(keys , ice, wind, fire)
+    local ability = keys.ability
+    local caster = keys.caster
+    local distance = 600*(ice+wind)/5
+    local speed = 600 * (fire/5 + 1)
+    local forward = caster:GetForwardVector()
+
+    local casterPoint = caster:GetAbsOrigin()
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/crystal_maiden_projectil_spawner_work.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = distance,
+        fStartRadius = 50+fire*5,
+        fEndRadius = 50+fire*5,
+        fExpireTime = GameRules:GetGameTime() + 5,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = forward * 300,
+    }
+    main_projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+end
+function projectile_iceshard2(keys , ice, wind, fire)
+    local ability = keys.ability
+    local caster = keys.caster
+    local projectile_count = math.floor((ice+wind)/2 )
+    local number_of_source = math.ceil((ice+wind)/4 )
+    local delay = 1.0
+    local distance = 600*(ice+wind)/5
+    local time_interval = 0.20
+    local speed = 600 * (fire/5 + 1)
+    local forward = caster:GetForwardVector()
+
+    local casterPoint = caster:GetAbsOrigin()
+    print (delay)
+    -- Spawn projectile
+    local projectileTable = {
+        Ability = ability,
+        EffectName = "particles/crystal_maiden_projectil_spawner_work.vpcf",
+        vSpawnOrigin = casterPoint,
+        fDistance = 900 + (delay * 300),
+        fStartRadius = 150,
+        fEndRadius = 150,
+        fExpireTime = GameRules:GetGameTime() + 6,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = false,
+        vVelocity = forward * 300,
+    }
+        main_projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
+        caster.projectile_table[1] = main_projectile
+    local secondary_projectile = {
+        Ability = ability,
+        EffectName = "particles/ice_spear.vpcf",
+        vSpawnOrigin = casterPoint + forward * 600,
+        fDistance = distance,
+        fStartRadius = 50,
+        fEndRadius = 50,
+        fExpireTime = GameRules:GetGameTime() + 10,
+        Source = caster,
+        bHasFrontalCone = true,
+        bReplaceExisting = false,
+        bProvidesVision = false,
+        iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+        iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+        iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+        bDeleteOnHit = true,
+        vVelocity = forward * 600,
+    }
+
+    --Creates the projectiles in 360 degrees
+    if number_of_source == 1 or number_of_source > 2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                i = i+180
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    secondary_projectile.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    secondary_projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile = ProjectileManager:CreateLinearProjectile( secondary_projectile )
+                end)
+            end
+        end)
+    end
+    if number_of_source >=2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                if number_of_source == 3 then
+                    i = i - 30
+                end
+                i = i+90
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    secondary_projectile.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300 * delay + forward * 75
+                    secondary_projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile = ProjectileManager:CreateLinearProjectile( secondary_projectile )
+                end)
+            end
+        end)
+    end
+    if number_of_source >=2 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                i = i+270
+                if number_of_source == 3 then
+                    i = i + 30
+                end
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    secondary_projectile.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    secondary_projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile = ProjectileManager:CreateLinearProjectile( secondary_projectile )
+                end)
+            end
+        end)
+    end
+    if number_of_source == 4 then
+        Timers:CreateTimer(delay,function()
+            local projectiles_created = 0
+            for i=-180,180,(180/projectile_count) do
+                local time = projectiles_created * time_interval
+                projectiles_created = projectiles_created + 1
+
+                --EmitSoundOn("", caster) --Add a sound if you wish!
+                Timers:CreateTimer(time, function()
+                    secondary_projectile.vSpawnOrigin = casterPoint + (forward * 300 * time) + forward * 300* delay + forward * 75
+                    secondary_projectile.vVelocity = RotatePosition(Vector(0,0,0), QAngle(0,i,0), forward) * speed
+                    small_projectile = ProjectileManager:CreateLinearProjectile( secondary_projectile )
+                end)
+            end
+        end)
+    end
+end
