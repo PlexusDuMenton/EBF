@@ -53,6 +53,119 @@
 	}
 
 
+	"boss_evil_core_cast"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"            "evil_core_summon"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"9000"
+		"AbilityManaCost"               "1000"
+		
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"7.5"
+		"AbilityCastPoint"				"0.1"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "damage"             "100000 200000 300000"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+		}
+		
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnAbilityPhaseStart"
+		{
+			"RunScript"
+	        {
+	            "ScriptFile"                        "lua_abilities/abilities_simple.lua"
+	            "Function"                          "evil_core_summon"
+	        }
+		}
+	}
+
+	"boss_evil_core_passive"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "evil_core_passive"
+	    "MaxLevel"                      "1"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+
+	    "precache"
+	    {
+	        "particle"          "particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf"
+	    }
+
+	    "Modifiers"
+	    {
+	    	"modifier_knockback_wind"
+	    	{
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"      "1"
+	            }
+
+	            "States"
+	            {
+	                "MODIFIER_STATE_ROOTED"             "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_DISARMED"           "MODIFIER_STATE_VALUE_ENABLED"
+	            }
+	            "OnTakeDamage"
+	    		{
+	    			"RunScript"
+					{
+						"ScriptFile" "lua_abilities/abilities_simple.lua"
+						"Function" "boss_evil_core_take_damage"
+					}
+	    		}
+	    		"OnCreated"
+	    		{
+	    			"RunScript"
+					{
+						"ScriptFile" "lua_abilities/abilities_simple.lua"
+						"Function" "boss_evil_core_spawn"
+					}
+	    		}
+	        }
+		}
+	}
+
+
+
+
+
+
+
+
 	"invoker_fire_ellement"
 	{
 
@@ -62,7 +175,7 @@
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	    "AbilityTextureName"            "invoker_exort"
 	    "MaxLevel"                      "7"
-	    "LevelsBetweenUpgrades" "8"
+	    "LevelsBetweenUpgrades" "11"
 		"RequiredLevel"        "-2"
 
 	    // Stats
@@ -144,7 +257,7 @@
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	    "AbilityTextureName"            "invoker_wex"
 	    "MaxLevel"                      "7"
-	    "LevelsBetweenUpgrades" "8"
+	    "LevelsBetweenUpgrades" "11"
 		"RequiredLevel"        "-2"
 
 	    // Stats
@@ -230,7 +343,7 @@
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	    "AbilityTextureName"            "invoker_quas"
 	    "MaxLevel"                      "7"
-	    "LevelsBetweenUpgrades" "8"
+	    "LevelsBetweenUpgrades" "11"
 		"RequiredLevel"        "-2"
 
 	    // Stats
@@ -295,7 +408,7 @@
 	            
 	            "Properties"
 	            {
-	                "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT "      "%bonus_mana_regen_per_instance"
+	                "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"      "%bonus_mana_regen_per_instance"
 	            }
 	        }
 	    }
@@ -343,7 +456,7 @@
 
 	    // Stats
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCooldown"               "30 25 20 15 10 8 6"
+	    "AbilityCooldown"               "20 17.5 15 12.5 10 7.5 5"
 	    "AbilityCastPoint"              "0.3"
 	    "AbilityManaCost"               "100 200 400 800 1600 3200 6400"
 	    "precache"
@@ -479,6 +592,29 @@
 
 	            "OverrideAnimation"     "ACT_DOTA_FLAIL"
 
+	        }
+	        "armor_debuff"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "1"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"      "-1"
+	            }
+	        }
+	        "armor_debuff_display"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
 	        }
 	    	"health_regen"
 	        {
@@ -873,12 +1009,90 @@
 	    }
 	}
 
+
+
+	"boss_hell_tempest"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "doom_bringer_doom"
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "5.0"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "26.66"
+
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "666"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+
+	    "precache"
+	    {
+	        "particle"  "particles/fire_tornado.vpcf"
+	    }
+
+	    "OnAbilityPhaseStart"
+	    {
+	        "RunScript"
+			{
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "hell_tempest_boss"
+			}	
+		}
+		"OnProjectileHitUnit"
+		{	
+			"RunScript"
+			{
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "hell_tempest_hit"
+			}	     
+	    }
+	    "Modifiers"
+	    {
+	    	"onspawn"
+	    	{
+	    		"passive" "1"
+	    		"IsHidden"	"1"
+	    		"OnCreated"
+	    		{
+	    			"RunScript"
+					{
+						"ScriptFile" "lua_abilities/abilities_simple.lua"
+						"Function" "hell_tempest_charge"
+					}
+	    		}
+	    		"OnTakeDamage"
+	    		{
+	    			"RunScript"
+					{
+						"ScriptFile" "lua_abilities/abilities_simple.lua"
+						"Function" "hell_tempest_charge_damage"
+					}
+	    		}
+	    	}
+		}
+	}
+
 	"boss_doom_bring"
 	{
 	    // General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"             "ability_datadriven"
-	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+	    "AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
+	    "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 	    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
 	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
 	    "FightRecapLevel"               "1"
@@ -887,6 +1101,7 @@
 	    // Casting
 	    //-------------------------------------------------------------------------------------------------------------
 	    "AbilityCastPoint"              "0.67"
+	    "AbilityCastRange"				"1000"
 
 	    // Time     
 	    //-------------------------------------------------------------------------------------------------------------
@@ -910,17 +1125,19 @@
 	        "RunScript"
 			{
 				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Target"	"TARGET"
 				"Function" "doom_bringer_boss"
 			}	
 		}
 	}
+
 	"boss_doomraze"
 	{
 	    // General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"             "ability_datadriven"
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-	    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"   
 	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
 	    "FightRecapLevel"               "1"
 	    "AbilityTextureName"            "nevermore_shadowraze2"
@@ -935,7 +1152,7 @@
 
 	    // Damage.
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityDamage"                 "100000"
+	    "AbilityDamage"                 "200000"
 
 	    // Cost
 	    //-------------------------------------------------------------------------------------------------------------
@@ -948,12 +1165,7 @@
 	        "01"
 	        {
 	            "var_type"          "FIELD_INTEGER"
-	            "shadowraze_radius" "300"       
-	        }
-	        "02"
-	        {
-	            "var_type"          "FIELD_INTEGER"
-	            "shadowraze_range"  "500"
+	            "damage" "200000"       
 	        }
 	    }
 
@@ -965,27 +1177,118 @@
 
 	    "OnSpellStart"
 	    {
-	    	"FireSound"
-			{
-				"EffectName"		"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts"
-				"Target"			"CASTER"
-			}
 	        "RunScript"
 			{
 				"ScriptFile" "lua_abilities/abilities_simple.lua"
-				"Function" "projectile_doom_raze"
+				"Function" "doom_raze"
 			}	
 		}
-		"OnProjectileHitUnit"
-		{
+	}
+	"boss_doomraze_h"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"   
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "nevermore_shadowraze2"
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.67"
 
-	        "Damage"
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "9.0"
+
+	    // Damage.
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityDamage"                 "400000"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "0"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+	    {
+	        "01"
 	        {
-	            "Target"		"TARGET"
-	            "Type"          "DAMAGE_TYPE_MAGICAL"
-	            "Damage"        "%AbilityDamage"
+	            "var_type"          "FIELD_INTEGER"
+	            "damage" "400000"       
 	        }
 	    }
+
+	    "precache"
+	    {
+	        "particle"  "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf"
+	        "soundfile" "soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts"
+	    }
+
+	    "OnSpellStart"
+	    {
+	        "RunScript"
+			{
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "doom_raze"
+			}	
+		}
+	}
+	"boss_doomraze_vh"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"   
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "nevermore_shadowraze2"
+	    
+	    // Casting
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCastPoint"              "0.67"
+
+	    // Time     
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityCooldown"               "9.0"
+
+	    // Damage.
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityDamage"                 "600000"
+
+	    // Cost
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilityManaCost"               "0"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"          "FIELD_INTEGER"
+	            "damage" "600000"       
+	        }
+	    }
+
+	    "precache"
+	    {
+	        "particle"  "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf"
+	        "soundfile" "soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts"
+	    }
+
+	    "OnSpellStart"
+	    {
+	        "RunScript"
+			{
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "doom_raze"
+			}	
+		}
 	}
 	"Blood_Seeker_Blood_Smell"
 	{
@@ -2700,6 +3003,199 @@
 	  	}
 	}
 
+	"guardian_hell_passive"
+	{
+	    // General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"             "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+	    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+	    "FightRecapLevel"               "1"
+	    "AbilityTextureName"            "hell_guardian_passive"
+	    "MaxLevel"                      "1"
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+
+	    "precache"
+	    {
+	        "particle"          "particles/demon_shield.vpcf"
+	    }
+
+	    "Modifiers"
+	    {
+	    	"modifier_spawn"
+	    	{
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+
+	    		"OnCreated"
+	    		{
+	    			"RunScript"
+					{
+						"ScriptFile"                                "lua_boss/boss_36_guardian.lua"
+						"Function"                                  "creation"
+					}
+	    		}
+	        }
+	        "invincible"
+	        {
+	        	"Passive"           "0"
+	            "IsHidden"          "1"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"      "1"
+	            }
+	    	}
+		}
+	}
+
+
+
+	"guardian_hell_flaming_fist"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"            "hell_guardian_flaming_fist"
+		
+		"precache"
+	    {
+	    	"soundfile"                     "soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts"
+	    	"particle"                      "particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_cast.vpcf"
+	        "particle"                      "particles/units/heroes/hero_ember_spirit/ember_spirit_sleight_of_fist_targetted_marker.vpcf"
+	        "particle"                      "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf"
+	        "particle"                      "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf"
+	    }
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1500"
+		"AbilityCastMinimumRange"		"50"
+		"AOERadius" "1000"
+		
+		"AbilityCastAnimation"			"ACT_DOTA_DEATH"	// Activity
+		"AnimationPlaybackRate"			"1.0"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"5.0"
+		"AbilityCastPoint"				"1.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"               "200"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnAbilityPhaseStart"
+		{
+			"FireSound"
+	        {
+	            "Target"                    "CASTER"
+	            "EffectName"                "Hero_EmberSpirit.SleightOfFist.Cast"
+	        }
+	        "ApplyModifier"
+	        {
+	            "Target"                    "CASTER"
+	            "ModifierName"              "modifier_sleight_of_fist_caster_datadriven"
+	        }
+			"RunScript"
+			{
+				"ScriptFile"                                "lua_boss/boss_36_guardian.lua"
+				"Function"                                  "flaming_fist"
+				"Target"                    "POINT"
+			}
+
+		}
+		"Modifiers"
+	    {
+	        "modifier_sleight_of_fist_caster_datadriven"
+	        {
+	            "IsPurgable"                "0"
+	        
+	            "States"
+	            {
+	                "MODIFIER_STATE_INVULNERABLE"       "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NO_HEALTH_BAR"      "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_NO_UNIT_COLLISION"  "MODIFIER_STATE_VALUE_ENABLED"
+	                "MODIFIER_STATE_ROOTED"             "MODIFIER_STATE_VALUE_ENABLED"
+	            }
+	        }
+	    }
+	}
+
+
+	"guardian_hell_hell_on_earth"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
+		"AbilityTextureName"            "hell_guardian_hell_on_earth"
+		
+		"precache"
+	    {
+	        "particle"  "particles/shadow_doom_ring.vpcf"
+	    }
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1500"
+		"AbilityManaCost"               "50"
+		
+		"AbilityCastAnimation"			"ACT_DOTA_ATTACK"	// Activity
+		"AnimationPlaybackRate"			"0.2"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"7.5"
+		"AbilityCastPoint"				"4.0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "damage"             "100000 200000 300000"  //The meteor lands on the ground this many seconds after it was cast.
+	        }
+		}
+		
+		// Modifiers
+		//-------------------------------------------------------------------------------------------------------------	
+		"OnAbilityPhaseStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"                                "lua_boss/boss_36_guardian.lua"
+				"Function"                                  "hell_on_earth"
+			}
+		}
+	}
 
 	"boss_meteor"
 	{
@@ -2717,6 +3213,7 @@
 	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf"
 	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor_fly.vpcf"
 	        "particle"              "particles/units/heroes/hero_invoker/invoker_chaos_meteor_burn_debuff.vpcf"
+	        "soundfile"         "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
 	    }
 		
 		// Casting

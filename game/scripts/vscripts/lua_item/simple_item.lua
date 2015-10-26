@@ -34,13 +34,13 @@ end
 function Cooldown_powder(keys)
     local item = keys.ability
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-        item:StartCooldown(60)
-    end
-    if GetMapName() == "epic_boss_fight_hard" then
         item:StartCooldown(30)
     end
+    if GetMapName() == "epic_boss_fight_hard" then
+        item:StartCooldown(20)
+    end
     if GetMapName() == "epic_boss_fight_normal" then
-        item:StartCooldown(15)
+        item:StartCooldown(10)
     end
 end
 
@@ -161,8 +161,36 @@ function Pierce(keys)
     ApplyDamage(damageTable)
 end
 
+function CD_divine_armor(keys)
+    keys.ability:StartCooldown(33)
+end
+
 function CD_Bahamut(keys)
-    keys.ability:StartCooldown(40)
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+        if unit:GetTeam() == DOTA_TEAM_GOODGUYS then
+            for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
+                    if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
+                        local Item = unit:GetItemInSlot( itemSlot ) -- uses a variable which gets the actual item in the slot specified starting at 0, 1st slot, and ending at 5,the 6th slot.
+                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" then
+                            Item:StartCooldown(40)
+                        end
+                    end
+            end
+        end
+    end
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+        if unit:GetTeam() == DOTA_TEAM_GOODGUYS and unit:HasInventory() then
+            for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
+                    if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
+                        local Item = unit:GetItemInSlot( itemSlot ) -- uses a variable which gets the actual item in the slot specified starting at 0, 1st slot, and ending at 5,the 6th slot.
+                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" then
+                            Item:StartCooldown(40)
+                        end
+                    end
+            end
+        end
+    end
+        
 end
 
 function CD_pure(keys)
@@ -264,6 +292,16 @@ function Midas_OnHit(keys)
             end
         end
     end
+end
+
+function dev_armor(keys)
+    local killedUnit = EntIndexToHScript( keys.caster_entindex )
+    local origin = killedUnit:GetAbsOrigin()
+    Timers:CreateTimer(0.03,function()
+        killedUnit:RespawnHero(false, false, false)
+        killedUnit:SetAbsOrigin(origin)
+    end)
+
 end
 
 function check_admin(keys)

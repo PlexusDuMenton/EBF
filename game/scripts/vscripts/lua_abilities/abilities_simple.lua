@@ -20,6 +20,32 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+function gold_rain(caster,total_gold,exp,gold_bag)
+        if exp == nil then exp = 0 end
+        if total_gold == nil then return end
+        if gold_bag == nil then gold_bag = 1 end
+        for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+            if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+                unit:AddExperience (exp,false,false)
+            end
+        end
+        local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
+        local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
+        local gold = (total_gold * GoldMultiplier) / (gold_bag)
+        local bag_created = 0
+        Timers:CreateTimer(0.1,function()
+            local newItem = CreateItem( "item_bag_of_gold", nil, nil )
+            newItem:SetPurchaseTime( 0 )
+            newItem:SetCurrentCharges( gold )
+            local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
+            local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
+            newItem:LaunchLoot( true, 300, 0.75, dropTarget )
+            if bag_created <= gold_bag then
+                return 0.25
+            end 
+        end)
+end
+
 --[[Author: Pizzalol
     Date: 26.02.2015.
     Purges positive buffs from the target]]
@@ -54,6 +80,223 @@ function DoomDenyCheck( keys )
 
     if target_hp_pct <= deny_pct then
         ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = 0.06})
+    end
+end
+
+function spawn_unit_arround( caster , unitname , radius , unit_number ,playerID,core)
+    if radius == nil then radius = 400 end
+    if core == nil then core = false end
+    if unit_number == nil then unit_number = 1 end
+    for i = 0, unit_number-1 do
+        print   ("spawn unit : "..unitname)
+        print (caster:GetAbsOrigin())
+        PrecacheUnitByNameAsync( unitname, function() 
+        local unit = CreateUnitByName( unitname ,caster:GetAbsOrigin() + RandomVector(RandomInt(radius,radius)), true, nil, nil, DOTA_TEAM_BADGUYS ) 
+        Timers:CreateTimer(0.1,function()
+                    unit:SetOwner(PlayerResource:GetSelectedHeroEntity(playerID))
+                    unit:SetControllableByPlayer(playerID,true)
+                    if core == true then
+                        unit.Holdout_IsCore = true
+                    end
+                end)
+        end,
+        nil)
+    end
+end
+
+function evil_core_charge(keys)
+    local caster = keys.caster
+    local time = 15
+    
+        Timers:CreateTimer(0.25,function()
+            if caster.dead ~= true then
+                if caster.Charge < caster:GetMaxMana() then
+                    caster.Charge = caster.Charge + caster:GetMaxMana()/(time*5)
+                    return 0.2
+                elseif caster.Charge >= caster:GetMaxMana() then
+                    evil_core_summon(keys)
+                end
+            end
+        end)
+    
+end
+
+function evil_core_summon(keys)
+    local caster = keys.caster
+    caster.Charge = 0
+    for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+        if PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
+            local boss_master_id = nPlayerID
+        end
+    end
+    local sfx=""
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then 
+            sfx="_vh" 
+        elseif GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
+            sfx="_h"  
+        end
+
+    local number = 1
+
+    if GetMapName() == "epic_boss_fight_challenger" then 
+        number = 2
+    end
+
+    local health_percent = (caster:GetHealth()/caster:GetMaxHealth())*100
+
+    if health_percent <= 10 then
+        spawn_unit_arround( caster , "npc_dota_boss35"..sfx , 500 , number , boss_master_id )
+        spawn_unit_arround( caster , "npc_dota_boss34"..sfx , 500 , 1 ,boss_master_id)
+    elseif health_percent <= 20 then
+        spawn_unit_arround( caster , "npc_dota_boss35"..sfx , 500 , 1 ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss33_a"..sfx , 500 , number ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss33_b"..sfx , 500 , number ,boss_master_id)
+    elseif health_percent <= 30 then
+        spawn_unit_arround( caster , "npc_dota_boss34"..sfx , 500 , 1 ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss32_trueform"..sfx , 500 , number ,boss_master_id)
+    elseif health_percent <= 50 then
+        spawn_unit_arround( caster , "npc_dota_boss33_a"..sfx , 500 , 1 ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss33_b"..sfx , 500 , 1 ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , number ,boss_master_id)
+    elseif health_percent <= 70 then
+        spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , number ,boss_master_id)
+        spawn_unit_arround( caster , "npc_dota_boss32_trueform"..sfx , 500 , number ,boss_master_id)
+    elseif health_percent <= 90 then
+        spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , number ,boss_master_id)
+    else
+        spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , 1 ,boss_master_id)
+    end
+end
+
+
+function boss_evil_core_spawn(keys)
+    local caster = keys.caster
+    caster.Charge = 0
+    caster.weakness = false
+    Timers:CreateTimer(0.25,function()
+            caster:SetMana(caster.Charge)
+            return 0.2
+    end)
+    local origin = Vector(0,0,0)
+    for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+        if PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
+            local boss_master_id = nPlayerID
+        end
+    end
+
+    Timers:CreateTimer(0.03,function()
+        caster:SetAbsOrigin(origin)
+        local size = Vector(200,200,0)
+        FindClearSpaceForUnit(caster, origin, true)
+
+        caster.shield_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf", PATTACH_ABSORIGIN  , keys.caster)
+        ParticleManager:SetParticleControl(caster.shield_particle, 0, origin)
+        ParticleManager:SetParticleControl(caster.shield_particle, 1, size)
+        ParticleManager:SetParticleControl(caster.shield_particle, 6, origin)
+        ParticleManager:SetParticleControl(caster.shield_particle, 10, origin)
+
+        local sfx=""
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then 
+            sfx="_vh" 
+            caster:SetMaxHealth(5000)
+            caster:SetHealth(5000)
+        elseif GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
+            sfx="_h"  
+            caster:SetMaxHealth(3500)
+            caster:SetHealth(3500)
+        end
+        spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , 1 , boss_master_id )
+        spawn_unit_arround( caster , "npc_dota_boss32_trueform"..sfx , 500 , 1 , boss_master_id )
+        Timers:CreateTimer(0.25,function()
+                if caster:IsAlive() then
+                    local weakness = true
+                    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+                        if unit:GetUnitName() ~= "npc_dota_boss36" and unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+                            weakness = false
+                        end
+                    end
+                    if weakness == true then 
+                        if caster.weakness == false then
+                            caster.weakness = true
+                            local messageinfo = {
+                                message = "Evil core is now weak !",
+                                duration = 2
+                            }
+                            FireGameEvent("show_center_message",messageinfo)  
+                            ParticleManager:DestroyParticle( caster.shield_particle, true)
+                            evil_core_charge(keys)
+                        end
+                    else
+                        if caster.weakness == true then
+                            caster.weakness = false
+                            print ("evil core is now invicible !")
+                            caster.shield_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf", PATTACH_ABSORIGIN  , keys.caster)
+                                ParticleManager:SetParticleControl(caster.shield_particle, 0, origin)
+                                ParticleManager:SetParticleControl(caster.shield_particle, 1, size)
+                                ParticleManager:SetParticleControl(caster.shield_particle, 6, origin)
+                                ParticleManager:SetParticleControl(caster.shield_particle, 10, origin)
+                        end
+                    end
+                    return 0.25
+                end  
+        end)
+    end)
+end
+
+function boss_hell_guardian_death(keys)
+    gold_rain(caster,100000,2500000,25)
+end
+
+function boss_evil_core_take_damage(keys)
+    local caster = keys.caster
+    if caster.failed_attack == nil then caster.failed_attack = 0 end
+    print ("evil core is attacked")
+    if caster:GetHealth() > 50 then
+        if caster.weakness == true then
+            caster:SetHealth(caster:GetHealth()-5)
+            caster.failed_attack = 0
+        else
+            caster.failed_attack = caster.failed_attack + 1
+            if caster.failed_attack > 20 then
+                caster.failed_attack = 0
+                local messageinfo = {
+                message = "The boss invulnerable, kill his summon!",
+                duration = 2
+                }
+                FireGameEvent("show_center_message",messageinfo)  
+            end
+        end
+    else 
+        if caster.dead ~= true then
+            caster.dead = true
+            gold_rain(caster,100000,1000000,25)
+            Timers:CreateTimer(1.0,function()
+                for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+                    if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS and unit:GetUnitName() ~= "npc_dota_boss36" then
+                        unit:ForceKill(true)
+                    end
+                end
+            end)
+            Timers:CreateTimer(4.0,function()
+                    spawn_unit_arround( caster , "npc_dota_boss36_guardian" , 500 , 1 ,true)
+                    Timers:CreateTimer(6.0,function()
+                        caster:ForceKill(true)
+                    end)
+            end)
+            for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+                local player = PlayerResource:GetPlayer(nPlayerID)
+                if player ~= nil then
+                    local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+                    if hero ~=nil then
+                        if not hero:IsAlive() then
+                            hero:RespawnUnit()
+                        end
+                        hero:SetHealth( hero:GetMaxHealth() )
+                        hero:SetMana( hero:GetMaxMana() )
+                    end
+                end
+            end
+        end
     end
 end
 
@@ -646,50 +889,184 @@ function projectile_death_orbs_hit( event )
     end
     
 end
-function doom_projectile_hit( event )
+
+
+function hell_tempest_hit( event )
     local target = event.target
+    print (target.InWater)
+
+    print (event.caster.InWater)
     if target.InWater ~= true then
-        target:ForceKill(true)
+        if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
+            target:ForceKill(true)
+        end
     end
 end
 
-function projectile_doom_raze( event )
+function hell_tempest_charge_damage( event )
+    local caster = event.caster
+    caster.charge = caster.charge + 5
+    if caster.charge>=caster:GetMaxMana() then caster.charge = caster:GetMaxMana() end
+
+end
+
+function hell_tempest_charge( event )
+    local caster = event.caster
+    if caster.charge == nil then
+        caster.charge = 0
+        caster:SetMana(0) 
+    elseif caster.charge < 0 then
+        caster.charge = 0
+    else
+        return
+    end
+    
+    Timers:CreateTimer(0.1,function() 
+            if caster.charge < caster:GetMaxMana() then
+                caster.charge = caster.charge + 0.25
+                caster:SetMana(math.ceil(caster.charge)) 
+                if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then
+                    return 0.03
+                else
+                    return 0.1
+                end
+            else
+                caster:SetMana(math.ceil(caster.charge)) 
+                return 0.03
+            end
+        end)
+
+end
+
+function createAOEDamage(keys,particlesname,location,size,damage,damage_type,duration,sound)
+    if duration == nil then
+        duration = 3
+    end
+    if damage == nil then
+        damage = 5000
+    end
+    if size == nil then
+        size = 250
+    end
+    if damage_type == nil then
+        damage_type = DAMAGE_TYPE_MAGICAL
+    end
+    if sound ~= nil then
+        StartSoundEventFromPosition(sound,location)
+    end
+
+    local AOE_effect = ParticleManager:CreateParticle(particlesname, PATTACH_ABSORIGIN  , keys.caster)
+    ParticleManager:SetParticleControl(AOE_effect, 0, location)
+    ParticleManager:SetParticleControl(AOE_effect, 1, location)
+    Timers:CreateTimer(duration,function()
+        ParticleManager:DestroyParticle(AOE_effect, false)
+    end)
+
+    local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
+                                  location,
+                                  nil,
+                                  size,
+                                  DOTA_UNIT_TARGET_TEAM_ENEMY,
+                                  DOTA_UNIT_TARGET_ALL,
+                                  DOTA_UNIT_TARGET_FLAG_NONE,
+                                  FIND_ANY_ORDER,
+                                  false)
+
+    for _,unit in pairs(nearbyUnits) do
+        if unit ~= keys.caster then
+                if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
+                    local damageTableAoe = {victim = unit,
+                                attacker = keys.caster,
+                                damage = damage,
+                                damage_type = damage_type,
+                                }
+                    ApplyDamage(damageTableAoe)
+                end
+        end
+    end
+end
+
+
+function doom_raze( event )
     local caster = event.caster
     local ability = event.ability
-    local origin = caster:GetAbsOrigin()
-    local projectile_count = 3 --ability:GetLevelSpecialValueFor("projectile_count", ability:GetLevel()-1) -- If you want to make it more powerful with levels
-    local speed = 700
-    local time_interval = 0.05 -- Time between each launch
     local fv = caster:GetForwardVector()
-
-    local projectileTable = {
-        Ability = ability,
-        EffectName = "particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf",
-        vSpawnOrigin = fv*500,
-        fDistance = 5,
-        fStartRadius = 100,
-        fEndRadius = 100,
-        fExpireTime = GameRules:GetGameTime() + 5,
-        Source = caster,
-        bHasFrontalCone = true,
-        bReplaceExisting = false,
-        bProvidesVision = false,
-        bDeleteOnHit = false,
-        vVelocity = caster:GetForwardVector() * 0,
-    }
+    local rv = caster:GetRightVector()
+    local location = caster:GetAbsOrigin() + fv*200
+    caster.charge = caster.charge - 50
+    if caster.charge < 0 then caster.Charge = 0 end
+    local damage = ability:GetLevelSpecialValueFor("damage", 0)
+    location = location - caster:GetRightVector() * 1000
+    local created_line = 0
+    Timers:CreateTimer(0.25,function() 
+            created_line = created_line + 1
+            for i=1,8,1 do
+                createAOEDamage(event,"particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf",location,250,damage,DAMAGE_TYPE_PURE,2,"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts")
+                location = location + rv* 250
+            end
+            location = location - rv * 2000 + fv * 400
+            if created_line <= 4 then
+                return 1.0
+            end
+        end)
     
-    local lv = caster:GetRightVector()*-1
+end
 
-    origin.z = 0
-    projectileTable.vVelocity = 0
 
-    local projectiles_launched = 0
-    local projectiles_to_launch = 7
-    Timers:CreateTimer(0.1,function()
-        projectileTable.vSpawnOrigin = fv*500 + lv * 100 * projectiles_launched
-        projectiles_launched = projectiles_launched + 1
-        projectile = ProjectileManager:CreateLinearProjectile( projectileTable )
-        if projectiles_launched <= projectiles_to_launch then return 0.1 end
+function hell_tempest_boss( keys )
+    local ability = keys.ability
+    local caster = keys.caster
+    caster.charge = 0
+    local casterPoint = caster:GetAbsOrigin()
+    local delay = 5
+    local messageinfo = {
+    message = "The boss is casting Hell Tempest , reach the water !",
+    duration = 2
+    }
+    if caster.warning == nil then messageinfo.duration = 5 caster.warning = true end
+    FireGameEvent("show_center_message",messageinfo)  
+
+    -- Spawn projectile
+    Timers:CreateTimer(delay, function()
+        local projectileTable = {
+            Ability = ability,
+            EffectName = "particles/fire_tornado.vpcf",
+            vSpawnOrigin = casterPoint - caster:GetForwardVector()*4000,
+            fDistance = 5000,
+            fStartRadius = 1500,
+            fEndRadius = 1500,
+            fExpireTime = GameRules:GetGameTime() + 10,
+            Source = caster,
+            bHasFrontalCone = true,
+            bReplaceExisting = false,
+            bProvidesVision = false,
+            iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+            iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+            iUnitTargetType = DOTA_UNIT_TARGET_ALL,
+            bDeleteOnHit = false,
+            vVelocity = caster:GetRightVector() * 1000,
+            vAcceleration = caster:GetForwardVector() * 200
+        }
+        local created_projectile = 0
+        Timers:CreateTimer(0.05, function()
+            created_projectile = created_projectile + 1
+            projectileTable.vSpawnOrigin = projectileTable.vSpawnOrigin + caster:GetForwardVector()*(8000/30)
+            projectileTable.vVelocity = caster:GetRightVector() * 1000
+            fire_tornado_projectile = ProjectileManager:CreateLinearProjectile( projectileTable )
+            if created_projectile <= 15 then
+                return 0.05
+            end
+        end)
+        local created_projectile_bis = 0
+        Timers:CreateTimer(0.05, function()
+            created_projectile_bis = created_projectile_bis + 1
+            projectileTable.vSpawnOrigin = projectileTable.vSpawnOrigin + caster:GetForwardVector()*(8000/30)
+            projectileTable.vVelocity = caster:GetRightVector() * -1000
+            fire_tornado_projectile = ProjectileManager:CreateLinearProjectile( projectileTable )
+            if created_projectile_bis <= 15 then
+                return 0.05
+            end
+        end)
     end)
 end
 
@@ -698,40 +1075,46 @@ end
 
 
 
-
-
 function doom_bringer_boss( event )
-    local target = event.caster
+    local target = event.target
     local caster = event.caster
-    local targetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
-    local targetType = DOTA_UNIT_TARGET_ALL
-    local targetFlag = event.ability:GetAbilityTargetFlags() -- DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS
-    local units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, FIND_UNITS_EVERYWHERE, targetTeam, targetType, targetFlag, FIND_ANY_ORDER, false)
-    for _,unit in pairs( units ) do
-        target = unit
-        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_bringer_doom_ring.vpcf",PATTACH_POINT_FOLLOW,target)
-        break
-    end
+    local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_doom_bringer/doom_bringer_doom_ring.vpcf",PATTACH_POINT_FOLLOW,target)
+    local time = GameRules:GetGameTime()
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() >= 10 then
-                target:SetHealth(target:GetHealth()/(0.8))
-                return 0.2
+            if target:GetHealth() > target:GetMaxHealth()*0.1 and GameRules:GetGameTime() <= time + 15 then
+                print ("test")
+                target:SetHealth(target:GetHealth()*(0.8))
+                return 0.5
+            else
+                ParticleManager:DestroyParticle(particle, false)
+                if GameRules:GetGameTime() <= time + 15 then
+                    target:ForceKill(true)
+                end
             end
         end)
     elseif GetMapName() == "epic_boss_fight_hard" then
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() >= target:GetHealth()*0.2 then
-                target:SetHealth(target:GetHealth()/(0.8))
-                return 0.25
+            if target:GetHealth() > target:GetMaxHealth()*0.05 and GameRules:GetGameTime() <= time + 15 then
+                target:SetHealth(target:GetHealth()*(0.825))
+                return 0.5
+            else
+                ParticleManager:DestroyParticle(particle, false)
+                if GameRules:GetGameTime() <= time + 15 then
+                    target:ForceKill(true)
+                end
             end
         end)
     else
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() >= target:GetHealth()*0.4 then
-                target:SetHealth(target:GetHealth()/(0.8))
+            if target:GetHealth() > target:GetMaxHealth()*0.01 and GameRules:GetGameTime() <= time + 15 then
+                target:SetHealth(target:GetHealth()*(0.85))
                 return 0.5
+            else
+                ParticleManager:DestroyParticle(particle, false)
+                if GameRules:GetGameTime() <= time + 15 then
+                    target:ForceKill(true)
+                end
             end
         end)
     end

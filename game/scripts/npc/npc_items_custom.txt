@@ -3684,6 +3684,11 @@
 				"ModifierName"			"DivineImmunity"
 				"Target"				"CASTER"
 			}
+			"RunScript"
+			{
+				"ScriptFile"			"lua_item/simple_item.lua"
+				"Function"				"CD_divine_armor"
+			}
 		}
 
 
@@ -4404,7 +4409,7 @@
 			
 			// Item Info
 			//-------------------------------------------------------------------------------------------------------------
-			"ItemCost"						"150"
+			"ItemCost"						"200"
 			"ItemShopTags"					"consumable"
 			"ItemQuality"					"consumable"
 			"ItemStackable"					"1"
@@ -6623,7 +6628,7 @@
 //======================================================================================================
 //==============S&Y2================================================================================
 //======================================================================================================
-"item_recipe_sange_and_yasha_2"
+"item_recipe_s_a_y_2"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
@@ -6640,13 +6645,13 @@
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
 		"ItemRecipe"					"1"
-		"ItemResult"					"item_sange_and_yasha_2"
+		"ItemResult"					"item_s_a_y_2"
 		"ItemRequirements"
 		{
 			"01"						"item_sange_and_yasha;item_butterfly2;item_bloody_halberd"
 		}
 	}
-	"item_sange_and_yasha_2"
+	"item_s_a_y_2"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
@@ -9655,7 +9660,7 @@
 						"ControlPoints"
 						{
 							"00"		"0 0 0"
-							"01"		"999999 0 0"
+							"01"		"9999 0 0"
 							"02"		"0 0 0"
 						}
 					}
@@ -10269,6 +10274,114 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_all"				"150"
+			}
+		}
+	}
+	"item_FrenchDeath_armor"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1269"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_FrenchDeath_armor"
+		"ItemKillable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"999999"
+		"ItemShopTags"					"dev"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"dev armor"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		"Modifiers"
+		{
+			"dev_passive"
+			{	
+				"Passive"           "1"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"      "1"
+	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"      "1"
+	                "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"99"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"999999"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"99999"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"99999"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"99999"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"99999"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"99999"
+					"MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT" "0.1"
+					"MODIFIER_PROPERTY_MOVESPEED_BASE_OVERRIDE"				"1500"
+					"MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE"			"900"
+	            }
+			}
+
+			"dev_Immunity"
+			{	
+				"IsHidden"	 "0"
+				"Passive"	 "1"
+				"States"
+				{
+					"MODIFIER_STATE_MAGIC_IMMUNE" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"check_admin"
+					}
+				}
+				"OnOwnerDied"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"dev_armor"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_regen_percent"			"100"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"			"9999"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max"			"9999999"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"99999"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attackspeed"			"9999"
+			}	
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"		"9999"
 			}
 		}
 	}

@@ -7,7 +7,19 @@
 
     modified by FrenchDeath to the actual stage for Boss usage
 ================================================================================================================= ]]
-require("addon_game_mode")
+if boss_meteor == nil then
+    print ( '[boss_meteor] creating boss_meteor' )
+    boss_meteor = {} -- Creates an array to let us beable to index boss_meteor when creating new functions
+    boss_meteor.__index = boss_meteor
+    boss_meteor.midas_gold_on_round = 0
+    boss_meteor._round = 1
+end
+
+function boss_meteor:SetRoundNumer(round)
+    boss_meteor._round = round
+    print (boss_meteor._round)
+end
+
 function meteor_on_spell_start(keys)
     local caster_point = keys.caster:GetAbsOrigin()
     local target_point = keys.target_points[1]
@@ -97,10 +109,9 @@ function meteor_on_spell_start(keys)
                         Timers:CreateTimer({
                             endTime = keys.EndVisionDuration,
                             callback = function()
-                                print ("this must work now, i hope")
                                 chaos_meteor_dummy_unit:SetDayTimeVisionRange(0)
                                 chaos_meteor_dummy_unit:SetNightTimeVisionRange(0)
-                                
+                                chaos_meteor_dummy_unit:ForceKill(true)
                                 --Remove the dummy unit after the burn damage modifiers are guaranteed to have all expired.
 
                             end
@@ -116,53 +127,39 @@ function meteor_on_spell_start(keys)
 end
 
 function money_and_exp_gain(keys)
-   
-    print ("round is done")
-    local messageinfo = {
-        message = "This is some test message, if it fire and game don't end , message me about this , else, well don't take care of this",
-        duration = 5
-        }
-    print (CHoldoutGameMode._currentRound)
-    if CHoldoutGameMode._currentRound ~= nil then
-        print ("peperonie")
-        CHoldoutGameMode._currentRound:End()
-        CHoldoutGameMode._currentRound = nil
-        FireGameEvent("show_center_message",messageinfo)   
-    end
-    CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + 20
-    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
-        if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS and unit:GetName ~= "npc_dota_boss32_trueform_vh" then
-            unit:ForceKill(true)
-        end
-    end
-    if delay ~= nil then
-        CHoldoutGameMode._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
-    end
-    CHoldoutGameMode:_RefreshPlayers()
-    local caster = keys.caster
-    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+    if boss_meteor._round < 35 then
+        if keys.caster:GetUnitName() == "npc_dota_boss32_trueform" or keys.caster:GetUnitName() == "npc_dota_boss32_trueform_h" or keys.caster:GetUnitName() == "npc_dota_boss32_trueform_vh" then
+            for _,unit in pairs ( Entities:FindAllByName( "npc_dummy_blank")) do
+                if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+                    unit:ForceKill(true)
+                end
+            end
+            local caster = keys.caster
+            for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+                if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+                    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                        unit:AddExperience (200000,false,false)
+                    else
+                        unit:AddExperience (400000,false,false)
+                    end
+                end
+            end
+            local gold = 0
+            local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
+            local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-                unit:AddExperience (200000,false,false)
+                gold = 4000 * GoldMultiplier
             else
-                unit:AddExperience (400000,false,false)
+                gold = 8000 * GoldMultiplier
+            end
+            for i=0,10,1 do
+                local newItem = CreateItem( "item_bag_of_gold", nil, nil )
+                newItem:SetPurchaseTime( 0 )
+                newItem:SetCurrentCharges( gold )
+                local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
+                local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
+                newItem:LaunchLoot( true, 300, 0.75, dropTarget )
             end
         end
-    end
-    local gold = 0
-    local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
-    local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17
-    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-        gold = 4000 * GoldMultiplier
-    else
-        gold = 8000 * GoldMultiplier
-    end
-    for i=0,10,1 do
-        local newItem = CreateItem( "item_bag_of_gold", nil, nil )
-        newItem:SetPurchaseTime( 0 )
-        newItem:SetCurrentCharges( gold )
-        local drop = CreateItemOnPositionSync( caster:GetAbsOrigin(), newItem )
-        local dropTarget = caster:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
-        newItem:LaunchLoot( true, 300, 0.75, dropTarget )
     end
 end

@@ -17,13 +17,13 @@ function invoker_replace_orb(keys, particle_filepath)
     end
 
     local number = 1
-    if keys.caster:GetLevel() == 75 then
+    if keys.caster:GetLevel() >= 50 then
         number = 6
-    elseif keys.caster:GetLevel() >= 60 then
-        number = 5
     elseif keys.caster:GetLevel() >= 40 then
+        number = 5
+    elseif keys.caster:GetLevel() >= 30 then
         number = 4
-    elseif keys.caster:GetLevel() >= 25 then
+    elseif keys.caster:GetLevel() >= 20 then
         number = 3
     elseif keys.caster:GetLevel() >= 10 then
         number = 2
@@ -37,16 +37,16 @@ function invoker_replace_orb(keys, particle_filepath)
         if keys.caster:GetLevel() >= 10 then
             keys.caster.invoked_orbs_particle_attach[2] = "attach_orb2"
         end
-        if keys.caster:GetLevel() >= 25 then
+        if keys.caster:GetLevel() >= 20 then
             keys.caster.invoked_orbs_particle_attach[3] = "attach_orb3"
         end
-        if keys.caster:GetLevel() >= 40 then
+        if keys.caster:GetLevel() >= 30 then
             keys.caster.invoked_orbs_particle_attach[4] = "attach_hitloc"
         end
-        if keys.caster:GetLevel() >= 60 then 
+        if keys.caster:GetLevel() >= 40 then 
             keys.caster.invoked_orbs_particle_attach[5] = "attach_orb1"
         end
-        if keys.caster:GetLevel() >=75 then 
+        if keys.caster:GetLevel() >=50 then 
             keys.caster.invoked_orbs_particle_attach[6] = "attach_orb2"
         end
     end
@@ -59,16 +59,16 @@ function invoker_replace_orb(keys, particle_filepath)
     --placed into keys.caster.invoked_orbs[3], the old [3] is moved into [2], and the old [2] is moved into [1].
     --Therefore, the oldest orb is located in [1], and the newest is located in [3].
     --Now, shift the ordered list of currently summoned orbs down, and add the newest orb to the queue.
-    if keys.caster:GetLevel() >= 75 then
+    if keys.caster:GetLevel() >= 50 then
         keys.caster.invoked_orbs[6] = keys.caster.invoked_orbs[5]
     end
-    if keys.caster:GetLevel() >= 60 then
+    if keys.caster:GetLevel() >= 40 then
         keys.caster.invoked_orbs[5] = keys.caster.invoked_orbs[4]
     end
-    if keys.caster:GetLevel() >= 40 then
+    if keys.caster:GetLevel() >= 30 then
         keys.caster.invoked_orbs[4] = keys.caster.invoked_orbs[3]
     end
-    if keys.caster:GetLevel() >= 25 then
+    if keys.caster:GetLevel() >= 20 then
         keys.caster.invoked_orbs[3] = keys.caster.invoked_orbs[2]
     end
     if keys.caster:GetLevel() >= 10 then
@@ -82,16 +82,16 @@ function invoker_replace_orb(keys, particle_filepath)
         keys.caster.invoked_orbs_particle[1] = nil
     end
     --Shift the ordered list of currently summoned orb particle effects down, and create the new particle.
-    if keys.caster:GetLevel() >= 75 then
+    if keys.caster:GetLevel() >= 50 then
         keys.caster.invoked_orbs_particle[5] = keys.caster.invoked_orbs_particle[6]
     end
-    if keys.caster:GetLevel() >= 60 then
+    if keys.caster:GetLevel() >= 40 then
         keys.caster.invoked_orbs_particle[4] = keys.caster.invoked_orbs_particle[5]
     end
-    if keys.caster:GetLevel() >= 40 then
+    if keys.caster:GetLevel() >= 30 then
         keys.caster.invoked_orbs_particle[3] = keys.caster.invoked_orbs_particle[4]
     end
-    if keys.caster:GetLevel() >= 25 then
+    if keys.caster:GetLevel() >= 20 then
         keys.caster.invoked_orbs_particle[2] = keys.caster.invoked_orbs_particle[3]
     end
     if keys.caster:GetLevel() >= 10 then
@@ -106,16 +106,16 @@ function invoker_replace_orb(keys, particle_filepath)
     if keys.caster:GetLevel() >= 10 then
         keys.caster.invoked_orbs_particle_attach[1] = keys.caster.invoked_orbs_particle_attach[2]
     end
-    if keys.caster:GetLevel() >= 25 then
+    if keys.caster:GetLevel() >= 20 then
         keys.caster.invoked_orbs_particle_attach[2] = keys.caster.invoked_orbs_particle_attach[3]
     end
-    if keys.caster:GetLevel() >= 40 then
+    if keys.caster:GetLevel() >= 30 then
         keys.caster.invoked_orbs_particle_attach[3] = keys.caster.invoked_orbs_particle_attach[4]
     end
-    if keys.caster:GetLevel() >= 60 then
+    if keys.caster:GetLevel() >= 40 then
         keys.caster.invoked_orbs_particle_attach[4] = keys.caster.invoked_orbs_particle_attach[5]
     end
-    if keys.caster:GetLevel() >= 75 then
+    if keys.caster:GetLevel() >= 50 then
         keys.caster.invoked_orbs_particle_attach[5] = keys.caster.invoked_orbs_particle_attach[6]
     end
     keys.caster.invoked_orbs_particle_attach[number] = temp_attachment_point
@@ -158,13 +158,13 @@ function replace_ellement_modifiers(keys)
     end
 
     local number = 1
-    if keys.caster:GetLevel() == 75 then
+    if keys.caster:GetLevel() >= 50 then
         number = 6
-    elseif keys.caster:GetLevel() >= 60 then
-        number = 5
     elseif keys.caster:GetLevel() >= 40 then
+        number = 5
+    elseif keys.caster:GetLevel() >= 30 then
         number = 4
-    elseif keys.caster:GetLevel() >= 25 then
+    elseif keys.caster:GetLevel() >= 20 then
         number = 3
     elseif keys.caster:GetLevel() >= 10 then
         number = 2
@@ -210,13 +210,13 @@ end
 
 function reset(keys)
     local number = 1
-    if keys.caster:GetLevel() == 75 then
+    if keys.caster:GetLevel() >= 50 then
         number = 6
-    elseif keys.caster:GetLevel() >= 60 then
-        number = 5
     elseif keys.caster:GetLevel() >= 40 then
+        number = 5
+    elseif keys.caster:GetLevel() >= 30 then
         number = 4
-    elseif keys.caster:GetLevel() >= 25 then
+    elseif keys.caster:GetLevel() >= 20 then
         number = 3
     elseif keys.caster:GetLevel() >= 10 then
         number = 2

@@ -99,6 +99,9 @@ function CHoldoutGameRound:Begin()
 	for _, spawner in pairs( self._vSpawners ) do
 		spawner:Begin()
 		self._nCoreUnitsTotal = self._nCoreUnitsTotal + spawner:GetTotalUnitsToSpawn()
+		if self._nRoundNumber == 36 then
+			self._nCoreUnitsTotal = self._nCoreUnitsTotal + 1
+		end
 	end
 	self._nCoreUnitsKilled = 0
 
@@ -196,9 +199,8 @@ function CHoldoutGameRound:OnNPCSpawned( event )
 		table.insert( self._vEnemiesRemaining, spawnedUnit )
 		local ability = spawnedUnit:FindAbilityByName("true_sight_boss")
 		if not ability ~= nil then
-			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then spawnedUnit:AddAbility('true_sight_boss') end
+			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then spawnedUnit:AddAbility('true_sight_boss') end
 		end
-		if GetMapName() == "epic_boss_fight_boss_master" then spawnedUnit:AddAbility('true_sight_boss') end
 		spawnedUnit:SetDeathXP( 0 )
 		spawnedUnit.unitName = spawnedUnit:GetUnitName()
 

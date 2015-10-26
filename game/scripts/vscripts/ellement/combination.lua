@@ -5,15 +5,18 @@
 ================================================================================================================= ]]
 require( "libraries/Timers" )
 require( "ellement/projectile_hit" )
+function Cooldown(keys,cooldown)
+    if keys.ability:GetCooldownTimeRemaining() <= cooldown and keys.ability:GetCooldownTimeRemaining() > 0.2  then
+        keys.ability:StartCooldown(cooldown)
+    end
+end
 function On_Spell_Start( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	local ability_level = ability:GetLevel() - 1
 	if keys.caster.invoked_orbs == nil then return end
     print (keys.ability:GetCooldownTimeRemaining())
-    if keys.ability:GetCooldownTimeRemaining() <=5 and keys.ability:GetCooldownTimeRemaining() > 0.2  then
-        keys.ability:StartCooldown(5)
-    end
+    
 	caster.last_used_skill = "none"
     caster.projectile_table = {}
 	caster.invocation_power_fire = 0
@@ -56,35 +59,41 @@ function On_Spell_Start( keys )
 	print ("ice power : ".. ice)
 
     --Skill with Main ellement : Fire
-    if fire > ice + wind then --Very High Damage + DoT
+    if fire > (ice + wind)*1.5 then --Very High Damage + DoT
     	print ("fire")
 		if fire > 2.51 and fire <= 5 then
 			caster.last_used_skill = "fire_spear"
+            Cooldown(keys,5)
 			projectile_fire_spear( keys )
 		elseif fire > 5 and fire <= 10 then
             caster.last_used_skill = "multiple_fire_spear"
+            Cooldown(keys,5)
 			projectile_multiple_fire_spear( keys , fire)
 		elseif fire > 10 then
 			caster.last_used_skill = "explosive_fire_spear"
+            Cooldown(keys,5)
             projectile_fire_spear( keys )
 		else
 			poweraura( keys , fire)
 		end
-	elseif wind > ice + fire then --medium/High damage + slow + knockback
+	elseif wind > (ice+fire)*1.5 then --medium/High damage + slow + knockback
 		print ("wind")
 		if wind >= 2.51 and wind <= 5 then
             caster.last_used_skill = "wind_stream"
+            Cooldown(keys,5)
 			wind_stream(keys,wind)
 		elseif wind >= 5 and wind <= 10 then
             caster.last_used_skill = "Turnado"
+            Cooldown(keys,5)
 			Turnado(keys,wind)
 		elseif wind > 10 then
             caster.last_used_skill = "Tempest"
+            Cooldown(keys,5)
 			Tempest(keys,wind)
 		else
 			speedaura( keys , wind)
 		end
-	elseif ice > wind + fire then --Low Damage , Slow/disable
+	elseif ice > (wind + fire)*1.5 then --Low Damage , Slow/disable
 		print ("ice")
 		if ice >= 2.51 and ice <= 5 then
 			ice_spike(keys , ice)
@@ -100,14 +109,17 @@ function On_Spell_Start( keys )
 		if fire >= 1.5*ice then 
 			if ice + fire >= 10 then --high Damage
                 caster.last_used_skill = "steam_tempest"
+                Cooldown(keys,5)
 				steam_tempest(keys,ice,fire)
 			else
                 caster.last_used_skill = "steam_trail"
+                Cooldown(keys,5)
 				steam_trail(keys,ice,fire)
 			end
 		elseif ice >= 1.5*fire then --Slow + DoT , medium damage
 			if ice + fire >= 10 then
                 caster.last_used_skill = "IceFlame_Ball"
+                Cooldown(keys,5)
                 IceFlame_Ball(keys,ice,fire)
 			else
                 Explosive_IceFlame(keys,ice,fire)
@@ -115,9 +127,11 @@ function On_Spell_Start( keys )
 		else 
 			if ice + fire >= 10 then --Disable/slow , medium damage
                 caster.last_used_skill = "water_tempest"
+                Cooldown(keys,5)
 				water_tempest(keys,ice,fire)
 			else
                 caster.last_used_skill = "water_stream"
+                Cooldown(keys,5)
 				water_stream(keys,ice,fire)
 			end
 		end
@@ -125,21 +139,26 @@ function On_Spell_Start( keys )
 		print ("ice + wind")
 		if ice >= 1.5*wind then
                 caster.last_used_skill = "Heavy_Ice_Projectile"
+                Cooldown(keys,5)
                 Heavy_Ice_Projectile(keys,ice,wind)
 		elseif wind >= 1.5*ice then
 			if ice + wind >= 10 then
 			    caster.last_used_skill = "Blizzard"
+                Cooldown(keys,5)
                 Blizzard(keys,wind,ice)
             else
                 caster.last_used_skill = "Ice_Tornado"
+                Cooldown(keys,5)
                 Ice_Tornado(keys,wind,fire)
 			end
 		else
 			if ice + wind >= 10 then
 				caster.last_used_skill = "iceshard2"
+                Cooldown(keys,5)
 				projectile_iceshard2(keys , ice, wind, fire)
 			else 
 				caster.last_used_skill = "iceshard1"
+                Cooldown(keys,5)
 				projectile_iceshard1(keys , ice, wind, fire)
 			end
 		end
@@ -147,6 +166,7 @@ function On_Spell_Start( keys )
 		print ("wind + fire")
 		if fire >= 1.5*wind then
                 caster.last_used_skill = "fire_ball"
+                Cooldown(keys,5)
 				fire_ball(keys,wind,fire)
 		elseif wind >= 1.5*fire then
 			if fire + wind >= 10 then
@@ -155,22 +175,21 @@ function On_Spell_Start( keys )
 		else 
 			if fire + wind >= 10 then
                 caster.last_used_skill = "Fire_Tempest"
+                Cooldown(keys,5)
 				Fire_Tempest(keys,wind,fire)
 			else
                 caster.last_used_skill = "Fire_Tornado"
+                Cooldown(keys,5)
 				Fire_Turnado(keys,wind,fire)
 			end
 		end
 	else
 		if fire + wind + ice >= 7.5 and fire + wind + ice < 15 then
-			print ("global heal")
 			global_heal( keys, fire, ice, wind)
 		elseif fire + wind + ice >= 15 then
             caster.last_used_skill = "arcana_laser"
             arcana_laser(keys,ice,fire,wind)
-            if keys.ability:GetCooldownTimeRemaining() <=15 and keys.ability:GetCooldownTimeRemaining() > 0.2 then
-                keys.ability:StartCooldown(15)
-            end
+            Cooldown(keys,15)
 		else
 			personal_heal( keys, fire, ice, wind)
 		end
@@ -521,7 +540,7 @@ function water_tempest(keys,ice,fire)
         EffectName = "particles/morphling_waveform_test.vpcf",
         EffectName = "particles/units/heroes/hero_morphling/morphling_waveform.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = (ice + fire)*200 + 100,
+        fDistance = (ice + fire)*200 + 400,
         fStartRadius = 200 + (ice + fire)*20,
         fEndRadius = 200 + (ice + fire)*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -558,7 +577,7 @@ function water_stream(keys,ice,fire)
         Ability = ability,
         EffectName = "particles/units/heroes/hero_morphling/morphling_waveform.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = (ice + fire)*200 + 100,
+        fDistance = (ice + fire)*200 + 400,
         fStartRadius = 200 + (ice + fire)*20,
         fEndRadius = 200 + (ice + fire)*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -587,7 +606,7 @@ function Ice_Tornado(keys,wind,ice)
         Ability = ability,
         EffectName = "particles/ice_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*500,
+        fDistance = wind*500 + 300,
         fStartRadius = 150 + wind*20,
         fEndRadius = 150 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -616,7 +635,7 @@ function Blizzard(keys,wind,ice)
         Ability = ability,
         EffectName = "particles/ice_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*500,
+        fDistance = wind*500 + 300,
         fStartRadius = 150 + wind*20,
         fEndRadius = 150 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -653,7 +672,7 @@ function Fire_Turnado(keys,wind,fire)
         Ability = ability,
         EffectName = "particles/fire_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*500,
+        fDistance = wind*500 + 300,
         fStartRadius = 150 + wind*20,
         fEndRadius = 150 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -681,7 +700,7 @@ function Fire_Tempest(keys,wind,fire)
         Ability = ability,
         EffectName = "particles/fire_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*500,
+        fDistance = wind*500 + 300,
         fStartRadius = 150 + wind*20,
         fEndRadius = 150 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -718,7 +737,7 @@ function Tempest(keys,wind)
         Ability = ability,
         EffectName = "particles/units/heroes/hero_invoker/invoker_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*200,
+        fDistance = wind*250 + 300,
         fStartRadius = 200 + wind*20,
         fEndRadius = 200 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -756,7 +775,7 @@ function Turnado(keys,wind)
         Ability = ability,
         EffectName = "particles/units/heroes/hero_invoker/invoker_tornado.vpcf",
         vSpawnOrigin = casterPoint,
-        fDistance = wind*200,
+        fDistance = wind*250 + 300,
         fStartRadius = 150 + wind*20,
         fEndRadius = 150 + wind*20,
         fExpireTime = GameRules:GetGameTime() + 5,
@@ -943,10 +962,10 @@ end
 function frosttouch( keys )
     local caster = keys.caster
     local ability = keys.ability
-    ability:ApplyDataDrivenModifier(caster, caster, "slow_modifier_caster", {duration = 20})
+    ability:ApplyDataDrivenModifier(caster, caster, "slow_modifier_caster", {duration = 40})
     local frost_bonus_effect = ParticleManager:CreateParticle("particles/alacrity_ice.vpcf", PATTACH_OVERHEAD_FOLLOW  , caster)
                 ParticleManager:SetParticleControl(frost_bonus_effect, 0, caster:GetAbsOrigin())
-                Timers:CreateTimer(20,function()
+                Timers:CreateTimer(40,function()
                     ParticleManager:DestroyParticle(frost_bonus_effect, false)
                 end)
 end
@@ -956,12 +975,12 @@ function speedaura( keys , wind)
     local ability = keys.ability
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         if unit:GetTeam() == keys.caster:GetTeam() then
-            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura_display", {duration = 20})
-            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura", {duration = 20})
+            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura_display", {duration = 40})
+            ability:ApplyDataDrivenModifier(caster, unit, "speed_aura", {duration = 40})
             unit:SetModifierStackCount( "speed_aura", ability, math.floor(wind*(75+keys.caster:GetLevel() ) ) )
             local speed_bonus_effect = ParticleManager:CreateParticle("particles/units/heroes/hero_invoker/invoker_alacrity_buff.vpcf", PATTACH_OVERHEAD_FOLLOW  , unit)
                 ParticleManager:SetParticleControl(speed_bonus_effect, 0, unit:GetAbsOrigin())
-                Timers:CreateTimer(20,function()
+                Timers:CreateTimer(40,function()
                     ParticleManager:DestroyParticle(speed_bonus_effect, false)
                 end)
         end
@@ -972,12 +991,12 @@ function poweraura( keys , fire)
     local ability = keys.ability
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         if unit:GetTeam() == keys.caster:GetTeam() then
-            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura_display", {duration = 20})
-            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura", {duration = 20})
+            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura_display", {duration = 40})
+            ability:ApplyDataDrivenModifier(keys.caster, unit, "power_aura", {duration = 40})
             unit:SetModifierStackCount( "power_aura", ability, math.floor(fire*((keys.caster:GetLevel()/2)^1.3)*50) )
             local speed_bonus_effect = ParticleManager:CreateParticle("particles/alacrity_fire.vpcf", PATTACH_OVERHEAD_FOLLOW , unit)
                 ParticleManager:SetParticleControl(speed_bonus_effect, 0,unit:GetAbsOrigin())
-                Timers:CreateTimer(20,function()
+                Timers:CreateTimer(40,function()
                     ParticleManager:DestroyParticle(speed_bonus_effect, false)
                 end)
         end

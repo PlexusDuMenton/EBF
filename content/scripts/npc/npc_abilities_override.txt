@@ -1,0 +1,21 @@
+"DOTAAbilities"
+{
+//"attribute_bonus"
+//  {
+//      "BaseClass"                     "ability_lua"
+//      "ScriptFile"                    "lua_abilities/attribute/attribute"
+//      "AbilityType"                   "DOTA_ABILITY_TYPE_ATTRIBUTES"
+//      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//      "MaxLevel"  "47"
+//      "LevelsBetweenUpgrades" "1"
+//      //"RequiredLevel"        "-100"
+//      "AbilitySpecial"
+//      {
+//          "01"
+//          {
+//              "var_type"                      "FIELD_FLOAT"
+//              "attribute_bonus_per_level"     "10.0"
+//          }
+//      }
+//  }
+}

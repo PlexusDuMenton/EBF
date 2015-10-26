@@ -20,11 +20,9 @@ end
 
 function OnWaterEnter(trigger)
     local ent = trigger.activator
-    if not ent then return end
-    if ent:IsAlive() then
-        ent.InWater = true
-        return
-    end
+    print (ent:GetName())
+    ent.InWater = true
+    print (ent.InWater)
 end
 
 function OnWaterExit(trigger)

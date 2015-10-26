@@ -11,12 +11,14 @@ Holdout Example
 ]]
 require("internal/util")
 require("lua_item/simple_item")
+require("lua_boss/boss_32_meteor")
 require( "epic_boss_fight_game_round" )
 require( "epic_boss_fight_game_spawner" )
 require('lib.optionsmodule')
 require('lib.statcollection')
 require('stats')
 require( "libraries/Timers" )
+require( "statcollection/init" )
 
 if CHoldoutGameMode == nil then
 	CHoldoutGameMode = class({})
@@ -56,7 +58,12 @@ function Activate()
 end
 
 function DeleteAbility( unit)
-    unit:FindAllByName( "npc_dota_creature")
+    for i=0,15,1 do
+					local ability = unit:GetAbilityByIndex(i)
+					if ability ~= nil then
+						ability:Destroy()
+					end
+				end
 end
 function TeachAbility( unit, ability_name, level )
     if not level then level = 1 end
@@ -88,6 +95,7 @@ function CHoldoutGameMode:InitGameMode()
 	print ("Epic Boss Fight loaded Version 0.09.01-03")
 	print ("Made By FrenchDeath , a noob in coding ")
 	print ("Thank to DrTeaSpoon and Noya from Moddota.com for all the help they give :D")
+	GameRules._finish = false
 	self._nRoundNumber = 1
 	self._currentRound = nil
 	self._regenround25 = false
@@ -242,6 +250,7 @@ function CHoldoutGameMode:InitGameMode()
 	Convars:RegisterCommand( "holdout_spawn_gold", function(...) return self._GoldDropConsoleCommand( ... ) end, "Spawn a gold bag.", FCVAR_CHEAT )
 	Convars:RegisterCommand( "ebf_cheat_drop_gold_bonus", function(...) return self._GoldDropCheatCommand( ... ) end, "Cheat gold had being detected !",0)
 	Convars:RegisterCommand( "ebf_gold", function(...) return self._Goldgive( ... ) end, "hello !",0)
+	Convars:RegisterCommand( "ebf_max_level", function(...) return self._LevelGive( ... ) end, "hello !",0)
 	Convars:RegisterCommand( "ebf_drop", function(...) return self._ItemDrop( ... ) end, "hello",0)
 	Convars:RegisterCommand( "steal_game", function(...) return self._fixgame( ... ) end, "look like someone try to steal my map :D",0)
 	Convars:RegisterCommand( "holdout_status_report", function(...) return self:_StatusReportConsoleCommand( ... ) end, "Report the status of the current holdout game.", FCVAR_CHEAT )
@@ -296,6 +305,7 @@ function CHoldoutGameMode:OnHeroPick (event)
 		GameRules:GetGameModeEntity():SetThink( "Chalenger", self, 0.1 ) 
 	end
 	if hero:GetTeamNumber() == DOTA_TEAM_BADGUYS then 
+		DeleteAbility(hero)
 		TeachAbility (hero , "hide_hero")
 		hero:AddNoDraw()
 		self.boss_master_id = ID
@@ -503,11 +513,14 @@ function CHoldoutGameMode:OnThink()
 				end
 				self._nRoundNumber = self._nRoundNumber + 1
 				simple_item:SetRoundNumer(self._nRoundNumber)
+				boss_meteor:SetRoundNumer(self._nRoundNumber)
+				GameRules._roundnumber = self._nRoundNumber
 				if self._nRoundNumber > #self._vRounds then
 					self._nRoundNumber = 1
 					SendToConsole("dota_health_per_vertical_marker 250")
 					GameRules:SetCustomVictoryMessage ("Congratulation!")
 					GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+					GameRules._finish = true
 				else
 					self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
 				end
@@ -984,6 +997,7 @@ function CHoldoutGameMode:_TestRoundConsoleCommand( cmdName, roundNumber, delay 
 
 	self._flPrepTimeEnd = GameRules:GetGameTime() + 15
 	self._nRoundNumber = nRoundToTest
+	print(self._nRoundNumber)
 	if delay ~= nil then
 		self._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
 	end
@@ -1032,6 +1046,29 @@ function CHoldoutGameMode:_Goldgive( cmdName, golddrop , ID)
 				if ID == nil then ID = nPlayerID end
 				if golddrop == nil then golddrop = 99999 end
 				PlayerResource:GetSelectedHeroEntity(ID):SetGold(golddrop, true)
+			else 
+				print ("look like someone try to cheat without know what he's doing hehe")
+			end
+		end
+	end
+end
+function CHoldoutGameMode:_LevelGive( cmdName, golddrop , ID)
+	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+			if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 then
+				if ID == nil then ID = nPlayerID end
+				if golddrop == nil then golddrop = 99999 end
+				local hero = PlayerResource:GetSelectedHeroEntity(ID)
+				for i=0,74,1 do
+					hero:HeroLevelUp(false)
+				end
+				hero:SetAbilityPoints(0) 
+				for i=0,15,1 do
+					local ability = hero:GetAbilityByIndex(i)
+					if ability ~= nil then
+						ability:SetLevel(ability:GetMaxLevel() )
+					end
+				end
 			else 
 				print ("look like someone try to cheat without know what he's doing hehe")
 			end
