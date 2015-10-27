@@ -20,6 +20,76 @@ function abilities_simple:start() -- Runs whenever the abilities_simple.lua is r
     print('[abilities_simple] abilities_simple started!')
 end
 
+function haste_armor(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    print ("test")
+    ability:ApplyDataDrivenModifier(caster, caster, "haste_armor_bonus", {})
+    Timers:CreateTimer(0.03,function()
+        if caster:IsAlive() then
+            if caster:GetIdealSpeed() ~= caster:GetModifierStackCount( "haste_armor_bonus", ability ) then
+                caster:SetModifierStackCount( "haste_armor_bonus", ability, caster:GetIdealSpeed() )
+            end
+            return 0.3
+        end
+    end)
+end
+
+function refresh_haste_armor(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    ability:ApplyDataDrivenModifier(caster, caster, "haste_armor_bonus", {})
+    caster:SetModifierStackCount( "haste_armor_bonus", ability, caster:GetIdealSpeed() )
+end
+
+function ground_smash(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    local ability_level = ability:GetLevel() - 1
+
+    local radius = ability:GetLevelSpecialValueFor("radius", ability_level)
+    local vRadius = Vector(radius,0,0)
+    local damage = ability:GetLevelSpecialValueFor("damage", ability_level)
+
+    local damage_type = DAMAGE_TYPE_MAGICAL
+
+    particle_ground = ParticleManager:CreateParticle("particles/ground_smash_aoe.vpcf", PATTACH_ABSORIGIN  , keys.caster)
+    ParticleManager:SetParticleControl(particle_ground, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(particle_ground, 1, vRadius) --radius
+    ParticleManager:SetParticleControl(particle_ground, 2, Vector(radius/2000,0,0)) --ammount of particle
+    ParticleManager:SetParticleControl(particle_ground, 3, Vector(radius/10,0,0)) --size of particle 
+    Timers:CreateTimer(2.5,function()
+        ParticleManager:DestroyParticle(particle_ground,true)
+    end)
+
+    local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
+                                  caster:GetAbsOrigin(),
+                                  nil,
+                                  radius,
+                                  DOTA_UNIT_TARGET_TEAM_ENEMY,
+                                  DOTA_UNIT_TARGET_ALL,
+                                  DOTA_UNIT_TARGET_FLAG_NONE,
+                                  FIND_ANY_ORDER,
+                                  false)
+
+    for _,unit in pairs(nearbyUnits) do
+        if unit ~= keys.caster then
+                if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
+                    local damageTableAoe = {victim = unit,
+                                attacker = caster,
+                                damage = damage,
+                                damage_type = damage_type,
+                                }
+                    ApplyDamage(damageTableAoe)
+                    ability:ApplyDataDrivenModifier(caster,unit,"slow_ground_smash",{})
+                end
+        end
+    end
+
+
+
+end
+
 function gold_rain(caster,total_gold,exp,gold_bag)
         if exp == nil then exp = 0 end
         if total_gold == nil then return end
@@ -124,8 +194,8 @@ end
 function evil_core_summon(keys)
     local caster = keys.caster
     caster.Charge = 0
-    for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
-        if PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
+    for nPlayerID = 0, DOTA_MAX_PLAYERS-1 do
+        if PlayerResource:IsValidPlayer( nPlayerID ) and PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
             local boss_master_id = nPlayerID
         end
     end
@@ -178,8 +248,8 @@ function boss_evil_core_spawn(keys)
             return 0.2
     end)
     local origin = Vector(0,0,0)
-    for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
-        if PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
+    for nPlayerID = 0, DOTA_MAX_PLAYERS-1 do
+        if PlayerResource:IsValidPlayer( nPlayerID ) and PlayerResource:GetTeam(nPlayerID) == DOTA_TEAM_BADGUYS then
             local boss_master_id = nPlayerID
         end
     end
@@ -283,16 +353,18 @@ function boss_evil_core_take_damage(keys)
                         caster:ForceKill(true)
                     end)
             end)
-            for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
-                local player = PlayerResource:GetPlayer(nPlayerID)
-                if player ~= nil then
-                    local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
-                    if hero ~=nil then
-                        if not hero:IsAlive() then
-                            hero:RespawnUnit()
+            for nPlayerID = 0, DOTA_MAX_PLAYERS-1 do
+                if PlayerResource:IsValidPlayer( nPlayerID ) then
+                    local player = PlayerResource:GetPlayer(nPlayerID)
+                    if player ~= nil then
+                        local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+                        if hero ~=nil then
+                            if not hero:IsAlive() then
+                                hero:RespawnUnit()
+                            end
+                            hero:SetHealth( hero:GetMaxHealth() )
+                            hero:SetMana( hero:GetMaxMana() )
                         end
-                        hero:SetHealth( hero:GetMaxHealth() )
-                        hero:SetMana( hero:GetMaxMana() )
                     end
                 end
             end
@@ -1194,8 +1266,6 @@ function spawn_unit( keys )
     for i = 0, keys.number_of_unit-1 do
         local entUnit = CreateUnitByName( unit ,caster:GetAbsOrigin() + RandomVector(RandomInt(400,400)), true, nil, nil, DOTA_TEAM_BADGUYS )
     end
-    
-    print ("ça marche !")
 end
 
 --[[

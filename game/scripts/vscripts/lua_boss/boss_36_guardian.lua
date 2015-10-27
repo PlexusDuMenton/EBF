@@ -23,6 +23,18 @@ function creation(keys)
 		end
 	end)
 
+    if GetMapName() == "epic_boss_fight_impossible" then
+        caster:SetMaxHealth(30000000) -- impossible
+    elseif GetMapName() == "epic_boss_fight_challenger" then
+        caster:SetMaxHealth(35000000) -- challengger
+    elseif  GetMapName() == "epic_boss_fight_hard" then
+        caster:SetMaxHealth(20000000) -- hard
+    elseif GetMapName() == "epic_boss_fight_boss_master" then
+        caster:SetMaxHealth(22500000) -- boss master
+    else
+        caster:SetMaxHealth(15000000) -- normal
+    end
+
 	Timers:CreateTimer( 0.1, function()
 		if caster:IsAlive() == true then
 			if caster.weak == false then

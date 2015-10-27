@@ -60,7 +60,10 @@ function meteor_on_spell_start(keys)
             keys.caster:StopSound("Hero_Invoker.ChaosMeteor.Loop")
             chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Impact")
             chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Loop")  --Emit a sound that will follow the meteor.
-            local fire_aura_duration = keys.ability:GetLevelSpecialValueFor("burn_duration", 0)
+            local fire_aura_duration = 5
+            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_hard" then
+                fire_aura_duration = 7
+            end
             for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
                 if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
                     unit:SetHealth(unit:GetHealth()/2)

@@ -52,50 +52,6 @@
 	    }
 	}
 
-
-	"boss_evil_core_cast"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"BaseClass"						"ability_datadriven"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityTextureName"            "evil_core_summon"
-		
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"9000"
-		"AbilityManaCost"               "1000"
-		
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"7.5"
-		"AbilityCastPoint"				"0.1"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-	        {
-	            "var_type"              "FIELD_FLOAT"
-	            "damage"             "100000 200000 300000"  //The meteor lands on the ground this many seconds after it was cast.
-	        }
-		}
-		
-		// Modifiers
-		//-------------------------------------------------------------------------------------------------------------	
-		"OnAbilityPhaseStart"
-		{
-			"RunScript"
-	        {
-	            "ScriptFile"                        "lua_abilities/abilities_simple.lua"
-	            "Function"                          "evil_core_summon"
-	        }
-		}
-	}
-
 	"boss_evil_core_passive"
 	{
 	    // General
@@ -160,7 +116,147 @@
 	}
 
 
+	"spirit_breaker_haste_armor"
+	{
 
+		// General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"                     "ability_datadriven"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "spirit_breaker_charge_of_darkness_alt"
+	    "MaxLevel"                      "7"
+	    "LevelsBetweenUpgrades" "9"
+		     
+
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"                      "FIELD_FLOAT"
+	            "speed_to_armor_percent_tooltip"     "5 10 15 30 45 60 100"
+	        }
+	        "01"
+	        {
+	            "var_type"                      "FIELD_FLOAT"
+	            "speed_to_armor"     "0.05 0.10 0.15 0.30 0.45 0.60 1.0"
+	        }
+	    }
+	    "OnUpgrade"
+	    {
+	    	"RunScript"
+			    {
+			    	"ScriptFile"                        "lua_abilities/abilities_simple.lua"
+			   		"Function"                          "refresh_haste_armor"
+				}
+		}
+	    "Modifiers"
+	    {
+	        "haste_armor_bonus"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "1"
+	            "IsDebuff"          "0"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"      "%speed_to_armor"
+	            }
+	        }
+	        "haste_armor_tooltip"
+	        {	
+	        	"Passive"           "1"
+	        	"IsHidden"          "1"
+		        "OnCreated"
+		        {
+		        	"RunScript"
+			        {
+			            "ScriptFile"                        "lua_abilities/abilities_simple.lua"
+			            "Function"                          "haste_armor"
+			        }
+			    }
+	    	}
+	    }
+	}
+
+
+	"spirit_breaker_ground_smash"
+	{
+
+		// General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"                     "ability_datadriven"
+		"AbilityUnitTargetTeam"			"DOTA_UNITs_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+	    "AbilityTextureName"            "ground_smash"
+	    "MaxLevel"                      "7"
+	    "LevelsBetweenUpgrades" "9"
+
+
+		"AOERadius" "500 575 650 725 800 875 950"
+		
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"	// Activity
+		"AnimationPlaybackRate"			"1.0"						// Animation speed multiplier
+		"AnimationIgnoresModelScale"	"1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"20.0"
+		"AbilityCastPoint"				"1.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"               "200"
+		"AbilityCastRange"	"500 575 650 725 800 875 950"
+		     
+
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"                      "FIELD_FLOAT"
+	            "damage"     "400 1600 6400 25000 100000 400000 800000"
+	        }
+	        "02"
+	        {
+	            "var_type"                      "FIELD_FLOAT"
+	            "slow_movement_speed"     "-40 -50 -60 -70 -80 -90 -100"
+	        }
+	        "03"
+	        {
+	            "var_type"                      "FIELD_FLOAT"
+	            "radius"     "500 575 650 725 800 875 950"
+	        }
+	    }
+	    "OnSpellStart"
+	    {
+	        "RunScript"
+	        {
+	            "ScriptFile"                        "lua_abilities/abilities_simple.lua"
+	            "Function"                          "ground_smash"
+	        }
+	    }
+	    
+	    "Modifiers"
+	    {
+	        "slow_ground_smash"
+	        {
+	            "Passive"           "0"
+	            "IsHidden"          "0"
+	            "IsBuff"            "0"
+	            "IsDebuff"          "1"
+	            "IsPurgable"        "0"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"
+	            "duration" "20"
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"      "%slow_movement_speed"
+	            }
+	        }
+	    }
+	}
 
 
 
@@ -3088,7 +3184,7 @@
 		"AbilityCastMinimumRange"		"50"
 		"AOERadius" "1000"
 		
-		"AbilityCastAnimation"			"ACT_DOTA_DEATH"	// Activity
+		"AbilityCastAnimation"			"ACT_DOTA_DIE"	// Activity
 		"AnimationPlaybackRate"			"1.0"						// Animation speed multiplier
 		"AnimationIgnoresModelScale"	"1"
 
@@ -3255,7 +3351,7 @@
 	        "04"
 	        {
 	            "var_type"              "FIELD_FLOAT"
-	            "burn_duration"         "15.0"
+	            "burn_duration"         "10.0"
 	        }
 		}
 		
@@ -3316,7 +3412,7 @@
 	            "IsHidden"          "0"
 	            "IsBuff"            "0"
 	            "IsDebuff"          "1"
-	            "IsPurgable"        "0"
+	            "IsPurgable"        "1"
 	            "Properties"
 				{
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%armor_debuff"

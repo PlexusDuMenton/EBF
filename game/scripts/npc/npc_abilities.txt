@@ -16757,7 +16757,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"LevelsBetweenUpgrades"			"5"
+		"LevelsBetweenUpgrades"			"9"
 		"MaxLevel"						"7"
 
 		// Time		
@@ -16780,7 +16780,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"damage"				"100 200 400 800 1600 3200 6400"
+				"damage"				"100 400 1600 6400 25000 100000 250000"
 			}
 			"03"
 			{
@@ -16831,7 +16831,7 @@
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
 		"FightRecapLevel"				"2"
-		"LevelsBetweenUpgrades"			"7"
+		"LevelsBetweenUpgrades"			"9"
 		"MaxLevel"						"7"
 		
 		// Casting
@@ -16842,7 +16842,7 @@
 
 		// Time			
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"80 70 60"
+		"AbilityCooldown"				"80 70 60 55 50 45 40"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -16855,7 +16855,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"300 600 1200 2400 4800 10000 20000"
+				"damage"				"400 1600 6400 25000 100000 400000 800000"
 			}
 			"02"
 			{
@@ -16880,7 +16880,7 @@
 			"06"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"cooldown_scepter"		"70.0 60.0 50.0"
+				"cooldown_scepter"		"70.0 60.0 50.0 45 40 35 30"
 			}
 		}
 	}
