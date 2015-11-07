@@ -31,8 +31,21 @@ end
 function simple_item:start() -- Runs whenever the simple_item.lua is ran
     print('[simple_item] simple_item started!')
 end
+
+function simple_item:midas_gold(bonus) -- Runs whenever the simple_item.lua is ran
+    if simple_item._totalgold == nil then 
+        simple_item._totalgold = 0 
+        CustomGameEventManager:Send_ServerToAllClients("create_midas_display", {})
+    end
+    simple_item._totalgold = simple_item._totalgold + bonus
+    CustomGameEventManager:Send_ServerToAllClients("Update_Midas_Gold", {gold = simple_item._totalgold})
+end
+
 function Cooldown_powder(keys)
     local item = keys.ability
+    local caster = keys.caster
+    local dust_effect = ParticleManager:CreateParticle("particles/chronos_powder.vpcf", PATTACH_ABSORIGIN  , caster)
+    ParticleManager:SetParticleControl(dust_effect, 0, caster:GetAbsOrigin())
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
         item:StartCooldown(30)
     end
@@ -99,6 +112,8 @@ function tank_booster(keys)
         end)
     end
 end
+
+
 
 function adjute_HP(keys)
     local caster = keys.caster
@@ -200,6 +215,60 @@ function CD_pure(keys)
     end
 end
 
+function item_blink_boots_check_charge(keys)
+    local item = keys.ability
+
+    if item:GetCurrentCharges() == 0 then item:SetCurrentCharges(1) end
+    if item.blink_charge == nil then item:SetCurrentCharges(3) end
+
+    item.blink_charge = true
+    item.blink_next_charge = GameRules:GetGameTime() + 8
+
+    Timers:CreateTimer(0.3,function() 
+        if item.blink_charge == true then
+            if GameRules:GetGameTime() >= item.blink_next_charge and item:GetCurrentCharges() < 3 then
+                item:SetCurrentCharges(item:GetCurrentCharges()+1)
+                item.blink_next_charge = GameRules:GetGameTime() + 8
+            end
+            return 0.3
+        end
+    end)
+end
+
+function item_blink_boots_stop_charge(keys)
+    local item = keys.ability
+    item.blink_charge = false
+end
+
+function item_blink_boots_blink(keys)
+    local item = keys.ability
+    local caster = keys.caster
+    if item:GetCurrentCharges() > 0 then
+        local nMaxBlink = 1500 
+        local nClamp = 1200
+        local vPoints = item:GetCursorPosition() 
+        local vOrigin = caster:GetAbsOrigin()
+
+        ParticleManager:CreateParticle("particles/items_fx/blink_dagger_start.vpcf", PATTACH_ABSORIGIN, caster)
+        caster:EmitSound("DOTA_Item.BlinkDagger.Activate")
+        local vDistance = vPoints - vOrigin
+        if vDistance:Length2D() > nMaxBlink then
+            vPoints = vOrigin + (vPoints - vOrigin):Normalized() * nClamp
+        end
+        caster:SetAbsOrigin(vPoints)
+        FindClearSpaceForUnit(caster, vPoints, false)
+        ParticleManager:CreateParticle("particles/items_fx/blink_dagger_end.vpcf", PATTACH_ABSORIGIN, caster)
+        if item:GetCurrentCharges() == 3 then
+            item.blink_next_charge = GameRules:GetGameTime() + 8
+        end
+        item:SetCurrentCharges(item:GetCurrentCharges()-1)
+        if item:GetCurrentCharges() == 0 then
+            item:StartCooldown(item.blink_next_charge - GameRules:GetGameTime())
+        end
+    end
+end
+
+
 function item_dagon_datadriven_on_spell_start(keys)
     local caster = keys.caster
     local item = keys.ability
@@ -254,6 +323,13 @@ function Midas_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
     local ID = 0
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
+                    simple_item:midas_gold(bonus_gold)
+                end
+    elseif item:IsCooldownReady() and not caster:IsIllusion() then
+        simple_item:midas_gold(bonus_gold)
+    end
     simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
@@ -327,6 +403,13 @@ function Midas2_OnHit(keys)
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
     simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+                if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
+                    simple_item:midas_gold(bonus_gold)
+                end
+    elseif item:IsCooldownReady() and not caster:IsIllusion() then
+        simple_item:midas_gold(bonus_gold)
+    end
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then

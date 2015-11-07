@@ -24,7 +24,7 @@
 		},
 		{
 			_class = "C_OP_InterpolateRadius"
-			m_flEndScale = 8.000000
+			m_flEndScale = 3.000000
 			m_flStartScale = 2.000000
 			m_flBias = 0.600000
 		},
@@ -57,13 +57,13 @@
 		},
 		{
 			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMin = 1.500000
-			m_fLifetimeMax = 2.000000
+			m_fLifetimeMin = 1.000000
+			m_fLifetimeMax = 1.000000
 		},
 		{
 			_class = "C_INIT_RandomRadius"
 			m_flRadiusMin = 30.000000
-			m_flRadiusMax = 47.740500
+			m_flRadiusMax = 144.184000
 		},
 		{
 			_class = "C_INIT_RandomRotation"

@@ -7794,7 +7794,7 @@
 		
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"35000"		// Damage range min.
 		"AttackDamageMax"			"55000"		// Damage range max.
 		"AttackRate"				"0.6"		// Speed of attack.
@@ -7899,7 +7899,7 @@
 		
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"80000"		// Damage range min.
 		"AttackDamageMax"			"100000"		// Damage range max.
 		"AttackRate"				"0.6"		// Speed of attack.
@@ -13273,7 +13273,7 @@
 		// Status
 		//----------------------------------------------------------------
 		"StatusHealth"				"26666666"		// Base health.
-		"StatusHealthRegen"			"66666"			// Health regeneration rate.
+		"StatusHealthRegen"			"6666"			// Health regeneration rate.
 		"StatusMana"				"1000"			// Base mana.
 		"StatusManaRegen"			"0"			// Mana regeneration rate.		 
 		

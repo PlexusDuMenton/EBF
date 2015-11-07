@@ -258,7 +258,7 @@ function boss_evil_core_spawn(keys)
         caster:SetAbsOrigin(origin)
         local size = Vector(200,200,0)
         FindClearSpaceForUnit(caster, origin, true)
-
+        caster.have_shield = true
         caster.shield_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf", PATTACH_ABSORIGIN  , keys.caster)
         ParticleManager:SetParticleControl(caster.shield_particle, 0, origin)
         ParticleManager:SetParticleControl(caster.shield_particle, 1, size)
@@ -288,6 +288,7 @@ function boss_evil_core_spawn(keys)
                     if weakness == true then 
                         if caster.weakness == false then
                             caster.weakness = true
+                            caster.have_shield = false
                             local messageinfo = {
                                 message = "Evil core is now weak !",
                                 duration = 2
@@ -300,6 +301,7 @@ function boss_evil_core_spawn(keys)
                         if caster.weakness == true then
                             caster.weakness = false
                             print ("evil core is now invicible !")
+                            caster.have_shield = true
                             caster.shield_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf", PATTACH_ABSORIGIN  , keys.caster)
                                 ParticleManager:SetParticleControl(caster.shield_particle, 0, origin)
                                 ParticleManager:SetParticleControl(caster.shield_particle, 1, size)
@@ -1310,6 +1312,42 @@ function rearm_refresh_cooldown( keys )
     end
 end
 
+
+
+function axe_culling_blade_fct(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    local target = keys.target
+    local ability_level = ability:GetLevel() - 1
+    local kill_threshold = ability:GetLevelSpecialValueFor( "kill_threshold", ability_level )
+    local damage = ability:GetLevelSpecialValueFor( "kill_threshold", ability_level )
+
+    if target:GetUnitName() ~= "npc_dota_boss36" then
+        if target:GetHealth() <= kill_threshold then
+            StartSoundEvent("Hero_Axe.Culling_Blade_Success", target )
+            local kill_effect = ParticleManager:CreateParticle("particles/units/heroes/hero_axe/axe_culling_blade_kill.vpcf", PATTACH_ABSORIGIN , target)
+            ParticleManager:SetParticleControl(kill_effect, 0, target:GetAbsOrigin())
+            ParticleManager:SetParticleControl(kill_effect, 1, target:GetAbsOrigin())
+            ParticleManager:SetParticleControl(kill_effect, 2, target:GetAbsOrigin())
+            ParticleManager:SetParticleControl(kill_effect, 3, target:GetAbsOrigin())
+            ParticleManager:SetParticleControl(kill_effect, 4, target:GetAbsOrigin())
+            target:ForceKill(true)
+            ability:EndCooldown()
+        else
+            local damageTable = {
+                victim = target,
+                attacker = caster,
+                damage = damage,
+                damage_type = DAMAGE_TYPE_PHYSICAL
+            }
+            ApplyDamage(damageTable)
+            StartSoundEvent("Hero_Axe.Culling_Blade_Fail", target )
+        end
+    else
+        ability:EndCooldown()
+    end
+
+end
 function heat_seeking_missile_seek_targets( keys )
     -- Variables
     local caster = keys.caster

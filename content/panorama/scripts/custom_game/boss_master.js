@@ -4,7 +4,6 @@ var team = Entities.GetTeamNumber( PlayerEntityIndex )
 $.Msg('Team ID',team)
 	if (team < 3)
 	{
-		$.Msg('JE TE BAISE')
 		$('#'+"boss_master").visible = false; 
 	}
 

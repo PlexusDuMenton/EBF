@@ -28,7 +28,8 @@
 		"item" "item_orb_of_shadows"
 		"item" "item_heart_boots"
 		"item" "item_midas_greave"
-		"item" "item_sheepstick_2"
+		"item" "item_blink_boots"
+		
 	}
 	"weapons_armor"
 	{
@@ -89,23 +90,17 @@
 	"item" "item_moon_crest"
 	"item" "item_lunar_crest"
 	"item" "item_gungnir"
+	"item" "item_gungnir_2"
 	"item" "item_tank_booster"
 	"item" "item_blood_booster"
 	"item" "item_Dagon_Mystic"
-	"item" "item_gauntlet_cursed"
+	
 	}
 	"magics"
-	{
-	"item" "item_force_staff"
-	"item" "item_necronomicon"
-	"item" "item_cyclone"
-	"item" "item_dagon"
-	"item" "item_veil_of_discord"
-	"item" "item_rod_of_atos"
-	"item" "item_orchid"
-	"item" "item_refresher"
-	"item" "item_sheepstick"
-	"item" "item_slippers_of_halcyon"
+	{ 
+	"item" "item_gauntlet_cursed"
+	"item" "item_sheepstick_2"
+	"item" "item_bahamut_claw"
 	}
 	// Level 3 - Purple Recipes
 	"defense"

@@ -1058,13 +1058,12 @@
 
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"item_datadriven"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
 		"AbilityTextureName"			"item_orb_of_shadows"
 		"ItemKillable"					"1"
 		"ItemCost"						"1800"
 		"ItemShopTags"					"str"
 		"ItemQuality"					"actifact"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemAliases"					"Orb"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 
@@ -2646,7 +2645,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
 		"ItemCost"						"5400"
 		"ItemShopTags"					"str"
 		"ItemQuality"					"component"
@@ -3536,7 +3535,7 @@
 	            "Properties"
 	            {
 	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
-	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"          "%bonus_damage"
 	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
 	            }
 	            
@@ -4022,7 +4021,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_orb_divine"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
@@ -4208,7 +4207,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"6373"	
+		"ItemCost"						"6375"	
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -4418,14 +4417,13 @@
 			"ItemInitialCharges"			"1"
 			"precache"
 			{
-			    "particle" "particles/chronos_powder.vpcf"
+			    "particle"	"particles/chronos_powder.vpcf"
 			    "soundfile" "sounds/items/dust_of_appearance.vsnd"
 			}
 			"OnSpellStart"
 			{
 				"RunScript"
 				{
-					"Target" 				"POINT"
 					"ScriptFile"			"lua_item/simple_item.lua"
 					"Function"				"Cooldown_powder"
 				}
@@ -4443,13 +4441,6 @@
 				{
 					"Target" "CASTER"
 					"EffectName" "sounds/items/dust_of_appearance.vsnd"
-				}
-				"FireEffect"
-				{
-					"EffectName" "particles/chronos_powder.vpcf"
-					"TARGET" "CASTER"
-					"EffectAttachType" "follow_origin"
-					"EffectRadius" "600"
 				}
 				"SpendCharge"
 				{}
@@ -4712,7 +4703,7 @@
 	            "Properties"
 	            {
 	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
-	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"          "%bonus_damage"
 	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
 	            }
 	            
@@ -4812,7 +4803,7 @@
 	            "Properties"
 	            {
 	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
-	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"          "%bonus_damage"
 	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
 	            }
 	            
@@ -5507,7 +5498,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_orb_bahamut"
-		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemShareability"				"ITEM_NOT_SHAREABLE"
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
@@ -6660,7 +6651,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"BaseClass"						"item_datadriven"
-		"AbilityTextureName"			"item_sange_and_yasha_2"
+		"AbilityTextureName"			"item_s_a_y_2"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
@@ -7361,7 +7352,7 @@
 		
     	"Modifiers"
     	{	
-    		"melee_fury"
+    		"Piercing"
     		{
     			"Properties"
 		        {
@@ -8586,8 +8577,11 @@
 
 		"Modifiers"
 		{
-			"desolator5_moon_crest"
+			"moon_crest_passive"
 			{
+				"Passive"	 	"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"IsHidden"		"1"
 				
 				"OnAttackLanded"
 				{
@@ -8597,9 +8591,6 @@
 						"ModifierName"		"moon_crest_effect"
 					}
 				}
-				"Passive"	 	"1"
-				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
-				"IsHidden"		"1"
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_EVASION_CONSTANT"  		"%bonus_evasion"
@@ -8670,32 +8661,32 @@
 				"var_type"				"FIELD_INTEGER"
 				"bonus_evasion"			"40"
 			}
-			"07"
+			"06"
 			{
 				"var_type"					"FIELD_INTEGER"
 				"bonus_all"				"100"
 			}
-			"08"
+			"07"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"bonus_mana_regen"					"125"
 			}
-			"09"
+			"08"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"active_armor_percent"					"75"
 			}
-			"10"
+			"09"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"active_damage_reduction"					"-70"
 			}
-			"11"
+			"10"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"active_duration"					"15"
 			}
-			"10"
+			"11"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"active_damage_reduction_tooltip"					"70"
@@ -8842,12 +8833,12 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"2000"
+				"bonus_damage"			"500"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"armor_reduction"		"-400"
+				"armor_reduction"		"-120"
 			}
 			"03"
 			{
@@ -8857,42 +8848,42 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_armor"			"100"
+				"bonus_armor"			"60"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_evasion"			"50"
+				"bonus_evasion"			"40"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"100"
 			}
 			"07"
 			{
-				"var_type"					"FIELD_INTEGER"
-				"bonus_all"				"500"
+				"var_type"								"FIELD_INTEGER"
+				"bonus_mana_regen"					"125"
 			}
 			"08"
 			{
 				"var_type"								"FIELD_INTEGER"
-				"bonus_mana_regen"					"250"
+				"active_armor_percent"					"75"
 			}
 			"09"
 			{
 				"var_type"								"FIELD_INTEGER"
-				"active_armor_percent"					"80"
+				"active_damage_reduction"					"-70"
 			}
 			"10"
-			{
-				"var_type"								"FIELD_INTEGER"
-				"active_damage_reduction"					"-35"
-			}
-			"11"
 			{
 				"var_type"								"FIELD_INTEGER"
 				"active_duration"					"15"
 			}
-			"10"
+			"11"
 			{
 				"var_type"								"FIELD_INTEGER"
-				"active_damage_reduction_tooltip"					"35"
+				"active_damage_reduction_tooltip"					"70"
 			}
 		}
 	}
@@ -10024,7 +10015,7 @@
 	            "Properties"
 	            {
 	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
-	                "MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"          "%bonus_damage"
+	                "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"          "%bonus_damage"
 	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
 	            }
 	            
@@ -10382,6 +10373,403 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_damage"		"9999"
+			}
+		}
+	}
+	"item_recipe_blink_boots"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1270"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"1420"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_blink_boots"
+		"ItemRequirements"
+		{
+			"01"						"item_force_boots;item_orb_of_doom;item_blink"
+		}
+	}
+	
+	//=================================================================================================================
+	// Helm
+	//=================================================================================================================
+	"item_blink_boots"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1271"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_blink_boots"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"8000"
+		"ItemShopTags"					"damage;unique"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"cursed"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"lua_item/simple_item.lua"
+			    "Function"          "item_blink_boots_blink"
+			}
+		}
+
+		"Modifiers"
+		{
+			"blink_boots"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"  "%bonus_movement"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%bonus_attack_speed"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "%bonus_all"
+		            "MODIFIER_PROPERTY_STATS_AGILITY_BONUS" "%bonus_all"
+		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all"
+				}
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+					    "Function"          "item_blink_boots_check_charge"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+				    {
+				    	"ScriptFile"			"lua_item/simple_item.lua"
+				    	"Function"          "item_blink_boots_stop_charge"
+				    }
+				}
+			}
+		}
+
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"charge_cooldown"			"6"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"blink_range"			"1500"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement"				"120"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"				"150"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attack_speed"				"100"
+			}
+		}
+	}
+	//======================================================================================================
+	//==============Gungnir================================================================================
+	//======================================================================================================
+	"item_recipe_gungnir_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1272"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"4000"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_gungnir_2"
+		"ItemRequirements"
+		{
+			"01"						"item_gungnir;item_death_scythe;item_orb_divine"
+		}
+	}
+	"item_gungnir_2"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1273"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_gungnir_2"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"30000"
+		"ItemShopTags"					"int"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "Pierce_percent"                "30"
+	        }
+	        "02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"2500"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"600"
+			}
+	    }
+
+	    "Modifiers"
+	    {
+	        "Piercing"
+	        {
+	        	"IsHidden"                  "0"
+            	"Passive"                	"1"
+	        	"OnAttackLanded"
+	        	{
+	        		"RunScript"
+	        		{
+	        			"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Pierce"
+						"damage_on_hit"		"%attack_damage"
+	        		}
+	        	}
+	        }
+	        "passive"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+       				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+     			}
+	    	}
+	    }
+	}
+	//=================================================================================================================
+	// Recipe: Divine desolator
+	//=================================================================================================================
+	"item_recipe_bahamut_claw"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1274"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"AbilityTextureName"            "item_bahamut_claw"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"33000"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_bahamut_claw"
+		"ItemRequirements"
+		{
+			"01"						"item_desolator5;item_orb_bahamut;item_unstable_stone"
+		}
+	}
+
+	//=================================================================================================================
+	// divine soul
+	//=================================================================================================================
+	"item_bahamut_claw"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1275"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_bahamut_claw"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable"					"1"
+		"ItemCost"						"140000"
+		"ItemShopTags"					"damage;unique;health;bahamut;T6;damage"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"soul"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilityCastPoint"	"0.0"
+		"AbilityCastPoint"	"1500.0"
+		"AbilityCooldown"	"0"
+		"AbilityManaCost"	"0"
+
+		"Modifiers"
+		{
+			"desolator5_stat"
+			{
+				"OnAttackStart"
+					{
+						"Random"
+						{
+		   					"Chance" "%critical_chance"
+		   					"OnSuccess"
+		   					{
+								"ApplyModifier"
+								{
+									"ModifierName" 	"critical_strike_h"
+									"Target" 		"CASTER"
+								}
+							}
+							"OnFailure"
+							{}
+						}
+						
+					}
+				"OnAttackLanded"
+				{
+					"ApplyModifier"
+					{
+						"Target"				"TARGET"
+						"ModifierName"		"bahamut_claw_effect"
+					}
+					"RemoveModifier"
+						{
+							"ModifierName" 	"critical_strike_h"
+							"Target" 		"CASTER"
+						}
+				}
+				"Passive"	 	"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
+					"MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT" 	"%base_attack_time"
+				}
+			}
+
+			"critical_strike_h"
+			{
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" 	"%critical_bonus"
+				}
+			}
+
+			"bahamut_claw_effect"
+			{
+				"IsDebuff" "1"
+    			"IsPurgable" "0"
+    			"Duration" "%duration"
+     			"Properties"
+     			{
+       				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_reduction"
+     			}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"5000"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_reduction"		"-3000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"	"15.0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"50"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"	"100"
+			}
+	        "07"
+	        {
+	            "var_type"              "FIELD_FLOAT"
+	            "base_attack_time"                "0.8"
+	        }
+			"08"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"3000"
+			}
+			"09"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"bonus_attack_speed"					"500"
+			}
+			"10"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"critical_bonus"						"700"
+			}
+			"11"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"critical_chance"						"60"
 			}
 		}
 	}

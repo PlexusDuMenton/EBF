@@ -846,8 +846,17 @@
 		"MaxGold"					"125000"
 		"BagCount"					"1"
 		"BagVariance"				"0"
-		"FixedXP"					"10
-		"Round36" // Boss 36
+		"FixedXP"					"1000000"
+		
+		"UnitBoss_8"
+		{
+			"NPCName"				"npc_dota_boss35_h"
+			"TotalUnitsToSpawn"		"1"
+			"UnitsPerSpawn"			"1"
+			"SpawnInterval"			"1"
+		}
+	}
+	"Round36" // Boss 36
 	{
 		"round_quest_title"			"#DOTA_Holdout_Round_Boss36_Quest_Title"
 		"round_title"				"#DOTA_Holdout_Round_Boss36_Title"
@@ -859,15 +868,6 @@
 		"UnitBoss_8"
 		{
 			"NPCName"				"npc_dota_boss36"
-			"TotalUnitsToSpawn"		"1"
-			"UnitsPerSpawn"			"1"
-			"SpawnInterval"			"1"
-		}
-	}00000"
-		
-		"UnitBoss_8"
-		{
-			"NPCName"				"npc_dota_boss35_h"
 			"TotalUnitsToSpawn"		"1"
 			"UnitsPerSpawn"			"1"
 			"SpawnInterval"			"1"

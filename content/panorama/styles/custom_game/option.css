@@ -1,0 +1,252 @@
+.option_panel
+{
+    width: 100%;
+    height: 100%;
+    overflow: clip;
+}
+
+
+#DPS_Main
+{
+  horizontal-align: right;
+  vertical-align: top;
+margin-right: 450px;
+  margin-top: 53px;
+  width: 400px;
+    height: 100px;
+ }
+ 
+#damage_text
+ {
+	font-size: 20px;
+	margin-left: 50px;
+	margin-top: 27px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+#damage
+ {
+	font-size: 20px;
+	horizontal-align: left;
+	margin-left: 250px;
+	margin-top: 28px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+#dps_text
+ {
+	font-size: 20px;
+	margin-left: 50px;
+	margin-top: 45px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+#DPS
+ {
+	font-size: 20px;
+	horizontal-align: left;
+	margin-left: 250px;
+	margin-top: 46px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+#TD
+ {
+	font-size: 20px;
+	horizontal-align: left;
+	margin-left: 250px;
+	margin-top: 65px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+#TD_TEXT
+ {
+	font-size: 20px;
+	margin-left: 50px;
+	margin-top: 64px;
+    font-weight: bold;
+	color: #FFFFFF;
+}
+
+#option_openclose_general
+{
+  horizontal-align: right;
+  vertical-align: top;
+	  margin-right: 50px;
+  width: 200px;
+    height: 40px;
+ }
+
+  #main_BG
+{
+  horizontal-align: right;
+  vertical-align: top;
+  width: 220px;
+  height: 200px;
+ }
+ 
+ #casual_BG
+{
+  horizontal-align: right;
+  vertical-align: top;
+  width: 200px;
+  height: 50px;
+ }
+
+#option_general
+{
+  horizontal-align: right;
+  vertical-align: top;
+  margin-right: 30px;
+  margin-top: 50px;
+  width: 220px;
+  height: 180px;
+ }
+ 
+ #option_mute_sound
+ {
+  horizontal-align: left;
+  vertical-align: top;
+  margin-left: 10px;
+  margin-top: 15px;
+  width: 200px;
+  height: 50px;
+ }
+  #option_unmute_sound
+{
+  horizontal-align: left;
+  vertical-align: top;
+  margin-top: 15px;
+  margin-left: 10px;
+  width: 200px;
+  height: 50px;
+ }
+ 
+  #option_health_bar
+{
+  horizontal-align: left;
+  vertical-align: top;
+  margin-left: 10px;
+  margin-top: 65px;
+  width: 200px;
+  height: 50px;
+ }
+ 
+   #option_dps
+{
+  horizontal-align: left;
+  vertical-align: top;
+  margin-left: 10px;
+  margin-top: 115px;
+  width: 200px;
+  height: 50px;
+ }
+ 
+ 
+ 
+    #text_DPS
+	{
+	font-size: 15px;
+	margin-left: 15px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #FFFFFF;
+ }
+    #text_HB
+	{
+	font-size: 15px;
+	margin-left: 15px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #FFFFFF;
+ }
+    #text_sound_1
+	{
+	font-size: 20px;
+	margin-left: 15px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #FFFFFF;
+ }
+    #text_sound_2
+{
+	font-size: 20px;
+	margin-left: 15px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #FFFFFF;
+ }
+
+ .hp_bar_panel
+{
+    width: 100%;
+    height: 100%;
+    overflow: clip;
+}
+
+#hp_bar_parent_health
+#hp_bar_parent_mana
+#hp_bar_parent_shield
+{
+	horizontal-align: right;
+    vertical-align: top;
+	width: 561px;
+    height: 157px;
+}
+
+#hp_bar_general
+{
+  horizontal-align: left;
+  vertical-align: top;
+ margin-left: 300px;
+ margin-top: 50px;
+  width: 561px;
+    height: 157px;
+ }
+ 
+ 
+ #hp_bar_mana
+ #hp_bar_health
+{
+    horizontal-align: right;
+    vertical-align: top;
+    width: 561px;
+    height: 157px;
+	clip: rect( 0%, 100%, 100%, 0% );
+    z-index:5;
+
+    background-position: 0% 0%;
+ }
+ 
+ #hp_bar_current
+{
+	margin-left: 200px;
+	font-size: 18px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #ABBFA0;
+ }
+  #hp_bar_slash
+{
+	margin-left: 300px;
+	font-size: 18px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #ABBFA0;
+ }
+  #hp_bar_total
+{
+	margin-left: 320px;
+	font-size: 18px;
+	margin-top: 15px;
+    font-weight: bold;
+	color: #ABBFA0;
+ }
+  #hp_bar_name
+{
+	margin-left: 180px;
+	font-size: 23px;
+    font-weight: bold;
+	margin-top: 63px;
+	color: #303030;
+ }

@@ -42,15 +42,18 @@ end
 function BuildGameArray()
     local game = {}
     table.insert(game, {
-        Total_Time = math.floor(GameRules:GetGameTime()/60),
-        Max_Round = GameRules._roundnumber,
-        Finished_Game = GameRules._finish
+        G_T = math.floor(GameRules:GetGameTime()/60), --game time
+        M_R = GameRules._roundnumber, -- max round achiece
+        F_G = GameRules._finish,    --is the game had been finished (win)
+        life = GameRules._live,     --how many life left
+        U_L = GameRules._used_live,     -- Used Life
+        T_L = GameRules._used_live+ GameRules._live     --Total Life
     })
 
     -- Add game values here as game.someValue = GetSomeGameValue()
 
     return game
-end
+end 
 
 -- Returns a table containing data for every player in the game
 function BuildPlayersArray()
@@ -61,30 +64,52 @@ function BuildPlayersArray()
 
                 local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 
+                    
+                if hero:GetTeamNumber()==DOTA_TEAM_GOODGUYS then
+                    team = "Boss Slayer"
+                else
+                    team = "Boss Master"
+                end
+
                 table.insert(players, {
                     -- steamID32 required in here
                     steamID32 = PlayerResource:GetSteamAccountID(playerID),
-                    Player_Hero_Name = GetHeroName(playerID),                                             -- name
-                    Player_Level = hero:GetLevel(),                                                   -- level
-                    Player_NetWorth = GetNetworth(PlayerResource:GetSelectedHeroEntity(playerID)),      -- Networth
-                    Player_Team = hero:GetTeam(),                                           -- Hero's team
-                    Player_Connection_State = PlayerResource:GetConnectionState(playerID), -- Player connection state
-                    Player_Kill = hero:GetKills(),                                         -- Kills
-                    Player_Death = hero:GetDeaths(),                                       -- Deaths
-                    Player_LH = PlayerResource:GetLastHits(hero:GetPlayerOwnerID()),    -- Last hits
-                    Player_Heal = PlayerResource:GetHealing(hero:GetPlayerOwnerID()),       -- Healing
-                    Player_Gold_Per_Min = math.floor(PlayerResource:GetGoldPerMin(hero:GetPlayerOwnerID())),        -- GPM
-                    item_list = GetItemList(hero)                                           -- Item list
-
-                    -- Example functions for generic stats are defined in statcollection/lib/utilities.lua
-                    -- Add player values here as someValue = GetSomePlayerValue(),
-
+                    HN = GetHeroName(playerID),                                             -- name
+                    P_L = hero:GetLevel(),                                                   -- level
+                    P_NW = GetNetworth(PlayerResource:GetSelectedHeroEntity(playerID)),      -- Networth
+                    P_T = team,                                           -- Hero's team
+                    P_K = hero:GetKills(),                                         -- Kills
+                    P_D = hero:GetDeaths(),                                       -- Deaths
+                    P_H = PlayerResource:GetHealing(hero:GetPlayerOwnerID()),       -- Healing
+                    P_R = hero.Ressurect,                   --ammount of time he ressurect someone
+                    P_GPM = math.floor(PlayerResource:GetGoldPerMin(hero:GetPlayerOwnerID())),        -- GPM
+                    T_D = hero.damageDone,
+                    --inventory :
+                    i1 = GetItemList2(hero,0),
+                    i2 = GetItemList2(hero,1),
+                    i3 = GetItemList2(hero,2),
+                    i4 = GetItemList2(hero,3),
+                    i5 = GetItemList2(hero,4),
+                    i6 = GetItemList2(hero,5)
                 })
             end
         end
     end
 
     return players
+end
+
+function GetItemList2(hero,slot)
+    local item = {}
+    local itemName = -1
+    if hero:GetItemInSlot(slot)~= nil then
+        itemName = string.gsub(hero:GetItemInSlot(slot):GetAbilityName(),"item_","") --Cuts the item_ prefix
+    end
+    
+    table.insert(item,itemName)
+    local item = table.concat(item, ",") --Concatenates with a comma
+
+    return item
 end
 
 -- Prints the custom schema, required to get an schemaID

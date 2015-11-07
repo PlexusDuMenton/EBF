@@ -15,6 +15,7 @@ function creation(keys)
 	caster.weak = false
 	create_shield_particle(keys)
 	keys.ability:ApplyDataDrivenModifier( caster, caster, "invincible", {} )
+    caster.have_shield = true
 
 	Timers:CreateTimer( 0.03, function()
 		if caster:IsAlive() == true then
@@ -43,6 +44,7 @@ function creation(keys)
 					caster.Charge = 0
 					ParticleManager:DestroyParticle( caster.shield_particle, true)
 					caster:RemoveModifierByName( "invincible" )
+                    caster.have_shield = false
 				else
 					caster.Charge = caster.Charge - 1
 				end
@@ -51,6 +53,7 @@ function creation(keys)
 					caster.Charge = caster.Charge + (1000/(7.5*10))
 				else
 					caster.weak = false
+                    caster.have_shield = true
 					create_shield_particle(keys)
 					keys.ability:ApplyDataDrivenModifier( caster, caster, "invincible", {} )
 				end
@@ -177,15 +180,15 @@ function hell_on_earth(keys)
 		caster.hell_grow = true
 	end
 
-    Timers:CreateTimer(0.05, function()
+    Timers:CreateTimer(0.09, function()
         created_projectile = created_projectile + 1
-        createAOEDamage(keys,"particles/shadow_doom_ring.vpcf",position,250,damage,DAMAGE_TYPE_PURE,2.0,"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts",1.5)
-        angle = (created_projectile*1440)/total_projectile
+        createAOEDamage(keys,"particles/shadow_doom_ring.vpcf",position,250,damage,DAMAGE_TYPE_PURE,2.1,"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts",1.5)
+        angle = (created_projectile*1200)/total_projectile
        	position = GetGroundPosition(RotatePosition(Vector(0,0,0), QAngle(0,angle,0), fv) * distance + origin,nil)
 
         distance = distance +shift
         if created_projectile <=total_projectile then
-            return 0.05
+            return 0.09
         end
     end)
 end
@@ -213,7 +216,7 @@ function createAOEDamage(keys,particlesname,location,size,damage,damage_type,dur
     ParticleManager:SetParticleControl(AOE_effect, 0, location)
     ParticleManager:SetParticleControl(AOE_effect, 1, location)
     Timers:CreateTimer(duration,function()
-        ParticleManager:DestroyParticle(AOE_effect, false)
+        ParticleManager:DestroyParticle(AOE_effect, true)
     end)
     Timers:CreateTimer(delay, function()
 	    local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),

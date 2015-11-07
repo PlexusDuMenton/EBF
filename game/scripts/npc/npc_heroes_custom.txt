@@ -166,6 +166,7 @@
 	{
 		"override_hero"			"npc_dota_hero_axe"
 		"Ability3"				"axe_counter_helix_datadriven"
+		"Ability4"				"axe_ultimate"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_nyx_assassin_ebf"
@@ -217,6 +218,12 @@
 		"override_hero"			"npc_dota_hero_spirit_breaker"
 		"Ability1"				"spirit_breaker_ground_smash"
 		"Ability2"				"spirit_breaker_haste_armor"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	"npc_dota_hero_necrolyte_ebf"
+	{
+		"override_hero"			"npc_dota_hero_necrolyte"
+		"Ability3"				"necro_death_aura"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 }

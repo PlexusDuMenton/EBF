@@ -122,7 +122,9 @@ end
 
 function CHoldoutGameRound:OnHoldoutReviveComplete( event )
 	local castingHero = EntIndexToHScript( event.caster )
+	
 	if castingHero then
+		castingHero.Ressurect = castingHero.Ressurect + 1
 		local totalgold = castingHero:GetGold() + self._nRoundNumber*5
 	            castingHero:SetGold(0 , false)
 	            castingHero:SetGold(totalgold, true)

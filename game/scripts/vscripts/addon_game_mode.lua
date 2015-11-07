@@ -9,13 +9,20 @@ Holdout Example
 		"v"		Table
 		"b"		Boolean
 ]]
+DAMAGE_TYPES = {
+	    [0] = "DAMAGE_TYPE_NONE",
+	    [1] = "DAMAGE_TYPE_PHYSICAL",
+	    [2] = "DAMAGE_TYPE_MAGICAL",
+	    [4] = "DAMAGE_TYPE_PURE",
+	    [7] = "DAMAGE_TYPE_ALL",
+	    [8] = "DAMAGE_TYPE_HP_REMOVAL",
+	}
 require("internal/util")
 require("lua_item/simple_item")
 require("lua_boss/boss_32_meteor")
 require( "epic_boss_fight_game_round" )
 require( "epic_boss_fight_game_spawner" )
 require('lib.optionsmodule')
-require('lib.statcollection')
 require('stats')
 require( "libraries/Timers" )
 require( "statcollection/init" )
@@ -97,6 +104,9 @@ function CHoldoutGameMode:InitGameMode()
 	print ("Thank to DrTeaSpoon and Noya from Moddota.com for all the help they give :D")
 	GameRules._finish = false
 	self._nRoundNumber = 1
+	self.Last_Target_HB = nil
+	self.Shield = false
+	self.Last_HP_Display = -1
 	self._currentRound = nil
 	self._regenround25 = false
 	self._regenround13 = false
@@ -131,6 +141,8 @@ function CHoldoutGameMode:InitGameMode()
            progress_bar_hue_shift = -119 
          } )
 	Life:AddSubquest( LifeBar )
+	GameRules._live = Life._life
+	GameRules._used_live = 0
 	-- text on the quest timer at start
 	Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
 	Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._life )
@@ -210,36 +222,36 @@ function CHoldoutGameMode:InitGameMode()
 		1000000, --43
 		1500000, --44
 		2000000, --45
-		2500000, --46
-		3000000, --47
-		3500000, --48
-		4000000, --49
-		4500000, --50
-		5000000, --51
-		6000000, --52
-		7000000, --53
-		8000000, --54
-		9000000, --55
-		1000000, --56
-		1100000, --57
-		1200000, --58
-		1300000, --59
-		1400000, --60
-		1500000, --61
-		1750000, --62
-		2000000, --63
-		2250000, --64
-		2500000, --65
-		3000000, --66
-		3500000, --67
-		4000000, --68
-		4500000, --69
-		5000000, --70
-		5500000, --71
-		6000000, --72
-		7000000, --73
-		8000000, --74
-		10000000 --75
+		3000000, --46
+		4000000, --47
+		5000000, --48
+		6000000, --49
+		7000000, --50
+		8000000, --51
+		9000000, --52
+		10000000, --53
+		11000000, --54
+		12000000, --55
+		13000000, --56
+		14000000, --57
+		15000000, --58
+		16000000, --59
+		17000000, --60
+		18000000, --61
+		19000000, --62
+		20000000, --63
+		22500000, --64
+		25000000, --65
+		30000000, --66
+		35000000, --67
+		40000000, --68
+		45000000, --69
+		50000000, --70
+		55000000, --71
+		60000000, --72
+		70000000, --73
+		80000000, --74
+		100000000 --75
 	}
 
 	GameRules:GetGameModeEntity():SetUseCustomHeroLevels( true )
@@ -267,27 +279,172 @@ function CHoldoutGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener('Boss_Master', Dynamic_Wrap( CHoldoutGameMode, 'Boss_Master'))
 	CustomGameEventManager:RegisterListener('mute_sound', Dynamic_Wrap( CHoldoutGameMode, 'mute_sound'))
 	CustomGameEventManager:RegisterListener('unmute_sound', Dynamic_Wrap( CHoldoutGameMode, 'unmute_sound'))
+	CustomGameEventManager:RegisterListener('Health_Bar_Command', Dynamic_Wrap( CHoldoutGameMode, 'Health_Bar_Command'))
+
+
+
 
 	-- Register OnThink with the game engine so it is called every 0.25 seconds
+	GameRules:GetGameModeEntity():SetDamageFilter( Dynamic_Wrap( CHoldoutGameMode, "FilterDamage" ), self )
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, 0.25 ) 
+	GameRules:GetGameModeEntity():SetThink( "Update_Health_Bar", self, 0.09 ) 
+end
+
+function CHoldoutGameMode:Health_Bar_Command (event)
+ 	local ID = event.pID
+ 	local player = PlayerResource:GetPlayer(ID)
+ 	print (event.Enabled)
+ 	if event.Enabled == 0 then
+ 		player.HB = false
+ 		player.Health_Bar_Open = false
+ 	else
+ 		player.HB = true
+ 	end
+end
+
+function CHoldoutGameMode:Update_Health_Bar()
+		local higgest_ennemy_hp = 0
+		local biggest_ennemy = nil
+		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+			if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+				if unit:GetMaxHealth() > higgest_ennemy_hp and unit:IsAlive() then
+					biggest_ennemy = unit
+					higgest_ennemy_hp = unit:GetMaxHealth()
+				end
+			end
+		end
+		if self.Last_Target_HB ~= biggest_ennemy and biggest_ennemy ~= nil then
+			if self.Last_Target_HB ~= nil then
+				ParticleManager:DestroyParticle(self.Last_Target_HB.HB_particle, false)
+			end
+			self.Last_Target_HB = biggest_ennemy
+			self.Last_Target_HB.HB_particle = ParticleManager:CreateParticle("particles/health_bar_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW   , self.Last_Target_HB)
+            ParticleManager:SetParticleControl(self.Last_Target_HB.HB_particle, 0, self.Last_Target_HB:GetAbsOrigin())
+            ParticleManager:SetParticleControl(self.Last_Target_HB.HB_particle, 1, self.Last_Target_HB:GetAbsOrigin())
+		end
+		Timers:CreateTimer(0.1,function()
+			if biggest_ennemy ~= nil and biggest_ennemy:IsAlive() then
+				local table_arg = {}
+				table_arg.total_life = biggest_ennemy:GetMaxHealth()
+				table_arg.current_life = biggest_ennemy:GetHealth()
+				table_arg.total_mana = biggest_ennemy:GetMaxMana()
+				table_arg.current_mana = biggest_ennemy:GetMana()
+				table_arg.name = biggest_ennemy:GetUnitName()
+				if self.Last_HP_Display ~= table_arg.current_life then
+					self.Last_HP_Display = table_arg.current_life
+					CustomGameEventManager:Send_ServerToAllClients("Update_Health_Bar", table_arg)
+				end
+				if table_arg.total_mana ~= 0 then
+					CustomGameEventManager:Send_ServerToAllClients("Update_mana_Bar", table_arg)
+				end
+				if self.Shield == false and biggest_ennemy.have_shield == true then
+					self.Shield = true
+					CustomGameEventManager:Send_ServerToAllClients("activate_shield", {})
+				elseif	self.Shield == true and biggest_ennemy.have_shield ~= true then 
+					self.Shield = false
+					CustomGameEventManager:Send_ServerToAllClients("disactivate_shield", {})
+				end
+				for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+					if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+						if PlayerResource:HasSelectedHero( nPlayerID ) then
+							local player = PlayerResource:GetPlayer(nPlayerID)
+							if player.HB == true and player.Health_Bar_Open == false then
+								player.Health_Bar_Open = true
+								CustomGameEventManager:Send_ServerToPlayer(player,"Open_Health_Bar", {})
+							end
+						end
+					end
+				end
+			else
+				for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+					if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+						if PlayerResource:HasSelectedHero( nPlayerID ) then
+							local player = PlayerResource:GetPlayer(nPlayerID)
+							if player.HB == true and player.Health_Bar_Open == true then
+								player.Health_Bar_Open = false
+								CustomGameEventManager:Send_ServerToPlayer(player,"Close_Health_Bar", {})
+							end
+						end
+					end
+				end
+			end
+		end)
+
+	if GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then		-- Safe guard catching any state that may exist beyond DOTA_GAMERULES_STATE_POST_GAME
+		return nil
+	end
+	return 0.09
+end
+
+
+function increase_damage_player(ID,Damage)
 	
+end
+
+function CHoldoutGameMode:FilterDamage( filterTable )
+    --[[for k, v in pairs( filterTable ) do
+      print("Damage: " .. k .. " " .. tostring(v) )
+    end]]
+    local total_damage_team = 0
+    local victim_index = filterTable["entindex_victim_const"]
+    local attacker_index = filterTable["entindex_attacker_const"]
+    if not victim_index or not attacker_index then
+        return true
+    end
+
+    local victim = EntIndexToHScript( victim_index )
+    local attacker = EntIndexToHScript( attacker_index )
+    local damagetype = filterTable["damagetype_const"]
+
+   
+    local damage = filterTable["damage"] --Post reduction
+    local attackerID = attacker:GetPlayerOwnerID()
+    if attackerID and PlayerResource:HasSelectedHero( attackerID ) then
+	    local hero = PlayerResource:GetSelectedHeroEntity(attackerID)
+	    local player = PlayerResource:GetPlayer(attackerID)
+	    hero.damageDone = math.floor(hero.damageDone + damage)
+	    local dps = math.ceil(hero.damageDone/GameRules:GetGameTime())
+	   	CustomGameEventManager:Send_ServerToPlayer(player,"Update_Damage", {damage = hero.damageDone , dps = dps})
+    end
+    for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+			if PlayerResource:HasSelectedHero( nPlayerID ) then
+				local hero = PlayerResource:GetSelectedHeroEntity(nPlayerID)
+				total_damage_team = hero.damageDone + total_damage_team
+			end
+		end
+	end
+    CustomGameEventManager:Send_ServerToAllClients("Update_Damage_Team", {team = total_damage_team})
+
+
+    return true
+end
+function GetHeroDamageDone(hero)
+    return hero.damageDone
 end
 
 function CHoldoutGameMode:OnAbilityUsed(keys)
 	--will be used in future :p
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
 	local abilityname = keys.abilityname
+	print (abilityname)
 end
 
 function CHoldoutGameMode:OnHeroPick (event)
  	local hero = EntIndexToHScript(event.heroindex)
  	if hero:GetName() == "npc_dota_hero_invoker" then levelAbility( hero, "invoker_reset", 1) end
 	hero:RemoveAbility('attribute_bonus')
+	hero:AddItemByName("npc_dota_courier")
+	hero.damageDone = 0
+	hero.Ressurect = 0
 	stats:ModifyStatBonuses(hero)
 	hero:AddAbility('lua_attribute_bonus')
 	local ID = hero:GetPlayerID()
 	hero:SetGold(0 , false)
-	hero:SetGold(24 , true)
+	hero:SetGold(0 , true)
+	local player = PlayerResource:GetPlayer(ID)
+ 	player.HB = true
+ 	player.Health_Bar_Open = false
 	if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
 		print ("look like maker of map is here :D")
 		message_creator = true
@@ -464,6 +621,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		self._checkpoint = 26
 		Life._MaxLife = Life._MaxLife + 1
 		Life._life = Life._life + 1
+		GameRules._live = Life._life
 		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
    		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._MaxLife )
 		-- value on the bar
@@ -482,6 +640,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		self._checkpoint = 14
 		Life._MaxLife = Life._MaxLife + 1
 		Life._life = Life._life + 1
+		GameRules._live = Life._life
 		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
    		Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._MaxLife )
 		-- value on the bar
@@ -504,13 +663,6 @@ function CHoldoutGameMode:OnThink()
 				self._currentRound = nil
 				-- Heal all players
 				self:_RefreshPlayers()
-				for nPlayerID = 0, DOTA_MAX_PLAYERS-1 do
-					if PlayerResource:IsValidPlayer( nPlayerID ) then
-						PlayerResource:SetBuybackCooldownTime( nPlayerID, 5 )
-						PlayerResource:SetBuybackGoldLimitTime( nPlayerID, 2500 )
-						PlayerResource:ResetBuybackCostTime( nPlayerID )
-					end
-				end
 				self._nRoundNumber = self._nRoundNumber + 1
 				simple_item:SetRoundNumer(self._nRoundNumber)
 				boss_meteor:SetRoundNumer(self._nRoundNumber)
@@ -595,6 +747,8 @@ function CHoldoutGameMode:_CheckForDefeat()
 			end
 			self._flPrepTimeEnd = GameRules:GetGameTime() + 20
 			Life._life = Life._life - 1
+			GameRules._live = Life._life
+			GameRules._used_live = GameRules._used_live + 1 
 			Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
    			LifeBar:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
 			self._check_dead = false

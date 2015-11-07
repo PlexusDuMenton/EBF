@@ -66,6 +66,7 @@
 		{
 			_class = "C_INIT_RemapInitialCPDirectionToRotation"
 			m_nFieldOutput = 12
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_INIT_CreateWithinSphere"

@@ -88,6 +88,7 @@
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"      "1"
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"      "1"
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"      "1"
+	                "MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE"  "0"
 	            }
 
 	            "States"
@@ -180,6 +181,69 @@
 	    }
 	}
 
+	"necro_death_aura"
+	{
+
+		// General
+	    //-------------------------------------------------------------------------------------------------------------
+	    "BaseClass"                     "ability_datadriven"
+		"AbilityUnitTargetTeam"			"DOTA_UNITs_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	    "AbilityTextureName"            "death_blink"
+	    "MaxLevel"                      "7"
+	    "LevelsBetweenUpgrades" "9"
+	    "AbilityCastRange" "450 500 550 600 700 800 900"
+	
+		"precache"
+		{
+			//"particle"	"particles/ground_smash_aoe.vpcf"
+		}		     
+
+	    "AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"                      "FIELD_INTEGER"
+	            "magical_ress_red"     "-10 -20 -30 -40 -50 -75 -100"
+	        }
+	        "02"
+	        {
+	        	"var_type"						"FIELD_INTEGER"
+	        	"radius"     "450 500 550 600 700 800 900"
+	        }
+	    }
+	    "OnSpellStart"
+	    {
+	        "RunScript"
+	        {
+	            "ScriptFile"                        "lua_abilities/abilities_simple.lua"
+	            "Function"                          "ground_smash"
+	        }
+	    }
+	    
+	    "Modifiers"
+	    {
+	        "debuf_aura"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"Aura" "debuff_death_aura"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+			"debuff_death_aura"
+			{	
+				"IsDebuff" 	"1"
+           		"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"		"%magical_ress_red"
+				}
+			}
+	    }
+	}
 
 	"spirit_breaker_ground_smash"
 	{
@@ -210,7 +274,11 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"               "200"
 		"AbilityCastRange"	"500 575 650 725 800 875 950"
-		     
+	
+		"precache"
+		{
+			"particle"	"particles/ground_smash_aoe.vpcf"
+		}		     
 
 	    "AbilitySpecial"
 	    {
@@ -257,8 +325,6 @@
 	        }
 	    }
 	}
-
-
 
 
 
@@ -3153,6 +3219,7 @@
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PHYSICAL"      "1"
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_MAGICAL"      "1"
 	                "MODIFIER_PROPERTY_ABSOLUTE_NO_DAMAGE_PURE"      "1"
+	                "MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE"  "0"
 	            }
 	    	}
 		}
@@ -9116,6 +9183,107 @@
 	                    "Function"      "SetCurrentHealth"
 	                }
 	            }
+			}
+		}
+	}
+
+	"axe_ultimate"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
+		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"9"
+
+		"AbilityCastRange"				"200"
+		"AbilityCastPoint"				"0.3"
+		"AbilityCastAnimation"			"ACT_DOTA_CHANNEL_ABILITY_3"
+
+		"precache"
+    	{
+	        "particle"  "particles/units/heroes/hero_axe/axe_culling_blade_kill.vpcf"
+	        "soundfile" "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+    	}
+
+		
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"40"
+		"AbilityTextureName"			"axe_culling_blade"
+
+
+		"OnSpellStart"
+		{
+			"RunScript"
+	        {
+				"ScriptFile" "lua_abilities/abilities_simple.lua"
+				"Function" "axe_culling_blade_fct"
+	        }
+		}
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"kill_threshold"			"3000 9000 27000 60000 180000 500000 1500000"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"2500 7000 15000 45000 135000 400000 1000000"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_bonus"				"30"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"atk_speed_bonus_tooltip"				"30"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"speed_duration"			"6"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_aoe"					"900"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"cooldown_scepter"			"6.0 6.0 6.0"
+			}
+			"08"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"kill_threshold_scepter"	"9000 27000 60000 180000 500000 1500000 4500000"
+			}
+			"09"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"speed_duration_scepter"	"10"
+			}
+		}
+		"Modifiers"
+		{	
+			"axe_boost"
+			{
+				"IsPurgable" "0"
+				"duration"	"20"
+				"States"
+				{
+					"MODIFIER_STATE_SILENCED"       		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_SPECIALLY_DENIABLE"       "MODIFIER_STATE_VALUE_ENABLED"
+				}
 			}
 		}
 	}
