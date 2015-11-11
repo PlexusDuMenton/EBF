@@ -11,8 +11,6 @@ Holdout Example
 ]]
 require( "epic_boss_fight_game_round" )
 require( "epic_boss_fight_game_spawner" )
-require('lib.optionsmodule')
-require('lib.statcollection')
 
 if CHoldoutGameMode == nil then
 	CHoldoutGameMode = class({})
