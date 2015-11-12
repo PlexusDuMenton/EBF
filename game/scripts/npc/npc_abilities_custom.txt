@@ -187,7 +187,6 @@
 		// General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"                     "ability_datadriven"
-		"AbilityUnitTargetTeam"			"DOTA_UNITs_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
 	    "AbilityTextureName"            "death_blink"
@@ -251,7 +250,7 @@
 		// General
 	    //-------------------------------------------------------------------------------------------------------------
 	    "BaseClass"                     "ability_datadriven"
-		"AbilityUnitTargetTeam"			"DOTA_UNITs_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
 	    "AbilityTextureName"            "ground_smash"
@@ -4734,7 +4733,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"ability_datadriven"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
-		"AbilityUnitTargetTeam"			"DOTA_UNITs_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
 		"AbilityTextureName"            "nyx_assassin_impale"
 		

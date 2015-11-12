@@ -41,6 +41,7 @@ end
 -- Returns a table with our custom game tracking.
 function BuildGameArray()
     local game = {}
+
     table.insert(game, {
         G_T = math.floor(GameRules:GetGameTime()/60), --game time
         M_R = GameRules._roundnumber, -- max round achiece
@@ -50,10 +51,8 @@ function BuildGameArray()
         T_L = GameRules._used_live+ GameRules._live     --Total Life
     })
 
-    -- Add game values here as game.someValue = GetSomeGameValue()
-
     return game
-end 
+end
 
 -- Returns a table containing data for every player in the game
 function BuildPlayersArray()
@@ -64,7 +63,6 @@ function BuildPlayersArray()
 
                 local hero = PlayerResource:GetSelectedHeroEntity(playerID)
 
-                    
                 if hero:GetTeamNumber()==DOTA_TEAM_GOODGUYS then
                     team = "Boss Slayer"
                 else
@@ -85,12 +83,15 @@ function BuildPlayersArray()
                     P_GPM = math.floor(PlayerResource:GetGoldPerMin(hero:GetPlayerOwnerID())),        -- GPM
                     T_D = hero.damageDone,
                     --inventory :
-                    i1 = GetItemList2(hero,0),
-                    i2 = GetItemList2(hero,1),
-                    i3 = GetItemList2(hero,2),
-                    i4 = GetItemList2(hero,3),
-                    i5 = GetItemList2(hero,4),
-                    i6 = GetItemList2(hero,5)
+                    i1 = GetItemSlot(hero,0),
+                    i2 = GetItemSlot(hero,1),
+                    i3 = GetItemSlot(hero,2),
+                    i4 = GetItemSlot(hero,3),
+                    i5 = GetItemSlot(hero,4),
+                    i6 = GetItemSlot(hero,5)
+                    -- Example functions for generic stats are defined in statcollection/lib/utilities.lua
+                    -- Add player values here as someValue = GetSomePlayerValue(),
+
                 })
             end
         end
@@ -99,18 +100,16 @@ function BuildPlayersArray()
     return players
 end
 
-function GetItemList2(hero,slot)
-    local item = {}
-    local itemName = -1
-    if hero:GetItemInSlot(slot)~= nil then
-        itemName = string.gsub(hero:GetItemInSlot(slot):GetAbilityName(),"item_","") --Cuts the item_ prefix
+function GetItemSlot(hero,slot)
+    local item = hero:GetItemInSlot(slot)
+    
+    if item then
+        local itemName = string.gsub(item:GetAbilityName(),"item_","") or nil
     end
     
-    table.insert(item,itemName)
-    local item = table.concat(item, ",") --Concatenates with a comma
-
-    return item
+    return itemName
 end
+
 
 -- Prints the custom schema, required to get an schemaID
 function PrintSchema( gameArray, playerArray )

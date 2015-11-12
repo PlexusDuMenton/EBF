@@ -410,7 +410,9 @@ function CHoldoutGameMode:FilterDamage( filterTable )
 		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 			if PlayerResource:HasSelectedHero( nPlayerID ) then
 				local hero = PlayerResource:GetSelectedHeroEntity(nPlayerID)
-				total_damage_team = hero.damageDone + total_damage_team
+				if hero then
+					total_damage_team = hero.damageDone + total_damage_team
+				end
 			end
 		end
 	end
@@ -434,7 +436,8 @@ function CHoldoutGameMode:OnHeroPick (event)
  	local hero = EntIndexToHScript(event.heroindex)
  	if hero:GetName() == "npc_dota_hero_invoker" then levelAbility( hero, "invoker_reset", 1) end
 	hero:RemoveAbility('attribute_bonus')
-	hero:AddItemByName("npc_dota_courier")
+	hero:AddItemByName("item_courier")
+	hero:AddItemByName("item_flying_courier")
 	hero.damageDone = 0
 	hero.Ressurect = 0
 	stats:ModifyStatBonuses(hero)
