@@ -37,4 +37,8 @@ function GetSteamID32() {
 
     GameEvents.Subscribe( "statcollection_client", OnClientCheckIn );
 
+<<<<<<< HEAD
 })();
+=======
+})();
+>>>>>>> origin/master
