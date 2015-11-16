@@ -1117,9 +1117,9 @@ XP_PER_LEVEL_TABLE = {
 -- Custom game specific console command "holdout_test_round"
 function CHoldoutGameMode:_TestRoundConsoleCommand( cmdName, roundNumber, delay )
 	local nRoundToTest = tonumber( roundNumber )
-	print (string.format( "Testing round %d", nRoundToTest ) )
+	print( "Testing round %d", nRoundToTest )
 	if nRoundToTest <= 0 or nRoundToTest > #self._vRounds then
-		Msg( string.format( "Cannot test invalid round %d", nRoundToTest ) )
+		print( "Cannot test invalid round %d", nRoundToTest )
 		return
 	end
 
@@ -1175,6 +1175,7 @@ function CHoldoutGameMode:_GoldDropConsoleCommand( cmdName, goldToDrop )
 end
 
 function CHoldoutGameMode:_GoldDropCheatCommand( cmdName, goldToDrop)
+	local golddrop = tonumber( golddrop )
 	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 			if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 then
@@ -1197,6 +1198,8 @@ function CHoldoutGameMode:_GoldDropCheatCommand( cmdName, goldToDrop)
 	end
 end
 function CHoldoutGameMode:_Goldgive( cmdName, golddrop , ID)
+	local ID = tonumber( ID )
+	local golddrop = tonumber( golddrop )
 	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 			if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 then
@@ -1210,6 +1213,7 @@ function CHoldoutGameMode:_Goldgive( cmdName, golddrop , ID)
 	end
 end
 function CHoldoutGameMode:_LevelGive( cmdName, golddrop , ID)
+	local ID = tonumber( ID )
 	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 			if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 then
