@@ -162,13 +162,15 @@ function spawn_unit_arround( caster , unitname , radius , unit_number ,playerID,
         print (caster:GetAbsOrigin())
         PrecacheUnitByNameAsync( unitname, function() 
         local unit = CreateUnitByName( unitname ,caster:GetAbsOrigin() + RandomVector(RandomInt(radius,radius)), true, nil, nil, DOTA_TEAM_BADGUYS ) 
-        Timers:CreateTimer(0.1,function()
+            Timers:CreateTimer(0.03,function()
+                if playerID ~= nil and IsValidPlayerID( playerID ) then
                     unit:SetOwner(PlayerResource:GetSelectedHeroEntity(playerID))
                     unit:SetControllableByPlayer(playerID,true)
-                    if core == true then
-                        unit.Holdout_IsCore = true
-                    end
-                end)
+                end
+                if core == true then
+                    unit.Holdout_IsCore = true
+                end
+            end)
         end,
         nil)
     end
@@ -179,7 +181,7 @@ function evil_core_charge(keys)
     local time = 15
     
         Timers:CreateTimer(0.25,function()
-            if caster.dead ~= true then
+            if caster.dead ~= true and caster ~= nil then
                 if caster.Charge < caster:GetMaxMana() then
                     caster.Charge = caster.Charge + caster:GetMaxMana()/(time*5)
                     return 0.2
@@ -244,8 +246,10 @@ function boss_evil_core_spawn(keys)
     caster.Charge = 0
     caster.weakness = false
     Timers:CreateTimer(0.25,function()
-            caster:SetMana(caster.Charge)
-            return 0.2
+            if not caster:IsNull() then
+                caster:SetMana(caster.Charge)
+                return 0.2
+            end
     end)
     local origin = Vector(0,0,0)
     for nPlayerID = 0, DOTA_MAX_PLAYERS-1 do
@@ -266,19 +270,22 @@ function boss_evil_core_spawn(keys)
         ParticleManager:SetParticleControl(caster.shield_particle, 10, origin)
 
         local sfx=""
-        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then 
-            sfx="_vh" 
-            caster:SetMaxHealth(5000)
-            caster:SetHealth(5000)
-        elseif GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
-            sfx="_h"  
-            caster:SetMaxHealth(3500)
+        Timers:CreateTimer(0.06,function()
             caster:SetHealth(3500)
-        end
+            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then 
+                sfx="_vh" 
+                caster:SetMaxHealth(5000)
+                caster:SetHealth(5000)
+            elseif GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
+                sfx="_h"  
+                caster:SetMaxHealth(3500)
+                caster:SetHealth(3500)
+            end
+        end)
         spawn_unit_arround( caster , "npc_dota_boss31"..sfx , 500 , 1 , boss_master_id )
         spawn_unit_arround( caster , "npc_dota_boss32_trueform"..sfx , 500 , 1 , boss_master_id )
         Timers:CreateTimer(0.25,function()
-                if caster:IsAlive() then
+                if not caster:IsNull() and caster:IsAlive() then
                     local weakness = true
                     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
                         if unit:GetUnitName() ~= "npc_dota_boss36" and unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
@@ -321,6 +328,9 @@ end
 
 function boss_evil_core_take_damage(keys)
     local caster = keys.caster
+    if caster:IsNull() then 
+        return
+    end
     if caster.failed_attack == nil then caster.failed_attack = 0 end
     print ("evil core is attacked")
     if caster:GetHealth() > 50 then
@@ -350,7 +360,7 @@ function boss_evil_core_take_damage(keys)
                 end
             end)
             Timers:CreateTimer(4.0,function()
-                    spawn_unit_arround( caster , "npc_dota_boss36_guardian" , 500 , 1 ,true)
+                    spawn_unit_arround( caster , "npc_dota_boss36_guardian" , 50 , 1 ,true)
                     Timers:CreateTimer(6.0,function()
                         caster:ForceKill(true)
                     end)
@@ -1071,6 +1081,7 @@ function doom_raze( event )
     if caster.charge < 0 then caster.Charge = 0 end
     local damage = ability:GetLevelSpecialValueFor("damage", 0)
     location = location - caster:GetRightVector() * 1000
+    if GameRules._NewGamePlus == true then damage = damage*10 end
     local created_line = 0
     Timers:CreateTimer(0.25,function() 
             created_line = created_line + 1
@@ -1507,7 +1518,11 @@ end
 
 function KillTarget(keys)
     local target = keys.target
-    target:ForceKill(true)
+    if target:GetUnitName() ~= "npc_dota_boss36" then
+        target:ForceKill(true)
+    else 
+        target:SetHealth(60)
+    end
 end
 
 function KillCaster(keys)

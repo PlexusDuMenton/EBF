@@ -136,55 +136,7 @@
 	m_Children =
 	[
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_ground_cracks.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_ground_rope.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_g.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_column.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_f.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_collumn_b.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_h.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_glow.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_rope.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_ground.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_end_smoke.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze_ember.vpcf"
-			m_flDelay = 1.500000
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_doom_bringer/doom_bringer_doom.vpcf"
+			m_ChildRef = resource:"particles/doom_ring.vpcf"
 		},
 	]
 }

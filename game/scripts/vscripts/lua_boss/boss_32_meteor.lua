@@ -142,11 +142,18 @@ function money_and_exp_gain(keys)
                 if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
                     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
                         unit:AddExperience (200000,false,false)
+                        if GameRules._NewGamePlus == true then
+                            unit:AddExperience (2500000,false,false)
+                        end
                     else
                         unit:AddExperience (400000,false,false)
+                        if GameRules._NewGamePlus == true then
+                            unit:AddExperience (5000000,false,false)
+                        end
                     end
                 end
             end
+
             local gold = 0
             local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
             local GoldMultiplier = (((PlayerNumber)+0.56)/1.8)*0.17

@@ -1,0 +1,64 @@
+.demon_shop_master
+{
+    width: 100%;
+    height: 100%;
+    overflow: clip;
+}
+
+#demon_button
+{
+  horizontal-align: right;
+  vertical-align: top;
+	margin-right: 550px;
+  margin-top: 50px;
+	width: 150px;
+    height: 75px;
+ }
+ #button_shop
+ #hide_shop
+  {
+  width: 150px;
+    height: 75px;
+ }
+ #core_image
+ {
+  horizontal-align: right;
+  vertical-align: top;
+	width: 40px;
+    height: 40px;
+ }
+#demon_shop
+  {
+   vertical-align: bottom;
+   margin-bottom: 300px;
+	margin-left: 1px;
+	height: 500px;
+ }
+ #demon_shop_BG
+  {
+	height: 500px;
+ }
+  #item1
+ {
+	vertical-align: top;
+	margin-top: 10px;
+	margin-left: 10px;
+	height: 64px;
+	width: 64px;
+}
+ #item2
+ {
+	vertical-align: top;
+	margin-left: 10px;
+	margin-top: 74px;
+	height: 64px;
+	width: 84px;
+}
+ #item3
+ {
+	vertical-align: top;
+	margin-left: 10px;
+	margin-top: 148px;
+	height: 64px;
+	width: 84px;
+}

@@ -26,14 +26,19 @@ function creation(keys)
 
     if GetMapName() == "epic_boss_fight_impossible" then
         caster:SetMaxHealth(30000000) -- impossible
+        if GameRules._NewGamePlus == true then caster:SetMaxHealth(15000000) end
     elseif GetMapName() == "epic_boss_fight_challenger" then
         caster:SetMaxHealth(35000000) -- challengger
+        if GameRules._NewGamePlus == true then caster:SetMaxHealth(20000000) end
     elseif  GetMapName() == "epic_boss_fight_hard" then
         caster:SetMaxHealth(20000000) -- hard
+        if GameRules._NewGamePlus == true then caster:SetMaxHealth(10000000) end
     elseif GetMapName() == "epic_boss_fight_boss_master" then
         caster:SetMaxHealth(22500000) -- boss master
+        if GameRules._NewGamePlus == true then caster:SetMaxHealth(7500000) end
     else
         caster:SetMaxHealth(15000000) -- normal
+        if GameRules._NewGamePlus == true then caster:SetMaxHealth(5000000) end
     end
 
 	Timers:CreateTimer( 0.1, function()
@@ -147,18 +152,24 @@ end
 
 function hell_on_earth(keys)
 	local caster = keys.caster
+    keys.ability:StartCooldown(5)
 	caster.Charge = caster.Charge - 50
 	local damage = 50000
 	if GetMapName() == "epic_boss_fight_impossible" then
 		damage = 300000
+        if GameRules._NewGamePlus == true then damage = 3000000 end
 	elseif GetMapName() == "epic_boss_fight_challenger" then
 		damage = 500000
+        if GameRules._NewGamePlus == true then damage = 5000000 end
 	elseif	GetMapName() == "epic_boss_fight_hard" then
 		damage = 200000
+        if GameRules._NewGamePlus == true then damage = 2000000 end
 	elseif GetMapName() == "epic_boss_fight_boss_master" then
 		damage = 150000
+        if GameRules._NewGamePlus == true then damage = 1500000 end
 	else
 		damage = 100000
+        if GameRules._NewGamePlus == true then damage = 1000000 end
 	end
 	if caster.Charge < 0 then caster.Charge = 0 end
 	local created_projectile = 0
@@ -182,7 +193,7 @@ function hell_on_earth(keys)
 
     Timers:CreateTimer(0.09, function()
         created_projectile = created_projectile + 1
-        createAOEDamage(keys,"particles/shadow_doom_ring.vpcf",position,250,damage,DAMAGE_TYPE_PURE,2.1,"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts",1.5)
+        createAOEDamage(keys,"particles/doom_ring.vpcf",position,250,damage,DAMAGE_TYPE_PURE,2.1,"soundevents/game_sounds_heroes/game_sounds_nevermore.vsndevts",1.5)
         angle = (created_projectile*1200)/total_projectile
        	position = GetGroundPosition(RotatePosition(Vector(0,0,0), QAngle(0,angle,0), fv) * distance + origin,nil)
 

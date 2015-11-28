@@ -3,8 +3,4 @@
         <include src="file://{resources}/scripts/custom_game/statcollection.js" /> 
     </scripts>
     <Panel></Panel>
-<<<<<<< HEAD
 </root>
-=======
-</root>
->>>>>>> origin/master

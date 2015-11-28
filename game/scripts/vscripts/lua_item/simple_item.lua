@@ -103,7 +103,7 @@ function tank_booster(keys)
     if caster:IsRealHero() then 
         Timers:CreateTimer(0.5,function()
             health_stacks = caster:GetStrength()
-            if caster:GetModifierStackCount( modifierName, ability ) ~= health_stacks and caster.tank_booster == true and item ~= nil then
+            if caster:GetModifierStackCount( modifierName, item ) ~= health_stacks and caster.tank_booster == true and item ~= nil then
                 item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
                 caster:SetModifierStackCount( modifierName, caster, health_stacks)
                 adjute_HP(keys)
@@ -128,6 +128,33 @@ function tank_booster_end(keys)
     caster.tank_booster = false
     caster:SetModifierStackCount("health_booster", caster, 0)
     caster:RemoveModifierByName( "health_booster" )
+end
+
+function Have_Item(unit,item_name)
+    local haveit = false
+    for itemSlot = 0, 5, 1 do
+        local Item = unit:GetItemInSlot( itemSlot )
+        if Item ~= nil and Item:GetName() == item_name then
+            haveit = true
+        end
+    end
+    return haveit
+end
+
+
+function scale_asura(keys)
+    local caster = keys.caster
+    local item = keys.ability
+    
+        Timers:CreateTimer(2.0,function()
+                local stack = GameRules._roundnumber
+                caster:SetModifierStackCount( "scale_per_round", caster, stack)
+                caster:SetModifierStackCount( "scale_display", caster, stack)
+                if Have_Item(caster,item:GetName()) == true then
+                    return 2.0
+                end
+        end)
+
 end
 
 function Berserker(keys)
@@ -186,7 +213,7 @@ function CD_Bahamut(keys)
             for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
                     if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
                         local Item = unit:GetItemInSlot( itemSlot ) -- uses a variable which gets the actual item in the slot specified starting at 0, 1st slot, and ending at 5,the 6th slot.
-                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" then
+                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" or Item ~= nil and Item:GetName() == "item_asura_plate" then
                             Item:StartCooldown(40)
                         end
                     end
@@ -198,7 +225,7 @@ function CD_Bahamut(keys)
             for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
                     if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
                         local Item = unit:GetItemInSlot( itemSlot ) -- uses a variable which gets the actual item in the slot specified starting at 0, 1st slot, and ending at 5,the 6th slot.
-                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" then
+                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" or Item ~= nil and Item:GetName() == "item_asura_plate" then
                             Item:StartCooldown(40)
                         end
                     end
@@ -384,13 +411,15 @@ function check_admin(keys)
     local caster = keys.caster
     local item = keys.ability
     local ID = caster:GetPlayerID()
-    if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
-        print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
-    else
-        Timers:CreateTimer(0.3,function()
-            FireGameEvent( 'custom_error_show', { player_ID = ID, error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
-            caster:RemoveItem(item)
-        end)
+    if ID ~= nil and PlayerResource:IsValidPlayerID( ID ) then
+        if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
+            print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
+        else
+            Timers:CreateTimer(0.3,function()
+                FireGameEvent( 'custom_error_show', { player_ID = ID, error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
+                caster:RemoveItem(item)
+            end)
+        end
     end
 end
 

@@ -79,7 +79,7 @@ function CHoldoutGameRound:Begin()
 		ListenToGameEvent( "dota_holdout_revive_complete", Dynamic_Wrap( CHoldoutGameRound, 'OnHoldoutReviveComplete' ), self )
 	}
 	self._DisconnectedPlayer = 0
-
+	self._nAsuraCoreRemaining = 0
 
 	local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
 	print (PlayerNumber)
@@ -90,11 +90,27 @@ function CHoldoutGameRound:Begin()
 	ListenToGameEvent( "player_disconnect", Dynamic_Wrap( CHoldoutGameRound, 'OnPlayerDisconnected' ), self )
 
 
-
+	local roundNumber = self._nRoundNumber
 	self._nGoldRemainingInRound = self._nMaxGold * GoldMultiplier * 1.1
+	if GameRules._NewGamePlus == true then
+		self._nGoldRemainingInRound = (self._nGoldRemainingInRound + 30000) * (roundNumber^0.4)
+		print (self._nGoldRemainingInRound)
+		if self._nGoldRemainingInRound > 75000 then
+			while self._nGoldRemainingInRound > 50000 do
+				print ("adding on asura core", self._nAsuraCoreRemaining)
+				self._nGoldRemainingInRound = self._nGoldRemainingInRound- 50000
+				self._nAsuraCoreRemaining = self._nAsuraCoreRemaining + 1 
+			end
+			print (self._nAsuraCoreRemaining)
+		end
+	end
+
 	self._nGoldBagsRemaining = self._nBagCount
 	self._nGoldBagsExpired = 0
 	self._nCoreUnitsTotal = 0
+	if GameRules._NewGamePlus == true then
+		self._nFixedXP = (500000 + self._nFixedXP) * (roundNumber^0.3+1)
+	end
 	self._nExpRemainingInRound = self._nFixedXP
 	for _, spawner in pairs( self._vSpawners ) do
 		spawner:Begin()
@@ -196,9 +212,19 @@ function CHoldoutGameRound:OnNPCSpawned( event )
 	if not spawnedUnit or spawnedUnit:IsPhantom() or spawnedUnit:GetClassname() == "npc_dota_thinker" or spawnedUnit:GetUnitName() == "" then
 		return
 	end
+	local nCoreUnitsRemaining = self._nCoreUnitsTotal - self._nCoreUnitsKilled
 
 	if spawnedUnit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
 		table.insert( self._vEnemiesRemaining, spawnedUnit )
+		if self._nAsuraCoreRemaining>0 then
+			if nCoreUnitsRemaining > 1 then
+				spawnedUnit.Asura_To_Give = 1
+				self._nAsuraCoreRemaining = self._nAsuraCoreRemaining - 1
+			elseif nCoreUnitsRemaining <= 1 then
+				spawnedUnit.Asura_To_Give = self._nAsuraCoreRemaining
+				self._nAsuraCoreRemaining = 0
+			end
+		end
 		local ability = spawnedUnit:FindAbilityByName("true_sight_boss")
 		if not ability ~= nil then
 			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then spawnedUnit:AddAbility('true_sight_boss') end

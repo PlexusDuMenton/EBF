@@ -1,0 +1,32 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/demon_shop.css" />
+	</styles> 
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/demon_shop.js" /> 
+	</scripts>
+	<Panel class="demon_shop_master" hittest="false">
+		<Panel id="demon_button" hittest="false">
+			<Button id="button_shop" onactivate='display_shop()'>
+				<Image id="button_on" src="file://{images}/custom_game/demon_shop/shop_button.jpg"/>
+			</Button>
+			<Button id="hide_shop" onactivate='hide_shop()'>
+				<Image id="button_off" src="file://{images}/custom_game/demon_shop/shop_button_on.jpg"/>
+			</Button>
+		</Panel>
+		<Panel id="demon_shop" hittest="false">
+			<Image id="demon_shop_BG" src="file://{images}/custom_game/demon_shop/background.png"/>
+			<Image hittest="false" id="demon_price" src="file://{images}/custom_game/demon_shop/price.png"/>
+			<Button id="item1" onactivate='BuyCore()'>
+				<Image hittest="false" id="item1_image" src="file://{images}/custom_game/demon_shop/core.png"/>
+			</Button>
+			<Button id="item2" onactivate='BuyItem("item_asura_plate",15,"item_bahamut_chest")'>
+				<Image hittest="false" id="item2_image" src="file://{images}/custom_game/demon_shop/asura_plate.png"/>
+			</Button>
+			<Button id="item3" onactivate='BuyItem("item_asura_heart",10,"item_heart_bahamut")'>
+				<Image hittest="false" id="item3_image" src="file://{images}/custom_game/demon_shop/asura_heart.png"/>
+			</Button>
+		</Panel>
+	</Panel>
+</root>

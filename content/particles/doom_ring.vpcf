@@ -161,15 +161,19 @@
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_doom_bringer/doom_bringer_doom_sigil_c.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_doom_bringer/doom_bringer_doom_ring_d.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_doom_bringer/doom_bringer_doom_ring_e.vpcf"
+			m_bDisableChild = true
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_nevermore/nevermore_shadowraze.vpcf"
+			m_ChildRef = resource:"particles/nevermore_shadowraze_lower_effect.vpcf"
+			m_flDelay = 1.500000
 		},
 	]
 }

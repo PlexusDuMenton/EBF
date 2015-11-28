@@ -7440,7 +7440,6 @@
 		}
 	}	
 
-
 	"item_recipe_midas_fury"
 	{
 		// General
@@ -10770,6 +10769,581 @@
 			{
 				"var_type"								"FIELD_INTEGER"
 				"critical_chance"						"60"
+			}
+		}
+	}
+	//=================================================================================================================
+	// Recipe: Battlefury
+	//=================================================================================================================
+	"item_recipe_melee_rage"
+	{
+		"ID"							"1276"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"BaseClass"						"item_recipe_arcane_boots"
+		"AbilityTextureName"            "item_bfury_custom"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"1475"
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_melee_rage"
+		"ItemRequirements"
+		{
+			"01"						"item_melee_fury;item_butterfly3;item_monkey_king_bar"
+		}
+	}	
+	//=================================================================================================================
+	// Battlefury
+	//=================================================================================================================
+	"item_melee_rage"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1277"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_melee_rage"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"15290"
+		"ItemShopTags"					"int"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"bfury,battefury"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"precache"
+			{
+			    "particle" "particles/storm_fury_effect.vpcf"
+			    "soundfile" "sounds/items/item_armlet_deactivate.vsnd"
+			}
+		
+    	"Modifiers"
+    	{	
+    		"Piercing"
+    		{
+    			"Properties"
+		        {
+		            "MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT" "%base_attack_time"
+		        }
+		        "Passive" "1"  
+		        "IsHidden" "1"  
+		        "OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Splash_melee"
+						"damage_on_hit"			"%attack_damage"
+					}
+					"FireEffect"
+					{
+						"EffectName" "particles/storm_fury_effect.vpcf"
+						"Target" "TARGET"
+						"EffectAttachType" "follow_origin"
+						"EffectRadius" "200"
+					}
+					"FireSound"
+					{
+						"Target" "TARGET"
+						"EffectName" "sounds/items/item_armlet_deactivate.vsnd"
+					}
+				"damage_on_hit"		"%attack_damage"
+				}
+			}
+		    "melee_fury_passive"
+		    {
+		        "Passive" "1"  
+		        "IsHidden" "1"  
+		        "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+		        "Properties"
+		        {
+		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
+		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+		        }
+		        "States"
+			    {
+			        "MODIFIER_STATE_CANNOT_MISS" "MODIFIER_STATE_VALUE_ENABLED"
+			    }
+			    "OnAttackLanded"
+		        {
+		         	"Random"
+					{
+		   				"Chance" "%proc_chance"
+		   				"OnSuccess"
+		   				{
+		   					"ApplyModifier"
+					        {
+					            "ModifierName"  "Stun_berserker_bash"
+					            "Target"        "TARGET"
+					        }
+					        "Damage"
+			                {
+			                    "Target"    "TARGET"
+			                    "Type"      "DAMAGE_TYPE_PURE"
+			                    "Damage"    "%bonus_damage_bash"
+			                }
+		   				}
+					}
+		        }
+		    }
+		    "item_butterfly_passive"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            "Attributes"        "MODIFIER_ATTRIBUTE_MULTIPLE"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"             "%bonus_agility"
+	                "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"      "%bonus_attack_speed"
+	            }
+	            
+	        }
+	        "modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+		    "Stun_berserker_bash"
+		    {
+		        "duration" "0.01"
+		        "States"
+		        {
+		        	"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+		    	}
+		    	"EffectName"        "particles/generic_gameplay/generic_stunned.vpcf"
+           	 	"EffecAttachType"   "follow_overhead"
+		   	}
+
+
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"base_attack_time"			"1.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"		"200"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"2000"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"	"20"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana_regen"		"250"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"		"350"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"splash_damage"		"35"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_agility"			"1000"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_evasion"			"45"
+			}
+			"10"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attack_speed"	"120"
+			}
+			"11"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage_bash"	"2000"
+			}
+			"12"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"proc_chance"	"5"
+			}
+		}
+	}	
+	"item_asura_plate"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1278"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_asura_plate"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"1"
+		"ItemCost"						"850000"
+		"ItemShopTags"					"damage;unique;armor"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"armor"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilityCastPoint"	"0.4"
+		"AbilityManaCost"	"0"
+
+		"OnSpellStart"
+		{	
+			"ApplyModifier"
+			{
+				"ModifierName"			"immunityaoe"
+				"Target"				"CASTER"
+			}
+			"RunScript"
+			{
+				"ScriptFile"			"lua_item/simple_item.lua"
+				"Function"				"CD_Bahamut"
+			}
+		}
+
+
+		"Modifiers"
+		{
+			"passive_start"
+			{	
+				"Passive" "1"
+				"IsHidden" "1"
+				"OnCreated"
+					{
+						"RunScript"
+						{
+							"ScriptFile"			"lua_item/simple_item.lua"
+							"Function"				"scale_asura"
+						}
+					}
+			}
+			"activeaoebahamut"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"AllowIllusionDuplicate"    "0"
+				"Aura" "asuraarmor"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+
+			"immunityaoe"
+			{
+				"IsHidden" "1"
+				"duration" "%duration"
+				"AllowIllusionDuplicate"    "0"
+				"Aura" "asuraImmunity"
+				"Aura_Radius" "99999"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+
+
+
+			"activeaoebahamut2"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"AllowIllusionDuplicate"    "0"
+				"Aura" "asuraarmordebuff"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+
+			"asurapassive"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"%health_regen_percent"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%bonus_attackspeed"
+				}
+			}
+			"scale_per_round"
+			{	
+				"Passive"	 "1"
+				"Isbuff" 	"1"
+				"IsHidden"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage_PR"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max_PR"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all_PR"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all_PR"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all_PR"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor_PR"
+				}
+			}
+			"asuraarmor"
+			{	
+				"Isbuff" 	"1"
+           		"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_sharedamage"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max_aoe"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all_aoe"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all_aoe"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all_aoe"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor_aoe"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%bonus_attackspeed_aoe"
+				}
+			}
+
+			"asuraImmunity"
+			{	
+
+				"Target" "CASTER"
+				"EffectName" "particles/econ/events/ti5/teleport_end_lvl2_black_ti5.vpcf"
+				"EffectAttachType" "follow_origin"
+				"EffectRadius" "1200"
+				"States"
+				{
+					"MODIFIER_STATE_MAGIC_IMMUNE" "MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+
+			"asuraarmordebuff"
+			{	
+				"IsDebuff" "1"
+            	"IsPurgable" "0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor_debuff"
+				}
+			}
+			"scale_display"
+			{	
+				"Passive"	 "1"
+				"Isbuff" 	"1"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1200"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_regen_percent"			"5"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"			"5000"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max"			"200000"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"2500"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attackspeed"			"500"
+			}	
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max_aoe"			"100000"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all_aoe"			"1000"
+			}
+			"10"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attackspeed_aoe"			"400"
+			}
+			"11"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor_aoe"			"500"
+			}
+			"12"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor_debuff"		"-5000"
+			}
+			"13"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"		"20000"
+			}
+			"14"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_sharedamage"		"10000"
+			}
+			"15"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"		"20"
+			}
+			"16"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage_PR"		"5000"
+			}
+			"17"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max_PR"			"20000"
+			}
+			"18"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all_PR"			"100"
+			}
+			"19"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor_PR"			"75"
+			}
+		}
+	}
+	"item_asura_heart"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1278"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_asura_heart"
+		"ItemKillable"					"1"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"1"
+		"ItemCost"						"560000"
+		"ItemShopTags"					"damage;unique"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"heart"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+
+
+		"Modifiers"
+		{
+			"hearthpassive_bahamut"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength"
+				}
+			}
+			"hearth_regen_bahamut"
+			{
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"%health_regen_percent"
+				}
+			}		
+			"scale_per_round"
+			{	
+				"Passive"	 "1"
+				"Isbuff" 	"1"
+				"IsHidden"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max_PR"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_strength_PR"
+				}
+			}
+			"scale_display"
+			{	
+				"Passive"	 "1"
+				"Isbuff" 	"1"
+			}
+		}
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_regen_percent"			"5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_strength"			"15000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max"			"300000"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_strength_PR"			"2000"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max_PR"			"100000"
 			}
 		}
 	}
