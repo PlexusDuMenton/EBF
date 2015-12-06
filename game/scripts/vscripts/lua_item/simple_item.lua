@@ -357,7 +357,11 @@ function Midas_OnHit(keys)
     elseif item:IsCooldownReady() and not caster:IsIllusion() then
         simple_item:midas_gold(bonus_gold)
     end
-    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
+
+    if not caster:IsIllusion() then
+    	simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
+    end
+
     if item:IsCooldownReady() and not caster:IsIllusion() then
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
@@ -431,7 +435,9 @@ function Midas2_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
-    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
+    if not caster:IsIllusion() then
+    	simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
+    end
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
                 if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
                     simple_item:midas_gold(bonus_gold)
