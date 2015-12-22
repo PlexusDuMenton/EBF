@@ -7,38 +7,6 @@ if CHoldoutGameRound == nil then
 end
 require( "libraries/Timers" )
 require("internal/util")
-function CHoldoutGameRound:OnPlayerDisconnected( event )
-	print('Player Disconnected ' .. tostring(event.userid))
-  	local player = event.userid
-	player.disconnected=true
-	local hero = player:GetSelectedHeroEntity(player)
-	self._DisconnectedPlayer = self._DisconnectedPlayer + 1
-	Timers:CreateTimer(60,function()
-		if player.disconnected == true then
-			if hero:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
-				print('Player ' .. tostring(event.name) .."didn't reconnected so all his item had been deleted and gold is shared between player")
-				for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-					local totalgold = unit:GetGold() + (self._nRoundNumber^1.3)*100
-					unit:SetGold(0 , false)
-			        unit:SetGold(totalgold, true)
-				end
-				for itemSlot = 0, 5, 1 do
-	          		local Item = hero:GetItemInSlot( itemSlot )
-	            	hero:RemoveItem(Item)
-	            end
-	            hero:SetGold(0, true)
-	        else
-	        	print('Player ' .. tostring(event.name) .."didn't boss are still independant , but it's still sad")
-	        end
-		end
-	end)
-end
-function CHoldoutGameRound:OnPlayerReconnected( event )
-	print('Player Reconnected ' .. tostring(event.userid))
-	local player = event.userid
-	player.disconnected=false
-	self._DisconnectedPlayer = self._DisconnectedPlayer - 1
-end
 function CHoldoutGameRound:ReadConfiguration( kv, gameMode, roundNumber )
 	self._gameMode = gameMode
 	self._nRoundNumber = roundNumber
@@ -241,7 +209,6 @@ function CHoldoutGameRound:OnEntityKilled( event )
 	if not killedUnit then
 		return
 	end
-
 	for i, unit in pairs( self._vEnemiesRemaining ) do
 		if killedUnit == unit then
 			table.remove( self._vEnemiesRemaining, i )
@@ -251,9 +218,11 @@ function CHoldoutGameRound:OnEntityKilled( event )
 	if killedUnit.Holdout_IsCore then
 		self._nCoreUnitsKilled = self._nCoreUnitsKilled + 1
 		self:_CheckForGoldBagDrop( killedUnit )
-		self._gameMode:CheckForLootItemDrop( killedUnit )
-		if self._entKillCountSubquest then
-			self._entKillCountSubquest:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, self._nCoreUnitsKilled )
+		local nCoreUnitsRemaining = self._nCoreUnitsTotal - self._nCoreUnitsKilled
+		if nCoreUnitsRemaining == 0 then
+			local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
+			local drop = CreateItemOnPositionForLaunch( killedUnit:GetAbsOrigin(), Item_spawn )
+			Item_spawn:LaunchLoot( false, 300, 0.75, killedUnit:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) ) )
 		end
 	end
 end
@@ -306,7 +275,7 @@ function CHoldoutGameRound:_CheckForGoldBagDrop( killedUnit )
 	newItem:SetCurrentCharges( nGoldToDrop )
 	local drop = CreateItemOnPositionSync( killedUnit:GetAbsOrigin(), newItem )
 	local dropTarget = killedUnit:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) )
-	newItem:LaunchLoot( true, 300, 0.75, dropTarget )
+	newItem:LaunchLoot( true, 750, 0.75, dropTarget )
 end
 
 

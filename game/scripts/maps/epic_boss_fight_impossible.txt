@@ -5,26 +5,6 @@
 	"RestoreHPAfterRound"			"0"
 	"RestoreMPAfterRound"			"0"
 	
-	"ItemDrops"
-	{
-		"desolator"
-		{
-			"Item"					"item_desolator"
-			"Chance"				"1"
-		}
-		"assault"
-		{
-			"Item"					"item_assault"
-			"Chance"				"1"
-		}
-		"hyperstone"
-		{
-			"Item"					"item_hyperstone"
-			"Chance"				"1"
-		}
-
-	}
-	
 	"RandomSpawns"
 	{
 		"1"

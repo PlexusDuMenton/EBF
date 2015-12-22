@@ -163,7 +163,7 @@ function spawn_unit_arround( caster , unitname , radius , unit_number ,playerID,
         PrecacheUnitByNameAsync( unitname, function() 
         local unit = CreateUnitByName( unitname ,caster:GetAbsOrigin() + RandomVector(RandomInt(radius,radius)), true, nil, nil, DOTA_TEAM_BADGUYS ) 
             Timers:CreateTimer(0.03,function()
-                if playerID ~= nil and IsValidPlayerID( playerID ) then
+                if playerID ~= nil and PlayerResource:IsValidPlayerID( playerID ) then
                     unit:SetOwner(PlayerResource:GetSelectedHeroEntity(playerID))
                     unit:SetControllableByPlayer(playerID,true)
                 end
@@ -1305,7 +1305,7 @@ function rearm_refresh_cooldown( keys )
     local caster = keys.caster
     
     -- Reset cooldown for abilities
-    local no_refresh_skill = {["omniknight_guardian_angel"] = true}
+    local no_refresh_skill = {["omniknight_guardian_angel"] = true,["mirana_arrow"] = true}
     for i = 0, caster:GetAbilityCount() - 1 do
         local ability = caster:GetAbilityByIndex( i )
         if ability and ability ~= keys.ability and not no_refresh_skill[ ability:GetAbilityName() ] then

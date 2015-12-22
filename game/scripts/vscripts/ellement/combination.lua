@@ -190,6 +190,12 @@ function On_Spell_Start( keys )
             caster.last_used_skill = "arcana_laser"
             arcana_laser(keys,ice,fire,wind)
             Cooldown(keys,15)
+            for itemSlot = 0, 5, 1 do
+                local Item = caster:GetItemInSlot( itemSlot )
+                if Item ~= nil and Item:GetName() == "item_element_refresher" then
+                    Item:StartCooldown(15)
+                end
+            end
 		else
 			personal_heal( keys, fire, ice, wind)
 		end

@@ -333,7 +333,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
@@ -528,7 +527,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"LevelsBetweenUpgrades"			"7"
 		"MaxLevel"						"7"
@@ -1607,7 +1605,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"FightRecapLevel"				"2"
@@ -2421,11 +2418,11 @@
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCastRange"				"3000"
-		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		"AbilityCastPoint"				"1.1"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"17.0"
+		"AbilityCooldown"				"900 850 800 750 700 650 600.0"
 		"AbilityDuration"				"3.11 3.11 3.11 3.11"
 
 		// Damage.
@@ -2699,7 +2696,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
@@ -4932,65 +4928,6 @@
 	}	
 	
 	//=================================================================================================================
-	// Death Prophet: Witchcraft
-	//=================================================================================================================
-	"death_prophet_witchcraft"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5092"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"LevelsBetweenUpgrades"			"5"
-		"MaxLevel"						"7"
-				
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_movement_speed"	"5 10 15 20 25 30 35"
-			}			
-			"02"
-			{
-				"var_type"							"FIELD_INTEGER"
-				"carrion_swarm_mana_cost_adjust"	"-10 -15 -20 -25 -30 -35 -40"
-			}
-			"03"
-			{
-				"var_type"							"FIELD_FLOAT"
-				"carrion_swarm_cooldown_adjust"		"-1.0 -2.0 -3.0 -4.0 -4.5 -5.0 -6.0"
-			}
-			"04"
-			{
-				"var_type"							"FIELD_INTEGER"
-				"silence_mana_cost_adjust"			"-10 -15 -20 -25 -30 -35 -50"
-			}
-			"05"
-			{
-				"var_type"							"FIELD_FLOAT"
-				"silence_cooldown_adjust"			"-1.0 -2.0 -3.0 -4.0 -5.0 -5.5 -6.0"
-			}
-			"06"
-			{
-				"var_type"							"FIELD_INTEGER"
-				"exorcism_1_extra_spirits"			"3 4 5 6 7 8 9"
-			}
-			"07"
-			{
-				"var_type"							"FIELD_INTEGER"
-				"exorcism_2_extra_spirits"			"3 4 5 6 7 8 9"
-			}
-			"08"
-			{
-				"var_type"							"FIELD_INTEGER"
-				"exorcism_3_extra_spirits"			"3 4 5 6 7 8 9"
-			}
-		}
-	}
-	
-	//=================================================================================================================
 	// Death Prophet: Exorcism
 	//=================================================================================================================
 	"death_prophet_exorcism"
@@ -5013,7 +4950,7 @@
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityCooldown"				"145.0"
-		"AbilityDuration"				"30.0 30.0 30.0 35.0 40.0 45.0"
+		"AbilityDuration"				"30.0 30.0 30.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -5026,12 +4963,12 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"700 850 1000"
+				"radius"				"700 1050 1400 1750 2100 2450 2800"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spirits"				"10 15 20 25 30 35 40"
+				"spirits"				"8 12 16 20 24 28 32"
 			}
 			"03"
 			{
@@ -5041,22 +4978,22 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"max_distance"			"2000 2000 2000"
+				"max_distance"			"2000 2500 3000 3500 4000 4500 5000"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"give_up_distance"		"1200 1200 1200"
+				"give_up_distance"		"1200 1600 2000 2400 2800 3200 3600"
 			}
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"min_damage"			"50 100 200 400 800 1600 3200"
+				"min_damage"			"53 212 800 1700 5400 12000 40000"
 			}
 			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"max_damage"			"100 200 400 800 1600 3200 6400"
+				"max_damage"			"58 412 1200 2300 5800 14000 60000"
 			}
 			"08"
 			{
@@ -5066,7 +5003,85 @@
 			"09"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"average_damage"		"50 75 100 150 200 300 400"
+				"average_damage"		"55 312 1000 2000 5600 13000 50000"
+			}
+			"10"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"ghost_spawn_rate"	"0.3"
+			}
+		}
+	}	
+	
+	//=================================================================================================================
+	// Death Prophet: Spirit Siphon
+	//=================================================================================================================
+	"death_prophet_spirit_siphon"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5685"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"	
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"FightRecapLevel"				"1"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500"
+		"AbilityCastPoint"				"0.1"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"70 65 60 55"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"damage"					"300 1200 3000 9000 25000 75000 225000"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"damage_pct"					"0.1 0.3 0.5 0.7 0.9 1.1 1.5"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"haunt_duration"				"4"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"movement_slow"					"6 10 14 18 22 26 30"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"siphon_buffer"			"300"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"max_charges"			"1 1 2 2 3 3 4"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"charge_restore_time"	"45 45 45 40 40 40 35"
 			}
 		}
 	}
@@ -5331,7 +5346,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"5"
@@ -6513,6 +6527,26 @@
 			{
 				"var_type"			"FIELD_INTEGER"
 				"armor_bonus"		"-5 -10 -20 -40 -80 -120 -160"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"speed_scepter"		"1500"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"aoe_scepter"		"240"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cooldown_scepter"		"7"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cast_range_scepter"		"1800"
 			}
 		}
 	}
@@ -8050,15 +8084,16 @@
 	//=================================================================================================================
 	// Riki: Backstab
 	//=================================================================================================================
-	"riki_backstab"
+	"riki_permanent_invisibility"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"					"5144"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
-		"LevelsBetweenUpgrades"			"5"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+
+		"LevelsBetweenUpgrades"			"7"
 		"MaxLevel"						"7"
 		
 		// Special
@@ -8068,31 +8103,50 @@
 			"01"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"damage_multiplier"				"0.5 1.0 1.5 2.0 2.5 4.0 8.0"
+				"damage_multiplier"				"5.0 10.0 25.0 50.0 100.0 150.0"
 			}
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"backstab_angle"				"90 105 120 135"
+				"backstab_angle"				"105 105 105 105"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"fade_time"					"0.0 0.0 0.0 0.0"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"fade_delay"				"6 5 4 3"
 			}
 		}
 	}
 
 	//=================================================================================================================
-	// Riki: Permanent Invisibility
+	// Riki: Tricks of the Trade
 	//=================================================================================================================
-	"riki_permanent_invisibility"
+	"riki_tricks_of_the_trade"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"					"5145"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"LevelsBetweenUpgrades"			"5"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+		"LevelsBetweenUpgrades"			"7"
 		"MaxLevel"						"7"
 
-		// Time		
+		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"8.0 7.0 6.0 5.0 4.0 3.0 2.0"
+		"AbilityCastPoint"				"0.4"
+		"AbilityChannelTime"			"3 4 5"
+
+		// Ability Data
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"90 80 70"
+		"AbilityManaCost"				"75"
+
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -8100,22 +8154,18 @@
 		{
 			"01"
 			{
-				"var_type"					"FIELD_FLOAT"
-				"fade_time"					"0.0 0.0 0.0 0.0"
+				"var_type"					"FIELD_INTEGER"
+				"range"						"450"
 			}
 			"02"
 			{
-				"var_type"					"FIELD_FLOAT"
-				"fade_delay"				"8.0 7.0 6.0 5.0 4.0 3.0 2.0"
-			}
-			"03"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"bonus_health_regen"		"5 10 20 40 80 160 320"
+				"var_type"					"FIELD_INTEGER"
+				"attack_count"				"4 6 8 10 12 14 16"
 			}
 		}
 	}
-	
+
+
 	//=================================================================================================================
 	// Enigma: Malefice
 	//=================================================================================================================
@@ -12678,7 +12728,6 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"LevelsBetweenUpgrades"			"5"
 		"MaxLevel"						"7"
 
@@ -12878,7 +12927,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"75 75 75 75"
 		
-		"AbilityDuration"				"4 5 6 7 8 9 10"
+		"AbilityDuration"				"5.5 6.0 6.5 7.0 7.5 8.0 9.0"
 		
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -12892,7 +12941,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"4.0 5.0 6.0 7.0 8.0 9.0 10.0"
+				"duration"				"5.5 6.0 6.5 7.0 7.5 8.0 9.0"
 			}
 		}
 	}
@@ -14152,12 +14201,17 @@
 			"01"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"attack_speed_bonus_per_stack"	"15 25 35 45 55 65 75"
+				"maximum_attack_speed"			"196 224 252 280 320 400 500"
 			}
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"resistance_per_stack"			"2 3 4 5 6 7 8"
+				"maximum_resistance"			"20 30 40 50 60 70 85 99"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"hp_threshold_max"				"10 12 14 18 23 28 35"
 			}
 		}
 	}
@@ -16217,38 +16271,28 @@
 	}
 
 	//=================================================================================================================
-	// Doom Bringer: Lvl? Death
+	// Doom Bringer: Infernal Blade
 	//=================================================================================================================
-	"doom_bringer_lvl_death"
+	"doom_bringer_infernal_blade"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"ID"							"5341"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_ATTACK"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"FightRecapLevel"				"1"
-		"LevelsBetweenUpgrades"			"5"
-		"MaxLevel"						"7"
-		
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600 600 600 600"
-		"AbilityCooldown"				"50.0 40.0 35.0 30.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"110 110 110 110"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityModifierSupportValue"	"0.0"	// damage only
+		"AbilityCooldown"				"16 12 8 4"
+		"AbilityManaCost"				"40"
+		"AbilityCastRange"				"128"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"LevelsBetweenUpgrades"			"8"
+		"MaxLevel"						"7"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -16257,17 +16301,22 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"100 200 400 800 1600 3200 6400"
+				"burn_damage"			"400 1200 3000 10000 25000 100000 250000"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"lvl_bonus_damage"		"1 1 1 2 2 2 3"
+				"burn_damage_pct"		"0.1 0.3 0.5 0.7 0.9 1.1 1.5"
 			}
 			"03"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"lvl_bonus_multiple"	"7 6 5 4 3 2 1"
+				"var_type"				"FIELD_FLOAT"
+				"burn_duration"			"4.0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"ministun_duration"	"0.3"
 			}
 		}
 	}
@@ -16283,7 +16332,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"
@@ -18620,7 +18669,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"FightRecapLevel"				"1"
@@ -19990,6 +20038,21 @@
 			{
 				"var_type"					"FIELD_INTEGER"
 				"crit_chance"				"10"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"armor_reduction"			"-25 -100 -400 -1000 -2500 -5000 -10000"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"armor_reduction_tooltip"			"25 100 400 1000 2500 5000 10000"
+			}			
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"armor_duration"			"3 2.5 2 1.5 1.0 0.75 0.5"
 			}
 		}
 	}
@@ -26359,7 +26422,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
 		"FightRecapLevel"				"1"
-		"LevelsBetweenUpgrades"			"5"
+		"LevelsBetweenUpgrades"			"6"
 		"MaxLevel"						"7"
 
 		// Casting
@@ -26387,17 +26450,17 @@
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"self_damage"			"100 200 400 600 800 1000 1500"
+				"self_damage"			"200 400 800 1600 3200 6400 12800"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"target_damage"			"200 400 800 1600 3200 6400 12800"
+				"target_damage"			"400 1600 6400 25000 50000 100000 200000"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"heal_amount"					"200 400 800 1600 3200 6400 12800"
+				"heal_amount"					"400 1600 6400 25000 50000 100000 200000"
 			}
 		}
 	}
@@ -26416,7 +26479,7 @@
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_NO"
 		"FightRecapLevel"				"1"
-		"LevelsBetweenUpgrades"			"5"
+		"LevelsBetweenUpgrades"			"7"
 		"MaxLevel"						"7"
 
 
@@ -26428,7 +26491,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"60.0"
+		"AbilityCooldown"				"25.0"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -26447,7 +26510,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"damage_absorb"			"400.0 800.0 1600.0 3200.0 6400.0 12800.0 25600.0"
+				"damage_absorb"			"400 1600 6400 25000 100000 400000 1200000"
 			}
 			"03"
 			{
@@ -26524,7 +26587,7 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"200.0 190.0 180.0 170.0 160.0 150.0 "
+		"AbilityCooldown"				"100.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -26537,17 +26600,17 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"hp_threshold"				"400 800 1600 2500 3200 6400"
+				"hp_threshold"				"400 2000 8000 25000 50000 100000 250000"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"duration"					"1.0 2.0 3.0 4.0 5.0 6.0 7.0"
+				"duration"					"7.0"
 			}
 			"03"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"duration_scepter"			"5.0 6.0 7.0 8.0 9.0"
+				"duration_scepter"			"9.0"
 			}
 			"04"
 			{
@@ -27143,6 +27206,8 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
+		"LevelsBetweenUpgrades"			"8"
+		"MaxLevel"						"7"
 		
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -27151,11 +27216,11 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"14.0 12.0 10.0 8.0"
+		"AbilityCooldown"				"8.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"110"
+		"AbilityManaCost"				"110 200 400 1600 3200 6400 25000"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -27164,34 +27229,34 @@
 			"01"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"duration"						"1.0 2.0 2.0 3.0"
+				"duration"						"1.0"
 			}
 			
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"radius"						"400"
+				"radius"						"400 500 600 800 1000 1200 1500"
 			}	
 			
 			"03"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"chains_damage"					"400 600 800 1000"
+				"chains_damage"					"400 1000 2500 10000 35000 100000 400000"
 			}				
 			"04"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"total_damage_tooltip"			"400 1200 1600 3000"
+				"total_damage_tooltip"			"800 2000 5000 20000 70000 200000 800000"
 			}
 			"05"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"tick_interval"					"1.0"
+				"tick_interval"					"0.5"
 			}
 			"06"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"unit_count"					"2"
+				"unit_count"					"2 2 3 3 4 4 5"
 			}
 							
 		}
@@ -27209,13 +27274,15 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		
-		"AbilityCastRange"				"700"
+		"AbilityCastRange"				"700 800 900 1100 1300 1600 2000"
 		"AbilityCastPoint"				"0"
 		"FightRecapLevel"				"1"
+		"LevelsBetweenUpgrades"			"8"
+		"MaxLevel"						"7"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"30.0 22.0 14.0 6.0"
+		"AbilityCooldown"				"6.0"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -27228,19 +27295,19 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"250 350 450 550"
+				"radius"					"250 350 450 550 850 1150 1500"
 			}
 			
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_hero_damage"			"20 40 60 80"
+				"bonus_hero_damage"			"0"
 			}
 						
 			"03"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"attack_interval"				"0.2"
+				"attack_interval"				"0.03"
 			}
 
 			"04"
@@ -27275,6 +27342,8 @@
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"80 90 100 110"
+		"LevelsBetweenUpgrades"			"8"
+		"MaxLevel"						"7"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -27283,19 +27352,19 @@
 			"01"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"duration"						"8.0 12.0 16.0 20.0"
+				"duration"						"6.0 7.0 8.0 9.0 10.0 11.0 12.0"
 			}
 			
 			"02"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"radius"						"400"
+				"radius"						"400 500 600 750 875 1000 1500"
 			}	
 			
 			"03"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"absorb_amount"					"300 600 1200 2400"
+				"absorb_amount"					"600 1200 3500 10000 45000 150000 450000"
 			}				
 			"04"
 			{
@@ -27305,7 +27374,7 @@
 			"05"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"damage_per_second"				"100 300 500 700"
+				"damage_per_second"				"300 1200 3000 8000 15000 35000 100000"
 			}
 		}
 	}
@@ -27335,6 +27404,8 @@
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"0"
+		"LevelsBetweenUpgrades"			"9"
+		"MaxLevel"						"7"
 
 
 		// Special
@@ -27344,27 +27415,27 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"speed_multiplier"				"250 300 400"
+				"speed_multiplier"				"250 300 400 500 700 900 1200"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"max_charges"				"3 5 7"
+				"max_charges"				"3 5 7 9 11 13 15"
 			}
 			"03"
 			{
 				"var_type"							"FIELD_FLOAT"
-				"charge_restore_time"				"35.0 25.0 15.0"
+				"charge_restore_time"				"35.0 30.0 25.0 20.0 15.0 12.5 10.0"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"1000 2500 5000"
+				"damage"				"1000 4000 16000 50000 150000 450000 1200000"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"450"
+				"radius"				"450 500 550 600 650 700 750"
 			}
 			"06"
 			{
@@ -27384,7 +27455,7 @@
 		"ID"							"5607"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
 		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
-		"MaxLevel"						"3"
+		"MaxLevel"						"7"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
@@ -27410,27 +27481,27 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"speed_multiplier"				"250 300 400"
+				"speed_multiplier"				"250 300 400 500 700 900 1200"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"max_charges"				"3 5 7"
+				"max_charges"				"3 5 7 9 11 13 15"
 			}
 			"03"
 			{
 				"var_type"						"FIELD_FLOAT"
-				"charge_restore_time"			"35.0 25.0 15.0"
+				"charge_restore_time"				"35.0 30.0 25.0 20.0 15.0 12.5 10.0"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"damage"				"1000 2500 5000"
+				"damage"				"1000 4000 16000 50000 150000 450000 1200000"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"450"
+				"radius"				"450 500 550 600 650 700 750"
 			}
 			"06"
 			{
@@ -33641,7 +33712,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL | DOTA_UNIT_TARGET_MECHANICAL"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSCIAL"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"8"
 		"MaxLevel"						"7"
@@ -34414,6 +34485,249 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_movement_speed"	"100"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Arc Warden: Flux
+	//=================================================================================================================
+	"arc_warden_flux"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5677"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"				"1"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"600 700 800 900"
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"20.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"75"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"duration"						"6.0"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"damage_per_second"				"150 500 1500 4500 15000 35000 150000"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"search_radius"					"225"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"think_interval"				"0.5"
+			}
+			"05"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"move_speed_slow_pct"				"50"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"cast_range_tooltip"		"600 700 800 900"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Arc Warden: Magnetic Field
+	//=================================================================================================================
+	"arc_warden_magnetic_field"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5678"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"				"1"
+
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.3"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"50"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"110"
+		
+		// Cast Range
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"900"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"275"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"3.5 4.0 4.5 5.0 7.5 10.0 15.0"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"attack_speed_bonus"		"50 60 70 80 100 120 150 999"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"evasion_chance"			"90"
+			}
+		}
+	}
+		
+	//=================================================================================================================
+	// Arc Warden: Spark Wraith
+	//=================================================================================================================
+	"arc_warden_spark_wraith"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5679"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"				"1"
+		
+		"AbilityCastRange"				"2000"
+		"AbilityCastPoint"				"0.3"
+		"LevelsBetweenUpgrades"			"5"
+		"MaxLevel"						"7"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"4.0 4.0 4.0 4.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100 110 120 130"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"radius"						"375"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"activation_delay"				"3.0"
+			}			
+			"03"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"duration"						"50.0"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"wraith_speed"					"400"
+			}
+			"05"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"spark_damage"					"500 1500 4500 15000 35000 90000 250000"
+			}
+			"06"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"think_interval"				"0.2"
+			}
+			"07"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"wraith_vision_radius"					"300"
+			}  
+			"08"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"wraith_vision_duration"				"3.34"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Arc warden: Tempest Double
+	//=================================================================================================================
+	"arc_warden_tempest_double"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"5683"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"FightRecapLevel"				"2"
+		"LevelsBetweenUpgrades"			"7"
+		"MaxLevel"						"7"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.0"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"65.0 60.0 55.0 50.0 45.0 40.0 35.0"
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"15.0 17.5 20.0 22.5 25.0 27.5 30.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_cost_pct"			"80 70 60 50 30 15 0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"mana_cost_pct"				"100 90 80 70 60 40 25 0"
 			}
 		}
 	}

@@ -2,7 +2,8 @@
 {
         "Language"              "French"
         "Tokens"
-        {              
+        {       
+                "npc_dota_hero_invoker"                                                                 "Elementalist"       
                 "DOTA_Tooltip_ability_item_bag_of_gold"                                                 "Bag of Gold"
                
                 "DOTA_Quest_Holdout_Round"                                      "Round %quest_round%"
@@ -17,6 +18,8 @@
  
  
                 "addon_game_name"                                                       "EPIC BOSS FIGHT!"
+
+                "addon_game_creator"                                                       "Seul Créateur : FrenchDeath"
  
                 "LIFETITLE"    "Il vous reste <font color='#FF3512'>%quest_current_value%</font> vies"
  
@@ -172,6 +175,14 @@
                 "npc_dota_boss34_h"                                                                "True Death Demon"
                 "npc_dota_boss34_vh"                                                                 "Uphir the Death Demon"
 
+                "npc_dota_boss35"                                                                 "Demon King"
+                "npc_dota_boss35_h"                                                                "Doom the Demon King"
+                "npc_dota_boss35_vh"                                                                 "Nasta the Demon King"
+
+
+                "npc_dota_boss36"                                                                 "Evil Core"
+
+                "npc_dota_boss36_guardian"                                                                 "Asura . Guardians of demons"
 
 
 
@@ -200,6 +211,8 @@
                 "npc_dota_dummie"                                                                 "Dota Dummie"
 
                 // Creature Ability Names ===============================================================================================
+
+
                 "DOTA_Tooltip_ability_skeleton_king_reincarnation_Description"                          "Du niveau 1 à 5,la réincarnation de réssusite que Wraith King, a partir du niveau 6, ses allié sont aussi réssusité \nCooldown: 260/200/170/140/110/400/300"
  
  
@@ -228,6 +241,23 @@
  
                 "DOTA_Tooltip_Ability_boss_bonk"                                                      "Death Dunk"
                 "DOTA_Tooltip_Ability_boss_bonk_h"                                                      "Death Dunk"
+
+                "DOTA_Tooltip_Ability_guardian_hell_passive"                                                      "Asura's Shield"
+                "DOTA_Tooltip_Ability_guardian_hell_passive_Description"                                                      "Passive : Asura cast a shield thas immune to all damage when active , it's deplete the mana of the boss per 10/sec , once the mana is empty , boss is disactivate , leaving the boss weak to attacks. When the mana is full again, the Shield come back"
+ 
+                "DOTA_Tooltip_Ability_guardian_hell_flaming_fist"                                                      "Asura's Flaming Fist"
+                "DOTA_Tooltip_Ability_guardian_hell_flaming_fist_Description"                                           "Asura dashes around with blazing speed, attacking all enemies in the targeted area of effect, then returning to his start location." 
+
+                "DOTA_Tooltip_Ability_guardian_hell_hell_on_earth"                                                      "Hell on earth"
+                "DOTA_Tooltip_Ability_guardian_hell_hell_on_earth_Description"                                           "Asura cast dangerous raze arround him , it either start far way and get closer , or start on him and get away from him (altenative)." 
+
+                "DOTA_Tooltip_Ability_boss_evil_core_cast"                                                      "Summon demons"
+                "DOTA_Tooltip_Ability_boss_evil_core_cast_Description"                                                      "The evil core summon demons , making him invincible to external damage"
+
+                "DOTA_Tooltip_Ability_boss_evil_core_passive"                                                      "Demonic Shield"
+                "DOTA_Tooltip_Ability_boss_evil_core_cast_Description"                                                      "Protect the Boss from any damage while it's active . Kill all the summon to disable it.Once disabled you'll have 15 sec to make the most damage possible"
+
+
  
                 "DOTA_Tooltip_Ability_creature_acid_spray"                                                      "Burst"
                 "DOTA_Tooltip_ability_creature_acid_spray_Description"                          "The zombie explodes on death damaging everyone around him.  Leaves a pool of acid that damages enemies."
@@ -286,6 +316,21 @@
                
                 "DOTA_Tooltip_tower_fortification_modifier"                                                     "Fortification"
                 "DOTA_Tooltip_creature_slithereen_crush_slow"                                           "Stunned"
+
+                "DOTA_Tooltip_ability_boss_doomraze_vh"                                      "Doom raze"
+                "DOTA_Tooltip_ability_boss_doomraze_vh_Description"                          "Cast a powerfull aoe in front of doom (800 unit range)"
+
+                "DOTA_Tooltip_ability_boss_doomraze_h"                                      "Doom raze"
+                "DOTA_Tooltip_ability_boss_doomraze_vh_Description"                          "Cast a powerfull aoe in front of doom (800 unit range)"
+
+                "DOTA_Tooltip_ability_boss_doomraze"                                      "Doom raze"
+                "DOTA_Tooltip_ability_boss_doomraze_vh_Description"                          "Cast a powerfull aoe in front of doom (800 unit range)"
+
+                "DOTA_Tooltip_ability_hell_tempest"                                      "HELL TEMPEST"
+                "DOTA_Tooltip_ability_hell_tempest_Description"                          "The boss cast a powerfull AOE that kill anoyone who isn't protected from fire"
+
+                "DOTA_Tooltip_ability_boss_doom_bring"                                      "Doom"
+                "DOTA_Tooltip_ability_boss_doom_bring_Description"                          "The boss cast doom on a target , the target see his health depleted to nothing overtime (last 15 second or until you hit a certain ammount of health point)"
  
                 "DOTA_Tooltip_ability_creature_aoe_spikes_2"                                      "Creature Aoe Spikes 2"
                 "DOTA_Tooltip_ability_creature_aoe_spikes_2_Description"                          ""
@@ -662,40 +707,44 @@
                
                
                 // Tower Names=======================================================================================================
-                "DOTA_Holdout_Round_Boss0_Quest_Title"          "1: Récuperez l'or et l'XP .Vous en aurez besoin!"
-                "DOTA_Holdout_Round_Boss1_Quest_Title"          "2: Savez vous qu'il existe de nouveau item?"
-                "DOTA_Holdout_Round_Boss2_Quest_Title"          "3: Vous pouvez améliorer les item déjà existant !"
-                "DOTA_Holdout_Round_Boss3_Quest_Title"                  "4: Par example : La desolator!"
-                "DOTA_Holdout_Round_Boss4_Quest_Title"          "5: Ou même un tarrasque , une butter fly ...!"
-                "DOTA_Holdout_Round_Boss5_Quest_Title"                  "6: Et si on construisez une histoire avec ces titre ? :D"
-                "DOTA_Holdout_Round_Boss6_Quest_Title"          "7: Vous profitez de la vie? Bien,Slark et son frêre veulent vous tuer"
-                "DOTA_Holdout_Round_Boss7_Quest_Title"                  "8: Naix vous en veux d'avoir tuer slark!"
-                "DOTA_Holdout_Round_Boss8_Quest_Title"          "9: Il semblerais que celui là soit une bug, pouvez vous le tuer?"
-                "DOTA_Holdout_Round_Boss9_Quest_Title"          "10: La reinne Slither et se soldat sont la pour vous tuer, mauvais jour?"
-                "DOTA_Holdout_Round_Boss10_Quest_Title"         "11: Roshan est sortie de son trou , Pourquoi ? Pourquoi pas!"
-                "DOTA_Holdout_Round_Boss11_Quest_Title"         "12: Tout le monde vous veut mort, Même ces licorne sans corne!"
-                "DOTA_Holdout_Round_Boss12_Quest_Title"         "13: Ces golem sont puissants.<font color='#AAAAAA'>*hmm*</font> Je veut dire Ce golem."
-                "DOTA_Holdout_Round_Boss13_Quest_Title"         "14: Ils semblerais que les ogres locaux vous en veux."
-                "DOTA_Holdout_Round_Boss14_Quest_Title"         "15: Oubliez ; ces type la veut vous tuez pour la lolz."
-                "DOTA_Holdout_Round_Boss15_Quest_Title"         "16: Il n'en on pas finis."
-                "DOTA_Holdout_Round_Boss16_Quest_Title"         "17: PLUS , ENCORE PLUS D'OGRE !Ne causez pas une extinction svp."
-                "DOTA_Holdout_Round_Boss17_Quest_Title"         "18: Les frère de shrek entre sur le champ de batail."
-                "DOTA_Holdout_Round_Boss18_Quest_Title"         "19: Maintenant c'est la forêt qui veut vous butez!"
-                "DOTA_Holdout_Round_Boss19_Quest_Title"         "20: C'est quoi ça, un Elf, un Nain? Ou un putain d'hybrid?"
-                "DOTA_Holdout_Round_Boss20_Quest_Title"         "21: Il en ont.. encore... oui..."
-                "DOTA_Holdout_Round_Boss21_Quest_Title"         "22: Bonk Master, Le plus puissant guerrier du monde."
-                "DOTA_Holdout_Round_Boss22_Quest_Title"         "23: Le dernier jours de ce monde touche a ça fin... ou pas!"
-                "DOTA_Holdout_Round_Boss23_Quest_Title"         "24: Les Dragons Veu... Putain qui a écrit ces texte?!!"
-                "DOTA_Holdout_Round_Boss24_Quest_Title"         "25: Spooking of being dead...guess who's coming?"
-                "DOTA_Holdout_Round_Boss25_Quest_Title"         "26: Here comes the Skeleton King...<font color='#AAAAAA'>*caugh*</font> I mean Wraith King!"
-                "DOTA_Holdout_Round_Boss26_Quest_Title"         "27: Someone don't like the fact you killed Roshan and his kin..."
-                "DOTA_Holdout_Round_Boss27_Quest_Title"         "28: His master has come! prepare yourselves!"
-                "DOTA_Holdout_Round_Boss28_Quest_Title"         "29: Something just came out of the forest to end your killing spree! No, not hippies."
+                "DOTA_Holdout_Round_Boss0_Quest_Title"          "1: Get the gold and XP! You're gonna need them."
+                "DOTA_Holdout_Round_Boss1_Quest_Title"          "2: Do you know what the new items are?"
+                "DOTA_Holdout_Round_Boss2_Quest_Title"          "3: You can buy upgrades for your existing items"
+                "DOTA_Holdout_Round_Boss3_Quest_Title"                  "4: For example, you can upgrade your Desolator!"
+                "DOTA_Holdout_Round_Boss4_Quest_Title"          "5: Or even Heart, Mjollnir, Battle Fury or Butterfly!"
+                "DOTA_Holdout_Round_Boss5_Quest_Title"                  "6: Done warming up? Alright, let's get crackin'!"
+                "DOTA_Holdout_Round_Boss6_Quest_Title"          "7: Deep Sea Trouble"
+                "DOTA_Holdout_Round_Boss7_Quest_Title"                  "8: Fight Life(stealer) for your life"
+                "DOTA_Holdout_Round_Boss8_Quest_Title"                  "9: Robotic Rejects"
+                "DOTA_Holdout_Round_Boss9_Quest_Title"  "10: Deeper, Slithery Sea Trouble"
+                "DOTA_Holdout_Round_Boss10_Quest_Title"                 "11: An Old Friend"
+                                //The title for round 12 was fine. Reverted it back.
+                                //Also keeping consistency with uppercase
+                "DOTA_Holdout_Round_Boss11_Quest_Title"         "12: Nightmares of 6.84"
+                "DOTA_Holdout_Round_Boss12_Quest_Title"         "13: Mud Infestation"
+                "DOTA_Holdout_Round_Boss13_Quest_Title"         "14: Funtime is Ogre"
+                "DOTA_Holdout_Round_Boss14_Quest_Title"         "15: Funtime is Really, Really Ogre"
+                "DOTA_Holdout_Round_Boss15_Quest_Title"         "16: Ogreload"
+                "DOTA_Holdout_Round_Boss16_Quest_Title"         "17: Running Out of Ogre Puns"
+                "DOTA_Holdout_Round_Boss17_Quest_Title"         "18: Okay It's Ogre for Real"
+                "DOTA_Holdout_Round_Boss18_Quest_Title"         "19: Trees Are People, Too"
+                "DOTA_Holdout_Round_Boss19_Quest_Title"         "20: Mother Nature's Army"
+                "DOTA_Holdout_Round_Boss20_Quest_Title"         "21: Welcome to The Amazon Forest"
+                "DOTA_Holdout_Round_Boss21_Quest_Title"         "22: The Strongest Warrior of This World"
+                "DOTA_Holdout_Round_Boss22_Quest_Title"         "23: A Dark Prophecy"
+                "DOTA_Holdout_Round_Boss23_Quest_Title"         "24: Ancient Dragons Wish You Dead"
+                "DOTA_Holdout_Round_Boss24_Quest_Title"         "25: Rising From The Grave"
+                "DOTA_Holdout_Round_Boss25_Quest_Title"         "26: The Skele-<font color='#AAAAAA'>*cough*</font> Wraith King!"
+                "DOTA_Holdout_Round_Boss26_Quest_Title"         "27: You Killed Roshan, They'll Kill You"
+                "DOTA_Holdout_Round_Boss27_Quest_Title"         "28: The Master of All Creatures"
+                "DOTA_Holdout_Round_Boss28_Quest_Title"         "29: The One Hidden in The Woods"
                 "DOTA_Holdout_Round_Boss30_Quest_Title"         "30: NYX NYX NYX NYX NYX NYX!"
-                "DOTA_Holdout_Round_Boss31_Quest_Title"         "31: You are sending too much people to hell"
-                "DOTA_Holdout_Round_Boss32_Quest_Title"         "32: A HELLBORN CAME TO EARTH !"
-                "DOTA_Holdout_Round_Boss33_Quest_Title"         "33: Demons start to attack to you, WELCOME TO HELL KID!"
-                "DOTA_Holdout_Round_Boss34_Quest_Title"         "33: This demons look to sppoky for you!"
+                "DOTA_Holdout_Round_Boss31_Quest_Title"         "31: No More Room in Hell"
+                "DOTA_Holdout_Round_Boss32_Quest_Title"         "32: Lucifer's Guard"
+                "DOTA_Holdout_Round_Boss33_Quest_Title"         "33: The Nightmare Makers"
+                "DOTA_Holdout_Round_Boss34_Quest_Title"         "34: The Root of All Evil"
+                "DOTA_Holdout_Round_Boss35_Quest_Title"         "35: The Master of hell"
+                "DOTA_Holdout_Round_Boss36_Quest_Title"         "36: Even demons have a god"
 
  
  
@@ -1171,19 +1220,19 @@
                 "DOTA_Tooltip_ability_item_bloody_halberd_attack_speed_slow"                      "ATTACK SPEED SLOW:"
  
  
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2"                                     "Bloody Halberd and Wind sword"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_Description"                         "Active: Disarm - Disarm the target for 5 seconds\nPassive: Demonic Maim - Gives a chance to reduce enemy movement speed and attackspeed"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_Note0"                               ""
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_Lore"                                ""
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_bonus_evasion"                       "%+$evasion"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_bonus_agi"                           "+$agi"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_bonus_str"                           "+$str"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_bonus_speed"                         "BONUS SPEED:"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_slow_percentage"                     "% SLOW:"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_attack_speed_slow"                   "ATTACK SPEED SLOW:"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_duration"                            "DURATION:"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_proc_chance"                         "CHANCE:"
-                "DOTA_Tooltip_ability_item_sange_and_yasha_2_disarm_duration"                     "DISARM DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_2"                                     "Bloody Halberd and Wind sword"
+                "DOTA_Tooltip_ability_item_s_a_y_2_Description"                         "Active: Disarm - Disarm the target for 5 seconds\nPassive: Demonic Maim - Gives a chance to reduce enemy movement speed and attackspeed"
+                "DOTA_Tooltip_ability_item_s_a_y_2_Note0"                               ""
+                "DOTA_Tooltip_ability_item_s_a_y_2_Lore"                                ""
+                "DOTA_Tooltip_ability_item_s_a_y_2_bonus_evasion"                       "%+$evasion"
+                "DOTA_Tooltip_ability_item_s_a_y_2_bonus_agi"                           "+$agi"
+                "DOTA_Tooltip_ability_item_s_a_y_2_bonus_str"                           "+$str"
+                "DOTA_Tooltip_ability_item_s_a_y_2_bonus_speed"                         "BONUS SPEED:"
+                "DOTA_Tooltip_ability_item_s_a_y_2_slow_percentage"                     "% SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_2_attack_speed_slow"                   "ATTACK SPEED SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_2_duration"                            "DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_2_proc_chance"                         "CHANCE:"
+                "DOTA_Tooltip_ability_item_s_a_y_2_disarm_duration"                     "DISARM DURATION:"
  
  
                 "DOTA_Tooltip_ability_item_heart_bahamut"                                         "Bahamut Heart"
@@ -1494,7 +1543,7 @@
                 "DOTA_Tooltip_ability_item_butterfly5_bonus_evasion"                            "+$evasion"
                 "DOTA_Tooltip_ability_item_butterfly5_bonus_attack_speed"               "+$attack"
 
-                "DOTA_Tooltip_ability_item_Dagon_Mystic"                                                          "Dagon Mystic"
+                "DOTA_Tooltip_ability_item_Dagon_Mystic"                                                          "Dagon Mystique"
                 "DOTA_Tooltip_ability_item_Dagon_Mystic_Description"                                              "Active : Scaling Burst - Inflige des dommage magique a la cible par rapport à l'intéligence du porteur"
                 "DOTA_Tooltip_ability_item_Dagon_Mystic_Lore"                                                     "this mysterious item grow in power with his owner."
                 "DOTA_Tooltip_ability_item_Dagon_Mystic_bonus_intellect"                                     "+$int"
@@ -1527,6 +1576,22 @@
                 "DOTA_Tooltip_ability_item_orb_bahamut_Lore"                            "Ce mortceau de pouvoirs appartenais auparavant au bahamut."
                 "DOTA_Tooltip_modifier_item_orb_bahamut"                                                        "Bahamut's Power Shard"
                 "DOTA_Tooltip_ability_item_orb_bahamut_bonus_all_stats_tooltip"                                         "+$all"
+
+                "DOTA_Tooltip_ability_item_bahamut_claw"                                                          "Bahamut Claw"
+                "DOTA_Tooltip_ability_item_bahamut_claw_Description"                                              "Passive: Bahamut Curse - Your attacks reduce highly target's armor for 15 seconds \nReduce Base Attack Time \nGrant Critical Damage."
+                "DOTA_Tooltip_ability_item_bahamut_claw_Lore"                                                     "Bahamut claw are soo powerfull than a mistake can destroy the world."
+                "DOTA_Tooltip_ability_item_bahamut_claw_armor_reduction"                                  "Armor reduction: -"
+                "DOTA_Tooltip_ability_item_bahamut_claw_bonus_damage"                                             "+$damage"
+                "DOTA_Tooltip_ability_item_bahamut_claw_bonus_health_regen"                               "+$hp_regen"
+                "DOTA_Tooltip_ability_item_bahamut_claw_bonus_armor"                                              "+$armor"
+                "DOTA_Tooltip_ability_item_bahamut_claw_bonus_all"                                          "+$all"
+                "DOTA_Tooltip_ability_item_bahamut_claw_bonus_attack_speed"            "+$attack"
+                "DOTA_Tooltip_ability_item_bahamut_claw_critical_bonus"                "Critical damage (%)"
+                "DOTA_Tooltip_ability_item_bahamut_claw_critical_chance"                               "Critical hit chance (%):"
+                "DOTA_Tooltip_ability_item_bahamut_claw_base_attack_time"                               "Base Attack Time : "
+                "DOTA_Tooltip_ability_item_bahamut_claw_Pierce_percent"                                         "%Pure Damage:"
+                "DOTA_Tooltip_bahamut_claw"                                                                                              "Bahamut Curse"
+                "DOTA_Tooltip_bahamut_claw_Description"                                                                  "Reduces armor by 3000"
  
                
  
@@ -1554,9 +1619,9 @@
                 "DOTA_Tooltip_ability_item_ares_shard_Radius"                                     "RADIUS:"
 
 
-                "DOTA_Tooltip_ability_item_midas_greave"                                          "Chaussure de midas"
-                "DOTA_Tooltip_ability_item_midas_greave_Description"                              "chaque attaque vous donne de l'argent , basé sur vos dommage"
-                "DOTA_Tooltip_ability_item_midas_greave_Note0"                                    "There is a gold limit on every round : round number * 500"
+                "DOTA_Tooltip_ability_item_midas_greave"                                          "Bottes de midas"
+                "DOTA_Tooltip_ability_item_midas_greave_Description"                              "Chaque attaque vous donne de l'argent , basé sur vos dommage"
+                "DOTA_Tooltip_ability_item_midas_greave_Note0"                                    "There is a gold limit on every round : round number * 300"
                 "DOTA_Tooltip_ability_item_midas_greave_Lore"                                     ""
                 "DOTA_Tooltip_ability_item_midas_greave_bonus_all"                                "+$all"
                 "DOTA_Tooltip_ability_item_midas_greave_bonus_speed"                              "Vitesse bonus :"
@@ -1579,6 +1644,17 @@
                 "DOTA_Tooltip_ability_item_sheepstick_2_bonus_agi"                                 "+$agi"
                 "DOTA_Tooltip_ability_item_sheepstick_2_duration"                               "durée du Hex:"
                 "DOTA_Tooltip_ability_item_sheepstick_2_regen_mana"                               "%+Mana Regen:"
+
+                "DOTA_Tooltip_ability_item_gauntlet_cursed"                                          "Gantlet maudit"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_Description"                               "Passif : Flammes maudites - Chaque attaque a une chance d'appliquer Flammes maudites sur l'ennemie , qui l'empèche de regénéré sa santé"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_lore"                      "This gauntlet ... sorry no inspiration for now"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_bonus_damage"                            "+$damage"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_bonus_all"                            "+$all"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_cursed_duration"                            "Durée de Flammes maudites :"
+                "DOTA_Tooltip_ability_item_gauntlet_cursed_cursed_chance"                            "%Chance de Flammes maudites :"
+
+                "DOTA_Tooltip_cursed_effect"                                                        "Flammes maudites"
+                "DOTA_Tooltip_cursed_effect_Description"                                            "Empeche la regéneration de santé."
 
 
  
@@ -1680,6 +1756,7 @@
                 "DOTA_Tooltip_ability_skywrath_mage_mystic_flare_datadriven_radius"               "RADIUS:"
                 "DOTA_Tooltip_ability_skywrath_mage_mystic_flare_datadriven_duration"             "DURATION:"
                 "DOTA_Tooltip_ability_skywrath_mage_mystic_flare_datadriven_damage"               "DAMAGE:"
+                "DOTA_Tooltip_ability_skywrath_mage_mystic_flare_aghanim_description"                                    "Turn damage to pure."
 
                 "DOTA_Tooltip_ability_skywrath_mage_concussive_shot_datadriven"                   "Concussive Shot"
                 "DOTA_Tooltip_ability_skywrath_mage_concussive_shot_datadriven_Description"       ""
@@ -1786,6 +1863,7 @@
                 "DOTA_Tooltip_ability_tinker_rearm_datadriven_Note0"                          ""
                 "DOTA_Tooltip_ability_tinker_rearm_datadriven_Lore"                           ""
                 "DOTA_Tooltip_ability_tinker_rearm_datadriven_channel_tooltip"          "Chanel time:"
+                "DOTA_Tooltip_ability_tinker_rearm_datadrivene_aghanim_description"                                    "Increase Damage , radius and number of target of Missile."
 
                 "DOTA_Tooltip_ability_nyx_assassin_carapace"                    "Hardened Carapace. "
                 "DOTA_Tooltip_ability_nyx_assassin_carapace_Description"                    "Increase Nyx armor. "
@@ -1838,6 +1916,119 @@
                 "DOTA_Tooltip_ability_juggernaut_blade_dance_ebf_Note0"                    ""
                 "DOTA_Tooltip_ability_juggernaut_blade_dance_ebf_critical_bonus"                    "%Critical damage: "
                 "DOTA_Tooltip_ability_juggernaut_blade_dance_ebf_critical_chance"                    "%Critical chance: "
+
+
+                "DOTA_Tooltip_ability_invoker_fire_ellement"                                     "Element : Fire"
+                "DOTA_Tooltip_ability_invoker_fire_ellement_Description"                    "Increase your auto-attack damage, and allow you to use FIRE ellement when using combine "
+                "DOTA_Tooltip_ability_invoker_fire_ellement_Note0"                    ""
+                "DOTA_Tooltip_ability_invoker_fire_ellement_bonus_damage_per_instance"                    "Bonus Damage per instance : "
+                "DOTA_Tooltip_ability_invoker_fire_ellement_ellement_power"                    "Element power : "
+
+                "DOTA_Tooltip_ability_invoker_ice_ellement"                                     "Element : Ice"
+                "DOTA_Tooltip_ability_invoker_ice_ellement_Description"                    "Increase your Mana regen, and allow you to use ICE ellement when using combine"
+                "DOTA_Tooltip_ability_invoker_ice_ellement_Note0"                    ""
+                "DOTA_Tooltip_ability_invoker_ice_ellement_bonus_mana_regen_per_instance"                    "Bonus Mana regen per instance : "
+                "DOTA_Tooltip_ability_invoker_ice_ellement_ellement_power"                    "Element power : "
+
+                "DOTA_Tooltip_ability_invoker_wind_ellement"                                     "Element : Wind"
+                "DOTA_Tooltip_ability_invoker_wind_ellement_Description"                    "Increase your Mana regen, and allow you to use WIND ellement when using combine"
+                "DOTA_Tooltip_ability_invoker_wind_ellement_Note0"                    ""
+                "DOTA_Tooltip_ability_invoker_wind_ellement_bonus_speed_per_instance"                    "Bonus Movement speed per instance : "
+                "DOTA_Tooltip_ability_invoker_wind_ellement_bonus_attack_speed_per_instance"                    "%Bonus attack speed per instance : "
+                "DOTA_Tooltip_ability_invoker_wind_ellement_ellement_power"                    "Element power : "
+
+                "DOTA_Tooltip_ability_invoker_combine"                                     "Element Combine"
+                "DOTA_Tooltip_ability_invoker_combine_Description"                    "The Elementalist combine the element to cast new spell \n\nElement power is the power of the element per instance , they are used to cast advanced spell. They are also used to know the power of the spell\n\nThe spell are choose based on the part the element take on the total element pool , it's completely different from the dota's invoker system"
+                "DOTA_Tooltip_ability_invoker_combine_Note0"                    "you gain acces to now orb every 10 level : lvl 1 : 1 orb , lvl 10 : 2 orb , lvl 20 : 3 orb , lvl 30 : 4 orb : lvl 40 : 5 orb , lvl 50 : 6orb (not more than 6 orb for now)"
+
+                "DOTA_Tooltip_ability_invoker_reset"                                     "Element Reset"
+                "DOTA_Tooltip_ability_invoker_reset_Description"                    "This skill allow you to reset your current element to nil "
+                "DOTA_Tooltip_ability_invoker_reset_Note0"                    ""
+
+
+                
+                "DOTA_Tooltip_ellement_wind_modifiers"                                      "Wind ellement"
+
+                "DOTA_Tooltip_ellement_ice_modifiers"                                      "Ice ellement"
+
+                "DOTA_Tooltip_ellement_fire_modifiers"                                      "Fire ellement"
+
+                "DOTA_Tooltip_speed_aura_display"                                      "Wind Blessing"
+
+                "DOTA_Tooltip_power_aura_display"                                      "Fire Blessing"
+
+                "DOTA_Tooltip_slow_modifier_caster"                                      "Ice Blessing"
+
+                "DOTA_Tooltip_modifier_arcana_laser_charge"                              "Arcana laser"
+
+                "DOTA_Tooltip_health_regen_display"                                      "Increased Life Regen"
+
+                "DOTA_Tooltip_fire_dot_display"                                      "Burning"
+
+                "DOTA_Tooltip_iceflame_display"                                      "Ice-Flame's Cold burn"
+
+                "DOTA_Tooltip_ice_freeze_display"                                      "Frozen"
+
+                "DOTA_Tooltip_slow_modifier_display"                                      "Slow"
+
+
+
+
+
+
+
+                //-------------------------------------------- not translated (after someone who wanted to help me with finish)
+
+                "DOTA_Tooltip_ability_spirit_breaker_haste_armor"                                     "Haste Armor"
+                "DOTA_Tooltip_ability_spirit_breaker_haste_armor_Description"                    "Spirit breaker use his movement speed as a armor to ressist ennemy attacks."
+                "DOTA_Tooltip_ability_spirit_breaker_haste_armor_Note0"                    ""
+                "DOTA_Tooltip_ability_spirit_breaker_haste_armor_speed_to_armor_percent_tooltip"                    "%Speed to armor: "
+
+                "DOTA_Tooltip_haste_armor_bonus"                                "Haste Armor Buff"
+                "DOTA_Tooltip_haste_armor_bonus_Description"                                                             " %MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS% Bonus armor from movement speed"
+
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash"                                     "Nether Smash"
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash_Description"                    "Spirit breaker smash the ground with the power of nether , dealing damage and slowing all nearby enemies."
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash_Note0"                    ""
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash_damage"                    "Damage : "
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash_slow_movement_speed"                    "Movement Speed: "
+                "DOTA_Tooltip_ability_spirit_breaker_ground_smash_radius"                    "Radius : "
+
+                "DOTA_Tooltip_ability_item_blink_boots"                                          "Blink Boots"
+                "DOTA_Tooltip_ability_item_blink_boots_Description"                               "Active: Blink - Teleport to a target point up to %blink_range% units away.  Boots can hold up to 3 blink charges.A charge is created every 8 seconds."
+                "DOTA_Tooltip_ability_item_blink_boots_lore"                      "Nobody can't go faster than the one who wear those boots !"
+                "DOTA_Tooltip_ability_item_blink_boots_bonus_all"                            "+$all"
+                "DOTA_Tooltip_ability_item_blink_boots_bonus_movement"                            "BONUS SPEED:"
+                "DOTA_Tooltip_ability_item_blink_boots_bonus_attack_speed"                            "+$attack"
+
+                "DOTA_Tooltip_ability_axe_ultimate"                                                                                "Culling Blade (ebf)"
+                "DOTA_Tooltip_ability_axe_ultimate_Description"                                                    "Axe spots a weakness and strikes, instantly killing an enemy unit with low health, or dealing moderate damage otherwise. When an enemy is killed with Culling Blade, its cooldown is reset."
+                "DOTA_Tooltip_ability_axe_ultimate_Lore"                                                                   "Mogul Khan is the embodiment of battle and fury, launching into a gruesome fatality against those who dare engage the Axe in combat."
+                "DOTA_Tooltip_ability_axe_ultimate_kill_threshold"                                                 "KILL THRESHOLD:"
+                //"DOTA_Tooltip_ability_axe_ultimate_kill_threshold_scepter"                                 "SCEPTER KILL THRESHOLD:"
+                "DOTA_Tooltip_ability_axe_ultimate_damage"                                                                 "DAMAGE:"
+                //"DOTA_Tooltip_ability_axe_ultimate_speed_bonus"                                                    "%KILL MOVE SPEED BONUS:"
+                //"DOTA_Tooltip_ability_axe_ultimate_atk_speed_bonus_tooltip"                        "KILL ATTACK SPEED BONUS:"
+                //"DOTA_Tooltip_ability_axe_ultimate_speed_aoe"                                                              "KILL SPEED RADIUS:"
+                //"DOTA_Tooltip_ability_axe_ultimate_speed_duration"                                                 "KILL SPEED DURATION:"
+                //"DOTA_Tooltip_ability_axe_ultimate_speed_duration_scepter"                                 "SCEPTER SPEED DURATION:"
+                //"DOTA_Tooltip_ability_axe_ultimate_cooldown_scepter"                                               "SCEPTER COOLDOWN:"
+                "DOTA_Tooltip_ability_axe_ultimate_aghanim_description"                                    "Nothing , for now."
+
+                "DOTA_Tooltip_ability_necro_death_aura"                                     "Weakness Aura"
+                "DOTA_Tooltip_ability_necro_death_aura_Description"                    "Necro weaken all nearby ennemy , Increasing magical damage they receive."
+                "DOTA_Tooltip_ability_necro_death_aura_Note0"                    "Necro's oponements fell weaker"
+                "DOTA_Tooltip_ability_necro_death_aura_magical_ress_red"                   "%Magical damage Increase : "
+                "DOTA_Tooltip_ability_necro_death_aura_radius"                    "Radius : "
+
+                "DOTA_Tooltip_ability_item_gungnir_2"                                                              "Divine CrossBow"
+                "DOTA_Tooltip_ability_item_gungnir_2_Description"                                          "A part of your physical damage is turned into <font color='#FF1010'>pure</font> damage"
+                "DOTA_Tooltip_ability_item_gungnir_2_Lore"                                                 "Rip in ... well no lore idea, maybe later ^^."
+                "DOTA_Tooltip_ability_item_gungnir_2_bonus_damage"                                         "+$damage"
+                "DOTA_Tooltip_ability_item_gungnir_2_bonus_all"                                         "+$all"
+                "DOTA_Tooltip_ability_item_gungnir_2_Pierce_percent"                                         "%Pure Damage:"
+                
+ 
  
  
  
@@ -1917,6 +2108,21 @@
 //TOMB==============================================================================================================================
                 "DOTA_Tooltip_ability_item_tombstone"                                                           "Resurrect Teammate"
                 "DOTA_Chat_Tombstone_Pinged"                                                                            "[ALLIES] Fallen teammate here."
+
+
+
+                "DOTA_Tooltip_ability_item_melee_rage"                                            "Beastitachi's Wood"
+                "DOTA_Tooltip_ability_item_melee_rage_Description"                                "Passive: Pure Cleave - A part of your damage is set to <font color='#FF1010'>PURE</font> and cleaves to nearby ennemies.Cleave only works on Melee units \n also grand bonus evasion , true strike and can apply minibash to ennemy 5%% "
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_damage"                               "+$damage"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_all"                               "+$all"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_agility"                               "+$agi"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_health_regen"                         "BONUS HEALTH REGEN:"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_mana_regen"                           "BONUS MANA REGEN:"
+                "DOTA_Tooltip_ability_item_melee_rage_radius"                                     "RADIUS:"
+                "DOTA_Tooltip_ability_item_melee_rage_splash_damage"                              "Bonus Damage: %"
+                "DOTA_Tooltip_ability_item_melee_rage_base_attack_time"                           "BASE ATTACK TIME:"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_evasion"                                            "%+$evasion"
+                "DOTA_Tooltip_ability_item_melee_rage_bonus_attack_speed"                                       "+$attack"
  
         }
 }

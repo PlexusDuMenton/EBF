@@ -31,8 +31,6 @@ function meteor_on_spell_start(keys)
     local point_difference_normalized = (target_point_temp - caster_point_temp):Normalized()
     local velocity_per_second = point_difference_normalized * keys.TravelSpeed
     
-    StartSoundEvent("Hero_Invoker.ChaosMeteor.Cast",caster)
-    StartSoundEvent("Hero_Invoker.ChaosMeteor.Loop",caster)
 
     --Create a particle effect consisting of the meteor falling from the sky and landing at the target point.
     local meteor_fly_original_point = (target_point - (velocity_per_second * keys.LandTime)) + Vector (0, 0, 500)  --Start the meteor in the air in a place where it'll be moving the same speed when flying and when rolling.
@@ -56,10 +54,7 @@ function meteor_on_spell_start(keys)
                 chaos_meteor_unit_ability:SetLevel(1)
                 chaos_meteor_unit_ability:ApplyDataDrivenModifier(chaos_meteor_dummy_unit, chaos_meteor_dummy_unit, "meteor_property", {duration = -1})
             end
-            
-            keys.caster:StopSound("Hero_Invoker.ChaosMeteor.Loop")
-            chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Impact")
-            chaos_meteor_dummy_unit:EmitSound("Hero_Invoker.ChaosMeteor.Loop")  --Emit a sound that will follow the meteor.
+
             local fire_aura_duration = 5
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_hard" then
                 fire_aura_duration = 7
@@ -104,9 +99,6 @@ function meteor_on_spell_start(keys)
             Timers:CreateTimer({
                 callback = function()
                     if GameRules:GetGameTime() > endTime then
-                        --Stop the sound, particle, and damage when the meteor disappears.
-                        chaos_meteor_dummy_unit:StopSound("Hero_Invoker.ChaosMeteor.Loop")
-                        chaos_meteor_dummy_unit:StopSound("Hero_Invoker.ChaosMeteor.Destroy")
                     
                         --Have the dummy unit linger in the position the meteor ended up in, in order to provide vision.
                         Timers:CreateTimer({

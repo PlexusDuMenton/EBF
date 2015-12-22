@@ -1,54 +1,9 @@
 "dota_holdout"
 {
-	"PrepTimeBetweenRounds"			"15"
+	"PrepTimeBetweenRounds"			"20"
 	"ItemExpireTime"				"45"
 	"RestoreHPAfterRound"			"1"
 	"RestoreMPAfterRound"			"0"
-	
-	"ItemDrops"
-	{
-		"orb2"
-		{
-			"Item"					"item_orb_of_shadows"
-			"Chance"				"1"
-		}
-		"desolator2"
-		{
-			"Item"					"item_desolator2"
-			"Chance"				"1"
-		}
-		"desolator"
-		{
-			"Item"					"item_desolator"
-			"Chance"				"2"
-		}
-		"assault"
-		{
-			"Item"					"item_assault"
-			"Chance"				"2"
-		}
-		"crit2"
-		{
-			"Item"					"item_crit2"
-			"Chance"				"1"
-		}
-		"hyperstone"
-		{
-			"Item"					"item_hyperstone"
-			"Chance"				"3"
-		}
-		"hearth"
-		{
-			"Item"					"item_heart"
-			"Chance"				"1"
-		}
-		"charged"
-		{
-			"Item"					"item_mjollnir"
-			"Chance"				"1"
-		}
-
-	}
 	
 	"RandomSpawns"
 	{

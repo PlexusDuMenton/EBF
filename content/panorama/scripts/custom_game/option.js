@@ -112,16 +112,20 @@ GameEvents.Subscribe( "activate_shield", activate_shield)
 	}
 	function update_hp_bar(arg)
 	{
-		$("#hp_bar_parent_health").style.clip = "rect( 0% ," + ((arg.current_life/arg.total_life)*77.3+22.7) + "%" + ", 100% ,0% )";
+		$("#hp_bar_parent_health").style.clip = "rect( 0% ," + ((arg.current_life_disp/arg.total_life_disp)*77.3+22.7) + "%" + ", 100% ,0% )";
 		$("#hp_bar_current").text = arg.current_life;
 		$("#hp_bar_total").text = arg.total_life;
 		$("#hp_bar_name").text = "#"+arg.name;
 	}
 GameEvents.Subscribe( "Update_Damage", update_damage)
+GameEvents.Subscribe( "Update_DPS", update_dps)
 GameEvents.Subscribe( "Update_Damage_Team", update_damage_team)
 	function update_damage(arg)
 	{
 		$("#damage").text = arg.damage;
+	}
+	function update_dps(arg)
+	{
 		$("#DPS").text = arg.dps;
 	}
 	function update_damage_team(arg)

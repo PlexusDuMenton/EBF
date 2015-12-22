@@ -25,20 +25,15 @@ function creation(keys)
 	end)
 
     if GetMapName() == "epic_boss_fight_impossible" then
-        caster:SetMaxHealth(30000000) -- impossible
-        if GameRules._NewGamePlus == true then caster:SetMaxHealth(15000000) end
+        caster:SetMaxHealth(15000000) 
     elseif GetMapName() == "epic_boss_fight_challenger" then
-        caster:SetMaxHealth(35000000) -- challengger
-        if GameRules._NewGamePlus == true then caster:SetMaxHealth(20000000) end
+        caster:SetMaxHealth(20000000) 
     elseif  GetMapName() == "epic_boss_fight_hard" then
-        caster:SetMaxHealth(20000000) -- hard
-        if GameRules._NewGamePlus == true then caster:SetMaxHealth(10000000) end
+        caster:SetMaxHealth(10000000) 
     elseif GetMapName() == "epic_boss_fight_boss_master" then
-        caster:SetMaxHealth(22500000) -- boss master
-        if GameRules._NewGamePlus == true then caster:SetMaxHealth(7500000) end
+        caster:SetMaxHealth(7500000) 
     else
-        caster:SetMaxHealth(15000000) -- normal
-        if GameRules._NewGamePlus == true then caster:SetMaxHealth(5000000) end
+        caster:SetMaxHealth(5000000) 
     end
 
 	Timers:CreateTimer( 0.1, function()

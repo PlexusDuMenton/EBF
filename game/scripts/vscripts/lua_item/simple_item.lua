@@ -9,6 +9,32 @@ if simple_item == nil then
     simple_item._round = 1
 end
 
+
+
+function refresher( keys )
+    local caster = keys.caster
+    
+    -- Reset cooldown for abilities
+    local no_refresh_skill = {["mirana_arrow"] = true}
+    for i = 0, caster:GetAbilityCount() - 1 do
+        local ability = caster:GetAbilityByIndex( i )
+        if ability and ability ~= keys.ability and not no_refresh_skill[ ability:GetAbilityName() ] then
+            ability:EndCooldown()
+        end
+    end
+    for i=0, 5, 1 do
+        local current_item = keys.caster:GetItemInSlot(i)
+        if current_item ~= nil then
+            if current_item:GetName() ~= "item_refresher" then  --Refresher Orb does not refresh itself.
+                current_item:EndCooldown()
+            end
+        end
+    end
+end
+
+
+
+
 -- Clears the force attack target upon expiration
 function BerserkersCallEnd( keys )
     local target = keys.target
@@ -47,19 +73,19 @@ function Cooldown_powder(keys)
     local dust_effect = ParticleManager:CreateParticle("particles/chronos_powder.vpcf", PATTACH_ABSORIGIN  , caster)
     ParticleManager:SetParticleControl(dust_effect, 0, caster:GetAbsOrigin())
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-        item:StartCooldown(30)
+        item:StartCooldown(45)
     end
     if GetMapName() == "epic_boss_fight_hard" then
-        item:StartCooldown(20)
+        item:StartCooldown(30)
     end
     if GetMapName() == "epic_boss_fight_normal" then
-        item:StartCooldown(10)
+        item:StartCooldown(20)
     end
 end
 
 function ares_powder(keys)
     local caster = keys.caster
-    local radius = item:GetLevelSpecialValueFor("Radius", 0)
+    local radius = keys.item:GetLevelSpecialValueFor("Radius", 0)
     caster.ennemyunit = FindUnitsInRadius(caster:GetTeam(),
                               caster:GetAbsOrigin(),
                               nil,
@@ -141,6 +167,27 @@ function Have_Item(unit,item_name)
     return haveit
 end
 
+function add_soul_charge(keys)
+    local caster = keys.caster
+    local item = keys.ability
+
+    if caster.Soul_Charge== nil then
+        caster.Soul_Charge = 0 
+    end
+    caster.Soul_Charge = caster.Soul_Charge + 1
+    if caster.Soul_Charge == 1 then 
+        item:ApplyDataDrivenModifier(caster, caster, "gauntlet_bonus_soul", {})
+    end
+    caster:SetModifierStackCount( "gauntlet_bonus_soul", caster, caster.Soul_Charge)
+    Timers:CreateTimer(20.0,function()
+        caster.Soul_Charge = caster.Soul_Charge - 1
+        caster:SetModifierStackCount( "gauntlet_bonus_soul", caster, caster.Soul_Charge)
+        if caster.Soul_Charge == 0 then
+            caster:RemoveModifierByName( "gauntlet_bonus_soul" )
+        end
+    end)
+
+end
 
 function scale_asura(keys)
     local caster = keys.caster
@@ -148,7 +195,11 @@ function scale_asura(keys)
     
         Timers:CreateTimer(2.0,function()
                 local stack = GameRules._roundnumber
-                caster:SetModifierStackCount( "scale_per_round", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_hearth", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_plate", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_rapier", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_staff", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_sword", caster, stack)
                 caster:SetModifierStackCount( "scale_display", caster, stack)
                 if Have_Item(caster,item:GetName()) == true then
                     return 2.0
@@ -300,11 +351,11 @@ function item_dagon_datadriven_on_spell_start(keys)
     local caster = keys.caster
     local item = keys.ability
     local int_multiplier = item:GetLevelSpecialValueFor("damage_per_int", 0) 
-    local damage = caster:GetIntellect() * int_multiplier + 1000
+    local damage = caster:GetIntellect() * int_multiplier + item:GetLevelSpecialValueFor("damage_base", 0) 
     print (damage)
     local dagon_particle = ParticleManager:CreateParticle("particles/dagon_mystic.vpcf",  PATTACH_ABSORIGIN_FOLLOW, keys.caster)
     ParticleManager:SetParticleControlEnt(dagon_particle, 1, keys.target, PATTACH_POINT_FOLLOW, "attach_hitloc", keys.target:GetAbsOrigin(), false)
-    local particle_effect_intensity =  caster:GetIntellect() --Control Point 2 in Dagon's particle effect takes a number between 400 and 800, depending on its level.
+    local particle_effect_intensity = (200 + caster:GetIntellect()^0.2) --Control Point 2 in Dagon's particle effect takes a number between 400 and 800, depending on its level.
     ParticleManager:SetParticleControl(dagon_particle, 2, Vector(particle_effect_intensity))
     
     keys.caster:EmitSound("DOTA_Item.Dagon.Activate")
@@ -357,8 +408,8 @@ function Midas_OnHit(keys)
     elseif item:IsCooldownReady() and not caster:IsIllusion() then
         simple_item:midas_gold(bonus_gold)
     end
-    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if item:IsCooldownReady() and not caster:IsIllusion() then
+        simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
                 if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*150 then
@@ -431,7 +482,6 @@ function Midas2_OnHit(keys)
     local damage = keys.damage_on_hit
     local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
     local ID = 0
-    simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
                 if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
                     simple_item:midas_gold(bonus_gold)
@@ -440,6 +490,7 @@ function Midas2_OnHit(keys)
         simple_item:midas_gold(bonus_gold)
     end
     if item:IsCooldownReady() and not caster:IsIllusion() then
+        simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
         for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
             if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
                 if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*300 then
