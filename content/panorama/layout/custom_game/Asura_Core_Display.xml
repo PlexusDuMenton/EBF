@@ -7,9 +7,9 @@
 		<include src="file://{resources}/scripts/custom_game/Asura_Core_Display.js" /> 
 	</scripts>
 	<Panel class="Asura_Core_Panel" hittest="false">
-		<Panel id="Asura_Core" hittest="false">
-			<Image id="core_image" src="file://{images}/custom_game/demon_shop/core.png"/>
+		<Button id="Asura_Core" onactivate='tell_core()'>
+			<Image id="core_image" hittest="false" src="file://{images}/custom_game/demon_shop/core.png"/>
 			<Label hittest="false" id="core_number" text="0"/>
-		</Panel>
+		</Button>
 	</Panel>
 </root>

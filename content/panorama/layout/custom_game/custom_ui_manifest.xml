@@ -50,6 +50,7 @@
     <CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/barebones_hud_base.xml" /> 
 	<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/option.xml" /> 
 	<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/demon_shop.xml" />
+	<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/NG_Vote.xml" />
 	<CustomUIElement type="GameInfo" 			layoutfile="file://{resources}/layout/custom_game/game_info.xml" />
 		<!--<CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/addon_stuff.xml" />-->
 		<CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/custom_top_scoreboard.xml" />

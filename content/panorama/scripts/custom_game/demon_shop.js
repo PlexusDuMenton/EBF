@@ -31,6 +31,12 @@ function hide_shop(arg)
 		$("#button_shop").visible = true;
 		$("#hide_shop").visible = false;
 	}
+GameEvents.Subscribe( "Refresh_HUD", refresh_shop)
 
-
+function refresh_shop(arg)
+	{
+		$("#demon_button").visible = false;
+		$("#hide_shop").visible = false;
+		$("#demon_shop").visible = false;
+	}
 

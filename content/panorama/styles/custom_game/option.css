@@ -19,7 +19,7 @@ margin-right: 450px;
 #damage_text
  {
 	font-size: 20px;
-	margin-left: 50px;
+	margin-left: 25px;
 	margin-top: 27px;
     font-weight: bold;
 	color: #FFFFFF;
@@ -28,7 +28,7 @@ margin-right: 450px;
  {
 	font-size: 20px;
 	horizontal-align: left;
-	margin-left: 250px;
+	margin-left: 225px;
 	margin-top: 28px;
     font-weight: bold;
 	color: #FFFFFF;
@@ -36,7 +36,7 @@ margin-right: 450px;
 #dps_text
  {
 	font-size: 20px;
-	margin-left: 50px;
+	margin-left: 25px;
 	margin-top: 45px;
     font-weight: bold;
 	color: #FFFFFF;
@@ -45,7 +45,7 @@ margin-right: 450px;
  {
 	font-size: 20px;
 	horizontal-align: left;
-	margin-left: 250px;
+	margin-left: 225px;
 	margin-top: 46px;
     font-weight: bold;
 	color: #FFFFFF;
@@ -54,7 +54,7 @@ margin-right: 450px;
  {
 	font-size: 20px;
 	horizontal-align: left;
-	margin-left: 250px;
+	margin-left: 225px;
 	margin-top: 65px;
     font-weight: bold;
 	color: #FFFFFF;
@@ -62,7 +62,7 @@ margin-right: 450px;
 #TD_TEXT
  {
 	font-size: 20px;
-	margin-left: 50px;
+	margin-left: 25px;
 	margin-top: 64px;
     font-weight: bold;
 	color: #FFFFFF;

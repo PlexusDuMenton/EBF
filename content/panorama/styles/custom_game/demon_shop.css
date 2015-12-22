@@ -9,7 +9,7 @@
 {
   horizontal-align: right;
   vertical-align: top;
-	margin-right: 550px;
+	margin-right: 300px;
   margin-top: 50px;
 	width: 150px;
     height: 75px;
@@ -61,4 +61,20 @@
 	margin-top: 148px;
 	height: 64px;
 	width: 84px;
+}
+ #item4
+ {
+	vertical-align: top;
+	margin-left: 10px;
+	margin-top: 218px;
+	height: 64px;
+	width: 124px;
+}
+ #item5
+ {
+	vertical-align: top;
+	margin-left: 10px;
+	margin-top: 288px;
+	height: 64px;
+	width: 124px;
 }

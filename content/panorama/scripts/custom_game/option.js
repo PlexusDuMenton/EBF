@@ -128,6 +128,7 @@ GameEvents.Subscribe( "Update_Damage_Team", update_damage_team)
 	{
 		$("#DPS").text = arg.dps;
 	}
+	
 	function update_damage_team(arg)
 	{
 		$("#TD").text = arg.team;

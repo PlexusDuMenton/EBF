@@ -27,6 +27,12 @@
 			<Button id="item3" onactivate='BuyItem("item_asura_heart",10,"item_heart_bahamut")'>
 				<Image hittest="false" id="item3_image" src="file://{images}/custom_game/demon_shop/asura_heart.png"/>
 			</Button>
+			<Button id="item4" onactivate='BuyItem("item_asura_rapier",12,"item_butterfly5")'>
+				<Image hittest="false" id="item4_image" src="file://{images}/custom_game/demon_shop/asura_rapier.png"/>
+			</Button>
+			<Button id="item5" onactivate='BuyItem("item_asura_staff",8,"item_Dagon_Mystic")'>
+				<Image hittest="false" id="item5_image" src="file://{images}/custom_game/demon_shop/asura_staff.png"/>
+			</Button>
 		</Panel>
 	</Panel>
 </root>

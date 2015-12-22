@@ -751,6 +751,40 @@
 //ITEM==============================================================================================================================
 //ITEM==============================================================================================================================
 //ITEM==============================================================================================================================
+
+                "DOTA_Tooltip_ability_item_asura_heart"                                         "Asura Heart"
+                "DOTA_Tooltip_ability_item_asura_heart_Description"                             "The still-pulsing heart of Asura, King-God of all demons, His Power Scale with the time"
+                "DOTA_Tooltip_ability_item_asura_heart_Note0"                                   "New Game + "
+                "DOTA_Tooltip_ability_item_asura_heart_Lore"                                    "you can fell you heart burn from the corruption of this heart."
+                "DOTA_Tooltip_ability_item_asura_heart_health_regen_percent"                    "% HEALTH REGEN:"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength"                          "+$str"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max"                        "+$health"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength_PR"                          "+ Strenght per round"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max_PR"                        "+ Health per round"
+
+                "DOTA_Tooltip_scale_display"                                                       "Power Augmentation of Asura item"
+                "DOTA_Tooltip_scale_display_Decription"                                                       "Each Stack increase Asura item power"
+
+                "DOTA_Tooltip_ability_item_asura_plate"                                           "Asura Plate"
+                "DOTA_Tooltip_ability_item_asura_plate_Description"                               "Greatly increase your survivability.\nActive grant Magic immunity to all ally for 20 sec. \nCooldown : 40 Sec"
+                "DOTA_Tooltip_ability_item_asura_plate_Note0"                                     ""
+                "DOTA_Tooltip_ability_item_asura_plate_Lore"                                      "This armor was the property of a very powerfull demon you killed recently"
+                "DOTA_Tooltip_ability_item_asura_plate_radius"                                    "Aura radius:"
+                "DOTA_Tooltip_ability_item_asura_plate_health_regen_percent"                      "% Health regen per second"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_all"                                 "+$all "
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_health_max"                          "+$health"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor"                               "+$armor"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_aoe"                           "Bonus armor (AURA): +"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_debuff"                        "ARMOR DEBUFF (AURA): -"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_damage"                              "+$damage"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_damage_PR"                           "+ Bonus Damage per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_health_max_PR"                       "+ Bonus Health per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_all_pr"                              "+ Bonus Stats per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_PR"                            "+ Bonus Armor per round"
+
+                "DOTA_Tooltip_asuraarmor"                                                       "Asura Armor aura"
+                "DOTA_Tooltip_asuraarmordebuff"                                                       "Asura Armor debuff"
+
  
                 "DOTA_Tooltip_ability_item_bfury_custom"                                                              "Battle Fury"
                 "DOTA_Tooltip_ability_item_bfury_custom_Description"                                          "Passive : Splash - Damages every enemy around the one you attack"
@@ -1233,6 +1267,21 @@
                 "DOTA_Tooltip_ability_item_s_a_y_2_duration"                            "DURATION:"
                 "DOTA_Tooltip_ability_item_s_a_y_2_proc_chance"                         "CHANCE:"
                 "DOTA_Tooltip_ability_item_s_a_y_2_disarm_duration"                     "DISARM DURATION:"
+
+                "DOTA_Tooltip_ability_item_s_a_y_3"                                     "Nox's Blood Sword"
+                "DOTA_Tooltip_ability_item_s_a_y_3_Description"                         "Active: Disarm - Disarm the target for 5 seconds\nPassive: Demonic Maim - Gives a chance to reduce enemy movement speed and attack speed \n increase Health per strenght"
+                "DOTA_Tooltip_ability_item_s_a_y_3_Note0"                               ""
+                "DOTA_Tooltip_ability_item_s_a_y_3_Lore"                                ""
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_evasion"                       "%+$evasion"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_all"                           "+$all"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_health"                           "+$health"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_speed"                         "BONUS SPEED:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_slow_percentage"                     "% SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_attack_speed_slow"                   "ATTACK SPEED SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_duration"                            "DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_proc_chance"                         "CHANCE:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_disarm_duration"                     "DISARM DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_health_per_str"                                         "+ HP par force"
  
  
                 "DOTA_Tooltip_ability_item_heart_bahamut"                                         "Bahamut Heart"
@@ -2123,6 +2172,50 @@
                 "DOTA_Tooltip_ability_item_melee_rage_base_attack_time"                           "BASE ATTACK TIME:"
                 "DOTA_Tooltip_ability_item_melee_rage_bonus_evasion"                                            "%+$evasion"
                 "DOTA_Tooltip_ability_item_melee_rage_bonus_attack_speed"                                       "+$attack"
+
+                "DOTA_Tooltip_ability_item_present_treasure"                                     "Cadeau"
+                "DOTA_Tooltip_ability_item_present_treasure_Description"                         "Vous devriez l'ouvrire.Qui sait ce qui ce cache dedans ?"
+
+                "DOTA_Tooltip_ability_item_redium_lens"                                         "Redium Lens"
+                "DOTA_Tooltip_ability_item_redium_lens_Description"                             "Passive : Increase Cast range by 400 and Spell's damage by 100%%"
+                "DOTA_Tooltip_ability_item_redium_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_redium_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_sunium_lens"                                         "Sunium Lens"
+                "DOTA_Tooltip_ability_item_sunium_lens_Description"                             "Passive : Increase Cast range by 800 and Spell's damage by 200%%"
+                "DOTA_Tooltip_ability_item_sunium_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_sunium_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_omni_lens"                                         "Omnium Lens"
+                "DOTA_Tooltip_ability_item_omni_lens_Description"                             "Passive : GRANT GLOBAL Cast range and Spell's damage by 500%%"
+                "DOTA_Tooltip_ability_item_omni_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_omni_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_element_refresher"                                         "Elemental Refresher"
+                "DOTA_Tooltip_ability_item_element_refresher_Description"                             "Allow elementalist to refresh all his spell. Ammount of max charge and charge creation time depend on elementalist's level"
+                "DOTA_Tooltip_ability_item_element_refresher_Note0"                                   "the charge ammount formulais : math.ceil (10 * ((25+level)/100)^1.05) 
+                \nthe charge creation time formula is : (30 * (1/level)^0.2)*octarine_multiplier"
+                "DOTA_Tooltip_ability_item_element_refresher_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_refresher_Note0"                                         "Doesn't refresh 'Killer Moves: Serious Arrow'"
+
+                "DOTA_Tooltip_ability_mirana_arrow"                                         "Killer Moves: Serious Arrow"
+                "DOTA_Tooltip_ability_mirana_arrow_Description"                             "One Arrow Girl launches a deadly arrow that instantly kills any boss. Our hero has to recover for extended periods before it can be used again. Choose Wisely."
+                "DOTA_Tooltip_ability_mirana_arrow_Note0"                             "Doesn't Affect Asura or Demon Core"
+                "DOTA_Tooltip_ability_mirana_arrow_Note1"                             "Serious Arrow can hit invisible units."
+                "DOTA_Tooltip_ability_mirana_arrow_Lore"                             "Legend has it our hero was taught how to One Arrow Kill any monster in her way by a wandering traveller, during an unusual bout of boredom."
+
+                "npc_dota_hero_mirana"                                         "One Arrow Girl"
+
+                 "DOTA_Tooltip_ability_item_asura_rapier"                                         "Asura Heart"
+                "DOTA_Tooltip_ability_item_asura_rapier_Description"                             "The still-pulsing heart of Asura, King-God of all demons, His Power Scale with the time"
+                "DOTA_Tooltip_ability_item_asura_rapier_Note0"                                   "New Game + "
+                "DOTA_Tooltip_ability_item_asura_rapier_Lore"                                    "you can fell you heart burn from the corruption of this heart."
+                "DOTA_Tooltip_ability_item_asura_rapier_health_regen_percent"                    "% HEALTH REGEN:"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_strength"                          "+$str"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_health_max"                        "+$health"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_strength_PR"                          "+ Strenght per round"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_health_max_PR"                        "+ Health per round"
  
         }
 }

@@ -252,11 +252,11 @@
                 "DOTA_Tooltip_Ability_boss_bonk_h"                                                      "Death Dunk"
 
                 "DOTA_Tooltip_Ability_guardian_hell_passive"                                                      "Asura's Shield"
-                "DOTA_Tooltip_Ability_guardian_hell_passive_Description"                                                      "Passive : Asura cast a shield thas immune to all damage when active , it's deplete the mana of the boss per 10/sec , once the mana is empty , boss is disactivate , leaving the boss weak to attacks. When the mana is full again, the Shield come back"
+                "DOTA_Tooltip_Ability_guardian_hell_passive_Description"                                                      "Passive : Asura cast a shield that immune to all damage when active , it's deplete the mana of the boss per 10/sec , once the mana is empty , boss is disactivate , leaving the boss weak to attacks. When the mana is full again, the Shield come back"
  
 
                 "DOTA_Tooltip_Ability_guardian_hell_passive"                                                      "Asura's Shield"
-                "DOTA_Tooltip_Ability_guardian_hell_passive_Description"                                                      "Passive : Asura cast a shield thas immune to all damage when active , it's deplete the mana of the boss per 10/sec , once the mana is empty , boss is disactivate , leaving the boss weak to attacks. When the mana is full again, the Shield come back"
+                "DOTA_Tooltip_Ability_guardian_hell_passive_Description"                                                      "Passive : Asura cast a shield that immune to all damage when active , it's deplete the mana of the boss per 10/sec , once the mana is empty , boss is disactivate , leaving the boss weak to attacks. When the mana is full again, the Shield come back"
  
                 "DOTA_Tooltip_Ability_guardian_hell_flaming_fist"                                                      "Asura's Flaming Fist"
                 "DOTA_Tooltip_Ability_guardian_hell_flaming_fist_Description"                                           "Asura dashes around with blazing speed, attacking all enemies in the targeted area of effect, then returning to his start location." 
@@ -1231,6 +1231,21 @@
                 "DOTA_Tooltip_ability_item_s_a_y_2_duration"                            "DURATION:"
                 "DOTA_Tooltip_ability_item_s_a_y_2_proc_chance"                         "CHANCE:"
                 "DOTA_Tooltip_ability_item_s_a_y_2_disarm_duration"                     "DISARM DURATION:"
+
+                "DOTA_Tooltip_ability_item_s_a_y_3"                                     "Nox's Blood Sword"
+                "DOTA_Tooltip_ability_item_s_a_y_3_Description"                         "Active: Disarm - Disarm the target for 5 seconds\nPassive: Demonic Maim - Gives a chance to reduce enemy movement speed and attack speed \n increase Health per strength"
+                "DOTA_Tooltip_ability_item_s_a_y_3_Note0"                               ""
+                "DOTA_Tooltip_ability_item_s_a_y_3_Lore"                                ""
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_evasion"                       "%+$evasion"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_all"                           "+$all"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_health"                           "+$health"
+                "DOTA_Tooltip_ability_item_s_a_y_3_bonus_speed"                         "BONUS SPEED:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_slow_percentage"                     "% SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_attack_speed_slow"                   "ATTACK SPEED SLOW:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_duration"                            "DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_proc_chance"                         "CHANCE:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_disarm_duration"                     "DISARM DURATION:"
+                "DOTA_Tooltip_ability_item_s_a_y_3_health_per_str"                                         "+ Health Per Strength"
  
  
                 "DOTA_Tooltip_ability_item_heart_bahamut"                                         "Bahamut's Heart"
@@ -1241,19 +1256,7 @@
                 "DOTA_Tooltip_ability_item_heart_bahamut_bonus_strength"                          "+$str"
                 "DOTA_Tooltip_ability_item_heart_bahamut_bonus_health_max"                        "+$health"
 
-                "DOTA_Tooltip_ability_item_asura_heart"                                         "Asura Heart"
-                "DOTA_Tooltip_ability_item_asura_heart_Description"                             "The still-pulsing heart of Asura, King-God of all demons, His Power Scale with the time"
-                "DOTA_Tooltip_ability_item_asura_heart_Note0"                                   "New Game + "
-                "DOTA_Tooltip_ability_item_asura_heart_Lore"                                    "you can fell you heart burn from the corruption of this heart."
-                "DOTA_Tooltip_ability_item_asura_heart_health_regen_percent"                    "% HEALTH REGEN:"
-                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength"                          "+$str"
-                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max"                        "+$health"
-                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength_PR"                          "+ Strenght per round"
-                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max_PR"                        "+ Health per round"
 
-                "DOTA_Tooltip_item_scale_display"                                                       "Power Augmentation of Asura item"
-                "DOTA_Tooltip_item_scale_display"                                                       "Each Stack increase Asura item power"       
- 
  
  
                 "DOTA_Tooltip_ability_item_skadi2"                                         "Demon eye"
@@ -2164,6 +2167,119 @@
                 "DOTA_Tooltip_ability_item_melee_rage_bonus_evasion"                                            "%+$evasion"
                 "DOTA_Tooltip_ability_item_melee_rage_bonus_attack_speed"                                       "+$attack"
 
- 
+                "DOTA_Tooltip_ability_item_asura_heart"                                         "Asura Heart"
+                "DOTA_Tooltip_ability_item_asura_heart_Description"                             "The still-pulsing heart of Asura, King-God of all demons, His Power Scale with the time"
+                "DOTA_Tooltip_ability_item_asura_heart_Note0"                                   "New Game + "
+                "DOTA_Tooltip_ability_item_asura_heart_Lore"                                    "you can fell you heart burn from the corruption of this heart."
+                "DOTA_Tooltip_ability_item_asura_heart_health_regen_percent"                    "% HEALTH REGEN:"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength"                          "+$str"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max"                        "+$health"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_strength_PR"                          "+ Strength per round"
+                "DOTA_Tooltip_ability_item_asura_heart_bonus_health_max_PR"                        "+ Health per round"
+
+                "DOTA_Tooltip_scale_display"                                                       "Power Augmentation of Asura item"
+                "DOTA_Tooltip_scale_display_Decription"                                                       "Each Stack increase Asura item power"
+
+                "DOTA_Tooltip_ability_item_asura_plate"                                           "Asura Plate"
+                "DOTA_Tooltip_ability_item_asura_plate_Description"                               "Greatly increase your survivability.\nActive grant Magic immunity to all ally for 20 sec. \nCooldown : 40 Sec"
+                "DOTA_Tooltip_ability_item_asura_plate_Note0"                                     ""
+                "DOTA_Tooltip_ability_item_asura_plate_Lore"                                      "This armor was the property of a very powerfull demon you killed recently"
+                "DOTA_Tooltip_ability_item_asura_plate_radius"                                    "Aura radius:"
+                "DOTA_Tooltip_ability_item_asura_plate_health_regen_percent"                      "% Health regen per second"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_all"                                 "+$all "
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_health_max"                          "+$health"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor"                               "+$armor"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_aoe"                           "Bonus armor (AURA): +"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_debuff"                        "ARMOR DEBUFF (AURA): -"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_damage"                              "+$damage"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_damage_PR"                           "+ Bonus Damage per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_health_max_PR"                       "+ Bonus Health per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_all_pr"                              "+ Bonus Stats per round"
+                "DOTA_Tooltip_ability_item_asura_plate_bonus_armor_PR"                            "+ Bonus Armor per round"
+
+                "DOTA_Tooltip_asuraarmor"                                                       "Asura Armor aura"
+                "DOTA_Tooltip_asuraarmordebuff"                                                       "Asura Armor debuff"
+
+                "DOTA_Tooltip_ability_item_present_treasure"                                     "Present"
+                "DOTA_Tooltip_ability_item_present_treasure_Description"                         "You should open it , you will not be deceived"
+
+                "DOTA_Tooltip_ability_item_redium_lens"                                         "Redium Lens"
+                "DOTA_Tooltip_ability_item_redium_lens_Description"                             "Passive : Increase Cast range by 400 and Spell's damage by 100%%"
+                "DOTA_Tooltip_ability_item_redium_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_redium_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_sunium_lens"                                         "Sunium Lens"
+                "DOTA_Tooltip_ability_item_sunium_lens_Description"                             "Passive : Increase Cast range by 800 and Spell's damage by 200%%"
+                "DOTA_Tooltip_ability_item_sunium_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_sunium_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_omni_lens"                                         "Omnium Lens"
+                "DOTA_Tooltip_ability_item_omni_lens_Description"                             "Passive : GRANT GLOBAL Cast range and Spell's damage by 500%%"
+                "DOTA_Tooltip_ability_item_omni_lens_Note0"                                   ""
+                "DOTA_Tooltip_ability_item_omni_lens_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_element_refresher"                                         "Elemental Refresher"
+                "DOTA_Tooltip_ability_item_element_refresher_Description"                             "Allow elementalist to refresh all his spell. Ammount of max charge and charge creation time depend on elementalist's level"
+                "DOTA_Tooltip_ability_item_element_refresher_Note0"                                   "the charge ammount formulais : math.ceil (10 * ((25+level)/100)^1.05) 
+                \nthe charge creation time formula is : (30 * (1/level)^0.2)*octarine_multiplier"
+                "DOTA_Tooltip_ability_item_element_refresher_Lore"                                    ""
+
+                "DOTA_Tooltip_ability_item_refresher_Note0"                                         "Doesn't refresh 'Killer Moves: Serious Arrow'"
+
+                "DOTA_Tooltip_ability_mirana_arrow"                                         "Killer Moves: Serious Arrow"
+                "DOTA_Tooltip_ability_mirana_arrow_Description"                             "One Arrow Girl launches a deadly arrow that instantly kills any boss. Our hero has to recover for extended periods before it can be used again. Choose Wisely."
+                "DOTA_Tooltip_ability_mirana_arrow_Note0"                             "Doesn't Affect Asura or Demon Core"
+                "DOTA_Tooltip_ability_mirana_arrow_Note1"                             "Serious Arrow can hit invisible units."
+                "DOTA_Tooltip_ability_mirana_arrow_Lore"                             "Legend has it our hero was taught how to One Arrow Kill any monster in her way by a strange looking caped baldy man, during an unusual bout of boredom."
+
+                "npc_dota_hero_mirana"                                         "One Arrow Girl"
+
+                "DOTA_Tooltip_ability_item_asura_sword"                                     "Asura Sword"
+                "DOTA_Tooltip_ability_item_asura_rapier_Description"                              "Maybe you'll have a chance against Saitama"
+                "DOTA_Tooltip_ability_item_asura_sword_Lore"                                      "Only the Holy Nerf-Hammer is stronger than this weapon"
+                "DOTA_Tooltip_ability_item_asura_sword_health_regen_percent"                      "% Health regen per second"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_all"                                 "+$all"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_health_max"                          "+$health"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_armor"                               "+$armor"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_all_PR"                              "+ Bonus Stats per round"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_health_max_PR"                       "+ Bonus Health per round"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_damage"                              "+$damage"
+                "DOTA_Tooltip_ability_item_asura_sword_bonus_damage_PR"                           "+ Bonus Damage per round"
+                "DOTA_Tooltip_ability_item_asura_sword_crit_damage"                               "%Critical Damage:"
+                "DOTA_Tooltip_ability_item_asura_sword_crit_chance"                               "%Critical Chance:"
+                "DOTA_Tooltip_ability_item_asura_sword_armor_reduction"                           "Armor Reduction:"
+
+                "DOTA_Tooltip_ability_item_asura_rapier"                                          "Asura Rapier"
+                "DOTA_Tooltip_ability_item_asura_rapier_Description"                              "Grant huge ammount of agility (increase while you play)."
+                "DOTA_Tooltip_ability_item_asura_rapier_Note0"                                    ""
+                "DOTA_Tooltip_ability_item_asura_rapier_Lore"                                     ""
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_agility"                            "+$agi"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_agility_PR"                         "+ Bonus agility per round"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_dodge"                              "+$evasion"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_damage"                             "+$damage"
+                "DOTA_Tooltip_ability_item_asura_rapier_bonus_damage_PR"                          "+ Bonus Damage per round"
+
+                "DOTA_Tooltip_ability_item_asura_staff"                                           "Asura Staff"
+                "DOTA_Tooltip_ability_item_asura_staff_Description"                               "Active : Scaling Burst - Deals magical damage to the target based on your intelligence"
+                "DOTA_Tooltip_ability_item_asura_staff_Note0"                                     ""
+                "DOTA_Tooltip_ability_item_asura_staff_Lore"                                      ""
+                "DOTA_Tooltip_ability_item_asura_staff_bonus_int"                                 "+$int"
+                "DOTA_Tooltip_ability_item_asura_staff_bonus_int_PR"                              "+ Bonus Inteligence per round"
+                "DOTA_Tooltip_ability_item_asura_staff_bonus_damage"                              "+$damage"
+                "DOTA_Tooltip_ability_item_asura_staff_bonus_damage_PR"                           "+ Bonus Damage per round"
+                "DOTA_Tooltip_ability_item_asura_staff_damage_base"                               "Burst Base Damage :"
+                "DOTA_Tooltip_ability_item_asura_staff_damage_per_int"                            "Burts Damage per int :"
+                "DOTA_Tooltip_ability_item_asura_staff_range_tooltip"                             "Range :"
+
+                "DOTA_Tooltip_ability_item_pixels_guard"                                          "Pixels Guard"
+                "DOTA_Tooltip_ability_item_pixels_guard_Description"                              "Grants magic immunity to allies and slow ennemy for 65%% of their speed in a radius of 1200 for 15 seconds."
+                "DOTA_Tooltip_ability_item_pixels_guard_Note0"                                    ""
+                "DOTA_Tooltip_ability_item_pixels_guard_Lore"                                     ""
+                "DOTA_Tooltip_ability_item_pixels_guard_buff_duration"                            "BUFF DURATION:"
+                "DOTA_Tooltip_ability_item_pixels_guard_blast_movement_speed_debuff"              "BLAST MOVEMENT SPEED DEBUFF:"
+                "DOTA_Tooltip_ability_item_pixels_guard_bonus_armor"                              "BONUS ARMOR:"
+                "DOTA_Tooltip_ability_item_pixels_guard_bonus_int"                                "BONUS INT:"
+
+
         }
 }

@@ -22,21 +22,21 @@
 					<Image hittest="false" id="hp_bar_shield" src="file://{images}/custom_game/custom/health_bar_shield.png"/>
 				</Panel>
 				<Panel id="hp_bar_parent_label" hittest="false">
-					<Label hittest="false" id="hp_bar_current" text="0"/>
+					<Label hittest="false" id="hp_bar_current" text="0.00"/>
 					<Label hittest="false" id="hp_bar_slash" text="/"/>
-					<Label hittest="false" id="hp_bar_total" text="0"/>
-					<Label hittest="false" html="true" id="hp_bar_name" text="0"/>
+					<Label hittest="false" id="hp_bar_total" text="0.00"/>
+					<Label hittest="false" html="true" id="hp_bar_name" text="BOSS NAME"/>
 				</Panel>
 			</Panel>
 			
 			<Panel id="DPS_main" hittest="false">
 				<Image hittest="false" id="hp_bar_back_ground" src="file://{images}/custom_game/custom/dps.png"/>
 				<Label hittest="false" id="damage_text" text="Total Damage :"/>
-				<Label hittest="false" id="damage" text="0"/>
+				<Label hittest="false" id="damage" text="0.00"/>
 				<Label hittest="false" id="dps_text" text="Damage Per Second :"/>
-				<Label hittest="false" id="DPS" text="0"/>
+				<Label hittest="false" id="DPS" text="0.00"/>
 				<Label hittest="false" id="TD_text" text="Team Damage :"/>
-				<Label hittest="false" id="TD" text="0"/>
+				<Label hittest="false" id="TD" text="0.00"/>
 			</Panel>
 			
 			<Panel id="option_openclose_general">
