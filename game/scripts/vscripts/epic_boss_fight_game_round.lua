@@ -39,6 +39,21 @@ function CHoldoutGameRound:Precache()
 	end
 end
 
+function CHoldoutGameRound:spawn_treasure()
+	local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
+	Timers:CreateTimer(0.03,function()
+		local max_player = DOTA_MAX_TEAM_PLAYERS-1
+		WID = math.random(0, max_player)
+		if PlayerResource:GetConnectionState(WID) == 2 then
+			local player = PlayerResource:GetPlayer(WID)
+			local hero = player:GetAssignedHero() 
+			hero:AddItem(Item_spawn)
+		else
+			return 0.03
+		end
+	end)
+end
+
 function CHoldoutGameRound:Begin()
 	self._vEnemiesRemaining = {}
 	self._vEventHandles = {
@@ -69,6 +84,7 @@ function CHoldoutGameRound:Begin()
 				self._nGoldRemainingInRound = self._nGoldRemainingInRound- 50000
 				self._nAsuraCoreRemaining = self._nAsuraCoreRemaining + 1 
 			end
+			self._nAsuraCoreRemaining = math.ceil(self._nAsuraCoreRemaining/(PlayerNumber-self._DisconnectedPlayer))
 			print (self._nAsuraCoreRemaining)
 		end
 	end
@@ -220,9 +236,7 @@ function CHoldoutGameRound:OnEntityKilled( event )
 		self:_CheckForGoldBagDrop( killedUnit )
 		local nCoreUnitsRemaining = self._nCoreUnitsTotal - self._nCoreUnitsKilled
 		if nCoreUnitsRemaining == 0 then
-			local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
-			local drop = CreateItemOnPositionForLaunch( killedUnit:GetAbsOrigin(), Item_spawn )
-			Item_spawn:LaunchLoot( false, 300, 0.75, killedUnit:GetAbsOrigin() + RandomVector( RandomFloat( 50, 350 ) ) )
+			self:spawn_treasure()
 		end
 	end
 end

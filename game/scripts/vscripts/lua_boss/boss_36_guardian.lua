@@ -234,7 +234,17 @@ function createAOEDamage(keys,particlesname,location,size,damage,damage_type,dur
 	                                  DOTA_UNIT_TARGET_FLAG_NONE,
 	                                  FIND_ANY_ORDER,
 	                                  false)
-
+        if GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_impossible" then
+            nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
+                                      location,
+                                      nil,
+                                      size,
+                                      DOTA_UNIT_TARGET_TEAM_ENEMY,
+                                      DOTA_UNIT_TARGET_ALL,
+                                      DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES,
+                                      FIND_ANY_ORDER,
+                                      false)
+        end 
 	    for _,unit in pairs(nearbyUnits) do
 	        if unit ~= keys.caster then
 	                if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then

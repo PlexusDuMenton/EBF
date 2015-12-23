@@ -1244,6 +1244,21 @@
 				"var_type"						"FIELD_INTEGER"
 				"radius"						"100"
 			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"scepter_range"					"375 400 425 450 500 600 750"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"split_count"					"2 2 2 3 3 3 4"
+			}
+			"05"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"damage_reduction"					"50 45 40 35 30 25 20"
+			}
 		}
 	}
 	
@@ -6895,6 +6910,16 @@
 				"var_type"						"FIELD_FLOAT"
 				"nether_swap_cooldown_scepter"	"10"
 			}
+			"03"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"illusion_damage_out_pct"		"-50"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"illusion_damage_in_pct"		"50"
+			}
 		}
 	}
 	
@@ -8134,8 +8159,8 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_MOVEMENT | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 
-		"LevelsBetweenUpgrades"			"7"
-		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"0"
+		"MaxLevel"						"0"
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -20042,12 +20067,12 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"armor_reduction"			"-25 -100 -400 -1000 -2500 -5000 -10000"
+				"armor_reduction"			"-25 -100 -400 -1000 -1500 -2000 -3000"
 			}
 			"04"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"armor_reduction_tooltip"			"25 100 400 1000 2500 5000 10000"
+				"armor_reduction_tooltip"			"25 100 400 1000 1500 2000 3000"
 			}			
 			"05"
 			{
@@ -34568,7 +34593,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
 		"FightRecapLevel"				"1"
 
-		"LevelsBetweenUpgrades"			"5"
+		"LevelsBetweenUpgrades"			"6"
 		"MaxLevel"						"7"
 
 		// Casting
@@ -34604,12 +34629,12 @@
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"attack_speed_bonus"		"50 60 70 80 100 120 150 999"
+				"attack_speed_bonus"		"50 60 70 80 100 120 150"
 			}
 			"04"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"evasion_chance"			"90"
+				"evasion_chance"			"75"
 			}
 		}
 	}
@@ -34698,8 +34723,8 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
 		"FightRecapLevel"				"2"
-		"LevelsBetweenUpgrades"			"7"
-		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"0"
+		"MaxLevel"						"0"
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -34707,7 +34732,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"65.0 60.0 55.0 50.0 45.0 40.0 35.0"
+		"AbilityCooldown"				"85.0 80.0 75.0 70.0 65.0 60.0 55.0"
 
 
 		// Special	
@@ -34717,7 +34742,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"15.0 17.5 20.0 22.5 25.0 27.5 30.0"
+				"duration"				"15.0 17.5 20.0"
 			}
 			"02"
 			{

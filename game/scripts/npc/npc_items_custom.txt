@@ -11713,7 +11713,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spell_amp"				"100"
+				"spell_amp"				"75"
 			}
 		}
 	}
@@ -11794,7 +11794,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spell_amp"				"200"
+				"spell_amp"				"150"
 			}
 		}
 	}
@@ -11876,7 +11876,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spell_amp"				"500"
+				"spell_amp"				"300"
 			}
 		}
 	}
@@ -12377,7 +12377,7 @@
 				"IsHidden"		"1"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" 	"%critical_damage"
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" 	"%crit_damage"
 				}
 			}
 
@@ -12401,52 +12401,52 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"health_regen_percent"			"5"
+				"health_regen_percent"			"-15"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_all"			"100000"
+				"bonus_all"			"-50000"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_max"			"500000"
+				"bonus_health_max"			"-100"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_all_PR"			"10000"
+				"bonus_all_PR"			"5"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_max_PR"			"125000"
+				"bonus_health_max_PR"			"500"
 			}
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"50000"
+				"bonus_damage"			"-5000"
 			}
 			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage_PR"			"25000"
+				"bonus_damage_PR"			"50"
 			}
 			"08"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"crit_damage"			"1000"
+				"crit_damage"			"100000"
 			}
 			"09"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"crit_chance"			"50"
+				"crit_chance"			"100"
 			}
 			"10"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"armor_reduction"			"-15000"
+				"armor_reduction"			"-1"
 			}
 		}
 	}
@@ -12748,5 +12748,60 @@
 			}
 		}
 	}
+
+	//=================================================================================================================
+	// Redium Lens
+	//=================================================================================================================
+//	"item_testium_lens"
+//	{
+//		// General
+//		//-------------------------------------------------------------------------------------------------------------
+//		"ID"							"1298"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+//		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+//		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+//
+//
+//		// Item Info
+//		//-------------------------------------------------------------------------------------------------------------
+//		"ItemCost"						"99999"
+//		"BaseClass"                     "ability_lua"
+//		"ScriptFile"                    "lua_items/redium_lens.lua"
+//		"AbilityTextureName"			"item_redium_lens"
+//		"ItemShopTags"					"damage;health_regen;mana_regen;hard_to_tag"
+//		"ItemQuality"					"epic"
+//		"ItemAliases"					"bf;battle fury"
+//		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+//		
+//		// Special	
+//		//-------------------------------------------------------------------------------------------------------------  	
+//		"AbilitySpecial"
+//		{
+//			"01"
+//			{
+//				"var_type"				"FIELD_INTEGER"
+//				"bonus_mana"			"1250"
+//			}
+//			"02"
+//			{
+//				"var_type"				"FIELD_INTEGER"
+//				"bonus_health_regen"	"15"
+//			}
+//			"03"
+//			{
+//				"var_type"				"FIELD_INTEGER"
+//				"bonus_magical_armor"	"15"
+//			}
+//			"04"
+//			{
+//				"var_type"				"FIELD_INTEGER"
+//				"cast_range_bonus"			"400"
+//			}
+//			"05"
+//			{
+//				"var_type"				"FIELD_INTEGER"
+//				"spell_amp"				"100"
+//			}
+//		}
+//	}
 
 }

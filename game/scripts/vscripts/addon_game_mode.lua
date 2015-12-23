@@ -1348,12 +1348,8 @@ function CHoldoutGameMode:OnEntityKilled( event )
 		end)
 	end
 	if killedUnit.Asura_To_Give ~= nil then
-		for nPlayerID = 0, PlayerResource:GetTeamPlayerCount()-1 do
-			local player = PlayerResource:GetPlayer(nPlayerID)
-			if player ~= nil then local hero = player:GetAssignedHero() end 
-			if hero ~= nil then
-				hero.Asura_Core = hero.Asura_Core + killedUnit.Asura_To_Give
-			end
+		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+			unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
 		end
 	end
 	if killedUnit and killedUnit:IsRealHero() then

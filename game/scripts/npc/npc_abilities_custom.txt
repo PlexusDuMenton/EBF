@@ -33,6 +33,28 @@
 			}
 		}		
 	}
+	"invincibility"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"MaxLevel" 						"1"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Modifiers"
+		{
+			"modifier_hidden"
+			{
+				"Passive"			"1"
+				"Attributes"		"MODIFIER_ATTRIBUTE_IGNORE_INVULNERABLE"	
+				"States"
+				{
+			
+					"MODIFIER_STATE_ATTACK_IMMUNE"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_OUT_OF_GAME"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}		
+	}
 	"lua_attribute_bonus"
 	{
 	    "BaseClass"                     "ability_lua"

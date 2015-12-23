@@ -27,11 +27,11 @@ function gift_open(keys)
 	caster:RemoveItem(item)
 	local Tier = "T1"
 
-	if round>=8 and round <16 then Tier = "T2"
-	elseif round>=16 and round <24 then Tier = "T3"
-	elseif round >= 24 and round <32 then Tier = "T4"
-	elseif round >= 32 and round <40 then Tier = "T5"
-	elseif round >= 40 then Tier = "T6"
+	if round>=10 and round <16 then Tier = "T2"
+	elseif round>=16 and round <28 then Tier = "T3"
+	elseif round >= 28 and round <36 then Tier = "T4"
+	elseif round >= 36 and round <45 then Tier = "T5"
+	elseif round >= 45 then Tier = "T6"
 	end
 	print ("tier :",Tier)
 	local item_list = item_table[Tier]
@@ -41,10 +41,10 @@ function gift_open(keys)
 		len = len + 1
 	end
 
-	local item_number = math.random(1,(len + 2))
+	local item_number = math.random(1,(len + 8))
 	print (item_number)
 	if item_number > len then
-		local bonus_gold = ((round+1)^1.2)*500 
+		local bonus_gold = ((round+1)^1.2)*(100 + (item_number*20))
 		local asura_core = 0
 		if GameRules._NewGamePlus == true then 
 			while bonus_gold>= 75000 do
