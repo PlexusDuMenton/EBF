@@ -7,6 +7,8 @@ if CHoldoutGameRound == nil then
 end
 require( "libraries/Timers" )
 require("internal/util")
+
+
 function CHoldoutGameRound:ReadConfiguration( kv, gameMode, roundNumber )
 	self._gameMode = gameMode
 	self._nRoundNumber = roundNumber
@@ -42,8 +44,8 @@ end
 function CHoldoutGameRound:spawn_treasure()
 	local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
 	Timers:CreateTimer(0.03,function()
-		local max_player = DOTA_MAX_TEAM_PLAYERS-1
-		WID = math.random(0, max_player)
+		local max_player = DOTA_MAX_TEAM_PLAYERS
+		WID = math.RandomInt(0,max_player)
 		if PlayerResource:GetConnectionState(WID) == 2 then
 			local player = PlayerResource:GetPlayer(WID)
 			local hero = player:GetAssignedHero() 
@@ -55,6 +57,7 @@ function CHoldoutGameRound:spawn_treasure()
 end
 
 function CHoldoutGameRound:Begin()
+	
 	self._vEnemiesRemaining = {}
 	self._vEventHandles = {
 		ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CHoldoutGameRound, "OnNPCSpawned" ), self ),
@@ -66,7 +69,7 @@ function CHoldoutGameRound:Begin()
 
 	local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
 	print (PlayerNumber)
-	local GoldMultiplier = (((PlayerNumber-self._DisconnectedPlayer)+0.56)/1.8)*0.17
+	local GoldMultiplier = (((PlayerNumber-self._DisconnectedPlayer)+0.56)/1.8)*0.15
 	print (GoldMultiplier)
 
 	ListenToGameEvent( "player_reconnected", Dynamic_Wrap( CHoldoutGameRound, 'OnPlayerReconnected' ), self )

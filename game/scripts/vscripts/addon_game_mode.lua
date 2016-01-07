@@ -664,14 +664,13 @@ function CHoldoutGameMode:_EnterNG()
 	print ("Enter NG+ :D")
 	self._NewGamePlus = true
 	GameRules._NewGamePlus = true
-	CustomGameEventManager:Send_ServerToAllClients("Display_Shop", {})
-	CustomGameEventManager:Send_ServerToAllClients("Display_Asura_Core", {})
-	Timers:CreateTimer(1,function()
+	Timers:CreateTimer(0.03,function()
  			for nPlayerID = 0, PlayerResource:GetTeamPlayerCount()-1 do
 				if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 					local player = PlayerResource:GetPlayer(nPlayerID)
 					local hero = player:GetAssignedHero() 
 					if hero ~= nil then
+						CustomGameEventManager:Send_ServerToPlayer(player,"Display_Shop", {})
 						CustomGameEventManager:Send_ServerToPlayer(player,"Update_Asura_Core", {core = hero.Asura_Core})
 						print ("update asura core. Value :"..hero.Asura_Core)
 					end

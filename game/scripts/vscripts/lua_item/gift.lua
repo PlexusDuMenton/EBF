@@ -44,7 +44,7 @@ function gift_open(keys)
 	local item_number = math.random(1,(len + 8))
 	print (item_number)
 	if item_number > len then
-		local bonus_gold = ((round+1)^1.2)*(100 + (item_number*20))
+		local bonus_gold = ((round+1))*(100 + (item_number*5)) + 500
 		local asura_core = 0
 		if GameRules._NewGamePlus == true then 
 			while bonus_gold>= 75000 do

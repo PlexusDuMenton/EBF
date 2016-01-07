@@ -1846,6 +1846,9 @@ function PudgeReduceStack(keys)
     Timers:CreateTimer(duration,function()
         local current_stack = caster:GetModifierStackCount( modifierName_caster_display, ability )
         caster:SetModifierStackCount( modifierName_caster_display, ability, current_stack - 1 )
+        if caster:GetHealth() < 1 and caster:IsAlive() then
+            caster:SetHealth(1)
+        end
     end)
 end
 

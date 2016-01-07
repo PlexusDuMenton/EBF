@@ -1132,7 +1132,7 @@
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"3650"
+		"ItemCost"						"730"
 		"ItemShopTags"					"attack_speed;move_speed;int;agi;str;hard_to_tag"
 		"ItemQuality"					"common"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
@@ -10405,7 +10405,7 @@
 		"ItemKillable"					"1"
 		"ItemSellable"					"1"
 		"ItemDroppable"					"1"
-		"ItemCost"						"8000"
+		"ItemCost"						"5000"
 		"ItemShopTags"					"damage;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"cursed"
@@ -11871,7 +11871,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"cast_range_bonus"			"9999"
+				"cast_range_bonus"			"2000"
 			}
 			"05"
 			{
@@ -12210,12 +12210,12 @@
 			 "05"
 	        {
 	            "var_type"              "FIELD_INTEGER"
-	            "damage_base"                "500000"
+	            "damage_base"                "100000"
 	        }
 	        "06"
 	        {
 	            "var_type"              "FIELD_INTEGER"
-	            "damage_per_int"                "50"
+	            "damage_per_int"                "20"
 	        }
 	        "07"
 	        {
@@ -12330,6 +12330,11 @@
 					}
 				"OnAttackLanded"
 				{
+					"Lifesteal"
+					{
+						"Target"				"ATTACKER"
+						"LifestealPercent"		"%lifesteal"
+					}
 					"ApplyModifier"
 					{
 						"Target"				"TARGET"
@@ -12411,12 +12416,12 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_max"			"-100"
+				"bonus_health_max"			"250000"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_all_PR"			"5"
+				"bonus_all_PR"			"1200"
 			}
 			"05"
 			{
@@ -12426,7 +12431,7 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"-5000"
+				"bonus_damage"			"-2500"
 			}
 			"07"
 			{
@@ -12446,7 +12451,7 @@
 			"10"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"armor_reduction"			"-1"
+				"lifesteal"			"10"
 			}
 		}
 	}

@@ -201,7 +201,7 @@
 			"01"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"spell_shield_resistance"		"26 34 42 50 55 60 65 70"
+				"spell_shield_resistance"		"26 34 42 50 55 60 65"
 			}
 		}
 	}
@@ -1247,17 +1247,17 @@
 			"03"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"scepter_range"					"375 400 425 450 500 600 750"
+				"scepter_range"					"375"
 			}
 			"04"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"split_count"					"2 2 2 3 3 3 4"
+				"split_count"					"2"
 			}
 			"05"
 			{
 				"var_type"						"FIELD_INTEGER"
-				"damage_reduction"					"50 45 40 35 30 25 20"
+				"damage_reduction"					"50"
 			}
 		}
 	}
@@ -5044,7 +5044,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"5"
-		"MaxLevel"						"7"
+		"MaxLevel"						"0"
 		
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
@@ -10382,22 +10382,17 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"300"
+				"range"					"550"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"3.0"
+				"backtrack_duration"	"2.0"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"movement_speed_pct"	"-20 -30 -40 -50"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"tooltip_range"		"700 900 1100 1300"
+				"radius"				"300"
 			}
 		}
 	}
@@ -10467,6 +10462,44 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_damage"			"250 500 1000 1500 2000 3000 4500"
+			}
+		}
+	}
+
+	
+	//=================================================================================================================
+	// Faceless Void: Time Dilation
+	//=================================================================================================================
+	"faceless_void_time_dilation"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"					"5691"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		
+		"AbilityCastPoint"				"0.1"
+		"AbilityCooldown"				"34 28 22 16"
+		"AbilityManaCost"				"50"	
+				
+		
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"650"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"6 7 8 9"
+			}					
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"slow"					"4 6 8 10"
 			}
 		}
 	}
@@ -16317,7 +16350,7 @@
 		"AbilityCastRange"				"128"
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"LevelsBetweenUpgrades"			"8"
-		"MaxLevel"						"7"
+		"MaxLevel"						"0"
 
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -16326,12 +16359,12 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"burn_damage"			"400 1200 3000 10000 25000 100000 250000"
+				"burn_damage"			"400 1200 3000 9000 18000 30000 50000"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"burn_damage_pct"		"0.1 0.3 0.5 0.7 0.9 1.1 1.5"
+				"burn_damage_pct"		"0.1 0.3 0.5 0.7 0.8 0.9 1.1"
 			}
 			"03"
 			{
@@ -20103,7 +20136,7 @@
 
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"160 155 150 145 140 130 120"
+		"AbilityCooldown"				"160 150 140 130 120 110 100"
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
@@ -20116,7 +20149,7 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"images_count"				"1 1 2 2 3 3 4"
+				"images_count"				"1 1 1 2 2 2 3"
 			}
 			"02"
 			{
@@ -34654,7 +34687,7 @@
 		
 		"AbilityCastRange"				"2000"
 		"AbilityCastPoint"				"0.3"
-		"LevelsBetweenUpgrades"			"5"
+		"LevelsBetweenUpgrades"			"7"
 		"MaxLevel"						"7"
 		
 		// Time		

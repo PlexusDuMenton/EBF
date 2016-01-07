@@ -5173,7 +5173,7 @@
 	    
 	    // Item Info
 	    //-------------------------------------------------------------------------------------------------------------
-	    "ItemCost"                      "5225"
+	    "ItemCost"                      "1060"
 	    "ItemShopTags"                  "regen_health;regen_mana;damage;hard_to_tag"
 	    "ItemQuality"                   "rare"
 	    "ItemAliases"                   "refresher orb"
