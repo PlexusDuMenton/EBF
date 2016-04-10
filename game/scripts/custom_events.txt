@@ -26,6 +26,13 @@
     {
         "data"          "string"
     }
+	
+	"control_override_cvar"
+    {
+        "pid"           "short"
+        "cvar"          "string"
+        "value"         "string"
+    }
 
     "stat_collection_send"
     {

@@ -25,6 +25,7 @@ require( "epic_boss_fight_game_spawner" )
 require('lib.optionsmodule')
 require('stats')
 require( "libraries/Timers" )
+require( "libraries/notifications" )
 require( "statcollection/init" )
 
 if CHoldoutGameMode == nil then
@@ -61,7 +62,6 @@ end
 function Activate()
 	GameRules.holdOut = CHoldoutGameMode()
 	GameRules.holdOut:InitGameMode()	
-	
 end
 
 function DeleteAbility( unit)
@@ -98,6 +98,8 @@ function CHoldoutGameMode:InitGameMode()
 	GameRules._finish = false
 	GameRules.vote_Yes = 0
 	GameRules.vote_No = 0
+	GameRules.voteRound_Yes = 0;
+	GameRules.voteRound_No = 0;
 	self._nRoundNumber = 1
 	GameRules._roundnumber = 1
 	GameRules.Recipe_Table = LoadKeyValues("scripts/kv/componements.kv")
@@ -124,17 +126,18 @@ function CHoldoutGameMode:InitGameMode()
 		Life._MaxLife = 12
 	end
 	if GetMapName() == "epic_boss_fight_hard" then Life._life = 9 
-		GameRules:SetHeroSelectionTime( 45.0 )
+		GameRules:SetHeroSelectionTime( 50.0 )
 		Life._MaxLife = 9
 	end
 	if GetMapName() == "epic_boss_fight_impossible" then Life._life = 6 
-		GameRules:SetHeroSelectionTime( 30.0 )
+		GameRules:SetHeroSelectionTime( 40.0 )
 		Life._MaxLife = 6
 	end
 	if GetMapName() == "epic_boss_fight_challenger" then Life._life = 1 
 		GameRules:SetHeroSelectionTime( 30.0 )
 		Life._MaxLife = 1
 	end
+
 	LifeBar = SpawnEntityFromTableSynchronous( "subquest_base", { 
            show_progress_bar = true, 
            progress_bar_hue_shift = -119 
@@ -273,8 +276,8 @@ function CHoldoutGameMode:InitGameMode()
 	ListenToGameEvent( "game_rules_state_change", Dynamic_Wrap( CHoldoutGameMode, "OnGameRulesStateChange" ), self )
 	ListenToGameEvent("dota_player_pick_hero", Dynamic_Wrap( CHoldoutGameMode, "OnHeroPick"), self )
 	ListenToGameEvent('player_connect_full', Dynamic_Wrap( CHoldoutGameMode, 'OnConnectFull'), self)
-	ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(CHoldoutGameMode, 'OnAbilityUsed'), self)
-	ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(CHoldoutGameMode, 'OnAbilityUsed'), self)
+    -- ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(CHoldoutGameMode, 'OnAbilityUsed'), self)
+	-- ListenToGameEvent('dota_player_used_ability', Dynamic_Wrap(CHoldoutGameMode, 'OnAbilityUsed'), self)
 	
 
 	CustomGameEventManager:RegisterListener('Boss_Master', Dynamic_Wrap( CHoldoutGameMode, 'Boss_Master'))
@@ -287,7 +290,7 @@ function CHoldoutGameMode:InitGameMode()
 	CustomGameEventManager:RegisterListener('Health_Bar_Command', Dynamic_Wrap( CHoldoutGameMode, 'Health_Bar_Command'))
 
 	CustomGameEventManager:RegisterListener('Vote_NG', Dynamic_Wrap( CHoldoutGameMode, 'vote_NG_fct'))
-
+	CustomGameEventManager:RegisterListener('Vote_Round', Dynamic_Wrap( CHoldoutGameMode, 'vote_Round'))
 
 
 
@@ -297,11 +300,31 @@ function CHoldoutGameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetThink( "Update_Health_Bar", self, 0.09 ) 
 end
 
+function CHoldoutGameMode:vote_Round (event)
+ 	local ID = event.pID
+ 	local vote = event.vote
+ 	local player = PlayerResource:GetPlayer(ID)
+
+ 	if player~= nil then
+	 	if vote == 1 then
+	 		GameRules.voteRound_Yes = GameRules.voteRound_Yes + 1
+			GameRules.voteRound_No = GameRules.voteRound_No - 1
+
+			local event_data =
+			{
+				No = GameRules.voteRound_No,
+				Yes = GameRules.voteRound_Yes,
+			}
+			CustomGameEventManager:Send_ServerToAllClients("RoundVoteResults", event_data)
+		end
+	end
+end
+
 function CHoldoutGameMode:vote_NG_fct (event)
  	local ID = event.pID
  	local vote = event.vote
  	local player = PlayerResource:GetPlayer(ID)
- 	print ("vote"..vote)
+ 	--print ("vote"..vote)
  	if player~= nil then
 	 	if player.Has_Voted ~= true then
 	 		player.Has_Voted = true
@@ -310,6 +333,12 @@ function CHoldoutGameMode:vote_NG_fct (event)
 	 		else
 	 			GameRules.vote_No = GameRules.vote_No + 1
 	 		end
+			local event_data =
+			{
+			No = GameRules.vote_No,
+			Yes = GameRules.vote_Yes,
+			}
+			CustomGameEventManager:Send_ServerToAllClients("VoteResults", event_data)
 	 	end
 	end
 end
@@ -317,7 +346,7 @@ end
 function CHoldoutGameMode:Health_Bar_Command (event)
  	local ID = event.pID
  	local player = PlayerResource:GetPlayer(ID)
- 	print (event.Enabled)
+ 	--print (event.Enabled)
  	if event.Enabled == 0 then
  		player.HB = false
  		player.Health_Bar_Open = false
@@ -524,19 +553,20 @@ function CHoldoutGameMode:OnAbilityUsed(keys)
 	--will be used in future :p
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
 	local abilityname = keys.abilityname
-	print (abilityname)
+	--print (abilityname)
 end
 
 function CHoldoutGameMode:Buy_Asura_Core_shop(event)
 	pID = event.pID
 	local player = PlayerResource:GetPlayer(pID)
 	local hero = player:GetAssignedHero() 
-	print ("bought item")
+	--print ("bought item")
 	if hero:GetGold() >= 50000 then
 		PlayerResource:SpendGold(pID, 50000, 0)
 	 	hero.Asura_Core = hero.Asura_Core + 1
+		Notifications:Top(pID, {text="You have purchased an Asura Core", duration=3})
 	else
-        FireGameEvent( 'custom_error_show', { player_ID = pID, _error = "You don't have enought money to buy an asura core." } )
+		Notifications:Top(pID, {text="You don't have enough gold to purchase an Asura Core", duration=3})
 	end
 end
 
@@ -562,18 +592,18 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 		price = 60000
 	end
 	if item_recipe ~= nil then
-		print ("check if have the item")
+		--print ("check if have the item")
 		for itemSlot = 0, 11, 1 do
 			local item = hero:GetItemInSlot(itemSlot)
 			if item ~= nil and item:GetName() == item_recipe then 
 				price = 0
 				Have_Recipe = true  
-				print ("have the item")
+				--print ("have the item")
 			end
 		end
 	end
 	if Have_Recipe == false then 
-		print ("don't have the item")
+		--print ("don't have the item")
 		local Componements_info = GameRules.Recipe_Table[item_recipe]
 		for item_name_recipe,recipe in pairs(Componements_info) do
 			local found = false
@@ -582,7 +612,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 				if item ~= nil and item:GetName() == recipe and found == false then 
 					found = true 
 					price = price - item:GetCost() 
-					print ("find one of the componements")
+					--print ("find one of the componements")
 				end
 			end
 		end
@@ -597,7 +627,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 						local item = hero:GetItemInSlot(itemSlot)
 						if item ~= nil and item:GetName() == recipe and found == false then 
 							found = true 
-							print ("destroy",recipe)
+							--print ("destroy",recipe)
 							item:Destroy()
 						end
 					end
@@ -607,7 +637,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 				hero:AddItemByName(item_name)
 			end
 		else
-            FireGameEvent( 'custom_error_show', { player_ID = pID, _error = "You don't have the componements." } )
+			Notifications:Top(pID, {text="You don't have the correct components", duration=3})
 			return
 		end
 	else
@@ -633,7 +663,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 end
 
 function CHoldoutGameMode:Asura_Core_Left(event)
-	print ("buy an asura item")
+	--print ("show asura core count")
 	local pID = event.pID
 	local player = PlayerResource:GetPlayer(pID)
 	local hero = player:GetAssignedHero() 
@@ -642,7 +672,7 @@ function CHoldoutGameMode:Asura_Core_Left(event)
 end
 
 function CHoldoutGameMode:Buy_Demon_Shop_check(event)
-	print ("buy an asura item")
+	--print ("buy an asura item")
 	local pID = event.pID
 	local item_name = event.item_name
 	local price = event.price
@@ -651,20 +681,20 @@ function CHoldoutGameMode:Buy_Demon_Shop_check(event)
 	local player = PlayerResource:GetPlayer(pID)
 	local hero = player:GetAssignedHero()
 	if hero ~= nil then
-		print (hero.Asura_Core)
+		--print (hero.Asura_Core)
 		if hero.Asura_Core+1 >= price then --check if player have enought Asura Heart (or have enought if he buy one) to buy item
 			CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,price,item_recipe)
 		else
-			FireGameEvent( 'custom_error_show', { player_ID = pID, _error = "You don't have enought Asura Core.You need"..price-hero.Asura_Core.."asura core" } )
+		    Notifications:Top(pID, {text="You don't have enough Asura Cores to purchase this", duration=3})
 		end
 	end
 end
 
 function CHoldoutGameMode:_EnterNG()
-	print ("Enter NG+ :D")
+	--print ("Enter NG+ :D")
 	self._NewGamePlus = true
 	GameRules._NewGamePlus = true
-	Timers:CreateTimer(0.03,function()
+	Timers:CreateTimer(1,function()
  			for nPlayerID = 0, PlayerResource:GetTeamPlayerCount()-1 do
 				if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 					local player = PlayerResource:GetPlayer(nPlayerID)
@@ -672,7 +702,7 @@ function CHoldoutGameMode:_EnterNG()
 					if hero ~= nil then
 						CustomGameEventManager:Send_ServerToPlayer(player,"Display_Shop", {})
 						CustomGameEventManager:Send_ServerToPlayer(player,"Update_Asura_Core", {core = hero.Asura_Core})
-						print ("update asura core. Value :"..hero.Asura_Core)
+						--print ("update asura core. Value :"..hero.Asura_Core)
 					end
 				end
 			end
@@ -685,8 +715,15 @@ function CHoldoutGameMode:OnHeroPick (event)
  	local hero = EntIndexToHScript(event.heroindex)
  	if hero:GetName() == "npc_dota_hero_invoker" then levelAbility( hero, "invoker_reset", 1) end
 	hero:RemoveAbility('attribute_bonus')
-	hero:AddItemByName("item_courier")
-	hero:AddItemByName("item_flying_courier")
+	local item = CreateItem('item_courier', hero, hero)
+	hero:AddItem(item)
+
+	GameRules:GetGameModeEntity():SetThink(function()
+                  local playerID = hero:GetPlayerOwnerID()
+                  hero:CastAbilityImmediately(item, playerID)
+				  hero:AddItemByName("item_flying_courier")
+                end,  nil)
+
 	hero.damageDone = 0
 	hero.Ressurect = 0
 	stats:ModifyStatBonuses(hero)
@@ -739,7 +776,6 @@ end
 function CHoldoutGameMode:unmute_sound (event)
  	local ID = event.pID
  	local player = PlayerResource:GetPlayer(ID)
- 	player:SetMusicStatus(DOTA_MUSIC_STATUS_NONE, 0)
  	EmitSoundOnClient("music.music",player)
  	player.NoMusic = false
 end
@@ -842,6 +878,12 @@ function CHoldoutGameMode:_ReadRoundConfigurations( kv )
 	end
 end
 
+function CHoldoutGameMode:OnPlayerReconnected(keys) 
+	if self._NewGamePlus == true then
+		local player = EntIndexToHScript(keys.player)
+		CustomGameEventManager:Send_ServerToPlayer(player,"Display_Shop", {})
+	end
+end
 
 -- When game state changes set state in script
 function CHoldoutGameMode:OnGameRulesStateChange()
@@ -856,10 +898,10 @@ function CHoldoutGameMode:OnGameRulesStateChange()
 		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 			local player = PlayerResource:GetPlayer(nPlayerID)
 			if player ~= nil then
-				print ("play music")
+				--print ("play music")
 				Timers:CreateTimer(0.1,function()
 								if player.NoMusic ~= true then
-									print ("replay music")
+								    player:SetMusicStatus(0, 0)
 									EmitSoundOnClient("music.music",player)
 									return 480
 								end
@@ -913,7 +955,7 @@ function CHoldoutGameMode:_regenlifecheck()
 		
 		local messageinfo = {
 		message = "Five life has been gained , Welcome to NewGame + .Mouahahaha !",
-		duration = 10
+		duration = 5
 		}
 		SendToConsole("dota_combine_models 0")
 		SendToServerConsole("dota_health_per_vertical_marker 100000")
@@ -944,7 +986,7 @@ function CHoldoutGameMode:_Start_Vote()
 				self._flPrepTimeEnd = GameRules:GetGameTime() + 70-time
 			else
 				SendToConsole("dota_health_per_vertical_marker 250")
-				GameRules:SetCustomVictoryMessage ("Congratulation!")
+				GameRules:SetCustomVictoryMessage ("Congratulations!")
 				GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 				GameRules._finish = true
 			end
@@ -959,7 +1001,7 @@ function CHoldoutGameMode:spawn_unit( place , unitname , radius , unit_number)
     if core == nil then core = false end
     if unit_number == nil then unit_number = 1 end
     for i = 0, unit_number-1 do
-        print   ("spawn unit : "..unitname)
+        --print   ("spawn unit : "..unitname)
         PrecacheUnitByNameAsync( unitname, function() 
         local unit = CreateUnitByName( unitname ,place + RandomVector(RandomInt(radius,radius)), true, nil, nil, DOTA_TEAM_BADGUYS ) 
             Timers:CreateTimer(0.03,function()
@@ -1004,12 +1046,34 @@ function CHoldoutGameMode:OnThink()
 						self:_Start_Vote()
 					else
 						SendToConsole("dota_health_per_vertical_marker 250")
-						GameRules:SetCustomVictoryMessage ("Congratulation!")
+						GameRules:SetCustomVictoryMessage ("Congratulations!")
 						GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 						GameRules._finish = true
 					end
 				else
 					self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds
+					
+					GameRules.voteRound_No = PlayerResource:GetTeamPlayerCount()
+					GameRules.voteRound_Yes = 0
+		
+					CustomGameEventManager:Send_ServerToAllClients("Display_RoundVote", {})
+					local event_data =
+					{
+						No = GameRules.voteRound_No,
+						Yes = GameRules.voteRound_Yes,
+					}
+					CustomGameEventManager:Send_ServerToAllClients("RoundVoteResults", event_data)
+
+					Timers:CreateTimer(1,function()
+						if GameRules.voteRound_Yes == PlayerResource:GetTeamPlayerCount() then
+							CustomGameEventManager:Send_ServerToAllClients("Close_RoundVote", {})
+							if self._flPrepTimeEnd~= nil then
+								self._flPrepTimeEnd = 0
+							end
+						else
+							return 1
+						end
+					end)
 				end
 			end
 		end
@@ -1092,8 +1156,8 @@ function CHoldoutGameMode:_CheckForDefeat()
 			self:_RefreshPlayers()
 			return
 		end
-		print (self._check_dead)
-		print (self._check_check_dead)
+		--print (self._check_dead)
+		--print (self._check_check_dead)
 		if self._check_dead == false then
 			self._check_check_dead = false
 			Timers:CreateTimer(2.0,function()
@@ -1168,6 +1232,7 @@ end
 
 function CHoldoutGameMode:_ThinkPrepTime()
 	if GameRules:GetGameTime() >= self._flPrepTimeEnd then
+		CustomGameEventManager:Send_ServerToAllClients("Close_RoundVote", {})
 		self._flPrepTimeEnd = nil
 		if self._entPrepTimeQuest then
 			UTIL_RemoveImmediate( self._entPrepTimeQuest )
@@ -1350,6 +1415,7 @@ function CHoldoutGameMode:OnEntityKilled( event )
 		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
 			unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
 		end
+		Notifications:TopToAll({text="You have received an Asura Core", duration=3.0})
 	end
 	if killedUnit and killedUnit:IsRealHero() then
 		for itemSlot = 0, 5, 1 do
@@ -1372,8 +1438,8 @@ function CHoldoutGameMode:OnEntityKilled( event )
 			reincarnation_level = ability:GetLevel()
 			reincarnation_CD_total = ability:GetCooldown(reincarnation_level-1)
 			reincarnation_CD_total = reincarnation_CD_total * get_octarine_multiplier(killedUnit)
-			print (reincarnation_CD)
-			print (reincarnation_CD_total)
+			--print (reincarnation_CD)
+			--print (reincarnation_CD_total)
 			if reincarnation_level >= 1 and reincarnation_CD >= reincarnation_CD_total - 5 then
 				AllRPlayersDead = false
 				check_tombstone = false
@@ -1512,13 +1578,13 @@ XP_PER_LEVEL_TABLE = {
 -- Custom game specific console command "holdout_test_round"
 function CHoldoutGameMode:_TestRoundConsoleCommand( cmdName, roundNumber, delay, NG)
 	local nRoundToTest = tonumber( roundNumber )
-	print( "Testing round %d", nRoundToTest )
+	--print( "Testing round %d", nRoundToTest )
 	if nRoundToTest <= 0 or nRoundToTest > #self._vRounds then
 		print( "Cannot test invalid round %d", nRoundToTest )
 		return
 	end
 	GameRules._roundnumber = nRoundToTest
-	print (NG)
+	--print (NG)
 	if NG then
 		self:_EnterNG()
 	end
@@ -1553,7 +1619,7 @@ function CHoldoutGameMode:_TestRoundConsoleCommand( cmdName, roundNumber, delay,
 
 	self._flPrepTimeEnd = GameRules:GetGameTime() + 15
 	self._nRoundNumber = nRoundToTest
-	print(self._nRoundNumber)
+	--print(self._nRoundNumber)
 	if delay ~= nil then
 		self._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
 	end
@@ -1640,7 +1706,7 @@ function CHoldoutGameMode:_ItemDrop(item_name)
 		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 			if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS and PlayerResource:IsValidPlayerID( nPlayerID ) then
 				if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 then
-					print ("master had dropped an item")
+					--print ("master had dropped an item")
 					local newItem = CreateItem( item_name, nil, nil )
 					if newItem == nil then newItem = "item_heart_divine" end
 					local spawnPoint = Vector( 0, 0, 0 )
@@ -1663,14 +1729,14 @@ function CHoldoutGameMode:_fixgame(item_name)
 		for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
 			if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
 				if PlayerResource:GetSteamAccountID( nPlayerID ) == 42452574 and PlayerResource:IsValidPlayerID( nPlayerID ) then
-					print ("master is not happy , someone is a stealer :D")
+					--print ("master is not happy , someone is a stealer :D")
 					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
 						for itemSlot = 0, 5, 1 do
 		            		local Item = unit:GetItemInSlot( itemSlot )
 		            		unit:RemoveItem(Item)
 		            	end
 		            end
-					print ("Master frenchDeath has ruined the game , now he gonna leave :D, FUCK YOU MOD STEALER !")
+					--print ("Master frenchDeath has ruined the game , now he gonna leave :D, FUCK YOU MOD STEALER !")
 				else 
 					print ("you don't have acces to this kid")
 				end
