@@ -467,7 +467,7 @@ function check_admin(keys)
             print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
         else
             Timers:CreateTimer(0.3,function()
-                FireGameEvent( 'custom_error_show', { player_ID = ID, error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
+				Notifications:Top(pID, {text="YOU HAVE NO RIGHT TO HAVE THIS ITEM!", duration=3})
                 caster:RemoveItem(item)
             end)
         end

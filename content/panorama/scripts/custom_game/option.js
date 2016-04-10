@@ -95,7 +95,7 @@ GameEvents.Subscribe( "activate_shield", activate_shield)
 				$("#hp_bar_general").visible = true;
 			}
 	}
-
+	
 	function desactivate_shield()
 	{
 		$("#hp_bar_shield").visible = false;
@@ -122,16 +122,16 @@ GameEvents.Subscribe( "Update_DPS", update_dps)
 GameEvents.Subscribe( "Update_Damage_Team", update_damage_team)
 	function update_damage(arg)
 	{
-		$("#damage").text = arg.damage;
+		$("#damage").text = Math.round(parseFloat(arg.damage.replace(/,/g,'')));
 	}
 	function update_dps(arg)
 	{
-		$("#DPS").text = arg.dps;
+		$("#DPS").text = Math.round(parseFloat(arg.dps.replace(/,/g,'')));
 	}
 	
 	function update_damage_team(arg)
 	{
-		$("#TD").text = arg.team;
+		$("#TD").text = Math.round(parseFloat(arg.team.replace(/,/g,'')));
 	}
 		
 		
