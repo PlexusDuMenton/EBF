@@ -2,6 +2,10 @@
 {
   custom_net_tables =
   [
-//    "game_state",
+    "New_Game_plus",
+    "HB",
+    "Damage",
+    "time",
+    "midas",
   ]
 }

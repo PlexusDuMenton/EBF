@@ -61,10 +61,10 @@ end
 function simple_item:midas_gold(bonus) -- Runs whenever the simple_item.lua is ran
     if simple_item._totalgold == nil then 
         simple_item._totalgold = 0 
-        CustomGameEventManager:Send_ServerToAllClients("create_midas_display", {})
     end
     simple_item._totalgold = simple_item._totalgold + bonus
-    CustomGameEventManager:Send_ServerToAllClients("Update_Midas_Gold", {gold = simple_item._totalgold})
+    CustomNetTables:SetTableValue( "midas","total", {gold = simple_item._totalgold } )
+
 end
 
 function Cooldown_powder(keys)

@@ -4,8 +4,7 @@ var team = Entities.GetTeamNumber( PlayerEntityIndex )
 $('#'+"midas_gold").visible = false;
 $('#'+"midas_gold_open").visible = false;
 $('#'+"midas_gold_close").visible = false;
-$.Msg('Team ID',team)
-GameEvents.Subscribe( "create_midas_display", create_gold_display)
+var open = true
 	function create_gold_display()
 	{
 		if (team < 3)
@@ -14,9 +13,24 @@ GameEvents.Subscribe( "create_midas_display", create_gold_display)
 			$('#'+"midas_gold").visible = true;
 		}
 	}
-GameEvents.Subscribe( "Update_Midas_Gold", update_gold)
+Updatemidas()
+function Updatemidas(){
+	$.Schedule(0.025, Updatemidas);
+	data = CustomNetTables.GetTableValue( "midas", "total")
+	if (typeof data != 'undefined') {
+	if (open){
+		open_gold()
+	}else{
+		close_gold()
+	}
+		$('#'+"midas_gold_earned").text = data.gold;
+	}
+	
+}
+	
 	function open_gold()
-	{
+	{	
+		open = true
 		$('#'+"midas_gold_open").visible = false;
 		$('#'+"midas_gold_close").visible = true;
 		$('#'+"midas_gold").visible = true;
@@ -24,15 +38,10 @@ GameEvents.Subscribe( "Update_Midas_Gold", update_gold)
 	
 	function close_gold()
 	{
+		open = false
 		$('#'+"midas_gold_open").visible = true;
 		$('#'+"midas_gold_close").visible = false;
 		$('#'+"midas_gold").visible = false;
-	}
-	
-	function update_gold(values)
-	{
-		$.Msg('update_gold_earned : ',values.gold);
-		$('#'+"midas_gold_earned").text = values.gold;
 	}
 
 		

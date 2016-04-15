@@ -10,14 +10,23 @@ function BuyCore()
 	GameEvents.SendCustomGameEventToServer( "Asura_Core", { pID: ID} );
 }
 
-GameEvents.Subscribe( "Display_Shop", display_but)
+Update()
+
+function Update(){
+$.Schedule(1, Update);
+CustomNetTables.SubscribeNetTableListener
+	key = "NG"
+	data = CustomNetTables.GetTableValue( "New_Game_plus", "NG")
+	if (typeof data != 'undefined') {
+	if (data.NG == 1){ $("#demon_button").visible = true;}
+	}
+}
+
+
 $("#demon_button").visible = false;
 $("#hide_shop").visible = false;
 $("#demon_shop").visible = false;
-function display_but(arg)
-	{
-		$("#demon_button").visible = true;
-	}
+
 function display_shop(arg)
 	{
 		$("#demon_shop").visible = true;
@@ -31,12 +40,5 @@ function hide_shop(arg)
 		$("#button_shop").visible = true;
 		$("#hide_shop").visible = false;
 	}
-GameEvents.Subscribe( "Refresh_HUD", refresh_shop)
 
-function refresh_shop(arg)
-	{
-		$("#demon_button").visible = false;
-		$("#hide_shop").visible = false;
-		$("#demon_shop").visible = false;
-	}
 

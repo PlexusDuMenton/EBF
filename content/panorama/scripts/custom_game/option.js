@@ -1,8 +1,6 @@
 var ID = Players.GetLocalPlayer()
 var PlayerEntityIndex = Players.GetPlayerHeroEntityIndex(ID)
 var team = Entities.GetTeamNumber( PlayerEntityIndex )
-$("#hp_bar_general").visible = false;
-$("#hp_bar_shield").visible = false;
 $("#DPS_main").visible = false;
 		var HB_State = true;
 		var dps_State = false;
@@ -34,16 +32,13 @@ $("#DPS_main").visible = false;
 				HB_State = false;
 				$("#hp_bar_general").visible = false;
 				$('#'+"text_HB").text = "Enable Custom HealthBar";
-				var iPlayerID = Players.GetLocalPlayer();
-				GameEvents.SendCustomGameEventToServer( "Health_Bar_Command", { Enabled: false , pID: iPlayerID} );
 			}
 			else
 			{
 				HB_State = true;
-				//$("#hp_bar_general").visible = true;
+				$("#hp_bar_general").visible = true;
 				$('#'+"text_HB").text = "Disable Custom HealthBar";
-				var iPlayerID = Players.GetLocalPlayer();
-				GameEvents.SendCustomGameEventToServer( "Health_Bar_Command", { Enabled: true , pID: iPlayerID} );
+				
 			}
 		}
 		function switch_dps()
@@ -75,63 +70,51 @@ $("#DPS_main").visible = false;
 		}
 
 
-GameEvents.Subscribe( "Update_Health_Bar", update_hp_bar)
-GameEvents.Subscribe( "Update_mana_Bar", update_mana_bar)
-GameEvents.Subscribe( "Close_Health_Bar", close_HB)
-GameEvents.Subscribe( "Open_Health_Bar", open_HB)
-GameEvents.Subscribe( "disactivate_shield", desactivate_shield)
-GameEvents.Subscribe( "activate_shield", activate_shield)
-	function close_HB()
-	{
-		if (team < 3)
-		{
-			$("#hp_bar_general").visible = false;
+
+UpdateHB()
+
+function UpdateHB(){
+$.Schedule(0.025, UpdateHB);
+
+	data = CustomNetTables.GetTableValue( "HB", "HB")
+	if (typeof data != 'undefined') {
+		if (data.HP == 0 ){ $("#hp_bar_general").visible = false}
+		$("#hp_bar_parent_health").style.clip = "rect( 0% ," + ((data.HP/data.Max_HP)*77.3+22.7) + "%" + ", 100% ,0% )";
+		$("#hp_bar_current").text = Number((data.HP).toFixed(0));
+		$("#hp_bar_total").text = Number((data.Max_HP).toFixed(0));
+		$("#hp_bar_name").text = "#"+data.Name;
+		if (data.Max_MP != 0){
+			$("#hp_bar_parent_mana").style.clip = "rect( 0% ," + ((data.MP/data.Max_MP)*63.1+27.0) + "%" + ", 100% ,0% )";
+		} else{
+			$("#hp_bar_parent_mana").style.clip = "rect( 0% , 100%, 100% ,0% )";
 		}
-	}
-	function open_HB()
-	{
-		if (team < 3)
-			{
-				$("#hp_bar_general").visible = true;
-			}
-	}
-	
-	function desactivate_shield()
-	{
-		$("#hp_bar_shield").visible = false;
-	}
-	
-	function activate_shield()
-	{
-		$("#hp_bar_shield").visible = true;
-	}
-	
-	function update_mana_bar(arg)
-	{
-		$("#hp_bar_parent_mana").style.clip = "rect( 0% ," + ((arg.current_mana/arg.total_mana)*63.1+27.0) + "%" + ", 100% ,0% )";
-	}
-	function update_hp_bar(arg)
-	{
-		$("#hp_bar_parent_health").style.clip = "rect( 0% ," + ((arg.current_life_disp/arg.total_life_disp)*77.3+22.7) + "%" + ", 100% ,0% )";
-		$("#hp_bar_current").text = arg.current_life;
-		$("#hp_bar_total").text = arg.total_life;
-		$("#hp_bar_name").text = "#"+arg.name;
-	}
-GameEvents.Subscribe( "Update_Damage", update_damage)
-GameEvents.Subscribe( "Update_DPS", update_dps)
-GameEvents.Subscribe( "Update_Damage_Team", update_damage_team)
-	function update_damage(arg)
-	{
-		$("#damage").text = Math.round(parseFloat(arg.damage.replace(/,/g,'')));
-	}
-	function update_dps(arg)
-	{
-		$("#DPS").text = Math.round(parseFloat(arg.dps.replace(/,/g,'')));
+		if (data.shield == 1){
+			$("#hp_bar_shield").visible = true;
+		}else { $("#hp_bar_shield").visible = false;}
+		
+		if (HB_State) {
+			$("#hp_bar_general").visible = true;
+		} else { $("#hp_bar_general").visible = false}
+
+	} else { $("#hp_bar_general").visible = false}
+}
+
+
+	UpdateDPS()
+
+function UpdateDPS(){
+	$.Schedule(0.025, UpdateDPS);
+	key = "player_" + ID.toString()
+	data = CustomNetTables.GetTableValue( "Damage", key)
+	if (typeof data != 'undefined') {
+		$("#damage").text = Number((data.Hero_Damage).toFixed(0));;
+		$("#TD").text = Number((data.Team_Damage).toFixed(0));
+		var time = CustomNetTables.GetTableValue( "time", "time").time
+		var dps = (data.Hero_Damage/(time - data.First_hit))
+		$("#DPS").text = Number((dps).toFixed(2));
 	}
 	
-	function update_damage_team(arg)
-	{
-		$("#TD").text = Math.round(parseFloat(arg.team.replace(/,/g,'')));
-	}
+}
+
 		
 		
