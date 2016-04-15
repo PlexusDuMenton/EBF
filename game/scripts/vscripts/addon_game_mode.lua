@@ -430,7 +430,7 @@ function CHoldoutGameMode:Update_Health_Bar()
 				if biggest_ennemy.have_shield == nil then biggest_ennemy.have_shield = false end
 				CustomNetTables:SetTableValue( "HB","HB", {HP = biggest_ennemy:GetHealth() , Max_HP = biggest_ennemy:GetMaxHealth() , MP = biggest_ennemy:GetMana() ,Max_MP = biggest_ennemy:GetMaxMana() , Name = biggest_ennemy:GetUnitName() , shield = biggest_ennemy.have_shield })
 			elseif biggest_ennemy ~= nil and not biggest_ennemy:IsNull() and biggest_ennemy:IsAlive() == false then 
-				CustomNetTables:SetTableValue( "HB","HB", {HP = 0 , Max_HP = 0 , MP = biggest_ennemy:GetMana() ,Max_MP = biggest_ennemy:GetMaxMana() , Name = biggest_ennemy:GetUnitName() , shield = biggest_ennemy.have_shield })
+				CustomNetTables:SetTableValue( "HB","HB", {HP = 0 , Max_HP = 1 , MP = biggest_ennemy:GetMana() ,Max_MP = biggest_ennemy:GetMaxMana() , Name = biggest_ennemy:GetUnitName() , shield = biggest_ennemy.have_shield })
 			end
 		end)
 
