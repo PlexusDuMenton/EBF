@@ -31,8 +31,7 @@ function Ressurection(keys)
                 killedUnit:RespawnHero(false, false, false)
                 if Item:GetCurrentCharges() > 1 then
                     Item:SetCurrentCharges(Item:GetCurrentCharges()-1)
-                end
-                if Item:GetCurrentCharges() == 1 then
+                else
                     killedUnit:RemoveItem(Item)
                 end
             end)

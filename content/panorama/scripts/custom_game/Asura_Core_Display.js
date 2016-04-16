@@ -1,21 +1,25 @@
-GameEvents.Subscribe( "Update_Asura_Core", update_core)
-GameEvents.Subscribe( "Display_Asura_Core", display_core)
-GameEvents.Subscribe( "Display_Shop", display_core)
-var visible = false;
-$("#Asura_Core").visible = visible;
-function update_core(arg)
-	{
-		$("#core_number").text = arg.core;
-		if (!visible)
-		{
-			display_core();
-		}
+var ID = Players.GetLocalPlayer()
+$("#Asura_Core").visible = false;
+
+
+Update()
+
+function Update(){
+$.Schedule(0.5, Update);
+CustomNetTables.SubscribeNetTableListener
+	data = CustomNetTables.GetTableValue( "New_Game_plus", "NG")
+	if (typeof data != 'undefined') {
+	if (data.NG == 1){ 
+	$("#Asura_Core").visible = true;}
 	}
-function display_core()
-	{
-		visible = true;
-		$("#Asura_Core").visible = true;
+	key2 = "player_" + ID.toString()
+	core = CustomNetTables.GetTableValue( "Asura_core", key2).core
+	if (typeof core != 'undefined') {
+	$("#core_number").text = core;
+	
 	}
+}
+
 function tell_core()
 	{
 		var ID = Players.GetLocalPlayer()

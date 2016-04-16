@@ -507,6 +507,11 @@ function GetHeroDamageDone(hero)
     return hero.damageDone
 end
 
+function update_asura_core(hero)
+		local key = "player_"..hero:GetPlayerID()
+		CustomNetTables:SetTableValue( "Asura_core",key, {core = hero.Asura_Core} )
+end
+
 function CHoldoutGameMode:OnAbilityUsed(keys)
 	--will be used in future :p
 	local player = PlayerResource:GetPlayer(keys.PlayerID)
@@ -523,17 +528,20 @@ function CHoldoutGameMode:Buy_Asura_Core_shop(event)
 		PlayerResource:SpendGold(pID, 50000, 0)
 	 	hero.Asura_Core = hero.Asura_Core + 1
 		Notifications:Top(pID, {text="You have purchased an Asura Core", duration=3})
+		update_asura_core(hero)
 	else
 		Notifications:Top(pID, {text="You don't have enough gold to purchase an Asura Core", duration=3})
 	end
 end
 
 function CHoldoutGameMode:_Buy_Asura_Core(pID)
+	print (pID)
 	local player = PlayerResource:GetPlayer(pID)
 	local hero = player:GetAssignedHero() 
 	if hero:GetGold() >= 50000 then
 		PlayerResource:SpendGold(pID, 50000, 0)
 	 	hero.Asura_Core = hero.Asura_Core + 1
+	 	update_asura_core(hero)
 	end
 end
 
@@ -592,6 +600,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 				end
 				PlayerResource:SpendGold(pID, price, 0)
 				hero.Asura_Core = hero.Asura_Core - Hprice
+				update_asura_core(hero)
 				hero:AddItemByName(item_name)
 			end
 		else
@@ -613,6 +622,7 @@ function CHoldoutGameMode:_Buy_Demon_Shop(pID,item_name,Hprice,item_recipe)
 			end
 			PlayerResource:SpendGold(pID, price, 0)
 			hero.Asura_Core = hero.Asura_Core - Hprice
+			update_asura_core(hero)
 			hero:AddItemByName(item_name)
 		else
 			return
@@ -959,7 +969,6 @@ function CHoldoutGameMode:OnThink()
 		self:_CheckForDefeat()
 		self:_ThinkLootExpiry()
 		self:_regenlifecheck()
-		CustomNetTables:SetTableValue( "time","time", {time = GameRules:GetGameTime()} )
 		if self._flPrepTimeEnd ~= nil then
 			self:_ThinkPrepTime()
 		elseif self._currentRound ~= nil then
@@ -1389,6 +1398,8 @@ function CHoldoutGameMode:OnEntityKilled( event )
 	if killedUnit.Asura_To_Give ~= nil then
 		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
 			unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
+			local key = "player_"..unit:GetPlayerID()
+		CustomNetTables:SetTableValue( "Asura_core",key, {core = hero.Asura_Core} )
 		end
 		Notifications:TopToAll({text="You have received an Asura Core", duration=3.0})
 	end
