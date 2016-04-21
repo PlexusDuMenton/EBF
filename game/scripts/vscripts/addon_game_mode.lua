@@ -1380,6 +1380,7 @@ function get_octarine_multiplier(caster)
     return octarine_multiplier
 end
 
+
 function CHoldoutGameMode:OnEntityKilled( event )
 	local check_tombstone = true
 	local killedUnit = EntIndexToHScript( event.entindex_killed )
@@ -1395,11 +1396,11 @@ function CHoldoutGameMode:OnEntityKilled( event )
 			end
 		end)
 	end
+
 	if killedUnit.Asura_To_Give ~= nil then
 		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
 			unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
-			local key = "player_"..unit:GetPlayerID()
-		CustomNetTables:SetTableValue( "Asura_core",key, {core = hero.Asura_Core} )
+			update_asura_core(unit)
 		end
 		Notifications:TopToAll({text="You have received an Asura Core", duration=3.0})
 	end
