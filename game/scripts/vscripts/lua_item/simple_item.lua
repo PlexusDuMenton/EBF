@@ -72,15 +72,7 @@ function Cooldown_powder(keys)
     local caster = keys.caster
     local dust_effect = ParticleManager:CreateParticle("particles/chronos_powder.vpcf", PATTACH_ABSORIGIN  , caster)
     ParticleManager:SetParticleControl(dust_effect, 0, caster:GetAbsOrigin())
-    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-        item:StartCooldown(45)
-    end
-    if GetMapName() == "epic_boss_fight_hard" then
-        item:StartCooldown(30)
-    end
-    if GetMapName() == "epic_boss_fight_normal" then
-        item:StartCooldown(20)
-    end
+	item:StartCooldown(20)
 end
 
 function ares_powder(keys)

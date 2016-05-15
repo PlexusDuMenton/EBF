@@ -121,21 +121,9 @@ function CHoldoutGameMode:InitGameMode()
 		name = "Life", 
 		title = "#LIFETITLE" } )
 	Life._life = 10
-	if GetMapName() == "epic_boss_fight_normal" then Life._life = 12 
+	if GetMapName() == "holdout_example" then Life._life = 12 
 		GameRules:SetHeroSelectionTime( 90.0 )
 		Life._MaxLife = 12
-	end
-	if GetMapName() == "epic_boss_fight_hard" then Life._life = 9 
-		GameRules:SetHeroSelectionTime( 50.0 )
-		Life._MaxLife = 9
-	end
-	if GetMapName() == "epic_boss_fight_impossible" then Life._life = 6 
-		GameRules:SetHeroSelectionTime( 40.0 )
-		Life._MaxLife = 6
-	end
-	if GetMapName() == "epic_boss_fight_challenger" then Life._life = 1 
-		GameRules:SetHeroSelectionTime( 30.0 )
-		Life._MaxLife = 1
 	end
 
 	LifeBar = SpawnEntityFromTableSynchronous( "subquest_base", { 
@@ -153,17 +141,8 @@ function CHoldoutGameMode:InitGameMode()
 	LifeBar:SetTextReplaceValue( SUBQUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
 	LifeBar:SetTextReplaceValue( SUBQUEST_TEXT_REPLACE_VALUE_TARGET_VALUE, Life._life )
 
-
-
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 7)
-	if GetMapName() == "epic_boss_fight_boss_master" then Life._life = 9 
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 1 )
-		GameRules:SetHeroSelectionTime( 45.0 )
-		Life._MaxLife = 9
-	else 
-		GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 0 )
-	end
-
+	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 0 )
 
 	self:_ReadGameConfiguration()
 	GameRules:SetHeroRespawnEnabled( false )

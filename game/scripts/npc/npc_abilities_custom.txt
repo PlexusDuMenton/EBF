@@ -8746,6 +8746,11 @@
 					"ScriptFile" "lua_abilities/abilities_simple.lua"
 					"Function" "Devour_doom"
 		        }
+				"FireSound"
+				{
+					"Target"            "CASTER"
+					"EffectName"        "Hero_DoomBringer.Devour"
+				}
 
 			}
 		
@@ -8756,7 +8761,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"total_gold"	"250 500 1000 2000 3000 4000 5000"
+				"total_gold"	"100 250 500 750 1000 2000 3000"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"death_perc"	"6 9 12 15 18 21 25"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"death_chance"	"6 9 12 15 18 21 25"
 			}
 		}
 		"Modifiers"

@@ -1589,7 +1589,6 @@ function Chen_Bless(keys)
 end
 
 function Devour_doom(keys)
-    print ('devour function has been called')
     local modifierName = "iseating"
     local caster = keys.caster
     local target = keys.target
@@ -1597,8 +1596,13 @@ function Devour_doom(keys)
     local level = ability:GetLevel()
     local gold = ability:GetLevelSpecialValueFor("total_gold", level-1)
     local duration = ability:GetLevelSpecialValueFor("duration", level-1)
-    local kill_rand = math.random(1,100)
-    gold = gold
+	
+	local death = ability:GetLevelSpecialValueFor("death_perc", level-1)
+    local kill_rand = math.random(100)
+	local boss_curr target:GetHealth()
+	local boss_perc = (boss_curr/(target:GetMaxHealth()))*100
+	local mod_perc = death*(death/boss_perc) -- Scale chance up as HP goes down
+
     ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = duration})
     target:SetModifierStackCount( modifierName, ability, 1)
     ability:StartCooldown(duration)
@@ -1616,6 +1620,15 @@ function Devour_doom(keys)
             unit:SetGold(totalgold, true)
         end
     end
+	if mod_perc >= kill_rand and boss_perc <= death  then
+		local damage_table = {}
+		damage_table.victim = target
+		damage_table.attacker = caster
+		damage_table.ability = ability
+		damage_table.damage_type = DAMAGE_TYPE_PURE
+		damage_table.damage = boss_curr +1
+		ApplyDamage(damage_table)
+	end
 end
 
 function decay( keys )
