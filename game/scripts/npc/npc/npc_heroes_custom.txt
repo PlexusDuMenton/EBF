@@ -1,0 +1,274 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Chen
+	//=================================================================================================================
+	"npc_dota_hero_chen_ebf"
+	{
+		"override_hero"			"npc_dota_hero_chen"
+		"Ability4"					"chen_holy_bless"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Clinkz
+	//=================================================================================================================
+	"npc_dota_hero_clinkz_ebf"
+	{
+		"override_hero"			"npc_dota_hero_clinkz"
+		"Ability4"					"clinkz_death_pact_custom"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Doom
+	//=================================================================================================================
+	"npc_dota_hero_doom_bringer_ebf"
+	{
+		"override_hero"			"npc_dota_hero_doom_bringer"
+		"Ability1"					"doom_devour"					// Ability 2
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Invoker
+	//=================================================================================================================
+	"npc_dota_hero_invoker_ebf"
+	{
+		"override_hero"			"npc_dota_hero_invoker"
+		"AbilityLayout"				"5"
+		"Ability1"					"invoker_fire_ellement"					// Ability 1
+		"Ability2"					"invoker_ice_ellement"					// Ability 2
+		"Ability3"					"invoker_wind_ellement"					// Ability 3
+		"Ability4"					"invoker_combine"					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					"invoker_reset"					// Ability 6
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Lycan
+	//=================================================================================================================
+	"npc_dota_hero_lycan_ebf"
+	{
+		"override_hero"			"npc_dota_hero_lycan"
+		"Ability1"					"lycan_summon_wolves_datadriven"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Outhouse Destructor
+	//=================================================================================================================
+	"npc_dota_hero_obsidian_destroyer_ebf"
+	{
+		"override_hero"			"npc_dota_hero_obsidian_destroyer"
+		"Ability4"					"outworld_otherworld_ressource"					// Ability 2
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Pudge
+	//=================================================================================================================
+	"npc_dota_hero_pudge_ebf"
+	{
+		"override_hero"			"npc_dota_hero_pudge"
+		"Ability3"					"pudge_flesh_heap_datadriven"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Razor
+	//=================================================================================================================
+	"npc_dota_hero_razor_ebf"
+	{
+		"override_hero"			"npc_dota_hero_razor"
+		"Ability2"					"razor_damage_link"					// Ability 2
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Skywrath
+	//=================================================================================================================
+	"npc_dota_hero_skywrath_mage_ebf"
+	{
+		"override_hero"			"npc_dota_hero_skywrath_mage"
+		"Ability2"					"skywrath_mage_concussive_shot_datadriven"					// Ability 4
+		"Ability4"					"skywrath_mage_mystic_flare_datadriven"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Slark
+	//=================================================================================================================
+	"npc_dota_hero_slark_ebf"
+	{
+		"override_hero"			"npc_dota_hero_slark"
+		"Ability3"					"slark_ebf_damage_steal"					// Ability 2
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Spectre
+	//=================================================================================================================
+	"npc_dota_hero_spectre_ebf"
+	{
+		"override_hero"			"npc_dota_hero_spectre"
+		"AbilityLayout"				"4"
+		"Ability1"					"spectre_spectral_dagger"					// Ability 1
+		"Ability2"					"spectre_ebf_desolate"					// Ability 2
+		"Ability3"					"spectre_dispersion"						// Ability 3
+		"Ability4"				"spectre_ebf_haunt"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Undying
+	//=================================================================================================================
+	"npc_dota_hero_undying_ebf"
+	{
+		"override_hero"			"npc_dota_hero_undying"
+		"Ability1"					"undying_decay_ebf"					// Ability 4
+		"Ability2"					"undying_soul_rip_ebf"					// Ability 4
+		"Ability3"					"undying_summon_zombies"					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	
+	
+	
+	//=================================================================================================================
+	// HERO: Ursa
+	//=================================================================================================================
+	"npc_dota_hero_ursa_ebf"
+	{
+		"override_hero"			"npc_dota_hero_ursa"
+		"AbilityLayout"				"4"
+		"Ability3"					"ursa_fury_swipes_ebf"					// Ability 4
+		"Ability4"					"ursa_claw"					// Ability 4
+		"Ability6"					""					// Ability 4
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Legion Commander
+	//=================================================================================================================
+	"npc_dota_hero_legion_ebf"
+	{
+		"override_hero"			"npc_dota_hero_legion_commander"
+		"Ability1"					"legion_commander_overwhelming_odds"					// Ability 1
+		"Ability2"					"legion_commander_press_the_attack"					// Ability 2
+		"Ability3"					"legion_commander_moment_of_courage"						// Ability 3
+		"Ability4"				"lc_ebf_war_fury"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Zeus
+	//=================================================================================================================
+	"npc_dota_hero_zuus_ebf"
+	{
+		"override_hero"			"npc_dota_hero_zuus"
+		"Ability4"				"zeus_ebf_thundergod_legacy"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Tinker
+	//=================================================================================================================
+	"npc_dota_hero_tinker_ebf"
+	{
+		"override_hero"			"npc_dota_hero_tinker"
+		"Ability2"				"tinker_missile_ebf"
+		"Ability4"				"tinker_rearm_datadriven"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Axe
+	//=================================================================================================================
+	"npc_dota_hero_axe_ebf"
+	{
+		"override_hero"			"npc_dota_hero_axe"
+		"Ability3"				"axe_counter_helix_datadriven"
+		"Ability4"				"axe_ultimate"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Nyx Assassin
+	//=================================================================================================================
+	"npc_dota_hero_nyx_assassin_ebf"
+	{
+		"override_hero"			"npc_dota_hero_nyx_assassin"
+		"Ability2"				"nyx_hide"
+		"Ability3"				"nyx_assassin_carapace"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Witch Doctor
+	//=================================================================================================================
+	"npc_dota_hero_witch_doctor_ebf"
+	{
+		"override_hero"			"npc_dota_hero_witch_doctor"
+		"Ability4"				"witch_doctor_witch_control"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Wisp
+	//=================================================================================================================
+	"npc_dota_hero_wisp_ebf"
+	{
+		"override_hero"			"npc_dota_hero_wisp"
+		"Ability7"				"wisp_sacrifice"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Crystal Maiden
+	//=================================================================================================================
+	"npc_dota_hero_crystal_maiden_ebf"
+	{
+		"override_hero"			"npc_dota_hero_crystal_maiden"
+		"Ability2"				"crystal_maiden_crystal_spear"
+		"Ability3"				"crystal_maiden_frozen_aura"
+		"VisionNighttimeRange"		"1800"	
+	}			
+	//=================================================================================================================
+	// HERO: Bloodseeker
+	//=================================================================================================================						// Range of vision at night time.
+	"npc_dota_hero_bloodseeker_ebf"
+	{
+		"override_hero"			"npc_dota_hero_bloodseeker"
+		"Ability3"				"Blood_Seeker_Blood_Smell"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Viper
+	//=================================================================================================================
+	"npc_dota_hero_viper_ebf"
+	{
+		"override_hero"			"npc_dota_hero_viper"
+		"Ability2"				"viper_nethertoxin_ebf"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Juggernaut
+	//=================================================================================================================
+	"npc_dota_hero_juggernaut_ebf"
+	{
+		"override_hero"			"npc_dota_hero_juggernaut"
+		"Ability3"				"juggernaut_blade_dance_ebf"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Spirit Breaker
+	//=================================================================================================================
+	"npc_dota_hero_spirit_breaker"
+	{
+		"override_hero"			"npc_dota_hero_spirit_breaker"
+		"Ability1"				"spirit_breaker_ground_smash"
+		"Ability2"				"spirit_breaker_haste_armor"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}	
+	//=================================================================================================================
+	// HERO: Necrolyte
+	//=================================================================================================================
+	"npc_dota_hero_necrolyte_ebf"
+	{
+		"override_hero"			"npc_dota_hero_necrolyte"
+		"Ability3"				"necro_death_aura"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Night Stalker
+	//=================================================================================================================
+	"npc_dota_hero_night_stalker_ebf"
+	{
+		"override_hero"			"npc_dota_hero_night_stalker"
+		"Ability1"				"night_stalker_void_ebf"
+		"Ability3"				"night_stalker_hunter_in_the_night_ebf"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+}
