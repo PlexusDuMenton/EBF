@@ -42,6 +42,8 @@ function refresh_haste_armor(keys)
     caster:SetModifierStackCount( "haste_armor_bonus", ability, caster:GetIdealSpeed() )
 end
 
+
+
 function ground_smash(keys)
     local caster = keys.caster
     local ability = keys.ability
@@ -2092,6 +2094,34 @@ function spiked_carapace_reflect( keys )
       ApplyDamage(damageTable)
     end
 
+end
+
+function HunterInTheNight( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.modifier
+
+	if not GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, caster, ("modifier_hunter_in_the_night_buff_ebf"), {})
+	else
+		if caster:HasModifier(modifier) then caster:RemoveModifierByName(modifier) end
+	end
+end
+
+function Void( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target
+	local modifier = keys.modifier
+
+	local duration_day = ability:GetLevelSpecialValueFor("duration_day", (ability:GetLevel() - 1))
+	local duration_night = ability:GetLevelSpecialValueFor("duration_night", (ability:GetLevel() - 1))
+
+	if GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_day})
+	else
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_night})
+	end
 end
 
 -- Stops the sound from playing
