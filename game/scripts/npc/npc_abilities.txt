@@ -26556,7 +26556,6 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_ALL | DOTA_UNIT_TARGET_MECHANICAL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
 		"FightRecapLevel"				"1"
 		"LevelsBetweenUpgrades"			"7"
@@ -28350,7 +28349,7 @@
 			"05"
 			{
 				"var_type"							"FIELD_FLOAT"
-				"illusion_incoming_damage_total_tooltip"			"425.0"
+				"illusion_incoming_damage_total_tooltip"			"325.0"
 			}		
 		}
 	}
@@ -28401,7 +28400,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_range"			"422 472 522 572 622 672 722"
+				"bonus_range"			"400 450 500 550 600 650 700"
 			}
 			"05"
 			{
@@ -28416,7 +28415,7 @@
 			"07"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"speed_loss"				"25"
+				"speed_loss"				"25 20 15 10 5 -5 -10"
 			}
 		}
 	}
