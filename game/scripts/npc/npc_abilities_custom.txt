@@ -8785,6 +8785,88 @@
 
 
 	}
+	//=================================================================================================================
+	// Dark Seer: Battlemaster's Command
+	//=================================================================================================================
+	"dark_seer_battlemaster_command"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_datadriven"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"MaxLevel"						"7"
+		"LevelsBetweenUpgrades"			"7"
+
+		"AbilityTextureName"			"dark_seer_wall_of_replica"
+
+
+		"Modifiers"
+		{
+
+			"bm_passive"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_EVASION_CONSTANT"		"%bonus_evasion"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+				}
+			}
+
+			"bm_active aoe"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"Aura" "bm_aura"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+			"bm_aura"
+			{	
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"		"%bonus_evasion_aura"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_armor_aura"
+				}
+			}
+
+ 
+		}
+		
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_evasion"		"0 5 10 15 20 25 30"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"		"25 50 75 100 200 400 600"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"		"500 700 900 1100 1300 1500 1700"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_evasion_aura"	"2 5 8 11 14 17 20"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"bonus_armor_aura"		"10 20 30 40 80 160 320"
+			}
+		}
+	}
 
 	"tinker_rearm_datadriven"
 	{
