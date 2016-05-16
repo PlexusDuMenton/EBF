@@ -965,92 +965,8 @@
 	        }
 	    }
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// Rewrite of the Doom Doom ability
+	
+// Rewrite of the Doom Doom ability
 	// Author: Pizzalol
 	// Date: 25.02.2015.
 	"doom_bringer_doom_ebf"
@@ -8803,7 +8719,6 @@
 
 		"Modifiers"
 		{
-
 			"bm_passive"
 			{	
 				"IsHidden"	 "1"
@@ -8814,7 +8729,6 @@
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
 				}
 			}
-
 			"bm_active aoe"
 			{
 				"Passive" "1"
@@ -8832,8 +8746,6 @@
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_armor_aura"
 				}
 			}
-
- 
 		}
 		
 		// Special
