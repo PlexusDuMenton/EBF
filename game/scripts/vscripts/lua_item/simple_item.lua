@@ -250,6 +250,7 @@ function Pierce(keys)
                 attacker = caster,
                 damage = damage,
                 damage_type = DAMAGE_TYPE_PURE,
+                ability = keys.ability,
                 }
     ApplyDamage(damageTable)
 end
@@ -361,7 +362,7 @@ function item_dagon_datadriven_on_spell_start(keys)
     keys.caster:EmitSound("DOTA_Item.Dagon.Activate")
     keys.target:EmitSound("DOTA_Item.Dagon5.Target")
         
-    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,})
+    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,ability = keys.ability,})
 end
 
 function ShowPopup( data )
@@ -637,6 +638,7 @@ function Splash(keys)
                         attacker = caster,
                         damage = damage,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
+                        ability = keys.ability,
                         }
             ApplyDamage(damageTable)
         end
@@ -664,6 +666,7 @@ function Splash_melee(keys)
             local damageTable = {victim = unit,
                                 attacker = caster,
                                 damage = damage,
+                                ability = keys.ability,
                                 damage_type = DAMAGE_TYPE_PURE,
                                 }
             ApplyDamage(damageTable)

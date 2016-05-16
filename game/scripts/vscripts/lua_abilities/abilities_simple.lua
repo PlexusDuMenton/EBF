@@ -79,6 +79,7 @@ function ground_smash(keys)
                                 attacker = caster,
                                 damage = damage,
                                 damage_type = damage_type,
+                                ability = keys.ability,
                                 }
                     ApplyDamage(damageTableAoe)
                     ability:ApplyDataDrivenModifier(caster,unit,"slow_ground_smash",{})
@@ -461,7 +462,8 @@ function viper_nethertoxin(keys)
         victim = target,
         attacker = caster,
         damage = damage,
-        damage_type = DAMAGE_TYPE_MAGICAL
+        damage_type = DAMAGE_TYPE_MAGICAL,
+        ability = keys.ability,
     }
 
     ApplyDamage( damageTable )
@@ -493,7 +495,8 @@ function Blood_Seeker_Blood_Smell(keys)
         victim = target,
         attacker = caster,
         damage = damage,
-        damage_type = DAMAGE_TYPE_PHYSICAL
+        damage_type = DAMAGE_TYPE_PHYSICAL,
+        ability = keys.ability,
     }
 
     ApplyDamage( damageTable )
@@ -1063,6 +1066,7 @@ function createAOEDamage(keys,particlesname,location,size,damage,damage_type,dur
                                 attacker = keys.caster,
                                 damage = damage,
                                 damage_type = damage_type,
+                                ability = keys.ability,
                                 }
                     ApplyDamage(damageTableAoe)
                 end
@@ -1349,6 +1353,7 @@ function axe_culling_blade_fct(keys)
                 victim = target,
                 attacker = caster,
                 damage = damage,
+                ability = keys.ability,
                 damage_type = DAMAGE_TYPE_PHYSICAL
             }
             ApplyDamage(damageTable)
@@ -1428,6 +1433,7 @@ function heat_seeking_missile_seek_damage( keys )
             victim = target,
             attacker = caster,
             damage = agh_damage,
+            ability = keys.ability,
             damage_type = DAMAGE_TYPE_MAGICAL
         }
     end
@@ -1475,6 +1481,7 @@ function Pierce_skill(keys)
     local damageTable = {victim = target,
                 attacker = caster,
                 damage = damage,
+                ability = keys.ability,
                 damage_type = DAMAGE_TYPE_PURE,
                 }
     ApplyDamage(damageTable)
@@ -1495,6 +1502,7 @@ function RageFunctionUrsa(keys)
         local damageTable_fury = {victim = target,
                         attacker = caster,
                         damage = damage*percent,
+                        ability = keys.ability,
                         damage_type = DAMAGE_TYPE_PURE,
                         }
         ApplyDamage(damageTable_fury)
@@ -1503,6 +1511,7 @@ function RageFunctionUrsa(keys)
     local damageTable = {victim = target,
                         attacker = caster,
                         damage = damage,
+                        ability = keys.ability,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
                         }
     ApplyDamage(damageTable)
@@ -1558,6 +1567,7 @@ function RageFunction(keys)
     local damageTable = {victim = target,
                         attacker = caster,
                         damage = damage,
+                        ability = keys.ability,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
                         }
     ApplyDamage(damageTable)
@@ -1648,6 +1658,7 @@ function decay( keys )
                                 victim = unit,
                                 attacker = caster,
                                 damage = damage,
+                                ability = keys.ability,
                                 damage_type = DAMAGE_TYPE_MAGICAL
                             }
         ApplyDamage( damageTable )
@@ -1699,6 +1710,7 @@ function Soul_Rip(keys)
                                 victim = unit,
                                 attacker = caster,
                                 damage = health,
+                                ability = keys.ability,
                                 damage_type = DAMAGE_TYPE_PURE
                             }
         ApplyDamage( damageTable )
@@ -1733,6 +1745,7 @@ function Death_Pact(event)
                             victim = target,
                             attacker = caster,
                             damage = health_gain/3,
+                            ability = keys.ability,
                             damage_type = DAMAGE_TYPE_PURE
                         }
     ApplyDamage( damageTable )
@@ -1922,6 +1935,7 @@ function mystic_flare_start( keys )
                         victim = v,
                         attacker = caster,
                         damage = damage_per_hero,
+                        ability = keys.ability,
                         damage_type = DAMAGE_TYPE_PURE
                         }
                     end
@@ -2084,6 +2098,7 @@ function spiked_carapace_reflect( keys )
                             victim = attacker,
                             attacker = caster,
                             damage = damageTaken*damage_multiplier,
+                            ability = keys.ability,
                             damage_type = DAMAGE_TYPE_PURE
                         }
      if not caster.carapaced_units[ attacker:entindex() ] then

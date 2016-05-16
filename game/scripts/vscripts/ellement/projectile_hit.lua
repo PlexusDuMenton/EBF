@@ -10,6 +10,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_PURE,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -25,6 +26,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -49,6 +51,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -67,11 +70,12 @@ function projectile_hit(keys)
 		    for _,unit in pairs(nearbyUnits) do
 		            local damageTableAoe = {victim = unit,
 		                        attacker = caster,
+		                        ability = keys.ability,
 		                        damage = damage_AoE,
 		                        damage_type = DAMAGE_TYPE_PHYSICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
-	            	Fire_Dot(caster, unit,math.floor((fire)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	            	Fire_Dot(keys,caster, unit,math.floor((fire)^2*((keys.caster:GetLevel()/2)^1.5)*25))
 	            	keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "iceflame_display", {duration = 5})
 	                keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier", {duration = 5})
 	                unit:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*(20) ) )
@@ -102,6 +106,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -121,11 +126,12 @@ function projectile_hit(keys)
 		            local damageTableAoe = {victim = unit,
 		                        attacker = caster,
 		                        damage = damage_AoE,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_PHYSICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
 		            keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5+1})
-	            	Fire_Dot(caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
 
 	            	fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , unit)
 	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, unit:GetAbsOrigin())
@@ -163,10 +169,11 @@ function projectile_hit(keys)
 
 	        
 
-	       	Fire_Dot(keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*10),5+1)
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*10),5+1)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -198,10 +205,11 @@ function projectile_hit(keys)
 
 	        
 
-	       	Fire_Dot(keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*10),5+1)
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*10),5+1)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -235,6 +243,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -283,6 +292,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -318,6 +328,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -345,10 +356,11 @@ function projectile_hit(keys)
 				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
 				    end)
 
-	       	Fire_Dot(keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*5),5+(wind/4))
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*5),5+(wind/4))
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -367,7 +379,7 @@ function projectile_hit(keys)
 			local fire = keys.caster.invocation_power_fire
 			local damage_Hit = keys.caster:GetLevel()*(fire+wind)^4*0.5 + (fire+wind)*1000 
 			keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 5+(wind/4)})
-	        Fire_Dot(keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel()/2)^1.5)*40),5+(wind/4))
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel()/2)^1.5)*40),5+(wind/4))
 
 	        fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
 	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
@@ -380,6 +392,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -397,6 +410,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -414,6 +428,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -433,6 +448,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -444,7 +460,7 @@ function projectile_hit(keys)
 	                Timers:CreateTimer(5,function()
 				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
 				    end)
-	        Fire_Dot(keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
 		end
 
 		if lastskill == "iceshard2" then
@@ -456,6 +472,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -479,6 +496,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -501,6 +519,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -512,7 +531,7 @@ function projectile_hit(keys)
 	                Timers:CreateTimer(5,function()
 				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
 				    end)
-	        Fire_Dot(keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
 		end
 
 		if lastskill == "explosive_fire_spear" then
@@ -524,6 +543,7 @@ function projectile_hit(keys)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
 		                        damage = damage_Hit,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -545,12 +565,13 @@ function projectile_hit(keys)
 		            local damageTableAoe = {victim = unit,
 		                        attacker = caster,
 		                        damage = damage_AoE,
+		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_PHYSICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
 		            keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5})
 	            	keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot", {duration = 5})
-	            	Fire_Dot(caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
 
 	            	fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , unit)
 	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, unit:GetAbsOrigin())
@@ -572,7 +593,7 @@ function projectile_hit(keys)
 
 end
 
-function Fire_Dot(caster,target,Damage,duration)
+function Fire_Dot(keys,caster,target,Damage,duration)
 	if duration == nil then
 		duration = 5
 	end
@@ -580,6 +601,7 @@ function Fire_Dot(caster,target,Damage,duration)
 	local damageTableDOT = {victim = target,
 	                    attacker = caster,
 	                    damage = Damage,
+	                    ability = keys.ability,
 	                    damage_type = DAMAGE_TYPE_MAGICAL,
 	                    }
 	local begin_time = GameRules:GetGameTime()

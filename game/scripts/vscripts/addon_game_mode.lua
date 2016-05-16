@@ -501,6 +501,16 @@ function CHoldoutGameMode:FilterDamage( filterTable )
 		end
     end
 
+    if attackerID and PlayerResource:HasSelectedHero( attackerID ) then
+	    local hero = PlayerResource:GetSelectedHeroEntity(attackerID)
+	    local inflictor = filterTable["entindex_inflictor_const"]
+	    if inflictor then
+	    	print (damage / (1+((hero:GetIntellect()/16)*0.01)) ,": damage" , (1+((hero:GetIntellect()/0.05)*0.01)) , " mutliplier"   )
+	    	filterTable["damage"] = damage / (1+((hero:GetIntellect()/16)*0.01))
+	    end
+	end
+
+
     return true
 end
 function GetHeroDamageDone(hero)
