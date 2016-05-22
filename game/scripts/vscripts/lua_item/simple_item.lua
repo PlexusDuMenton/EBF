@@ -76,10 +76,26 @@ function Cooldown_powder(keys)
         item:StartCooldown(45)
     end
     if GetMapName() == "epic_boss_fight_hard" then
-        item:StartCooldown(30)
+        item:StartCooldown(35)
     end
     if GetMapName() == "epic_boss_fight_normal" then
-        item:StartCooldown(20)
+        item:StartCooldown(25)
+    end
+end
+
+function Cooldown_pixels(keys)
+    local item = keys.ability
+    local caster = keys.caster
+    local dust_effect = ParticleManager:CreateParticle("particles/chronos_powder.vpcf", PATTACH_ABSORIGIN  , caster)
+    ParticleManager:SetParticleControl(dust_effect, 0, caster:GetAbsOrigin())
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
+        item:StartCooldown(18)
+    end
+    if GetMapName() == "epic_boss_fight_hard" then
+        item:StartCooldown(15)
+    end
+    if GetMapName() == "epic_boss_fight_normal" then
+        item:StartCooldown(12)
     end
 end
 
@@ -244,8 +260,9 @@ function Pierce(keys)
     local caster = keys.caster
     local target = keys.target
     local item = keys.ability
+	local int_scaling = 1+(caster:GetIntellect()/1600)
     local percent = item:GetLevelSpecialValueFor("Pierce_percent", 0)
-    local damage = keys.damage_on_hit*percent*0.01
+    local damage = (keys.damage_on_hit*percent*0.01)/int_scaling
     local damageTable = {victim = target,
                 attacker = caster,
                 damage = damage,
@@ -255,12 +272,55 @@ function Pierce(keys)
     ApplyDamage(damageTable)
 end
 
+
+function Pierce_Splash(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local item = keys.ability
+    local radius = item:GetLevelSpecialValueFor("radius", 0)
+    local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
+	local percent_p = item:GetLevelSpecialValueFor("Pierce_percent", 0)
+	local int_scaling = 1+(caster:GetIntellect()/1600)
+    local damage = keys.damage_on_hit*0.01/int_scaling
+    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
+                              target:GetAbsOrigin(),
+                              nil,
+                              radius,
+                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_ALL,
+                              DOTA_UNIT_TARGET_FLAG_NONE,
+                              FIND_ANY_ORDER,
+                              false)
+    for _,unit in pairs(nearbyUnits) do
+        if unit ~= target then
+            local damageTable = {victim = unit,
+                        attacker = caster,
+                        damage = damage*(1-percent_p),
+                        damage_type = DAMAGE_TYPE_PHYSICAL,
+                        ability = keys.ability
+                        }
+            ApplyDamage(damageTable)
+        end
+    end
+	for _,unit in pairs(nearbyUnits) do
+		local damageTable = {victim = unit,
+                attacker = caster,
+                damage = damage*percent_p,
+                damage_type = DAMAGE_TYPE_PURE,
+                ability = keys.ability
+                }
+		ApplyDamage(damageTable)
+	end
+end
+
+
+
 function CD_divine_armor(keys)
     keys.ability:StartCooldown(33)
 end
 
 function CD_Bahamut(keys)
-    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+    for _,unit in pairs ( Entities:FindAllByName( "npc_dota_*")) do
         if unit:GetTeam() == DOTA_TEAM_GOODGUYS then
             for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
                     if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
@@ -607,13 +667,22 @@ function veil(keys)
     end
 end
 
+function scythe_decay(keys)
+    local item = keys.ability
+	local target = keys.target
+	local magic_reduction = keys.magic_reduction
+    local new_armor_target =  0
+    new_armor_target =  math.floor(target:GetBaseMagicalResistanceValue()  + magic_reduction)
+    target:SetBaseMagicalResistanceValue(new_armor_target)
+    end
+
 function restoremagicress(keys)
     print ("test")
     local item = keys.ability
     local unit = keys.target
-    local Magical_ress_reduction = item:GetLevelSpecialValueFor("MR_debuff", 0)
+    local magic_reduction = keys.magic_reduction
     --unit.oldMR = true
-    unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() - Magical_ress_reduction)
+    unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() - magic_reduction)
 end
 
 function Splash(keys)
@@ -645,6 +714,9 @@ function Splash(keys)
     end
 end
 
+
+
+
 function Splash_melee(keys)
     local caster = keys.caster
     local target = keys.target
@@ -652,11 +724,11 @@ function Splash_melee(keys)
     local radius = item:GetLevelSpecialValueFor("radius", 0)
     local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
     local damage = keys.damage_on_hit*percent*0.01
-    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
-                              target:GetAbsOrigin(),
+    local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
+                              caster:GetAbsOrigin(),
                               nil,
                               radius,
-                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_TEAM_ENEMY,
                               DOTA_UNIT_TARGET_ALL,
                               DOTA_UNIT_TARGET_FLAG_NONE,
                               FIND_ANY_ORDER,
