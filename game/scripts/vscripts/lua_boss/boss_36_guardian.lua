@@ -11,7 +11,7 @@ end
 
 function creation(keys)
 	local caster = keys.caster
-	caster.Charge = 1000
+	caster.Charge = caster:GetMaxMana()
 	caster.weak = false
 	create_shield_particle(keys)
 	keys.ability:ApplyDataDrivenModifier( caster, caster, "invincible", {} )
@@ -46,11 +46,33 @@ function creation(keys)
 					caster:RemoveModifierByName( "invincible" )
                     caster.have_shield = false
 				else
-					caster.Charge = caster.Charge - 1
+					if GetMapName() == "epic_boss_fight_impossible" then
+							caster.Charge = caster.Charge - 2
+						elseif GetMapName() == "epic_boss_fight_challenger" then
+							caster.Charge = caster.Charge - 1
+						elseif  GetMapName() == "epic_boss_fight_hard" then
+							caster.Charge = caster.Charge - 3
+						elseif GetMapName() == "epic_boss_fight_boss_master" then
+							caster.Charge = caster.Charge - 1
+						else
+							caster.Charge = caster.Charge - 4
+						end
 				end
 			else
 				if caster.Charge < caster:GetMaxMana() then
-					caster.Charge = caster.Charge + (1000/(7.5*10))
+					local chargeSpeed
+				    if GetMapName() == "epic_boss_fight_impossible" then
+						chargeSpeed = 10
+					elseif GetMapName() == "epic_boss_fight_challenger" then
+						chargeSpeed = 10
+					elseif  GetMapName() == "epic_boss_fight_hard" then
+						chargeSpeed = 15
+					elseif GetMapName() == "epic_boss_fight_boss_master" then
+						chargeSpeed = 10
+					else
+						chargeSpeed = 20
+					end
+					caster.Charge = caster.Charge + (1000/(7.5*chargeSpeed))
 				else
 					caster.weak = false
                     caster.have_shield = true
