@@ -170,10 +170,10 @@ function CHoldoutGameMode:InitGameMode()
 	GameRules:SetUseUniversalShopMode( true )
 
 
-	GameRules:SetTreeRegrowTime( 60.0 )
+	GameRules:SetTreeRegrowTime( 10.0 )
 	GameRules:SetCreepMinimapIconScale( 4 )
 	GameRules:SetRuneMinimapIconScale( 1.5 )
-	GameRules:SetGoldTickTime( 60.0 )
+	GameRules:SetGoldTickTime( 600.0 )
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:GetGameModeEntity():SetRemoveIllusionsOnDeath( true )
 	GameRules:GetGameModeEntity():SetTopBarTeamValuesOverride( true )
@@ -678,14 +678,13 @@ function CHoldoutGameMode:OnHeroPick (event)
  	local hero = EntIndexToHScript(event.heroindex)
  	if hero:GetName() == "npc_dota_hero_invoker" then levelAbility( hero, "invoker_reset", 1) end
 	hero:RemoveAbility('attribute_bonus')
-	local item = CreateItem('item_courier', hero, hero)
-	hero:AddItem(item)
-
-	GameRules:GetGameModeEntity():SetThink(function()
-                  local playerID = hero:GetPlayerOwnerID()
-                  hero:CastAbilityImmediately(item, playerID)
-				  hero:AddItemByName("item_flying_courier")
-                end,  nil)
+	if hero:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+		local item = CreateItem('item_courier', hero, hero)
+		hero:AddItem(item)
+		local playerID = hero:GetPlayerOwnerID()
+		hero:CastAbilityImmediately(item, playerID)
+		hero:AddItemByName("item_flying_courier")
+	end
 
 	hero.damageDone = 0
 	hero.Ressurect = 0
@@ -1135,9 +1134,9 @@ function CHoldoutGameMode:_CheckForDefeat()
 						end
 						if hero:GetName() == "npc_dota_hero_skeleton_king" then
 							local ability = hero:FindAbilityByName("skeleton_king_reincarnation")
-							local reincarnation_CD = 0
-							local reincarnation_CD_total = 0
-							local reincarnation_level = 0
+							local reincarnation_CD = ability:GetCooldownTimeRemaining()
+							local reincarnation_level = ability:GetLevel()
+							local reincarnation_CD_total = ability:GetCooldown(reincarnation_level-1)
 							reincarnation_CD = ability:GetCooldownTimeRemaining()
 							reincarnation_level = ability:GetLevel()
 							reincarnation_CD_total = ability:GetCooldown(reincarnation_level-1)
@@ -1181,7 +1180,7 @@ function CHoldoutGameMode:_CheckForDefeat()
 						end
 					end
 					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and unit:IsIllusion() == false then
 							local totalgold = unit:GetGold() + ((((self._nRoundNumber/1.5)+5)/((Life._life/2) +0.5))*500)
 				            unit:SetGold(0 , false)
 				            unit:SetGold(totalgold, true)
@@ -1386,6 +1385,11 @@ function get_octarine_multiplier(caster)
                 octarine_multiplier =0.33
             end
         end
+		if Item ~= nil and Item:GetName() == "item_octarine_core5" then
+            if octarine_multiplier > 0.25 then
+                octarine_multiplier = 0.25
+            end
+        end
     end
     return octarine_multiplier
 end
@@ -1409,8 +1413,10 @@ function CHoldoutGameMode:OnEntityKilled( event )
 
 	if killedUnit.Asura_To_Give ~= nil then
 		for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-			unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
-			update_asura_core(unit)
+			if not unit:IsIllusion() then
+				unit.Asura_Core = unit.Asura_Core + killedUnit.Asura_To_Give
+				update_asura_core(unit)
+			end
 		end
 		Notifications:TopToAll({text="You have received an Asura Core", duration=3.0})
 	end

@@ -41,7 +41,7 @@ function CHoldoutGameRound:Precache()
 	end
 end
 
-function CHoldoutGameRound:spawn_treasure()
+--[[function CHoldoutGameRound:spawn_treasure()
 	local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
 	Timers:CreateTimer(0.03,function()
 		local max_player = DOTA_MAX_TEAM_PLAYERS
@@ -54,7 +54,7 @@ function CHoldoutGameRound:spawn_treasure()
 			return 0.03
 		end
 	end)
-end
+end]]
 
 function CHoldoutGameRound:Begin()
 	
@@ -239,7 +239,7 @@ function CHoldoutGameRound:OnEntityKilled( event )
 		self:_CheckForGoldBagDrop( killedUnit )
 		local nCoreUnitsRemaining = self._nCoreUnitsTotal - self._nCoreUnitsKilled
 		if nCoreUnitsRemaining == 0 then
-			self:spawn_treasure()
+			--self:spawn_treasure()
 		end
 	end
 end
