@@ -2978,7 +2978,7 @@
 		{
 			"01"						"item_octarine_core;item_orb_of_shadows;item_point_booster"
 		}
-	}
+	}	
 	//=================================================================================================================
 	// Octarine Core 2
 	//=================================================================================================================
@@ -2996,7 +2996,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core2"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3008,7 +3008,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_intelligence"	"150"
+				"bonus_intelligence"				"150"
 			}
 			"02"
 			{
@@ -3038,18 +3038,64 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"50"
+				"hero_lifesteal"		"33"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"50"
+				"creep_lifesteal"		"33"
 			}	
-			"09"
+		}
+		"Modifiers"
+		{
+			"passive"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"active_duration"		"7"
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
 			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
 		}
 	}
 
@@ -3096,7 +3142,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core3"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3138,18 +3184,69 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"50"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"50"
 			}	
 			"09"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"active_duration"		"7"
 			}
+		}		
+				"Modifiers"
+		{
+			"passive"
+			{
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
+			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
 		}
 	}
 	//=================================================================================================================
@@ -4130,7 +4227,7 @@
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
-					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_str"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
 				}
@@ -4856,7 +4953,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core4"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -4898,12 +4995,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"67"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"67"
 			}	
 			"09"
 			{
@@ -4911,7 +5008,59 @@
 				"active_duration"		"7"
 			}
 		}
+				"Modifiers"
+		{
+			"passive"
+			{
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
+			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
+		}
 	}
+
 	//=================================================================================================================
 	// Recipe: veil of discorde 2
 	//=================================================================================================================
@@ -5419,6 +5568,311 @@
 			}
 		}
 	}
+	
+	======================================================================================================		
+ 	==============tank booster================================================================================		
+ 	======================================================================================================		
+ 	// "item_recipe_tank_booster"		
+ 	// {		
+ 		General		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ID"							"1251"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.		
+ 		// "BaseClass"						"item_recipe_arcane_boots"		
+ 		// "Model"							"models/props_gameplay/recipe.mdl"		
+ 				
+ 		Item Info		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ItemCost"						"2780"			
+ 		// "ItemShopTags"					""		
+ 				
+ 		Recipe		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ItemRecipe"					"1"		
+ 		// "ItemResult"					"item_tank_booster"		
+ 		// "ItemRequirements"		
+ 		// {		
+ 			// "01"						"item_soul_booster;item_vitality_booster;item_orb_of_doom"		
+ 		// }		
+ 	// }		
+ 	// "item_tank_booster"		
+ 	// {		
+		General		
+		-------------------------------------------------------------------------------------------------------------		
+ 		// "ID"							"1252"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.		
+ 		// "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"		
+ 		// "BaseClass"						"item_datadriven"		
+ 		// "AbilityTextureName"			"item_tank_booster"		
+ 		// "ItemShareability"				"ITEM_FULLY_SHAREABLE"		
+ 		// "ItemKillable"					"1"		
+ 		// "ItemSellable"					"1"		
+ 		// "ItemDroppable"					"1"		
+ 		// "ItemCost"						"9000"		
+ 		// "ItemShopTags"					"int"		
+ 		// "ItemQuality"					"artifact"		
+ 		// "ItemAliases"					"ring"		
+		// "ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"		
+		// "ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"		
+ 		
+ 		// "AbilitySpecial"		
+ 	    // {		
+ 	        // "01"		
+ 	        // {		
+ 	            // "var_type"              "FIELD_INTEGER"		
+ 	            // "health_per_str"                "20"		
+ 	        // }		
+ 	        // "02"		
+			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_health"			"10000"		
+ 			// }		
+ 			// "03"		
+ 			// {		
+ 				// "var_type"					"FIELD_INTEGER"		
+ 				// "bonus_all"				"150"		
+ 			// }		
+ 	    // }		
+ 		
+ 	    // "Modifiers"		
+ 	    // {		
+ 	        // "passive"		
+ 	        // {		
+ 	        	// "IsHidden"                  "1"		
+             	// "Passive"                	"1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"		
+        				// "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"		
+ 					// "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"		
+ 					// "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"		
+      			// }		
+      		// }		
+      		// "health_booster_effect"		
+      		// {		
+      			// "Passive"                	"1"		
+      			// "IsHidden"                  "1"		
+      			// "OnCreated"		
+      			// {		
+ 	     			// "RunScript"		
+ 		        	// {		
+ 		        		// "ScriptFile"			"lua_item/simple_item.lua"		
+ 						// "Function"				"tank_booster"		
+ 		        	// }		
+      			// }		
+      			// "OnDestroy"		
+      			// {		
+ 	     			// "RunScript"		
+ 		        	// {		
+ 		        		// "ScriptFile"			"lua_item/simple_item.lua"		
+ 						// "Function"				"tank_booster_end"		
+ 		        	// }		
+ 		        	// "RemoveModifier"		
+ 			        // {		
+ 			            // "ModifierName" "health_booster"		
+ 			            // "Target" "CASTER"		
+ 			        // }		
+      			// }		
+ 	    	// }		
+ 	    	// "health_booster"		
+ 	    	// {		
+ 	    		// "IsHidden"                  "1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_PERMANENT | MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 			"%health_per_str"		
+      			// }		
+ 	    	// }		
+ 	    	// "health_fix"		
+ 	    	// {		
+ 	    		// "IsHidden"                  "1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 			"1"		
+      			// }		
+ 	    	// }		
+ 	    // }		
+ 	// }		
+ 	======================================================================================================		
+ 	==============Blood Booster================================================================================		
+ 	======================================================================================================		
+ 	// "item_recipe_blood_booster"		
+ 	// {		
+ 		General		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ID"							"1253"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.		
+		// "BaseClass"						"item_recipe_arcane_boots"		
+ 		// "Model"							"models/props_gameplay/recipe.mdl"		
+ 				
+ 		Item Info		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ItemCost"						"3155"			
+ 		// "ItemShopTags"					""		
+ 				
+ 		Recipe		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ItemRecipe"					"1"		
+ 		// "ItemResult"					"item_blood_booster"		
+ 		// "ItemRequirements"		
+ 		// {		
+ 			// "01"						"item_tank_booster;item_lifestealtank;item_orb_divine"		
+ 		// }		
+ 	// }		
+	// "item_blood_booster"		
+ 	// {		
+ 		General		
+ 		-------------------------------------------------------------------------------------------------------------		
+ 		// "ID"							"1254"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.		
+ 		// "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"		
+ 		// "BaseClass"						"item_datadriven"		
+ 		// "AbilityTextureName"			"item_blood_booster"		
+ 		// "ItemShareability"				"ITEM_FULLY_SHAREABLE"		
+ 		// "ItemKillable"					"1"		
+ 		// "ItemSellable"					"1"		
+ 		// "ItemDroppable"					"1"		
+ 		// "ItemCost"						"35000"		
+ 		// "ItemShopTags"					"int"		
+ 		// "ItemQuality"					"artifact"		
+ 		// "ItemAliases"					"ring"		
+ 		// "ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"		
+ 		// "ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"		
+ 		
+ 		// "AbilitySpecial"		
+ 	    // {		
+ 	        // "01"		
+ 	        // {		
+ 	            // "var_type"              "FIELD_INTEGER"		
+ 	            // "health_per_str"                "35"		
+ 	        // }		
+ 	        // "02"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_health"			"30000"		
+ 			// }		
+ 			// "03"		
+ 			// {		
+ 				// "var_type"					"FIELD_INTEGER"		
+ 				// "bonus_all"				"600"		
+ 			// }		
+ 			// "04"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_armor"				"150"		
+ 			// }		
+ 			// "05"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_health_regen"		"200"		
+ 			// }		
+ 			// "06"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_damage"				"1000"		
+ 			// }		
+ 			// "07"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "bonus_mana_regen"			"100"		
+ 			// }		
+ 			// "08"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "lifesteal"					"30"		
+ 			// }		
+ 			// "09"		
+ 			// {		
+ 				// "var_type"				"FIELD_INTEGER"		
+ 				// "radius"					"800"		
+ 			// }		
+ 	    // }		
+ 		
+ 	    // "Modifiers"		
+ 	    // {		
+ 	        // "blood_booster_passive"		
+ 	        // {		
+ 	        	// "IsHidden"                  "1"		
+             	// "Passive"                	"1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 				"%bonus_health"		
+        				// "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"		
+ 					// "MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"		
+ 					// "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"		
+ 					// "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"		
+ 					// "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"		
+ 					// "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"		
+ 					// "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"		
+      			// }		
+      		// }		
+      		// "health_booster_effect"		
+      		// {		
+      			// "Passive"                	"1"		
+      			// "IsHidden"                  "1"		
+      			// "OnCreated"		
+      			// {		
+ 	     			// "RunScript"		
+ 		        	// {		
+ 		        		// "ScriptFile"			"lua_item/simple_item.lua"		
+ 						// "Function"				"tank_booster"		
+ 		        	// }		
+      			// }		
+      			// "OnDestroy"		
+      			// {		
+ 	     			// "RunScript"		
+ 		        	// {		
+ 		        		// "ScriptFile"			"lua_item/simple_item.lua"		
+ 						// "Function"				"tank_booster_end"		
+ 		        	// }		
+ 		        	// "RemoveModifier"		
+ 			        // {		
+ 			            // "ModifierName" "health_booster"		
+ 			            // "Target" "CASTER"		
+ 			        // }		
+      			// }		
+ 	    	// }		
+ 	    	// "health_booster"		
+ 	    	// {		
+ 	    		// "IsHidden"                  "1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_PERMANENT | MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 			"%health_per_str"		
+      			// }		
+ 	    	// }		
+ 	    	// "health_fix"		
+ 	    	// {		
+ 	    		// "IsHidden"                  "1"		
+             	// "Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"		
+ 	        	// "Properties"		
+      			// {		
+        				// "MODIFIER_PROPERTY_HEALTH_BONUS" 			"1"		
+      			// }		
+ 	    	// }		
+ 			// "activeaoetank_2"		
+ 			// {		
+ 				// "Passive" "1"		
+ 				// "IsHidden" "1"		
+ 				// "Aura" "lifestealtank_2"		
+ 				// "Aura_Radius" "%radius"		
+ 				// "Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"		
+ 				// "Aura_Types" "DOTA_UNIT_TARGET_ALL"		
+ 			// }		
+ 		
+ 			// "lifestealtank_2"		
+ 			// {			
+ 				// "OnAttackLanded"		
+ 				// {		
+ 					// "Lifesteal"		
+ 					// {		
+ 						// "Target"				"CASTER"		
+ 						// "LifestealPercent"		"%lifesteal"		
+ 					// }		
+ 				// }		
+ 			// }		
+ 		// }		
+ 	// }
+	
 	//=================================================================================================================
 		// Ressurection Stone
 		//=================================================================================================================
@@ -7307,7 +7761,6 @@
 		
 		// Recipe
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
 		"ItemRecipe"					"1"
 		"ItemResult"					"item_melee_fury"
 		"ItemRequirements"
@@ -10187,7 +10640,7 @@
 		}
 	}
 	//======================================================================================================
-	//==============Gungnir================================================================================
+	//==== Divine Crossbow  ================================================================================
 	//======================================================================================================
 	"item_recipe_gungnir_2"
 	{
@@ -10621,20 +11074,18 @@
 		    	"EffectName"        "particles/generic_gameplay/generic_stunned.vpcf"
            	 	"EffecAttachType"   "follow_overhead"
 		   	}
-
-
 		}
 		"AbilitySpecial"
 		{
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"base_attack_time"			"1.0"
+				"base_attack_time"		"1.0"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_all"		"200"
+				"bonus_all"				"200"
 			}
 			"03"
 			{
@@ -10654,12 +11105,12 @@
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"		"350"
+				"radius"				"350"
 			}
 			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"splash_damage"		"35"
+				"splash_damage"			"35"
 			}
 			"08"
 			{
@@ -12104,7 +12555,7 @@
 		}
 	}
 	//=================================================================================================================
-	// Recipe: Battlefury
+	// Recipe: Pixels Guard
 	//=================================================================================================================
 	"item_recipe_pixels_guard"
 	{
@@ -12114,7 +12565,7 @@
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"4000"
+		"ItemCost"						"2000"
 		"ItemShopTags"					""
 		
 		// Recipe
@@ -12148,7 +12599,7 @@
 			
 			// Item Info
 			//-------------------------------------------------------------------------------------------------------------
-			"ItemCost"						"5000"
+			"ItemCost"						"3000"
 			"ItemShareability"  "ITEM_FULLY_SHAREABLE"
 			"precache"
 			{
@@ -12160,7 +12611,7 @@
 				"RunScript"
 				{
 					"ScriptFile"			"lua_item/simple_item.lua"
-					"Function"				"Cooldown_powder"
+					"Function"				"Cooldown_pixels"
 				}
 				"ApplyModifier"
 				{
@@ -12202,11 +12653,12 @@
 				}
 				"modifier_pixels_guard_slow"
 				{
-					"Duration" "%buff_duration"
+					"Duration" "%debuff_duration"
 					"IsDebuff"	"1"
 					"Properties"
 					{
 						"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"      "%blast_movement_speed_debuff"
+						"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"		"%blast_attack_speed_debuff"
 					}
 				}
 				"modifier_pixels_guard_passive"
@@ -12229,19 +12681,29 @@
 				"01"
 				{
 					"var_type"				"FIELD_INTEGER"
-					"buff_duration"			"15"
+					"buff_duration"			"6"
 				}
 				"02"
+				{
+					"var_type"				"FIELD_INTEGER"
+					"debuff_duration"			"12"
+				}
+				"03"
 		        {
 		            "var_type"                      "FIELD_INTEGER"
 		            "blast_movement_speed_debuff"   "-60"
 		        }
-		        "03"
+				"04"
+		        {
+		            "var_type"                      "FIELD_INTEGER"
+		            "blast_attack_speed_debuff"   	"-100"
+		        }
+		        "05"
 		        {
 		            "var_type"                      "FIELD_INTEGER"
 		            "bonus_armor"   "40"
 		        }
-		        "04"
+		        "06"
 		        {
 		            "var_type"                      "FIELD_INTEGER"
 		            "bonus_int"   "50"
@@ -12457,4 +12919,886 @@
 //		}
 //	}
 
+	
+	//=================================================================================================================
+	// Recipe: Octarina Core 5
+	//=================================================================================================================
+	"item_recipe_octarine_core5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1299"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_tranquil_boots"
+		"AbilityTextureName"			"item_octarine_core5"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"6666"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_octarine_core5"
+		"ItemRequirements"
+		{
+			"01"						"item_octarine_core4;item_orb_bahamut"
+		}
+	}
+
+	//=================================================================================================================
+	// Octarine Core 5
+	//=================================================================================================================
+	"item_octarine_core5"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1300"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"72386"
+		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
+		"ItemQuality"					"rare"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemAliases"					"mana;mb;octarine core"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_octarine_core5"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_intelligence"	"5000"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health"			"15000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana"			"50000"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"	"500"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana_regen"		"8000"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_cooldown"		"75"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"hero_lifesteal"		"75"
+			}			
+			"08"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"creep_lifesteal"		"75"
+			}	
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"active_duration"		"7"
+			}
+		}
+				"Modifiers"
+		{
+			"passive"
+			{
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
+			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
+		}
+	}
+	
+	
+	//=================================================================================================================
+	// Recipe: Abyssal Soul
+	//=================================================================================================================
+	"item_recipe_abyssal_soul"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1302"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		"AbilityTextureName"            "item_abyssal_soul"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"61666"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_abyssal_soul"
+		"ItemRequirements"
+		{
+			"01"						"item_divinesoul;item_heart_bahamut"
+		}
+	}
+
+	//=================================================================================================================
+	// Abyssal Soul
+	//=================================================================================================================
+	"item_abyssal_soul"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1303"									// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_abyssal_soul"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable"					"1"
+		"ItemCost"						"40164"
+		"ItemShopTags"					"damage;unique;abyssal;soul;health;bahamut;T5"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"soul"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilityCastPoint"	"0.0"
+		"AbilityCastPoint"	"1500.0"
+		"AbilityCooldown"	"0"
+		"AbilityManaCost"	"0"
+
+		"Modifiers"
+		{
+			"soulpassive"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"		"%bonus_range"
+				}
+			}
+
+			"stats_soul"
+			{	
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"			"%bonus_health_max"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+				}
+			}
+
+			"hearth_regen"
+			{
+				"IsHidden"	 "1"
+				"Passive"	 "1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE"		"%health_regen_percent"
+				}
+			}
+ 
+		}
+
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"health_regen_percent"	"5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"				"4000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_max"			"450000"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_range"				"1350"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"		"5000"
+			}
+		}
+	}
+		//======================================================================================================
+	//==== Wicked Fury    ================================================================================
+	//======================================================================================================
+	"item_recipe_gungnir_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1304"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"66616"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_gungnir_3"
+		"ItemRequirements"
+		{
+			"01"						"item_gungnir_2;item_midas_fury;item_melee_rage"
+		}
+	}
+	"item_gungnir_3"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1305"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_gungnir_3"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"30000"
+		"AbilityCooldown"				"0.25"
+		"ItemShopTags"					"int"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"pierce;xbow;crossbow;fury;midas"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilitySpecial"
+	    {
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"base_attack_time"		"0.75"
+			}
+	        "02"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "Pierce_percent"        "35"
+	        }
+	        "03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"25000"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"3000"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1500"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"splash_damage"			"100"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_evasion"			"50"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage_bash"		"10000"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"proc_chance"			"7"
+			}
+	    }
+
+	    "Modifiers"
+	    {
+		
+	        "Piercing"
+	        {
+	        	"IsHidden"                  "0"
+            	"Passive"                	"1"
+	        	"OnAttackLanded"
+	        	{
+	        		"RunScript"
+	        		{
+	        			"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Pierce"
+						"damage_on_hit"			"%attack_damage"
+	        		}
+	        	}
+	        }
+			"passive_midas_2"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"AllowIllusionDuplicate"    "0"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Midas2_OnHit"
+						"damage_on_hit"			"%attack_damage"
+					}
+				}
+			}
+    		"b_fury"
+    		{
+		        "Passive" "1"  
+		        "IsHidden" "1"  
+		        "Properties"
+		        {
+		            "MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT" "%base_attack_time"
+		        }
+		        "OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"Pierce_Splash"
+						"damage_on_hit"			"%attack_damage"
+					}
+					"FireEffect"
+					{
+						"EffectName" "particles/storm_fury_effect.vpcf"
+						"Target" "TARGET"
+						"EffectAttachType" "follow_origin"
+						"EffectRadius" "600"
+					}
+					"FireSound"
+					{
+						"Target" "TARGET"
+						"EffectName" "sounds/items/item_armlet_deactivate.vsnd"
+					}
+				}
+		    }
+	        "passive"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
+       				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+     			}
+						        "States"
+			    {
+			        "MODIFIER_STATE_CANNOT_MISS" "MODIFIER_STATE_VALUE_ENABLED"
+			    }
+			    "OnAttackLanded"
+		        {
+		         	"Random"
+					{
+		   				"Chance" "%proc_chance"
+		   				"OnSuccess"
+		   				{
+		   					"ApplyModifier"
+					        {
+					            "ModifierName"  "Stun_berserker_bash"
+					            "Target"        "TARGET"
+					        }
+					        "Damage"
+			                {
+			                    "Target"    "TARGET"
+			                    "Type"      "DAMAGE_TYPE_PURE"
+			                    "Damage"    "%bonus_damage_bash"
+			                }
+		   				}
+					}
+		        }
+	    	}
+			"modifier_item_butterfly_evasion"
+	        {
+	            "Passive"           "1"
+	            "IsHidden"          "1"
+	            
+	            "Properties"
+	            {
+	                "MODIFIER_PROPERTY_EVASION_CONSTANT"                "%bonus_evasion"
+	            }
+	        }
+		    "Stun_berserker_bash"
+		    {
+		        "duration" "0.01"
+		        "States"
+		        {
+		        	"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+		    	}
+		    	"EffectName"        "particles/generic_gameplay/generic_stunned.vpcf"
+           	 	"EffecAttachType"   "follow_overhead"
+		   	}
+	    }
+	}
+	//=================================================================================================================
+	// Recipe: veil of discord 4
+	//=================================================================================================================
+	"item_recipe_veil_of_discord4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1306"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_tranquil_boots"
+		"AbilityTextureName"			"item_veil_of_discord4"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"16666"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_veil_of_discord4"
+		"ItemRequirements"
+		{
+			"01"						"item_veil_of_discord3;item_orb_bahamut;item_orb_divine"
+		}
+	}
+	//=================================================================================================================
+	// veil of discord 4
+	//=================================================================================================================
+	"item_veil_of_discord4"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1307"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+		"AbilityTextureName"			"item_veil_of_discord4"
+		"BaseClass" 					"item_datadriven"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"30"
+		"AbilityCastRange"				"1500"
+		"AbilityCastPoint"				"0.0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"5000"
+		"ItemCost"						"75000"
+		"ItemShopTags"					"int;armor;regen_health;hard_to_tag"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"vod;veil of discord"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		"AoERadius" "1200"
+
+		"OnSpellStart"
+		{
+			"FireSound"
+	        {
+	            "EffectName"            "DOTA_Item.VeilofDiscord.Activate"
+	            "Target"                "CASTER"
+	        }
+
+	        "FireEffect"
+	        {
+	            "TargetPoint"           "POINT"
+	            "EffectName"            "particles/items2_fx/veil_of_discord.vpcf"
+	            "EffectAttachType"      "world_origin"
+	            "ControlPoints"
+	            {
+	                "01"                "%debuff_radius %debuff_radius %debuff_radius"
+	            }
+	        }
+	        "RemoveModifier"
+            {
+                "Target"
+		        {
+		            "Center"    "POINT"
+                	"Radius"    "%debuff_radius"
+                	"Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+                	"Types"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+            	}
+                "ModifierName" "veil_debuff"
+            }
+		    "RunScript"
+			{
+				"Target" 				"POINT"
+				"ScriptFile"			"lua_item/simple_item.lua"
+				"Function"				"veil"
+			}
+            "ApplyModifier"
+            {
+                "Target"
+		        {
+		            "Center"    "POINT"
+                	"Radius"    "%debuff_radius"
+                	"Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+                	"Types"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+            	}
+                "ModifierName" "veil_debuff"
+            }
+
+		}
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"	"800"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"250"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all"				"1500"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"1500"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"MR_debuff"				"-160"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"debuff_radius"			"1200"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"active_duration"	"16.0"
+			}
+		}
+
+		"Modifiers"
+		{
+			"veil_passive"
+			{
+				
+				"Passive"	 	"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"  "%bonus_mana_regen"
+				}
+			}
+
+			"veil_debuff"
+			{
+				"IsDebuff" "1"
+    			"IsPurgable" "0"
+    			"Duration" "%active_duration"
+    			"OnDestroy"
+    			{
+		    		"RunScript"
+					{
+						"Target" 				"UNIT"
+						"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"restoremagicress"
+					}
+    			}
+			}
+		}
+	}
+	
+	//=================================================================================================================
+	// Recipe: Scythe of Decay
+	//=================================================================================================================
+	"item_recipe_scythe_of_decay"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1308"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_tranquil_boots"
+		"AbilityTextureName"			"item_decayscythe"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"0"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"0"
+		"ItemResult"					"item_scythe_of_decay"
+		"ItemRequirements"
+		{
+			"01"						"item_veil_of_discord3;item_death_scythe;item_desolator5"
+		}
+	}
+	//=================================================================================================================
+	// Scythe of Decay
+	//=================================================================================================================
+	"item_scythe_of_decay"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1309"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_decayscythe"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable"					"1"
+		"ItemCost"						"106999"
+		"ItemShopTags"					"damage;unique;health;divine;T5;damage"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"reaper"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"Modifiers"
+		{
+			"desolator5_stat"
+			{
+				"OnAttackStart"
+					{
+						"Random"
+						{
+		   					"Chance" "%critical_chance"
+		   					"OnSuccess"
+		   					{
+								"ApplyModifier"
+								{
+									"ModifierName" 	"critical_strike_h"
+									"Target" 		"CASTER"
+								}
+							}
+							"OnFailure"
+							{}
+						}
+						
+					}
+				"OnAttackLanded"
+				{
+					"ApplyModifier"
+					{
+						"Target"				"TARGET"
+						"ModifierName"		"decay_effect"
+					}
+					"RemoveModifier"
+						{
+							"ModifierName" 	"critical_strike_h"
+							"Target" 		"CASTER"
+						}
+				}
+				"Passive"	 	"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_str"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_agi"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_int"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%bonus_attack_speed"
+				}
+			}
+
+			"critical_strike_h"
+			{
+				"IsHidden"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" 	"%critical_bonus"
+				}
+			}
+
+			"decay_effect"
+			{
+				"IsDebuff" "1"
+    			"IsPurgable" "0"
+    			"Duration" "%duration"
+     			"Properties"
+     			{
+       				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_reduction"
+     			}
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"		"lua_abilities/abilities_simple.lua"
+						"Function"			"scythe_decay"
+						"magic_reduction"	"%magic_reduction"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"		"lua_abilities/abilities_simple.lua"
+						"Function"			"restoremagicress"
+						"magic_reduction"	"%magic_reduction"
+					}
+				}
+			}
+		}
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"5000"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_reduction"		"-1000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"15.0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"300"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"	"950"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_str"				"2500"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_agi"				"2500"
+			}
+			"08"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_int"				"2500"
+			}
+			"09"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_allstats_tooltip"				"2500"
+			}
+			"10"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"bonus_attack_speed"					"400"
+			}
+			"11"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"critical_bonus"						"600"
+			}
+			"12"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"critical_chance"						"60"
+			}
+			"13"
+			{
+				"var_type"								"FIELD_INTEGER"
+				"magic_reduction"						"-80"
+			}
+		}
+	}
 }

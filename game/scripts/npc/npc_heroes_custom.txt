@@ -19,16 +19,38 @@
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
-	// HERO: doom
+	// HERO: Doom
 	//=================================================================================================================
 	"npc_dota_hero_doom_bringer_ebf"
 	{
 		"override_hero"			"npc_dota_hero_doom_bringer"
-		"Ability1"					"doom_devour"					// Ability 2
+		"AbilityLayout"			"4"
+		"Ability1"				"doom_devour"					// Ability 2
+		"Ability5"				""
+		"Ability4"				""
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
-	// HERO: skywrath
+	// HERO: Dark Seer
+	//=================================================================================================================
+	"npc_dota_hero_dark_seer_ebf"
+	{
+		"override_hero"			"npc_dota_hero_dark_seer"
+		"Ability4"				"dark_seer_battlemaster_command"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Night Stalker
+	//=================================================================================================================
+	"npc_dota_hero_night_stalker_ebf"
+	{
+		"override_hero"			"npc_dota_hero_night_stalker"
+		"Ability1"				"night_stalker_void_ebf"
+		"Ability3"				"night_stalker_hunter_in_the_night_ebf"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	//=================================================================================================================
+	// HERO: Invoker
 	//=================================================================================================================
 	"npc_dota_hero_invoker_ebf"
 	{
@@ -199,6 +221,19 @@
 	{
 		"override_hero"			"npc_dota_hero_bloodseeker"
 		"Ability3"				"Blood_Seeker_Blood_Smell"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+	"npc_dota_hero_centaur_ebf"
+	{
+		"override_hero"			"npc_dota_hero_centaur"
+		"Ability3"				"centaur_return_ebf"
+		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
+	}
+		"npc_dota_hero_skeleton_king_ebf"
+	{
+		"override_hero"			"npc_dota_hero_skeleton_king"
+		"Ability2"				"skeleton_king_vampiric_aura_ebf"
+		"Ability3"				"skeleton_king_mortal_strike_ebf"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_viper_ebf"
