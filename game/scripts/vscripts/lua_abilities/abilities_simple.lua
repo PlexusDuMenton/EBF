@@ -1295,7 +1295,7 @@ end
 function rearm_start( keys )
     local caster = keys.caster
     local ability = keys.ability
-    local abilityLevel = ability:GetLevel()
+    local abilityLevel = ability:GetLevel()-1
     if abilityLevel <= 3 then 
         ability:ApplyDataDrivenModifier( caster, caster, "modifier_rearm_level_1_datadriven", {} )
     elseif abilityLevel <= 5 then 
@@ -1467,7 +1467,7 @@ end
 
 function Cooldown_Pure(keys)
     local ability = keys.ability
-    local level = ability:GetLevel()
+    local level = ability:GetLevel()-1
     local duration = ability:GetLevelSpecialValueFor("cooldown_duration", level)
     ability:StartCooldown(duration)
 end
@@ -1596,17 +1596,50 @@ function Chen_Bless(keys)
     target:SetModifierStackCount( modifierName, ability, damage)
 end
 
+function HunterInTheNight( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.modifier
+
+	if not GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, caster, ("modifier_hunter_in_the_night_buff_ebf"), {})
+	else
+		if caster:HasModifier(modifier) then caster:RemoveModifierByName(modifier) end
+	end
+end
+
+function Void( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target
+	local modifier = keys.modifier
+
+	local duration_day = ability:GetLevelSpecialValueFor("duration_day", (ability:GetLevel() - 1))
+	local duration_night = ability:GetLevelSpecialValueFor("duration_night", (ability:GetLevel() - 1))
+
+	if GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_day})
+	else
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_night})
+	end
+end
+
 function Devour_doom(keys)
-    print ('devour function has been called')
     local modifierName = "iseating"
     local caster = keys.caster
     local target = keys.target
     local ability = keys.ability
-    local level = ability:GetLevel()
-    local gold = ability:GetLevelSpecialValueFor("total_gold", level-1)
-    local duration = ability:GetLevelSpecialValueFor("duration", level-1)
-    local kill_rand = math.random(1,100)
-    gold = gold
+    local level = ability:GetLevel()-1
+    local gold = ability:GetLevelSpecialValueFor("total_gold", level)
+    local duration = ability:GetLevelSpecialValueFor("duration", level)
+	
+	local death = ability:GetLevelSpecialValueFor("death_perc", level)
+    local kill_rand = math.random(100)
+	local boss_curr = target:GetHealth()
+	local boss_max = target:GetMaxHealth()
+	local boss_perc = (boss_curr/boss_max)*100
+	local mod_perc = death*(death/boss_perc) -- Scale chance up as HP goes down
+
     ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = duration})
     target:SetModifierStackCount( modifierName, ability, 1)
     ability:StartCooldown(duration)
@@ -1624,6 +1657,15 @@ function Devour_doom(keys)
             unit:SetGold(totalgold, true)
         end
     end
+	if mod_perc >= kill_rand and boss_perc <= death  then
+		local damage_table = {}
+		damage_table.victim = target
+		damage_table.attacker = caster
+		damage_table.ability = ability
+		damage_table.damage_type = DAMAGE_TYPE_PURE
+		damage_table.damage = boss_curr +1
+		ApplyDamage(damage_table)
+	end
 end
 
 function decay( keys )
@@ -1682,9 +1724,9 @@ function Soul_Rip(keys)
     local target = keys.target
     local caster = keys.caster
     local ability = keys.ability
-    local level = ability:GetLevel()
-    local health = ability:GetLevelSpecialValueFor("health_per_unit", level-1)
-    local radius = ability:GetLevelSpecialValueFor("range", level-1)
+    local level = ability:GetLevel()-1
+    local health = ability:GetLevelSpecialValueFor("health_per_unit", level)
+    local radius = ability:GetLevelSpecialValueFor("range", level)
     local kill_rand = math.random(1,100)
     local unit_number = 0
     local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
@@ -1728,38 +1770,47 @@ function Soul_Rip(keys)
 
 end
 
-function Death_Pact(event)
-    print ('Death pact function has been called')
-    local caster = event.caster
-    local target = event.target
-    local ability = event.ability
-    local duration = ability:GetLevelSpecialValueFor( "duration" , ability:GetLevel() - 1 )
-    -- Health Gain
-    local health_gain_pct = ability:GetLevelSpecialValueFor( "hp_percent" , ability:GetLevel() - 1 ) * 0.01
-    local target_health = target:GetMaxHealth()
-    local health_gain = math.floor(target_health * health_gain_pct)
-    -- Damage Gain
-    local damage_gain_pct = ability:GetLevelSpecialValueFor( "damage_percent" , ability:GetLevel() - 1 ) * 0.01
-    local damage_gain = math.floor(target_health * damage_gain_pct)
-    local damageTable = {
-                            victim = target,
-                            attacker = caster,
-                            damage = health_gain/3,
-                            ability = keys.ability,
-                            damage_type = DAMAGE_TYPE_PURE
-                        }
-    ApplyDamage( damageTable )
-    local health_modifier = "modifier_death_pact_health"
-    ability:ApplyDataDrivenModifier(caster, caster, health_modifier, { duration = duration })
-    caster:SetModifierStackCount( health_modifier, ability, health_gain )
-    caster:Heal( health_gain, caster)
+function DeathPact( event )
+	local caster = event.caster
+	local target = event.target
+	local ability = event.ability
+	local duration = ability:GetLevelSpecialValueFor( "duration" , ability:GetLevel() - 1 )
+	local target_health = target:GetHealth()
 
-    local damage_modifier = "modifier_death_pact_damage"
-    ability:ApplyDataDrivenModifier(caster, caster, damage_modifier, { duration = duration })
-    caster:SetModifierStackCount( damage_modifier, ability, damage_gain )
+	-- Health Gain
+	local health_gain_pct = ability:GetLevelSpecialValueFor( "hp_percent" , ability:GetLevel() - 1 ) * 0.01
+	local health_gain = math.floor(target_health * health_gain_pct)
 
-    print("Gained "..damage_gain.." damage and  "..health_gain.." health")
-    caster.death_pact_health = health_gain
+	local health_modifier = "modifier_death_pact_health"
+	ability:ApplyDataDrivenModifier(caster, caster, health_modifier, { duration = duration })
+	caster:SetModifierStackCount( health_modifier, ability, health_gain )
+	caster:Heal( health_gain, caster)
+
+	-- Damage Gain
+	local damage_gain_pct = ability:GetLevelSpecialValueFor( "damage_percent" , ability:GetLevel() - 1 ) * 0.01
+	local damage_gain = math.floor(target_health * damage_gain_pct)
+
+	local damage_modifier = "modifier_death_pact_damage"
+	ability:ApplyDataDrivenModifier(caster, caster, damage_modifier, { duration = duration })
+	caster:SetModifierStackCount( damage_modifier, ability, damage_gain )
+	local damageTable = {victim = target, attacker = caster, damage = health_gain, damage_type = DAMAGE_TYPE_PURE}
+
+	ApplyDamage(damageTable)
+
+	print("Gained "..damage_gain.." damage and  "..health_gain.." health")
+	caster.death_pact_health = health_gain
+end
+
+-- Keeps track of the casters health
+function DeathPactHealth( event )
+	local caster = event.caster
+	caster.OldHealth = caster:GetHealth()
+end
+
+-- Sets the current health to the old health
+function SetCurrentHealth( event )
+	local caster = event.caster
+	caster:SetHealth(caster.OldHealth)
 end
 
 -- Keeps track of the casters health
@@ -1784,9 +1835,9 @@ function SlarkFunction(keys)
     local caster = keys.caster
     local target = keys.target
     local ability = keys.ability
-    local level = ability:GetLevel()
-    local cool_duration = ability:GetLevelSpecialValueFor("cooldown_duration", level-1)
-    local duration = ability:GetLevelSpecialValueFor("duration", level-1)
+    local level = ability:GetLevel()-1
+    local cool_duration = ability:GetLevelSpecialValueFor("cooldown_duration", level)
+    local duration = ability:GetLevelSpecialValueFor("duration", level)
     if caster:IsIllusion() == false and ability:IsCooldownReady() then
         if target:HasModifier( modifierName_target ) then
             local current_stack = target:GetModifierStackCount( modifierName_target, ability )
@@ -1808,61 +1859,72 @@ function SlarkFunction(keys)
     end
 end
 
-function PudgeFunction(keys)
-    local modifierName_caster = "steal_c_pudge"
-    local modifierName_caster_display = "steal_display_pudge"
-    local modifierName_target = "steal_t_pudge"
-    local caster = keys.caster
-    local target = keys.target
-    local ability = keys.ability
-    local level = ability:GetLevel()
-    local cool_duration = ability:GetLevelSpecialValueFor("cooldown_duration", level-1)
-    local duration = ability:GetLevelSpecialValueFor("duration", level-1)
-    if target:GetTeamNumber() == DOTA_TEAM_BADGUYS then
-        if caster:IsIllusion() == false and ability:IsCooldownReady() then
-            if target:HasModifier( modifierName_target ) then
-                local current_stack = target:GetModifierStackCount( modifierName_target, ability )
-                ability:ApplyDataDrivenModifier( caster, target, modifierName_target, {} )
-                target:SetModifierStackCount( modifierName_target, ability, current_stack + 1 )
-            else
-                ability:ApplyDataDrivenModifier( caster, target, modifierName_target, {})
-                target:SetModifierStackCount( modifierName_target, ability, 1)
-            end
-            if caster:HasModifier( modifierName_caster ) then
-                local current_stack = caster:GetModifierStackCount( modifierName_caster, ability )
-                ability:ApplyDataDrivenModifier( caster, caster, modifierName_caster, {duration = duration} )
-                caster:SetModifierStackCount( modifierName_caster, ability, current_stack + 1 )
-            else
-                ability:ApplyDataDrivenModifier( caster, caster, modifierName_caster, {duration = duration})
-                caster:SetModifierStackCount( modifierName_caster, ability, 1)
-            end
-            if caster:HasModifier( modifierName_caster_display ) then
-                local current_stack = caster:GetModifierStackCount( modifierName_caster_display, ability )
-                ability:ApplyDataDrivenModifier( caster, caster, modifierName_caster_display, {duration = duration} )
-                caster:SetModifierStackCount( modifierName_caster_display, ability, current_stack + 1 )
-            else
-                ability:ApplyDataDrivenModifier( caster, caster, modifierName_caster_display, {duration = duration})
-                caster:SetModifierStackCount( modifierName_caster_display, ability, 1)
-            end
-            ability:StartCooldown(cool_duration)
-            PudgeReduceStack(keys)
-        end
-    end
+function pudgeHP_shiftOnAttack(keys)
+		local previous_stack_count = 0
+		if keys.target:HasModifier("modifier_hp_shift_datadriven_debuff_counter") then
+			previous_stack_count = keys.target:GetModifierStackCount("modifier_hp_shift_datadriven_debuff_counter", keys.caster)
+			
+			--We have to remove and replace the modifier so the duration will refresh.
+			keys.target:RemoveModifierByNameAndCaster("modifier_hp_shift_datadriven_debuff_counter", keys.caster)
+		end
+		keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "modifier_hp_shift_datadriven_debuff_counter", nil)
+		keys.target:SetModifierStackCount("modifier_hp_shift_datadriven_debuff_counter", keys.caster, previous_stack_count + 1)		
+		
+		--Apply a debuff
+		local curr_max = keys.target:GetMaxHealth()
+		local curr_curr		= keys.target:GetHealth()
+		local reduction = keys.ability:GetLevelSpecialValueFor( "health_bonus_perstack", keys.ability:GetLevel() - 1 )
+		keys.target:SetHealth(curr_curr - reduction)
+		keys.target:SetMaxHealth(curr_max - reduction)
+		keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "modifier_hp_shift_datadriven_debuff", nil)
+		
+		--update visible counter modifier's stack count and duration
+		previous_stack_count = 0
+		if keys.caster:HasModifier("modifier_hp_shift_datadriven_buff_counter") then
+			previous_stack_count = keys.caster:GetModifierStackCount("modifier_hp_shift_datadriven_buff_counter", keys.caster)
+			
+			--We have to remove and replace the modifier so the duration will refresh (so it will show the duration of the latest).
+			keys.caster:RemoveModifierByNameAndCaster("modifier_hp_shift_datadriven_buff_counter", keys.caster)
+		end
+		keys.ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "modifier_hp_shift_datadriven_buff_counter", nil)
+		keys.caster:SetModifierStackCount("modifier_hp_shift_datadriven_buff_counter", keys.caster, previous_stack_count + 1)
+		
+		--Apply buff
+		keys.ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "modifier_hp_shift_datadriven_buff", nil)
 end
 
-function PudgeReduceStack(keys)
-    local caster = keys.caster
-    local ability = keys.ability
-    local level = ability:GetLevel()
-    local modifierName_caster_display = "steal_display_pudge"
-    local duration = ability:GetLevelSpecialValueFor("duration", level-1)
-    Timers:CreateTimer(duration,function()
-        local current_stack = caster:GetModifierStackCount( modifierName_caster_display, ability )
-        caster:SetModifierStackCount( modifierName_caster_display, ability, current_stack - 1 )
-        if caster:GetHealth() < 1 and caster:IsAlive() then
-            caster:SetHealth(1)
-        end
-    end)
+
+--[[ ============================================================================================================
+	Called whenever a Flesh Heap debuff on an opponent expires.  Decrements their debuff counter by one.
+================================================================================================================= ]]
+function pudgeHP_shiftDebuffOnDestroy(keys)
+	if keys.target:HasModifier("modifier_hp_shift_datadriven_debuff_counter") then
+		local previous_stack_count = keys.target:GetModifierStackCount("modifier_hp_shift_datadriven_debuff_counter", keys.caster)
+		if previous_stack_count > 1 then
+			keys.target:SetModifierStackCount("modifier_hp_shift_datadriven_debuff_counter", keys.caster, previous_stack_count - 1)
+			
+		else
+			keys.target:RemoveModifierByNameAndCaster("modifier_hp_shift_datadriven_debuff_counter", keys.caster)
+		end
+	end
+	local curr_max = keys.target:GetMaxHealth()
+	local reduction = keys.ability:GetLevelSpecialValueFor( "health_bonus_perstack", keys.ability:GetLevel() - 1 )
+	keys.target:SetMaxHealth(curr_max + reduction)
+end
+
+
+--[[ ============================================================================================================
+	Called whenever a Flesh Heap buff on Slark expires.  Decrements his buff counter by one.
+================================================================================================================= ]]
+function pudgeHP_shiftBuffOnDestroy(keys)
+	if keys.caster:HasModifier("modifier_hp_shift_datadriven_buff_counter") then
+		local previous_stack_count = keys.caster:GetModifierStackCount("modifier_hp_shift_datadriven_buff_counter", keys.caster)
+		if previous_stack_count > 1 then
+			keys.caster:SetModifierStackCount("modifier_hp_shift_datadriven_buff_counter", keys.caster, previous_stack_count - 1)
+		else
+			keys.caster:RemoveModifierByNameAndCaster("modifier_hp_shift_datadriven_buff_counter", keys.caster)
+		end
+	end
 end
 
 function boss_invoke_golem_destroy_skill(keys)
@@ -1878,6 +1940,22 @@ function golem_clean(keys)
 end
 
 
+function CentaurReturn( keys )
+	-- Variables
+	local caster = keys.caster
+	local target = keys.target
+	local attacker = keys.attacker
+	local ability = keys.ability
+	local modifier = keys.modifier
+	local casterSTR = caster:GetStrength()
+	local str_return = ability:GetLevelSpecialValueFor( "strength_pct" , ability:GetLevel() - 1  ) * 0.01
+	local damage = ability:GetLevelSpecialValueFor( "return_damage" , ability:GetLevel() - 1  )
+	local damageType = ability:GetAbilityDamageType()
+	local return_damage = damage + ( casterSTR * str_return )
+
+	-- Damage
+	ApplyDamage({ victim = attacker, attacker = caster, damage = return_damage, damage_type = damageType })
+end
 
 --[[
     Mystic flare Author: kritth
