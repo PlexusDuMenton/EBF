@@ -15,6 +15,7 @@
 		"item" "item_midas_2"
 		"item" "item_bloody_halberd"
 		"item" "item_element_refresher"
+		"item" "item_echo_sabre"
 	}
 	"attributes"
 	{
@@ -23,6 +24,8 @@
 		"item" "item_divine_armor"
 		"item" "item_veil_of_discord2"
 		"item" "item_veil_of_discord3"
+		"item" "item_veil_of_discord4"
+		"item" "item_scythe_of_decay"
 		"item" "item_desolator2"
 		"item" "item_desolator3"
 		"item" "item_desolator4"
@@ -62,6 +65,7 @@
 	"item" "item_octarine_core2"
 	"item" "item_octarine_core3"
 	"item" "item_octarine_core4"
+	"item" "item_octarine_core5"
 	"item" "item_ressurection_stone"
 	"item" "item_ares_shard"
 	}
