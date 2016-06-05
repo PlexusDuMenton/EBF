@@ -16272,7 +16272,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"160"		// Damage range min.
 		"AttackDamageMax"			"200"		// Damage range max.	
-		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackRate"				"1"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16344,9 +16344,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"230"		// Damage range min.
-		"AttackDamageMax"			"270"		// Damage range max.	
-		"AttackRate"				"1.15"		// Speed of attack.
+		"AttackDamageMin"			"350"		// Damage range min.
+		"AttackDamageMax"			"500"		// Damage range max.	
+		"AttackRate"				"0.8"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16417,9 +16417,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"310"		// Damage range min.
-		"AttackDamageMax"			"330"		// Damage range max.	
-		"AttackRate"				"1.1"		// Speed of attack.
+		"AttackDamageMin"			"1000"		// Damage range min.
+		"AttackDamageMax"			"1200"		// Damage range max.	
+		"AttackRate"				"0.6"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16489,9 +16489,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"1080"		// Damage range min.
-		"AttackDamageMax"			"1480"		// Damage range max.	
-		"AttackRate"				"1.1"		// Speed of attack.
+		"AttackDamageMin"			"2000"		// Damage range min.
+		"AttackDamageMax"			"2500"		// Damage range max.	
+		"AttackRate"				"0.5"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16561,9 +16561,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"2200"		// Damage range min.
-		"AttackDamageMax"			"2800"		// Damage range max.	
-		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackDamageMin"			"4500"		// Damage range min.
+		"AttackDamageMax"			"5000"		// Damage range max.	
+		"AttackRate"				"0.4"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16633,9 +16633,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"2200"		// Damage range min.
-		"AttackDamageMax"			"2800"		// Damage range max.	
-		"AttackRate"				"0.9"		// Speed of attack.
+		"AttackDamageMin"			"7500"		// Damage range min.
+		"AttackDamageMax"			"8000"		// Damage range max.	
+		"AttackRate"				"0.3"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16705,9 +16705,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"4500"		// Damage range min.
-		"AttackDamageMax"			"5500"		// Damage range max.	
-		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackDamageMin"			"10000"		// Damage range min.
+		"AttackDamageMax"			"12000"		// Damage range max.	
+		"AttackRate"				"0.2"		// Speed of attack.
 		"AttackAnimationPoint"		"0.33"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"90"		// Range within a target can be attacked.
@@ -16770,7 +16770,7 @@
 		"Ability1"					""			// Ability 1
 		"Ability2"					""			// Ability 2
 		"Ability3"					""			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -16845,7 +16845,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					""			// Ability 2
 		"Ability3"					""			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -16856,7 +16856,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"100"		// Damage range min.
 		"AttackDamageMax"			"150"		// Damage range max.	
-		"AttackRate"				"1.5"		// Speed of attack.
+		"AttackRate"				"1.65"		// Speed of attack.
 		"AttackAnimationPoint"		"0.43"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"128"		// Range within a target can be attacked.
@@ -16921,7 +16921,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					"lone_druid_spirit_bear_entangle"			// Ability 2
 		"Ability3"					""			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -16996,7 +16996,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					"lone_druid_spirit_bear_entangle"			// Ability 2
 		"Ability3"					"lone_druid_spirit_bear_demolish"			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -17007,7 +17007,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"500"		// Damage range min.
 		"AttackDamageMax"			"600"		// Damage range max.	
-		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackRate"				"1.45"		// Speed of attack.
 		"AttackAnimationPoint"		"0.43"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"128"		// Range within a target can be attacked.
@@ -17071,7 +17071,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					"lone_druid_spirit_bear_entangle"			// Ability 2
 		"Ability3"					"lone_druid_spirit_bear_demolish"			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -17082,7 +17082,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"900"		// Damage range min.
 		"AttackDamageMax"			"1100"		// Damage range max.	
-		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackRate"				"1.35"		// Speed of attack.
 		"AttackAnimationPoint"		"0.43"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"128"		// Range within a target can be attacked.
@@ -17146,7 +17146,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					"lone_druid_spirit_bear_entangle"			// Ability 2
 		"Ability3"					"lone_druid_spirit_bear_demolish"			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------
@@ -17157,7 +17157,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"1900"		// Damage range min.
 		"AttackDamageMax"			"2100"		// Damage range max.	
-		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackRate"				"1.25"		// Speed of attack.
 		"AttackAnimationPoint"		"0.43"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"500"		// Range within a target can be acquired.
 		"AttackRange"				"128"		// Range within a target can be attacked.
@@ -17221,7 +17221,7 @@
 		"Ability1"					"lone_druid_spirit_bear_return"			// Ability 1
 		"Ability2"					"lone_druid_spirit_bear_entangle"			// Ability 2
 		"Ability3"					"lone_druid_spirit_bear_demolish"			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability4"					"lone_druid_savage_roar_bear"			// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------

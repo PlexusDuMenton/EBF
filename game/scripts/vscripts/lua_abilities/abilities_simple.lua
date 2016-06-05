@@ -71,10 +71,12 @@ function ground_smash(keys)
                                   DOTA_UNIT_TARGET_FLAG_NONE,
                                   FIND_ANY_ORDER,
                                   false)
-
+	if nearbyUnits ~= nil then
+		ability:ApplyDataDrivenModifier(caster,caster,"bonus_ground_smash",{})
+	end
     for _,unit in pairs(nearbyUnits) do
         if unit ~= keys.caster then
-                if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
+                if unit:GetUnitName() ~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
                     local damageTableAoe = {victim = unit,
                                 attacker = caster,
                                 damage = damage,
@@ -489,15 +491,11 @@ function Blood_Seeker_Blood_Smell(keys)
     local caster = keys.caster
     local target = keys.target
     local ability = keys.ability
+	local modifier = keys.damageapplied
     local missing_health = target:GetMaxHealth() - target:GetHealth()
     local damage = math.floor(ability:GetLevelSpecialValueFor("percent", ability:GetLevel()-1) * missing_health * 0.01) + 1
-    local damageTable = {
-        victim = target,
-        attacker = caster,
-        damage = damage,
-        damage_type = DAMAGE_TYPE_PHYSICAL,
-        ability = keys.ability,
-    }
+	ability:ApplyDataDrivenModifier(caster, caster, modifier, {duration = 1})
+	caster:SetModifierStackCount( modifier, ability, damage )
 
     ApplyDamage( damageTable )
     if caster.show_popup ~= true then
@@ -785,12 +783,32 @@ function Shadowraze_effect( event )
     projectile = ProjectileManager:CreateLinearProjectile(projectileTable)
 end
 
+function CheckOmniScepter(keys)
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.modifier
+	local sceptermodifier = keys.sceptermodifier
+	local targetTeam = DOTA_UNIT_TARGET_TEAM_FRIENDLY
+    local targetType = DOTA_UNIT_TARGET_ALL
+    local targetFlag = ability:GetAbilityTargetFlags()
+	local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, FIND_UNITS_EVERYWHERE, targetTeam, targetType, ability:GetAbilityTargetFlags(), FIND_ANY_ORDER, false)
+    for _,unit in pairs( units ) do
+		if caster:HasScepter() or HasCustomScepter(caster) then
+		local duration_scepter = ability:GetLevelSpecialValueFor("duration_scepter", ability:GetLevel()-1)
+		ability:ApplyDataDrivenModifier(caster, unit, sceptermodifier, {duration = duration_scepter})
+		else
+		local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel()-1)
+		ability:ApplyDataDrivenModifier(caster, unit, modifier, {duration = duration})
+		end
+	end
+end
+
 function boss_death_time( keys )
     print ("death timer")
     local caster = keys.caster
     local origin = caster:GetAbsOrigin()
     local ability = keys.ability
-    local timer = 5.0
+    local timer = 6.0
     local Death_range = ability:GetLevelSpecialValueFor("radius", 0)
     local targetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
     local targetType = DOTA_UNIT_TARGET_ALL
@@ -803,8 +821,8 @@ function boss_death_time( keys )
         caster:GetTeamNumber(), origin, caster, FIND_UNITS_EVERYWHERE, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
     for _,unit in pairs( units ) do
         local particle = ParticleManager:CreateParticle("particles/generic_aoe_persistent_circle_1/death_timer_glow_rev.vpcf",PATTACH_POINT_FOLLOW,unit)
-        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then timer = 4.0 else timer = 5.0 end
-        ability:ApplyDataDrivenModifier( caster, unit, "target_warning", {duration = time} )
+        if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then timer = 5.0 else timer = 6.0 end
+        ability:ApplyDataDrivenModifier( caster, unit, "target_warning", {duration = timer} )
         Timers:CreateTimer(timer,function()
             local vDiff = unit:GetAbsOrigin() - caster:GetAbsOrigin()
             if vDiff:Length2D() < Death_range then
@@ -825,7 +843,7 @@ function Chronosphere( keys )
 
     -- Special Variables
     local duration = 5
-    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then duration = 4.0 else duration = 5.0 end
+    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then duration = 5.0 else duration = 6.0 end
 
     -- Dummy
     local dummy_modifier = keys.dummy_aura
@@ -984,7 +1002,7 @@ function hell_tempest_hit( event )
 
     print (event.caster.InWater)
     if target.InWater ~= true then
-        if unit:GetUnitName()~="npc_dota_courier" and unit:GetUnitName()~="npc_dota_flying_courier" then
+        if target:GetUnitName()~="npc_dota_courier" and target:GetUnitName()~="npc_dota_flying_courier" then
             target:ForceKill(true)
         end
     end
@@ -992,7 +1010,7 @@ end
 
 function hell_tempest_charge_damage( event )
     local caster = event.caster
-    caster.charge = caster.charge + 5
+    caster.charge = caster.charge + 1
     if caster.charge>=caster:GetMaxMana() then caster.charge = caster:GetMaxMana() end
 
 end
@@ -1107,7 +1125,14 @@ function hell_tempest_boss( keys )
     local caster = keys.caster
     caster.charge = 0
     local casterPoint = caster:GetAbsOrigin()
-    local delay = 5
+    local delay = 0
+	if GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_impossible" then
+		delay = 5
+	elseif GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
+		delay = 6
+	else
+		delay = 7
+	end
     local messageinfo = {
     message = "The boss is casting Hell Tempest , reach the water !",
     duration = 2
@@ -1171,37 +1196,37 @@ function doom_bringer_boss( event )
     local time = GameRules:GetGameTime()
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() > target:GetMaxHealth()*0.1 and GameRules:GetGameTime() <= time + 15 then
+            if target:GetHealth() > target:GetMaxHealth()*0.1 and GameRules:GetGameTime() <= time + 10 then
                 print ("test")
                 target:SetHealth(target:GetHealth()*(0.8))
                 return 0.5
             else
                 ParticleManager:DestroyParticle(particle, false)
-                if GameRules:GetGameTime() <= time + 15 then
+                if GameRules:GetGameTime() <= time + 10 then
                     target:ForceKill(true)
                 end
             end
         end)
     elseif GetMapName() == "epic_boss_fight_hard" then
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() > target:GetMaxHealth()*0.05 and GameRules:GetGameTime() <= time + 15 then
+            if target:GetHealth() > target:GetMaxHealth()*0.05 and GameRules:GetGameTime() <= time + 10 then
                 target:SetHealth(target:GetHealth()*(0.825))
                 return 0.5
             else
                 ParticleManager:DestroyParticle(particle, false)
-                if GameRules:GetGameTime() <= time + 15 then
+                if GameRules:GetGameTime() <= time + 10 then
                     target:ForceKill(true)
                 end
             end
         end)
     else
         Timers:CreateTimer(0.1,function() 
-            if target:GetHealth() > target:GetMaxHealth()*0.01 and GameRules:GetGameTime() <= time + 15 then
+            if target:GetHealth() > target:GetMaxHealth()*0.01 and GameRules:GetGameTime() <= time + 10 then
                 target:SetHealth(target:GetHealth()*(0.85))
                 return 0.5
             else
                 ParticleManager:DestroyParticle(particle, false)
-                if GameRules:GetGameTime() <= time + 15 then
+                if GameRules:GetGameTime() <= time + 10 then
                     target:ForceKill(true)
                 end
             end
@@ -1217,12 +1242,33 @@ function storm_projectile_hit( event )
     end
 end
 
+function AlchGreed(keys)
+    local caster = keys.caster
+    local ability = keys.ability
+    local bonus_gold = keys.gold_on_hit
+	local level = ability:GetLevel()-1
+	local cooldown = ability:GetCooldown(level)*get_octarine_multiplier(caster)
+    if ability:IsCooldownReady() then
+        local totalgold = caster:GetGold() + bonus_gold
+        caster:SetGold(0 , false)
+        caster:SetGold(totalgold, true)
+		if not caster:IsIllusion() then	ability:StartCooldown(cooldown)	end
+    end
+end
 
 
-
-
-
-
+function AlchUltimate( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.modifier
+	local new_bat = ability:GetLevelSpecialValueFor("base_attack_time", ability:GetLevel()-1)
+	
+	caster:RemoveModifierByName("modifier_chemical_rage_bat")
+	local bat = caster:GetBaseAttackTime()
+	if bat >= new_bat then
+		ability:ApplyDataDrivenModifier(caster, caster, ("modifier_chemical_rage_bat"), {})
+	end
+end
 
 
 
@@ -1233,7 +1279,7 @@ function sacrifice(keys)
     local caster = keys.caster
 
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-        if not unit:IsAlive() and HasCustomScepter(caster) == true then
+        if not unit:IsAlive() and caster:HasScepter() == true then
             unit:RespawnUnit()
         end
         if unit:IsAlive() then
@@ -1335,8 +1381,12 @@ function axe_culling_blade_fct(keys)
     local target = keys.target
     local ability_level = ability:GetLevel() - 1
     local kill_threshold = ability:GetLevelSpecialValueFor( "kill_threshold", ability_level )
-    local damage = ability:GetLevelSpecialValueFor( "kill_threshold", ability_level )
-
+	local damageType = DAMAGE_TYPE_PHYSICAL
+    local damage = ability:GetLevelSpecialValueFor( "damage", ability_level )
+	if caster:HasScepter() or HasCustomScepter(caster) then
+		kill_threshold = ability:GetLevelSpecialValueFor( "kill_threshold_scepter", ability_level )
+		damageType = DAMAGE_TYPE_MAGICAL
+	end
     if target:GetUnitName() ~= "npc_dota_boss36" then
         if target:GetHealth() <= kill_threshold then
             StartSoundEvent("Hero_Axe.Culling_Blade_Success", target )
@@ -1348,13 +1398,14 @@ function axe_culling_blade_fct(keys)
             ParticleManager:SetParticleControl(kill_effect, 4, target:GetAbsOrigin())
             target:ForceKill(true)
             ability:EndCooldown()
+			ability:ApplyDataDrivenModifier( caster, caster, "axe_culling_boost", {duration = keys.duration} )
         else
             local damageTable = {
                 victim = target,
                 attacker = caster,
                 damage = damage,
                 ability = keys.ability,
-                damage_type = DAMAGE_TYPE_PHYSICAL
+                damage_type = damageType
             }
             ApplyDamage(damageTable)
             StartSoundEvent("Hero_Axe.Culling_Blade_Fail", target )
@@ -1378,15 +1429,12 @@ function heat_seeking_missile_seek_targets( keys )
     local targetFlag = ability:GetAbilityTargetFlags() -- DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS
     local projectileDodgable = false
     local projectileProvidesVision = false
-    
+     if HasCustomScepter(caster) == true or caster:HasScepter() then
+		radius = ability:GetLevelSpecialValueFor( "radius_scepter", ability:GetLevel() - 1 )
+		max_targets = ability:GetLevelSpecialValueFor( "targets_scepter", ability:GetLevel() - 1 )
+	end
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
-    local units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
-    if HasCustomScepter(caster) == true then
-        units = FindUnitsInRadius(
-        caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, 3000, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)
-        max_targets = max_targets*2
-    end   
+    local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), caster, radius, targetTeam, targetType, targetFlag, FIND_CLOSEST, false)  
     -- Seek out target
     local count = 0
     for k, v in pairs( units ) do
@@ -1420,23 +1468,16 @@ function heat_seeking_missile_seek_damage( keys )
     local target = keys.target
     local ability = keys.ability
     local damage = ability:GetAbilityDamage() 
-
+	if HasCustomScepter(caster) == true or caster:HasScepter() then
+        damage = ability:GetLevelSpecialValueFor("damage_scepter", ability:GetLevel()-1)
+    end
+	
     local damageTable = {
         victim = target,
         attacker = caster,
         damage = damage,
         damage_type = DAMAGE_TYPE_MAGICAL
     }
-    if HasCustomScepter(caster) == true then
-        local agh_damage = ability:GetLevelSpecialValueFor("damage_agh", ability:GetLevel()-1)
-            damageTable = {
-            victim = target,
-            attacker = caster,
-            damage = agh_damage,
-            ability = keys.ability,
-            damage_type = DAMAGE_TYPE_MAGICAL
-        }
-    end
     ApplyDamage( damageTable )
     
     -- pick up x nearest target heroes and create tracking projectile targeting the number of targets
@@ -1600,13 +1641,25 @@ function HunterInTheNight( keys )
 	local caster = keys.caster
 	local ability = keys.ability
 	local modifier = keys.modifier
+	local bat = caster:GetBaseAttackTime()
+	local new_bat = ability:GetLevelSpecialValueFor("bonus_base_attack_time_night", ability:GetLevel()-1)
 
 	if not GameRules:IsDaytime() then
 		ability:ApplyDataDrivenModifier(caster, caster, ("modifier_hunter_in_the_night_buff_ebf"), {})
+		caster:RemoveModifierByName("modifier_hunter_in_the_night_bat_ebf")
+		bat = caster:GetBaseAttackTime()
+		if bat >= new_bat then
+			ability:ApplyDataDrivenModifier(caster, caster, ("modifier_hunter_in_the_night_bat_ebf"), {})
+		end
 	else
-		if caster:HasModifier(modifier) then caster:RemoveModifierByName(modifier) end
+		if caster:HasModifier(modifier) then 
+			caster:RemoveModifierByName(modifier)
+			caster:RemoveModifierByName("modifier_hunter_in_the_night_bat_ebf")
+		end
 	end
 end
+
+
 
 function Void( keys )
 	local caster = keys.caster
@@ -1770,12 +1823,108 @@ function Soul_Rip(keys)
 
 end
 
+function MoonEye(keys)
+	local caster = keys.caster
+	local ability = keys.ability
+	local agility = caster:GetAgility()
+	local buff_duration = keys.duration
+	local modifier = "mooneye_buff"
+	if not caster:HasModifier(modifier) then
+		ability:ApplyDataDrivenModifier(caster, caster, modifier, { duration = buff_duration })
+		caster:SetModifierStackCount( modifier, ability, agility )
+	else
+		caster:RemoveModifierByName(modifier)
+		agility = caster:GetAgility()
+		ability:ApplyDataDrivenModifier(caster, caster, modifier, { duration = buff_duration })
+		caster:SetModifierStackCount( modifier, ability, agility )
+	end
+
+end
+
+function PerformAttacks(keys)
+	local caster = keys.caster
+	local target = keys.target
+	
+	caster:PerformAttack(target, true, true, true, false, false)
+end
+
+--[[Author: YOLOSPAGHETTI
+	Date: February 4, 2016
+	Riki backstabs the target]]
+function ProcBackstab(keys)
+	local caster = keys.caster
+	local target = keys.target
+	local cloak_and_dagger = caster:FindAbilityByName("riki_permanent_invisibility")
+	local ability_level = cloak_and_dagger:GetLevel() - 1
+
+	local agility_damage_multiplier = cloak_and_dagger:GetLevelSpecialValueFor("damage_multiplier", ability_level)
+	if ability_level > 0 then
+		-- Play the sound on the victim.
+		EmitSoundOn(keys.sound, keys.target)
+		-- Create the back particle effect.
+		local particle = ParticleManager:CreateParticle(keys.particle, PATTACH_ABSORIGIN_FOLLOW, target) 
+		-- Set Control Point 1 for the backstab particle; this controls where it's positioned in the world. In this case, it should be positioned on the victim.
+		ParticleManager:SetParticleControlEnt(particle, 1, target, PATTACH_POINT_FOLLOW, "attach_hitloc", target:GetAbsOrigin(), true) 
+		-- Apply extra backstab damage based on Riki's agility
+		ApplyDamage({victim = target, attacker = caster, damage = caster:GetAgility() * agility_damage_multiplier, damage_type = cloak_and_dagger:GetAbilityDamageType()})
+	end
+end
+
+--[[Author: YOLOSPAGHETTI
+	Date: February 4, 2016
+	Riki's model is hidden]]
+function RemoveModel(keys)
+	local caster = keys.caster
+	
+	caster:AddNoDraw()	
+end
+
+--[[Author: YOLOSPAGHETTI
+	Date: February 4, 2016
+	Riki's model is redrawn]]
+function DrawModel(keys)
+	local caster = keys.caster
+
+	caster:RemoveNoDraw()
+end
+
+function PrimalAvatarScaleUp(keys)
+	local caster = keys.caster
+	local size = caster:GetModelScale()
+	local scale = keys.scale
+	local modifier = keys.modifier
+	if size < scale then
+		caster:SetModelScale(size+0.1)
+	else
+		caster:RemoveModifierByName(modifier)
+	end
+end
+
+function ResetScale(keys)
+	local caster = keys.caster
+	local reset = keys.reset
+	caster:SetModelScale(reset)
+end
+
+function PrimalAvatarScaleDown(keys)
+	local caster = keys.caster
+	local size = caster:GetModelScale()
+	local scale = keys.scale
+	local modifier = keys.modifier
+	if size > scale and not caster:HasModifier("modifier_ogre_magi_bloodlust") then
+		caster:SetModelScale(size-0.1)
+	else
+		caster:RemoveModifierByName(modifier)
+	end
+end
+
 function DeathPact( event )
 	local caster = event.caster
 	local target = event.target
 	local ability = event.ability
 	local duration = ability:GetLevelSpecialValueFor( "duration" , ability:GetLevel() - 1 )
 	local target_health = target:GetHealth()
+	local damagefilter = 1+(caster:GetIntellect()/1600)
 
 	-- Health Gain
 	local health_gain_pct = ability:GetLevelSpecialValueFor( "hp_percent" , ability:GetLevel() - 1 ) * 0.01
@@ -1793,7 +1942,7 @@ function DeathPact( event )
 	local damage_modifier = "modifier_death_pact_damage"
 	ability:ApplyDataDrivenModifier(caster, caster, damage_modifier, { duration = duration })
 	caster:SetModifierStackCount( damage_modifier, ability, damage_gain )
-	local damageTable = {victim = target, attacker = caster, damage = health_gain, damage_type = DAMAGE_TYPE_PURE}
+	local damageTable = {victim = target, attacker = caster, damage = health_gain/(damagefilter*3), damage_type = DAMAGE_TYPE_PURE}
 
 	ApplyDamage(damageTable)
 
@@ -1829,6 +1978,111 @@ function SetCurrentHealth( event )
     end
 end
 
+function Pounce( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local ability_level = ability:GetLevel() - 1	
+
+	-- Clears any current command and disjoints projectiles
+	caster:Stop()
+	ProjectileManager:ProjectileDodge(caster)
+
+	-- Ability variables
+	ability.leap_direction = caster:GetForwardVector()
+	ability.leap_distance = ability:GetLevelSpecialValueFor("pounce_distance", ability_level)
+	ability.leap_speed = ability:GetLevelSpecialValueFor("pounce_speed", ability_level) * 1/30
+	ability.leap_traveled = 0
+	ability.leap_z = 0
+end
+
+--[[Moves the caster on the horizontal axis until it has traveled the distance]]
+function PounceHorizonal( keys )
+	local caster = keys.target
+	local ability = keys.ability
+
+	if ability.leap_traveled < ability.leap_distance then
+		caster:SetAbsOrigin(caster:GetAbsOrigin() + ability.leap_direction * ability.leap_speed)
+		ability.leap_traveled = ability.leap_traveled + ability.leap_speed
+	else
+		caster:InterruptMotionControllers(true)
+		caster:RemoveModifierByName("modifier_leash")
+	end
+end
+
+--[[Moves the caster on the vertical axis until movement is interrupted]]
+function PounceVertical( keys )
+	local caster = keys.target
+	local ability = keys.ability
+
+	-- For the first half of the distance the unit goes up and for the second half it goes down
+	if ability.leap_traveled < ability.leap_distance/2 then
+		-- Go up
+		-- This is to memorize the z point when it comes to cliffs and such although the division of speed by 2 isnt necessary, its more of a cosmetic thing
+		ability.leap_z = ability.leap_z + ability.leap_speed/2
+		-- Set the new location to the current ground location + the memorized z point
+		caster:SetAbsOrigin(GetGroundPosition(caster:GetAbsOrigin(), caster) + Vector(0,0,ability.leap_z))
+	else
+		-- Go down
+		ability.leap_z = ability.leap_z - ability.leap_speed/2
+		caster:SetAbsOrigin(GetGroundPosition(caster:GetAbsOrigin(), caster) + Vector(0,0,ability.leap_z))
+	end
+end
+
+function EndPounce(keys)
+	local caster = keys.target
+	local ability = keys.ability
+	caster:SetAbsOrigin(GetGroundPosition(caster:GetAbsOrigin(), caster))
+end
+
+function CheckPosition(keys)
+	local caster = keys.caster
+	local target = keys.unit
+	local ability = keys.ability
+	local radius = ability:GetLevelSpecialValueFor("leash_radius", ability:GetLevel() -1)
+	local duration = ability:GetLevelSpecialValueFor("leash_duration", ability:GetLevel() -1)
+	
+	-- Solves for the target's distance from the border of the field (negative is inside, positive is outside)
+	local distance = (target:GetAbsOrigin() - ability.center):Length2D()
+	local distance_from_border = distance - radius
+	
+	-- The target's angle in the world
+	local target_angle = target:GetAnglesAsVector().y
+	
+	-- Solves for the target's angle in relation to the center of the circle in radians
+	local origin_difference =  ability.center - target:GetAbsOrigin()
+	local origin_difference_radian = math.atan2(origin_difference.y, origin_difference.x)
+	
+	-- Converts the radians to degrees.
+	origin_difference_radian = origin_difference_radian * 180
+	local angle_from_center = origin_difference_radian / math.pi
+	-- Makes angle "0 to 360 degrees" as opposed to "-180 to 180 degrees" aka standard dota angles.
+	angle_from_center = angle_from_center + 180.0
+	
+	-- Checks if the target is inside the field, less than 20 units from the border, and facing it (within 90 degrees)
+	if distance_from_border < 0 and math.abs(distance_from_border) <= 20 and (math.abs(target_angle - angle_from_center)<90 or math.abs(target_angle - angle_from_center)>270) then
+		-- Removes the movespeed minimum
+		if target:HasModifier("modifier_movespeed_cap_low") == false then
+			target:AddNewModifier(caster, nil, "modifier_movespeed_cap_low", {Duration = duration})
+		end
+		-- Slows the target to 0.1 movespeed (equivalent to an invisible wall)
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_kinetic_field_debuff",{})
+	-- Checks if the target is outside the field, less than 30 units from the border, and facing it (within 90 degrees)
+	elseif distance_from_border > 0 and math.abs(distance_from_border) <= 30 and (math.abs(target_angle - angle_from_center)>90) then
+		-- Removes the movespeed minimum
+		if target:HasModifier("modifier_movespeed_cap_low") == false then
+			target:AddNewModifier(caster, nil, "modifier_movespeed_cap_low", {Duration = duration})
+		end
+		-- Slows the target to 0.1 movespeed (equivalent to an invisible wall)
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_kinetic_field_debuff",{})
+	else
+		-- Removes the slowing debuffs, so the unit can move freely
+		if target:HasModifier("modifier_kinetic_field_debuff") then
+			target:RemoveModifierByName("modifier_kinetic_field_debuff")
+			target:RemoveModifierByName("modifier_movespeed_cap_low")
+		end
+	end
+end
+
 function SlarkFunction(keys)
     local modifierName_caster = "steal_c"
     local modifierName_target = "steal_t"
@@ -1837,6 +2091,9 @@ function SlarkFunction(keys)
     local ability = keys.ability
     local level = ability:GetLevel()-1
     local cool_duration = ability:GetLevelSpecialValueFor("cooldown_duration", level)
+	if caster:HasScepter() or HasCustomScepter(caster) then
+		cool_duration = 0
+	end
     local duration = ability:GetLevelSpecialValueFor("duration", level)
     if caster:IsIllusion() == false and ability:IsCooldownReady() then
         if target:HasModifier( modifierName_target ) then
@@ -1871,11 +2128,13 @@ function pudgeHP_shiftOnAttack(keys)
 		keys.target:SetModifierStackCount("modifier_hp_shift_datadriven_debuff_counter", keys.caster, previous_stack_count + 1)		
 		
 		--Apply a debuff
+		if keys.target:GetUnitName() ~= "npc_dota_boss36" then
 		local curr_max = keys.target:GetMaxHealth()
 		local curr_curr		= keys.target:GetHealth()
 		local reduction = keys.ability:GetLevelSpecialValueFor( "health_bonus_perstack", keys.ability:GetLevel() - 1 )
 		keys.target:SetHealth(curr_curr - reduction)
 		keys.target:SetMaxHealth(curr_max - reduction)
+		end
 		keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "modifier_hp_shift_datadriven_debuff", nil)
 		
 		--update visible counter modifier's stack count and duration
@@ -1914,7 +2173,7 @@ end
 
 
 --[[ ============================================================================================================
-	Called whenever a Flesh Heap buff on Slark expires.  Decrements his buff counter by one.
+	Called whenever a Flesh Heap buff on Pudge expires.  Decrements his buff counter by one.
 ================================================================================================================= ]]
 function pudgeHP_shiftBuffOnDestroy(keys)
 	if keys.caster:HasModifier("modifier_hp_shift_datadriven_buff_counter") then
@@ -1948,13 +2207,14 @@ function CentaurReturn( keys )
 	local ability = keys.ability
 	local modifier = keys.modifier
 	local casterSTR = caster:GetStrength()
+	local damagefilter = 1+(caster:GetIntellect()/1600)
 	local str_return = ability:GetLevelSpecialValueFor( "strength_pct" , ability:GetLevel() - 1  ) * 0.01
 	local damage = ability:GetLevelSpecialValueFor( "return_damage" , ability:GetLevel() - 1  )
 	local damageType = ability:GetAbilityDamageType()
 	local return_damage = damage + ( casterSTR * str_return )
 
 	-- Damage
-	ApplyDamage({ victim = attacker, attacker = caster, damage = return_damage, damage_type = damageType })
+	ApplyDamage({ victim = attacker, attacker = caster, damage = return_damage/damagefilter, damage_type = damageType, ability })
 end
 
 --[[
@@ -1962,6 +2222,52 @@ end
     Date: 09.01.2015.
     Deal constant interval damage shared in the radius
 ]]
+
+function get_octarine_multiplier(caster)
+    local octarine_multiplier = 1
+    for itemSlot = 0, 5, 1 do
+        local Item = caster:GetItemInSlot( itemSlot )
+        if Item ~= nil and Item:GetName() == "item_octarine_core" then
+            if octarine_multiplier > 0.75 then
+                octarine_multiplier = 0.75
+            end
+        end
+        if Item ~= nil and Item:GetName() == "item_octarine_core2" then
+            if octarine_multiplier > 0.67 then
+                octarine_multiplier = 0.67
+            end
+        end
+        if Item ~= nil and Item:GetName() == "item_octarine_core3" then
+            if octarine_multiplier > 0.5 then
+                octarine_multiplier = 0.5
+            end
+        end
+        if Item ~= nil and Item:GetName() == "item_octarine_core4" then
+            if octarine_multiplier > 0.33 then
+                octarine_multiplier =0.33
+            end
+        end
+		if Item ~= nil and Item:GetName() == "item_octarine_core5" then
+            if octarine_multiplier > 0.25 then
+                octarine_multiplier = 0.25
+            end
+        end
+    end
+    return octarine_multiplier
+end
+
+function mystic_flare_scepter_check(keys)
+	local caster = keys.caster
+	local ability = keys.ability
+	local scepter_cooldown = ability:GetLevelSpecialValueFor( "scepter_cooldown", ability:GetLevel() - 1 )
+	if HasCustomScepter(caster) == true or caster:HasScepter() then
+		ability:EndCooldown()
+		ability:StartCooldown(scepter_cooldown*get_octarine_multiplier(caster))
+	end
+
+end
+
+
 function mystic_flare_start( keys )
     -- Variables
     local ability = keys.ability
@@ -1974,11 +2280,15 @@ function mystic_flare_start( keys )
     local radius = ability:GetLevelSpecialValueFor( "radius", ability:GetLevel() - 1 )
     local target = keys.target_points[1]
     local total_damage = ability:GetLevelSpecialValueFor( "damage", ability:GetLevel() - 1 )
+	local damagefilter = caster:GetIntellect()/1600
     local targetTeam = ability:GetAbilityTargetTeam() -- DOTA_UNIT_TARGET_TEAM_ENEMY
     local targetType = ability:GetAbilityTargetType() -- DOTA_UNIT_TARGET_HERO
     local targetFlag = ability:GetAbilityTargetFlags() -- DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS
     local damageType = ability:GetAbilityDamageType() -- DAMAGE_TYPE_MAGICAL
     local soundTarget = "Hero_SkywrathMage.MysticFlare.Target"
+	if HasCustomScepter(caster) == true or caster:HasScepter() then
+		damageType = DAMAGE_TYPE_PURE
+	end
     
     -- Create for VFX particles on ground
     local dummy = CreateUnitByName( "npc_dummy_unit", target, false, caster, caster, caster:GetTeamNumber() )
@@ -1999,24 +2309,15 @@ function mystic_flare_start( keys )
                               FIND_ANY_ORDER,
                               false)
             if #units > 0 then
-                local damage_per_hero = damage_per_interval
+                local damage_per_hero = damage_per_interval/(#units)
                 for k, v in pairs( units ) do
                     -- Apply damage
                     local damageTable = {
                                 victim = v,
                                 attacker = caster,
-                                damage = damage_per_hero,
-                                damage_type = DAMAGE_TYPE_MAGICAL
+                                damage = damage_per_hero/damagefilter,
+                                damage_type = damageType
                             }
-                    if HasCustomScepter(caster) == true then
-                        damageTable = {
-                        victim = v,
-                        attacker = caster,
-                        damage = damage_per_hero,
-                        ability = keys.ability,
-                        damage_type = DAMAGE_TYPE_PURE
-                        }
-                    end
                     ApplyDamage(damageTable)
                     
                     -- Fire sound

@@ -96,12 +96,16 @@ function On_Spell_Start( keys )
 	elseif ice > (wind + fire)*1.5 then --Low Damage , Slow/disable
 		print ("ice")
 		if ice >= 2.51 and ice <= 5 then
+			Cooldown(keys,5)
 			ice_spike(keys , ice)
 		elseif ice > 5 and ice <= 10 then
+			Cooldown(keys,5)
 			frost_spike(keys , ice)
 		elseif ice > 10 then
+			Cooldown(keys,5)
 			frost_kiss( keys, ice)
 		else
+			Cooldown(keys,2)
 			frosttouch( keys )
 		end
 	elseif ice + fire > 2*wind then 
@@ -154,11 +158,11 @@ function On_Spell_Start( keys )
 		else
 			if ice + wind >= 10 then
 				caster.last_used_skill = "iceshard2"
-                Cooldown(keys,5)
+                Cooldown(keys,2)
 				projectile_iceshard2(keys , ice, wind, fire)
 			else 
 				caster.last_used_skill = "iceshard1"
-                Cooldown(keys,5)
+                Cooldown(keys,2)
 				projectile_iceshard1(keys , ice, wind, fire)
 			end
 		end
@@ -247,7 +251,7 @@ function Heavy_Ice_Projectile(keys,ice,wind)
                             for _,unit in pairs(nearbyUnits) do
                                     local damageTableAoe = {victim = unit,
                                                 attacker = caster,
-                                                damage = damage_AoE,
+                                                damage = damage_AoE/(1+caster:GetIntellect()/1600),
                                                 damage_type = DAMAGE_TYPE_MAGICAL,
                                                 }
                                     ApplyDamage(damageTableAoe)
@@ -287,11 +291,11 @@ function Explosive_IceFlame(keys,ice,fire)
         for _,unit in pairs(nearbyUnits) do
                 local damageTableAoe = {victim = unit,
                             attacker = caster,
-                            damage = damage_AoE,
+                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
                             damage_type = DAMAGE_TYPE_MAGICAL,
                             }
                 ApplyDamage(damageTableAoe)
-                Fire_Dot(caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "iceflame_display", {duration = 5})
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier", {duration = 5})
                 unit:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*(20) ) )
@@ -346,7 +350,7 @@ function arcana_laser(keys,ice,fire)
     local caster = keys.caster
     local begin_time = GameRules:GetGameTime()
     local casterPoint = caster:GetAbsOrigin()
-    keys.ability:ApplyDataDrivenModifier(caster, caster, "modifier_arcana_laser_charge", {duration = 10})
+    keys.ability:ApplyDataDrivenModifier(caster, caster, "modifier_arcana_laser_charge", {duration = 5})
 
 
     local pathStartPos = caster:GetAbsOrigin() * Vector( 1, 1, 0 )
@@ -418,12 +422,12 @@ function Fire_Explosion(keys,wind,fire)
         for _,unit in pairs(nearbyUnits) do
                 local damageTableAoe = {victim = unit,
                             attacker = caster,
-                            damage = damage_AoE,
+                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
                             damage_type = DAMAGE_TYPE_MAGICAL,
                             }
                 ApplyDamage(damageTableAoe)
                 keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5+1})
-                Fire_Dot(caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
         end
         fire_explosion_effect = ParticleManager:CreateParticle("particles/fire_ball_explosion.vpcf", PATTACH_ABSORIGIN , caster)
         caster:EmitSound("Hero_Techies.Suicide")
@@ -828,6 +832,7 @@ function wind_stream(keys,wind)
 end
 
 function ice_spike(keys,ice)
+	local caster = keys.caster
     local fv = keys.caster:GetForwardVector()
     local location = keys.caster:GetAbsOrigin() + fv*800
     local ice_explosion_effect = ParticleManager:CreateParticle("particles/crystal_spike_aoe_front.vpcf", PATTACH_ABSORIGIN  , keys.caster)
@@ -841,7 +846,7 @@ function ice_spike(keys,ice)
 
     keys.caster:EmitSound("Hero_Crystal.CrystalNova")
     local radius = 100 + 25*ice
-    local damage_AoE = keys.caster:GetLevel()*ice^3*8
+    local damage_AoE = keys.caster:GetLevel()*ice^4*8
     local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
                                   location,
                                   nil,
@@ -855,7 +860,7 @@ function ice_spike(keys,ice)
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE,
+                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
                             damage_type = DAMAGE_TYPE_MAGICAL,
                             }
                 ApplyDamage(damageTableAoe)
@@ -873,6 +878,7 @@ function ice_spike(keys,ice)
 end
 
 function frost_spike(keys,ice)
+	local caster = keys.caster
     local ice_explosion_effect = ParticleManager:CreateParticle("particles/crystal_spike_aoe_2.vpcf", PATTACH_ABSORIGIN  , keys.caster)
     ParticleManager:SetParticleControl(ice_explosion_effect, 0, keys.caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(ice_explosion_effect, 1, keys.caster:GetAbsOrigin())
@@ -882,7 +888,7 @@ function frost_spike(keys,ice)
 
     keys.caster:EmitSound("Hero_Crystal.CrystalNova")
     local radius = 300 + 25*ice
-    local damage_AoE = keys.caster:GetLevel()*ice^3*8
+    local damage_AoE = keys.caster:GetLevel()*ice^4*8
     local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
                                   keys.caster:GetAbsOrigin(),
                                   nil,
@@ -896,7 +902,7 @@ function frost_spike(keys,ice)
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE,
+                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
                             damage_type = DAMAGE_TYPE_MAGICAL,
                             }
                 ApplyDamage(damageTableAoe)
@@ -915,7 +921,8 @@ function frost_spike(keys,ice)
 end
 
 
-function frost_kiss(keys,ice)
+function frost_kiss(keys,ice) -- 6 ICE
+	local caster = keys.caster
     local ice_explosion_effect = ParticleManager:CreateParticle("particles/crystal_spike_aoe.vpcf", PATTACH_ABSORIGIN  , keys.caster)
     ParticleManager:SetParticleControl(ice_explosion_effect, 0, keys.caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(ice_explosion_effect, 1, keys.caster:GetAbsOrigin())
@@ -939,7 +946,7 @@ function frost_kiss(keys,ice)
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE,
+                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
                             damage_type = DAMAGE_TYPE_MAGICAL,
                             }
                 ApplyDamage(damageTableAoe)
@@ -965,7 +972,7 @@ function slow_modifier_caster_hit(keys)
     target:SetModifierStackCount( "slow_modifier", ability, math.floor(ice*(20) ) )
 end
 
-function frosttouch( keys )
+function frosttouch( keys ) -- 1 ICE
     local caster = keys.caster
     local ability = keys.ability
     ability:ApplyDataDrivenModifier(caster, caster, "slow_modifier_caster", {duration = 40})
@@ -976,7 +983,7 @@ function frosttouch( keys )
                 end)
 end
 
-function speedaura( keys , wind)
+function speedaura( keys , wind) -- 1 WIND
     local caster = keys.caster
     local ability = keys.ability
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
@@ -993,7 +1000,7 @@ function speedaura( keys , wind)
     end
 end
 
-function poweraura( keys , fire)
+function poweraura( keys , fire) -- 1 FIRE
     local ability = keys.ability
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
         if unit:GetTeam() == keys.caster:GetTeam() then
@@ -1037,7 +1044,7 @@ function ShowPopup( data )
     ParticleManager:SetParticleControl( particle, 3, color )
 end
 
-function personal_heal( keys, fire, ice, wind)
+function personal_heal( keys, fire, ice, wind) -- 1-2 ALL
 	local caster = keys.caster
 	local percent = (fire + ice + wind)*0.1
 	local heal = math.floor(caster:GetMaxHealth()*percent)
@@ -1053,7 +1060,7 @@ function personal_heal( keys, fire, ice, wind)
 	                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
                         } )
 end
-function global_heal( keys, fire, ice, wind)
+function global_heal( keys, fire, ice, wind) -- 3 ALL
 	local caster = keys.caster
 	local percent = (fire + ice + wind)*0.03
 	print (percent)
@@ -1079,7 +1086,7 @@ function global_heal( keys, fire, ice, wind)
 end
 
 
-function projectile_multiple_fire_spear( keys , fire)
+function projectile_multiple_fire_spear( keys , fire) -- 3-4 FIRE
     local ability = keys.ability
     local caster = keys.caster
 
@@ -1116,7 +1123,7 @@ function projectile_multiple_fire_spear( keys , fire)
     end)
 end
 
-function projectile_fire_spear( keys )
+function projectile_fire_spear( keys ) -- 2 FIRE
     local ability = keys.ability
     local caster = keys.caster
 
@@ -1160,8 +1167,8 @@ function projectile_iceshard1(keys , ice, wind, fire)
         EffectName = "particles/crystal_maiden_projectil_spawner_work.vpcf",
         vSpawnOrigin = casterPoint,
         fDistance = distance,
-        fStartRadius = 50+fire*5,
-        fEndRadius = 50+fire*5,
+        fStartRadius = 100*wind,
+        fEndRadius = 300*wind,
         fExpireTime = GameRules:GetGameTime() + 5,
         Source = caster,
         bHasFrontalCone = true,
@@ -1194,8 +1201,8 @@ function projectile_iceshard2(keys , ice, wind, fire)
         EffectName = "particles/crystal_maiden_projectil_spawner_work.vpcf",
         vSpawnOrigin = casterPoint,
         fDistance = 900 + (delay * 300),
-        fStartRadius = 150,
-        fEndRadius = 150,
+        fStartRadius = 150*wind,
+        fEndRadius = 150*wind*2,
         fExpireTime = GameRules:GetGameTime() + 6,
         Source = caster,
         bHasFrontalCone = true,

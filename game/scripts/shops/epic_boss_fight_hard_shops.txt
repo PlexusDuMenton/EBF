@@ -15,7 +15,6 @@
 		"item" "item_midas_2"
 		"item" "item_bloody_halberd"
 		"item" "item_element_refresher"
-		"item" "item_echo_sabre"
 	}
 	"attributes"
 	{
@@ -25,7 +24,6 @@
 		"item" "item_veil_of_discord2"
 		"item" "item_veil_of_discord3"
 		"item" "item_veil_of_discord4"
-		"item" "item_scythe_of_decay"
 		"item" "item_desolator2"
 		"item" "item_desolator3"
 		"item" "item_desolator4"
@@ -73,6 +71,8 @@
 	"basics"
 	{
 	"item" "item_s_a_y_2"
+	"item" "item_s_a_y_3"
+	"item" "item_s_a_y_4"
 	"item" "item_charged_mjollnir"
 	"item" "item_doom_hammer"
 	"item" "item_divine_hammer"
@@ -95,12 +95,14 @@
 	"item" "item_berserker_face_3"
 	"item" "item_berserker_face_4"
 	"item" "item_ultimate_scepter"
+	"item"	"item_ultimate_amulet"
 	"item" "item_moon_crest"
 	"item" "item_lunar_crest"
 	"item" "item_gungnir"
 	"item" "item_gungnir_2"
 	"item" "item_tank_booster"
 	"item" "item_blood_booster"
+	"item" "item_booster_void"
 	"item" "item_Dagon_Mystic"
 	
 	}

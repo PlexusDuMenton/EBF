@@ -1,16 +1,6 @@
 require( "libraries/Timers" )
 require( "lua_abilities/Check_Aghanim" )
 
-if simple_item == nil then
-    print ( '[simple_item] creating simple_item' )
-    simple_item = {} -- Creates an array to let us beable to index simple_item when creating new functions
-    simple_item.__index = simple_item
-    simple_item.midas_gold_on_round = 0
-    simple_item._round = 1
-end
-
-
-
 function refresher( keys )
     local caster = keys.caster
     
@@ -42,30 +32,6 @@ function BerserkersCallEnd( keys )
     target:SetForceAttackTarget(nil)
 end
 
-function simple_item:SetRoundNumer(round)
-    simple_item._round = round
-    simple_item.midas_gold_on_round = 0
-    print (simple_item._round)
-end
-function simple_item:new() -- Creates the new class
-    print ( '[simple_item] simple_item:new' )
-    o = o or {}
-    setmetatable( o, simple_item )
-    return o
-end
-
-function simple_item:start() -- Runs whenever the simple_item.lua is ran
-    print('[simple_item] simple_item started!')
-end
-
-function simple_item:midas_gold(bonus) -- Runs whenever the simple_item.lua is ran
-    if simple_item._totalgold == nil then 
-        simple_item._totalgold = 0 
-    end
-    simple_item._totalgold = simple_item._totalgold + bonus
-    CustomNetTables:SetTableValue( "midas","total", {gold = simple_item._totalgold } )
-
-end
 
 function Cooldown_powder(keys)
     local item = keys.ability
@@ -134,42 +100,28 @@ function ares_powder_end(keys)
     end
 end
 
+function tank_boosterApply(keys)
+    local caster = keys.caster
+    local item = keys.ability
+    local modifierName = "health_booster"
+	local curr_health = caster:GetHealth()
+    local health_stacks = caster:GetStrength()
+    item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
+    caster:SetModifierStackCount( modifierName, caster, health_stacks)
+
+end
+
 function tank_booster(keys)
     local caster = keys.caster
     local item = keys.ability
-    print ("test")
     local modifierName = "health_booster"
-    caster.tank_booster = true
-    local health_stacks = 0
-    
-    if caster:IsRealHero() then 
-        Timers:CreateTimer(0.5,function()
-            health_stacks = caster:GetStrength()
-            if caster:GetModifierStackCount( modifierName, item ) ~= health_stacks and caster.tank_booster == true and item ~= nil then
-                item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
-                caster:SetModifierStackCount( modifierName, caster, health_stacks)
-                adjute_HP(keys)
-            end
-            return 0.5
-        end)
-    end
-end
+	local curr_health = caster:GetHealth()
+    local health_stacks = caster:GetStrength()
+    caster:SetModifierStackCount( modifierName, caster, health_stacks)
+	if curr_health > caster:GetHealth() then
+		caster:SetHealth(curr_health)
+	end
 
-
-
-function adjute_HP(keys)
-    local caster = keys.caster
-    local ability = keys.ability
-    local modifierName = "health_fix"
-    ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = 0.1})
-    caster:SetModifierStackCount( modifierName, ability, 1)
-end
-
-function tank_booster_end(keys)
-    local caster = keys.caster
-    caster.tank_booster = false
-    caster:SetModifierStackCount("health_booster", caster, 0)
-    caster:RemoveModifierByName( "health_booster" )
 end
 
 function Have_Item(unit,item_name)
@@ -211,7 +163,7 @@ function scale_asura(keys)
     
         Timers:CreateTimer(2.0,function()
                 local stack = GameRules._roundnumber
-                caster:SetModifierStackCount( "scale_per_round_hearth", caster, stack)
+                caster:SetModifierStackCount( "scale_per_round_heart", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_plate", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_rapier", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_staff", caster, stack)
@@ -313,7 +265,131 @@ function Pierce_Splash(keys)
 	end
 end
 
+function ToggleItem(keys)
+	for i=0, 5, 1 do  --Fill all empty slots in the player's inventory with "dummy" items.
+		local current_item = keys.caster:GetItemInSlot(i)
+		if current_item == nil then
+			keys.caster:AddItem(CreateItem("item_dummy_datadriven", keys.caster, keys.caster))
+		end
+	end
+	
+	keys.caster:RemoveItem(keys.ability)
+	keys.caster:AddItem(CreateItem(keys.ItemName, keys.caster, keys.caster))  --This should be put into the same slot that the removed item was in.
+	
+	for i=0, 5, 1 do  --Remove all dummy items from the player's inventory.
+		local current_item = keys.caster:GetItemInSlot(i)
+		if current_item ~= nil then
+			if current_item:GetName() == "item_dummy_datadriven" then
+				keys.caster:RemoveItem(current_item)
+			end
+		end
+	end
+end
 
+function LightningJump(keys)
+	local caster = keys.caster
+	local target = keys.target
+	local ability = keys.ability
+	local jump_delay = 0.25
+	local radius = 800
+	
+	-- Removes the hidden modifier
+	target:RemoveModifierByName("modifier_arc_lightning_hammer")
+	
+	-- Waits on the jump delay
+	Timers:CreateTimer(jump_delay,
+    function()
+		-- Finds the current instance of the ability by ensuring both current targets are the same
+		local current
+		for i=0,ability.instance do
+			if ability.target[i] ~= nil then
+				if ability.target[i] == target then
+					current = i
+				end
+			end
+		end
+	
+		-- Adds a global array to the target, so we can check later if it has already been hit in this instance
+		if target.hit == nil then
+			target.hit = {}
+		end
+		-- Sets it to true for this instance
+		target.hit[current] = true
+	
+		-- Decrements our jump count for this instance
+		ability.jump_count[current] = ability.jump_count[current] - 1
+	
+		-- Checks if there are jumps left
+		if ability.jump_count[current] > 0 then
+			-- Finds units in the radius to jump to
+			local units = FindUnitsInRadius(caster:GetTeamNumber(), target:GetAbsOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE , 0, false)
+			local closest = radius
+			local new_target
+			for i,unit in ipairs(units) do
+				-- Positioning and distance variables
+				local unit_location = unit:GetAbsOrigin()
+				local vector_distance = target:GetAbsOrigin() - unit_location
+				local distance = (vector_distance):Length2D()
+				-- Checks if the unit is closer than the closest checked so far
+				if distance < closest then
+					-- If the unit has not been hit yet, we set its distance as the new closest distance and it as the new target
+					if unit.hit == nil then
+						new_target = unit
+						closest = distance
+					elseif unit.hit[current] == nil then
+						new_target = unit
+						closest = distance
+					end
+				end
+			end
+			-- Checks if there is a new target
+			if new_target ~= nil then
+				-- Creates the particle between the new target and the last target
+				local lightningBolt = ParticleManager:CreateParticle(keys.particle, PATTACH_WORLDORIGIN, target)
+				ParticleManager:SetParticleControl(lightningBolt,0,Vector(target:GetAbsOrigin().x,target:GetAbsOrigin().y,target:GetAbsOrigin().z + target:GetBoundingMaxs().z ))   
+				ParticleManager:SetParticleControl(lightningBolt,1,Vector(new_target:GetAbsOrigin().x,new_target:GetAbsOrigin().y,new_target:GetAbsOrigin().z + new_target:GetBoundingMaxs().z ))
+				-- Sets the new target as the current target for this instance
+				ability.target[current] = new_target
+				-- Applies the modifer to the new target, which runs this function on it
+				ability:ApplyDataDrivenModifier(caster, new_target, "modifier_arc_lightning_hammer", {})
+			else
+				-- If there are no new targets, we set the current target to nil to indicate this instance is over
+				ability.target[current] = nil
+			end
+		else
+			-- If there are no more jumps, we set the current target to nil to indicate this instance is over
+			ability.target[current] = nil
+		end
+	end)
+end
+
+--[[Author: YOLOSPAGHETTI
+	Date: March 24, 2016
+	Keeps track of all instances of the spell (since more than one can be active at once)]]
+function NewInstance(keys)
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target
+	
+	-- Keeps track of the total number of instances of the ability (increments on cast)
+	if ability.instance == nil then
+		ability.instance = 0
+		ability.jump_count = {}
+		ability.target = {}
+	else
+		ability.instance = ability.instance + 1
+	end
+	
+	-- Sets the total number of jumps for this instance (to be decremented later)
+	ability.jump_count[ability.instance] = ability:GetLevelSpecialValueFor("jump_count", (ability:GetLevel() -1))
+	-- Sets the first target as the current target for this instance
+	ability.target[ability.instance] = target
+	
+	-- Creates the particle between the caster and the first target
+	local lightningBolt = ParticleManager:CreateParticle(keys.particle, PATTACH_WORLDORIGIN, caster)
+    ParticleManager:SetParticleControl(lightningBolt,0,Vector(caster:GetAbsOrigin().x,caster:GetAbsOrigin().y,caster:GetAbsOrigin().z + caster:GetBoundingMaxs().z ))   
+    ParticleManager:SetParticleControl(lightningBolt,1,Vector(target:GetAbsOrigin().x,target:GetAbsOrigin().y,target:GetAbsOrigin().z + target:GetBoundingMaxs().z ))   
+end
 
 function CD_divine_armor(keys)
     keys.ability:StartCooldown(33)
@@ -455,60 +531,6 @@ function ShowPopup( data )
 end
 
 
-function Midas_OnHit(keys)
-    local caster = keys.caster
-    local item = keys.ability
-    local player = PlayerResource:GetPlayer( caster:GetPlayerID() )
-    local damage = keys.damage_on_hit
-    local bonus_gold = math.floor(damage ^ 0.08 /2) + 2
-    local ID = 0
-    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-                if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
-                    simple_item:midas_gold(bonus_gold)
-                end
-    elseif item:IsCooldownReady() and not caster:IsIllusion() then
-        simple_item:midas_gold(bonus_gold)
-    end
-    if item:IsCooldownReady() and not caster:IsIllusion() then
-        simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
-        for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*150 then
-
-                    local left_gold = (simple_item._round*150) - simple_item.midas_gold_on_round
-                    if caster.show_popup ~= true then
-                        caster.show_popup = true
-                        ShowPopup( {
-                        Target = keys.caster,
-                        PreSymbol = 8,
-                        PostSymbol = 2,
-                        Color = Vector( 255, 200, 33 ),
-                        Duration = 0.5,
-                        Number = left_gold,
-                        pfx = "gold",
-                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
-                        } )
-                        Timers:CreateTimer(3.0,function()
-                            caster.show_popup = false
-                        end)
-                    end
-
-                    local totalgold = unit:GetGold() + bonus_gold
-                    unit:SetGold(0 , false)
-                    unit:SetGold(totalgold, true)
-                end
-            else
-                if not unit:IsIllusion() then
-                    local totalgold = unit:GetGold() + bonus_gold
-                    unit:SetGold(0 , false)
-                    unit:SetGold(totalgold, true)
-                    item:StartCooldown(0.25)
-                end
-            end
-        end
-    end
-end
-
 function dev_armor(keys)
     local killedUnit = EntIndexToHScript( keys.caster_entindex )
     local origin = killedUnit:GetAbsOrigin()
@@ -524,7 +546,7 @@ function check_admin(keys)
     local item = keys.ability
     local ID = caster:GetPlayerID()
     if ID ~= nil and PlayerResource:IsValidPlayerID( ID ) then
-        if PlayerResource:GetSteamAccountID( ID ) == 42452574 then
+        if PlayerResource:GetSteamAccountID( ID ) == 42452574 or PlayerResource:GetSteamAccountID( ID ) == 36111451 then
             print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
         else
             Timers:CreateTimer(0.3,function()
@@ -534,62 +556,6 @@ function check_admin(keys)
         end
     end
 end
-
-function Midas2_OnHit(keys)
-    local target = keys.target
-    local caster = keys.caster
-    local item = keys.ability
-    local player = PlayerResource:GetPlayer( caster:GetPlayerID() )
-    local damage = keys.damage_on_hit
-    local bonus_gold = math.floor(damage ^ 0.14 / 2) + 3
-    local ID = 0
-    if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-                if simple_item.midas_gold_on_round <= simple_item._round*150 and item:IsCooldownReady() and not caster:IsIllusion() then
-                    simple_item:midas_gold(bonus_gold)
-                end
-    elseif item:IsCooldownReady() and not caster:IsIllusion() then
-        simple_item:midas_gold(bonus_gold)
-    end
-    if item:IsCooldownReady() and not caster:IsIllusion() then
-        simple_item.midas_gold_on_round = simple_item.midas_gold_on_round + bonus_gold
-        for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-            if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
-                if not unit:IsIllusion() and simple_item.midas_gold_on_round <= simple_item._round*300 then
-
-                    local left_gold = (simple_item._round*300) - simple_item.midas_gold_on_round
-                    if caster.show_popup ~= true then
-                        caster.show_popup = true
-                        ShowPopup( {
-                        Target = keys.caster,
-                        PreSymbol = 8,
-                        PostSymbol = 2,
-                        Color = Vector( 255, 200, 33 ),
-                        Duration = 0.5,
-                        Number = left_gold,
-                        pfx = "gold",
-                        Player = PlayerResource:GetPlayer( caster:GetPlayerID() )
-                        } )
-                        Timers:CreateTimer(3.0,function()
-                            caster.show_popup = false
-                        end)
-                    end
-
-                    local totalgold = unit:GetGold() + bonus_gold
-                    unit:SetGold(0 , false)
-                    unit:SetGold(totalgold, true)
-                end
-            else
-                if not unit:IsIllusion() then
-                    local totalgold = unit:GetGold() + bonus_gold
-                    unit:SetGold(0 , false)
-                    unit:SetGold(totalgold, true)
-                    item:StartCooldown(0.20)
-                end
-            end
-        end
-    end
-end
-
 
 
 function Berserker_damage(keys)
@@ -714,6 +680,35 @@ function Splash(keys)
     end
 end
 
+function Boss_Splash(keys)
+    local caster = keys.caster
+    local target = keys.target
+    local item = keys.ability
+    local radius = item:GetLevelSpecialValueFor("radius", 0)
+    local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
+    local damage = keys.damage_on_hit*percent*0.01
+    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
+                              target:GetAbsOrigin(),
+                              nil,
+                              radius,
+                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+                              DOTA_UNIT_TARGET_FLAG_NONE,
+                              FIND_ANY_ORDER,
+                              false)
+    for _,unit in pairs(nearbyUnits) do
+        if unit ~= target then
+            local damageTable = {victim = unit,
+                        attacker = caster,
+                        damage = damage,
+                        damage_type = DAMAGE_TYPE_PHYSICAL,
+                        ability = keys.ability,
+                        }
+            ApplyDamage(damageTable)
+        end
+    end
+end
+
 
 
 
@@ -724,24 +719,15 @@ function Splash_melee(keys)
     local radius = item:GetLevelSpecialValueFor("radius", 0)
     local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
     local damage = keys.damage_on_hit*percent*0.01
-    local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
-                              caster:GetAbsOrigin(),
-                              nil,
-                              radius,
-                              DOTA_UNIT_TARGET_TEAM_ENEMY,
-                              DOTA_UNIT_TARGET_ALL,
-                              DOTA_UNIT_TARGET_FLAG_NONE,
-                              FIND_ANY_ORDER,
-                              false)
+	local damagefilter = 1+(caster:GetIntellect()/1600)
     if caster:IsRangedAttacker() == false then
-        for _,unit in pairs(nearbyUnits) do
-            local damageTable = {victim = unit,
-                                attacker = caster,
-                                damage = damage,
-                                ability = keys.ability,
-                                damage_type = DAMAGE_TYPE_PURE,
-                                }
-            ApplyDamage(damageTable)
-        end
+        local damageTable = {victim = target,
+							attacker = caster,
+                            damage = damage/damagefilter,
+                            ability = keys.ability,
+                            damage_type = DAMAGE_TYPE_PURE,
+                            }
+        ApplyDamage(damageTable)
+		DoCleaveAttack( caster, target, item, damage, radius, "particles/econ/items/faceless_void/faceless_void_weapon_bfury/faceless_void_weapon_bfury_cleave.vpcf" )
     end
 end

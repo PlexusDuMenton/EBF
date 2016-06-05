@@ -973,6 +973,28 @@ function CHoldoutGameMode:spawn_unit( place , unitname , radius , unit_number)
     end
 end
 
+if simple_item == nil then
+    print ( '[simple_item] creating simple_item' )
+    simple_item = {} -- Creates an array to let us beable to index simple_item when creating new functions
+    simple_item.__index = simple_item
+    simple_item.midas_gold_on_round = 0
+    simple_item._round = 1
+end
+
+function simple_item:start() -- Runs whenever the simple_item.lua is ran
+    print('[simple_item] simple_item started!')
+end
+
+function simple_item:midas_gold(bonus) -- Runs whenever the simple_item.lua is ran
+    if simple_item._totalgold == nil then 
+        simple_item._totalgold = 0 
+    end
+    simple_item._totalgold = simple_item._totalgold + bonus
+    CustomNetTables:SetTableValue( "midas","total", {gold = simple_item._totalgold } )
+
+end
+
+
 function CHoldoutGameMode:OnThink()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		self:_CheckForDefeat()
@@ -987,22 +1009,47 @@ function CHoldoutGameMode:OnThink()
 				self._currentRound = nil
 				-- Heal all players
 				self:_RefreshPlayers()
+				local midascounter1 = 0
+				local midascounter2 = 0
+				for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+					if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and unit:HasModifier("passive_midas_3") and unit:IsRealHero() then
+						midascounter1 = midascounter1+1
+					elseif unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and unit:HasModifier("passive_midas_2") and unit:IsRealHero() then
+						midascounter2 = midascounter2+1
+					end
+					
+				end
+				local midas_gold = math.floor(self._nRoundNumber*(200*(midascounter1/PlayerResource:GetTeamPlayerCount()) + 100*(midascounter2/PlayerResource:GetTeamPlayerCount())))
+				for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+					if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and not unit:IsIllusion() then
+						local midas_modifier = 1
+						if not unit:HasModifier("passive_midas*") then
+							midas_modifier = 0.8
+						end
+						local totalgold = unit:GetGold() + midas_gold*midas_modifier
+				        unit:SetGold(0 , false)
+				        unit:SetGold(totalgold, true)
+					end
+				end
+				simple_item:midas_gold(midas_gold)
+				
+
+				
 				self._nRoundNumber = self._nRoundNumber + 1
-				simple_item:SetRoundNumer(self._nRoundNumber)
 				boss_meteor:SetRoundNumer(self._nRoundNumber)
 				GameRules._roundnumber = self._nRoundNumber
-				if math.random(1,25) == 25 then
-					self:spawn_unit( Vector(0,0,0) , "npc_dota_treasure" , 2000)
-					for _,unit in pairs ( Entities:FindAllByModel( "models/courier/flopjaw/flopjaw.vmdl")) do
-						Waypoint = Entities:FindByName( nil, "path_invader1_1" )
-						unit:SetInitialGoalEntity(Waypoint) 
-						Timers:CreateTimer(15,function()
-							unit:ForceKill(true)
-						end)
-					end
-					self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds + 15
+				-- if math.random(1,25) == 25 then
+					-- self:spawn_unit( Vector(0,0,0) , "npc_dota_treasure" , 2000)
+					-- for _,unit in pairs ( Entities:FindAllByModel( "models/courier/flopjaw/flopjaw.vmdl")) do
+						-- Waypoint = Entities:FindByName( nil, "path_invader1_1" )
+						-- unit:SetInitialGoalEntity(Waypoint) 
+						-- Timers:CreateTimer(15,function()
+							-- unit:ForceKill(true)
+						-- end)
+					-- end
+					-- self._flPrepTimeEnd = GameRules:GetGameTime() + self._flPrepTimeBetweenRounds + 15
 
-				end 
+				-- end 
 				if self._nRoundNumber > #self._vRounds then
 					if self._NewGamePlus == false then
 						self:_Start_Vote()
@@ -1017,6 +1064,8 @@ function CHoldoutGameMode:OnThink()
 					
 					GameRules.voteRound_No = PlayerResource:GetTeamPlayerCount()
 					GameRules.voteRound_Yes = 0
+					
+					
 		
 					CustomGameEventManager:Send_ServerToAllClients("Display_RoundVote", {})
 					local event_data =
@@ -1180,7 +1229,7 @@ function CHoldoutGameMode:_CheckForDefeat()
 						end
 					end
 					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
-						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and unit:IsIllusion() == false then
+						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS and not unit:IsIllusion() then
 							local totalgold = unit:GetGold() + ((((self._nRoundNumber/1.5)+5)/((Life._life/2) +0.5))*500)
 				            unit:SetGold(0 , false)
 				            unit:SetGold(totalgold, true)

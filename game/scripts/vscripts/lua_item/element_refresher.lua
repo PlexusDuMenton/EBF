@@ -75,7 +75,12 @@ function get_octarine_multiplier(caster)
                 octarine_multiplier = 0.33
             end
         end
-    end
+	    if Item ~= nil and Item:GetName() == "item_octarine_core5" then
+            if octarine_multiplier > 0.25 then
+                octarine_multiplier = 0.25
+            end
+        end
+	end
     return octarine_multiplier
 end
 

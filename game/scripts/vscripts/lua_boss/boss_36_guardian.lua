@@ -137,7 +137,7 @@ function flaming_fist(keys)
                     -- Move hero there
                     FindClearSpaceForUnit( caster, target:GetAbsOrigin(), false )
                     
-                    caster:PerformAttack( target, true, false, true, false )
+                    caster:PerformAttack( target, true, false, true, false, false )
                     
                     -- Slash particles
                     local slashFxIndex = ParticleManager:CreateParticle( particleSlashName, PATTACH_ABSORIGIN_FOLLOW, target )
@@ -169,7 +169,6 @@ end
 
 function hell_on_earth(keys)
 	local caster = keys.caster
-    keys.ability:StartCooldown(5)
 	caster.Charge = caster.Charge - 50
 	local damage = 50000
 	if GetMapName() == "epic_boss_fight_impossible" then
