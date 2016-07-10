@@ -49,7 +49,7 @@
 		"ItemQuality"					"component"
 		"ItemAliases"					"blink dagger"
 		"SideShop"						"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -2679,86 +2679,6 @@
 		}
 	}
 
-	//=================================================================================================================
-	// Recipe: Hand of Midas
-	//=================================================================================================================
-	"item_recipe_hand_of_midas"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"64"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"310"	
-		"ItemShopTags"					""
-		"ItemAliases"					"hom"
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_hand_of_midas"
-		"ItemRequirements"
-		{
-			"01"						"item_gloves"		
-		}
-	}
-	
-	//=================================================================================================================
-	// Hand of Midas
-	//=================================================================================================================
-	"item_hand_of_midas"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"65"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_CREEP"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600"
-		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"100.0"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"
-		"ItemCost"						"410"
-		"ItemShopTags"					"attack_speed;hard_to_tag"
-		"ItemQuality"					"common"
-		"ItemAliases"					"hand of midas"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
-		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"30"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"xp_multiplier"			"2.5"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_gold"			"190"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"transmute_cast_range_tooltip"			"600"
-			}
-		}
-	}
 
 	//=================================================================================================================
 	// Recipe: Oblivion Staff
@@ -3917,7 +3837,7 @@
 		"ItemShopTags"					"int;regen_mana;agi;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"hex;sheepstick;scythe of vyse"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -4007,7 +3927,7 @@
 		"ItemShopTags"					"int;attack_speed;damage;regen_mana;damage;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"orchid malevolence"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -4100,7 +4020,7 @@
 		"ItemShopTags"					"int;regen_mana;move_speed;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"cyclone euls;eul's scepter of divinity"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -4338,7 +4258,7 @@
 		"AbilitySharedCooldown"			"dagon"
 		"MaxUpgradeLevel"				"5"
 		"ItemBaseLevel"					"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -4406,7 +4326,7 @@
 		"AbilitySharedCooldown"			"dagon"
 		"MaxUpgradeLevel"				"5"
 		"ItemBaseLevel"					"2"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -4474,7 +4394,7 @@
 		"AbilitySharedCooldown"			"dagon"
 		"MaxUpgradeLevel"				"5"
 		"ItemBaseLevel"					"3"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -4542,7 +4462,7 @@
 		"AbilitySharedCooldown"			"dagon"
 		"MaxUpgradeLevel"				"5"
 		"ItemBaseLevel"					"4"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -4610,7 +4530,7 @@
 		"AbilitySharedCooldown"			"dagon"
 		"MaxUpgradeLevel"				"5"
 		"ItemBaseLevel"					"5"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -4750,7 +4670,7 @@
 		"ItemShopTags"					"int;str;hard_to_tag;see_invis"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"necronomicon 1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"MaxUpgradeLevel"				"3"
 		"ItemBaseLevel"					"1"
 
@@ -4860,7 +4780,7 @@
 		"ItemShopTags"					"int;str;hard_to_tag;see_invis"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"necronomicon 2"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"MaxUpgradeLevel"				"3"
 		"ItemBaseLevel"					"2"
 	
@@ -4970,7 +4890,7 @@
 		"ItemShopTags"					"int;str;hard_to_tag;see_invis"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"necronomicon 3"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"MaxUpgradeLevel"				"3"
 		"ItemBaseLevel"					"3"
 		
@@ -5160,14 +5080,14 @@
 	{
 		"BaseClass"                     "item_datadriven"
 	    "ID"                            "1110"  //Valve's version of this item uses the ID "110".
-	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
 	    "Model"                         "models/props_gameplay/red_box.vmdl" 
 	    "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
 	    "AbilityTextureName"            "item_refresher"
 	    
 	    // Stats        
 	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilityCastPoint"              "0.0"
+	    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityCastPoint"              "0.0"
 	    "AbilityCooldown"               "195.0"
 	    "AbilityManaCost"               "375"
 	    
@@ -5253,7 +5173,7 @@
 		"ItemShopTags"					"attack_speed;armor;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"ac;assault cuirass"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5303,7 +5223,7 @@
 
 		// Stats		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"7.0"
+		"AbilityCooldown"				"0.5"
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
@@ -5311,7 +5231,7 @@
 		"ItemShopTags"					"str;regen_health;health_pool"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"hot;heart of tarrasque"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5320,56 +5240,31 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"		"40"
+				"bonus_strength"		"45"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health"			"300"
+				"bonus_health"			"200"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"health_regen_rate"		"3.25"
+				"health_regen_rate"		"1.5"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"cooldown_melee"		"5"
+				"cooldown_melee"		"0"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"cooldown_ranged_tooltip"		"7"
+				"cooldown_ranged_tooltip"		"0"
 			}
 		}
 	}
 
-	//=================================================================================================================
-	// Recipe: Black King Bar
-	//=================================================================================================================
-	"item_recipe_black_king_bar"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"115"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"275"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_black_king_bar"
-		"ItemRequirements"
-		{
-			"01"						"item_ogre_axe;item_mithril_hammer"
-		}
-	}
-	
 	//=================================================================================================================
 	// Black King Bar
 	//=================================================================================================================
@@ -5392,7 +5287,7 @@
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bkb;black king bar"
 		"ItemSellable"					"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5495,7 +5390,7 @@
 		"ItemQuality"					"epic"
 		"ItemAliases"					"shiva's guard"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5599,7 +5494,7 @@
 		"ItemAliases"					"bs;bloodstone"
 		"ItemInitialCharges"			"8"
 		"ItemDisplayCharges"			"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5674,31 +5569,6 @@
 	}
 
 	//=================================================================================================================
-	// Recipe: Sphere
-	//=================================================================================================================
-	"item_recipe_sphere"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"122"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"265"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_sphere"
-		"ItemRequirements"
-		{
-			"01"						"item_ultimate_orb;item_pers"
-		}
-	}
-	
-	//=================================================================================================================
 	// Sphere
 	//=================================================================================================================
 	"item_sphere"
@@ -5721,7 +5591,7 @@
 		"ItemShopTags"					"regen_health;regen_mana;str;agi;int;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"ls;linken's sphere"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5804,7 +5674,7 @@
 		"ItemShopTags"					"regen_health;regen_mana;str;agi;int;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"ls;lotus orb"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 		
 		// Special	
@@ -5845,31 +5715,6 @@
 	}
 
 	//=================================================================================================================
-	// Recipe: Vanguard
-	//=================================================================================================================
-	"item_recipe_vanguard"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"124"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_vanguard"
-		"ItemRequirements"
-		{
-			"01"						"item_ring_of_health;item_vitality_booster;item_stout_shield"
-		}
-	}
-	
-	//=================================================================================================================
 	// Vanguard
 	//=================================================================================================================
 	"item_vanguard"
@@ -5885,7 +5730,7 @@
 		"ItemShopTags"					"regen_health;block;health_pool"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"vanguard"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -5964,7 +5809,7 @@
 		"ItemShopTags"					"armor;boost_armor;regen_health;block;health_pool"
 		"ItemQuality"					"epic"
 		"ItemAlertable"					"1"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6222,7 +6067,7 @@
 		"ItemShopTags"					"damage;attack_speed;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"mkb;monkey king bar"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6272,7 +6117,6 @@
 		"ItemShopTags"					"damage"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"radiance"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6322,7 +6166,7 @@
 		"ItemShopTags"					"agi;damage;evasion;attack_speed"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"bfly;butterfly"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6377,7 +6221,7 @@
 		"ItemShopTags"					"damage;crit"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"daedalus"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6401,30 +6245,6 @@
 		}
 	}
 	
-	//=================================================================================================================
-	// Recipe: Basher
-	//=================================================================================================================
-	"item_recipe_basher"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"142"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"200"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_basher"
-		"ItemRequirements"
-		{
-			"01"						"item_belt_of_strength;item_javelin"
-		}
-	}
 	
 	//=================================================================================================================
 	// Basher
@@ -6446,7 +6266,7 @@
 		"ItemShopTags"					"damage;str;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"skull basher"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6489,34 +6309,7 @@
 			}
 		}
 	}
-	
-	
-	//=================================================================================================================
-	// Recipe: Manta
-	//=================================================================================================================
-	"item_recipe_manta"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"146"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		"FightRecapLevel"				"1"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"160"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_manta"
-		"ItemRequirements"
-		{
-			"01"						"item_yasha;item_ultimate_orb"
-		}
-	}
-	
+
 	//=================================================================================================================
 	// Manta
 	//=================================================================================================================
@@ -6540,7 +6333,7 @@
 		"ItemQuality"					"epic"
 		"ItemAliases"					"manta style"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6684,31 +6477,6 @@
 	}
 	
 	//=================================================================================================================
-	// Recipe: Armlet
-	//=================================================================================================================
-	"item_recipe_armlet"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"150"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"100"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_armlet"
-		"ItemRequirements"
-		{
-			"01"						"item_helm_of_iron_will;item_gloves;item_blades_of_attack"
-		}
-	}
-	
-	//=================================================================================================================
 	// Armlet
 	//=================================================================================================================
 	"item_armlet"
@@ -6728,7 +6496,7 @@
 		"ItemShopTags"					"damage;attack_speed;armor;regen_health;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"armlet of mordiggian"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6786,30 +6554,6 @@
 			}	
 		}
 	}
-
-	//=================================================================================================================
-	// Recipe: Invisibility Sword
-	//=================================================================================================================
-	"item_recipe_invis_sword"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"183"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_invis_sword"
-		"ItemRequirements"
-		{
-			"01"						"item_shadow_amulet;item_claymore"
-		}
-	}
 	
 	//=================================================================================================================
 	// Invisibility Sword
@@ -6834,7 +6578,7 @@
 		"ItemShopTags"					"damage;attack_speed;movespeed;hard_to_tag"
 		"ItemQuality"					"epic"
 		"ItemAliases"					"sb;invis;shadow blade;silver edge"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -6893,7 +6637,7 @@
 		"ItemResult"					"item_silver_edge"
 		"ItemRequirements"
 		{
-			"01"						"item_invis_sword;item_sange"
+			"01"						"item_invis_sword;item_ultimate_orb"
 		}
 	}
 	
@@ -7046,7 +6790,7 @@
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"sny;s&y;sy;sange and yasha"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -7100,30 +6844,6 @@
 		}
 	}
 
-	//=================================================================================================================
-	// Recipe: Satanic
-	//=================================================================================================================
-	"item_recipe_satanic"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"155"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"220"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_satanic"
-		"ItemRequirements"
-		{
-			"01"						"item_reaver;item_helm_of_the_dominator"
-		}
-	}
 	
 	//=================================================================================================================
 	// Satanic
@@ -7146,7 +6866,7 @@
 		"ItemShopTags"					"damage;str;armor;unique;hard_to_tag"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"satanic"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -7191,31 +6911,6 @@
 	}
 
 	//=================================================================================================================
-	// Recipe: Mjollnir
-	//=================================================================================================================
-	"item_recipe_mjollnir"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"157"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"180"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_mjollnir"
-		"ItemRequirements"
-		{
-			"01"						"item_maelstrom;item_hyperstone"
-		}
-	}
-	
-	//=================================================================================================================
 	// Mjollnir
 	//=================================================================================================================
 	"item_mjollnir"
@@ -7241,7 +6936,7 @@
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"mjollnir"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -7324,31 +7019,7 @@
 			}
 		}
 	}
-	
-	//=================================================================================================================
-	// Recipe: Skadi
-	//=================================================================================================================
-	"item_recipe_skadi"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"159"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_skadi"
-		"ItemRequirements"
-		{
-			"01"						"item_ultimate_orb;item_ultimate_orb;item_point_booster;item_orb_of_venom"
-		}
-	}
-	
+
 	//=================================================================================================================
 	// Skadi
 	//=================================================================================================================
@@ -7365,7 +7036,7 @@
 		"ItemShopTags"					"agi;str;int;hard_to_tag;mana_pool;health_pool;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"eos;eye of skadi"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -7578,91 +7249,6 @@
 	}
 
 	//=================================================================================================================
-	// Recipe: Maelstrom
-	//=================================================================================================================
-	"item_recipe_maelstrom"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"165"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"140"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_maelstrom"
-		"ItemRequirements"
-		{
-			"01"						"item_mithril_hammer;item_gloves"
-		}
-	}
-	
-	//=================================================================================================================
-	// Maelstrom
-	//=================================================================================================================
-	"item_maelstrom"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"166"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"560"
-		"ItemShopTags"					"damage;attack_speed;unique"
-		"ItemQuality"					"artifact"
-		"ItemAliases"					"maelstrom"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"24"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"25"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"chain_chance"			"25"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"chain_damage"			"120"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"chain_strikes"			"4"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"chain_radius"			"900"
-			}
-			"07"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"chain_delay"			"0.25"
-			}
-		}
-	}
-
-	//=================================================================================================================
 	// Desolator
 	//=================================================================================================================
 	"item_desolator"
@@ -7678,7 +7264,7 @@
 		"ItemShopTags"					"damage;unique"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"desolator"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -7796,252 +7382,6 @@
 			}
 		}
 	}
-
-	//=================================================================================================================
-	// Recipe: Diffusal Blade
-	//=================================================================================================================
-	"item_recipe_diffusal_blade"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"173"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"140"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_diffusal_blade"
-		"ItemRequirements"
-		{
-			"01"						"item_blade_of_alacrity;item_blade_of_alacrity;item_robe"
-		}
-	}
-
-	"item_recipe_diffusal_blade_2"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"195"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_diffusal_blade_2"
-		"ItemRequirements"
-		{
-			"01"						"item_diffusal_blade;item_recipe_diffusal_blade"
-		}
-	}
-	
-	//=================================================================================================================
-	// Diffusal Blade
-	//=================================================================================================================
-	"item_diffusal_blade"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"174"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-		"FightRecapLevel"				"1"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600"
-		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"8.0"
-		"AbilitySharedCooldown"			"diffusal"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"
-		"ItemCost"						"630"
-		"ItemShopTags"					"agi;int;unique;hard_to_tag"
-		"ItemQuality"					"artifact"
-		"ItemAliases"					"diffusal blade 1"
-		"ItemBaseLevel"					"1"
-		
-		"ItemPermanent"					"1"
-		"ItemInitialCharges"			"8"
-		"ItemRequiresCharges"			"1"
-		"ItemDisplayCharges"			"1"
-		"MaxUpgradeLevel"				"2"
-		"ItemBaseLevel"					"1"
-
-		"UpgradesItems"					"item_diffusal_blade"
-		"UpgradeRecipe"					"item_recipe_diffusal_blade"
-		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"20 35"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_intellect"		"6 10"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"initial_charges"		"8"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"feedback_mana_burn"	"25"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"feedback_mana_burn_ranged"	"25"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"purge_summoned_damage"	"99999"
-			}
-			"07"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"purge_rate"			"5"
-			}
-			"08"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"purge_root_duration"	"3.0"
-			}
-			"09"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"purge_slow_duration"	"4.0"
-			}
-			"10"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"damage_per_burn"		"1.0"
-			}
-			"11"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"cast_range_tooltip"		"600"
-			}
-		}
-	}
-
-	"item_diffusal_blade_2"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"196"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-		"FightRecapLevel"				"1"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600"
-		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"8.0"
-		"AbilitySharedCooldown"			"diffusal"
-		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_NEVER"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"
-		"ItemCost"						"3850"
-		"ItemShopTags"					"agi;int;unique;hard_to_tag"
-		"ItemQuality"					"artifact"
-		"ItemAliases"					"diffusal blade 2"
-		
-		"ItemPermanent"					"1"
-		"ItemInitialCharges"			"8"
-		"ItemRequiresCharges"			"1"
-		"ItemDisplayCharges"			"1"
-		"MaxUpgradeLevel"				"2"
-		"ItemBaseLevel"					"2"
-		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_agility"			"20 35"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_intellect"		"6 10"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"initial_charges"		"8"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"feedback_mana_burn"	"25"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"feedback_mana_burn_ranged"	"25"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"purge_summoned_damage"	"99999"
-			}
-			"07"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"purge_rate"			"5"
-			}
-			"08"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"purge_root_duration"	"3.0"
-			}
-			"09"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"purge_slow_duration"	"4.0"
-			}
-			"10"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"damage_per_burn"		"1.0"
-			}
-			"11"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"cast_range_tooltip"		"600"
-			}
-		}
-	}
-
 	
 	//=================================================================================================================
 	// Recipe: Soul Ring
@@ -8262,12 +7602,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"25"
+				"hero_lifesteal"		"6"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"5"
+				"creep_lifesteal"		"6"
 			}	
 			"09"
 			{
@@ -8296,6 +7636,8 @@
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 		"AbilityCooldown"				"5.0"
+		"AbilityManaCost"				"0"
+		"AbilityCastPoint"				"0.0"
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -8304,17 +7646,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"		"10"
+				"bonus_intellect"		"10"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_intellect"		"10"
+				"bonus_strength"		"10"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"75"
+				"bonus_attack_speed"	"10"
 			}
 			"04"
 			{
@@ -8324,27 +7666,27 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"10"
+				"bonus_mana_regen"		"75"
 			}
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"10"
+				"proc_damage"			"0"
 			}
 			"07"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"movement_slow"			"100"
 			}
-			"09"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"attack_speed_slow"		"100"
-			}
 			"08"
 			{
+				"var_type"				"FIELD_INTEGER"
+				"attack_speed_slow"			"100"
+			}
+			"09"
+			{
 				"var_type"				"FIELD_FLOAT"
-				"slow_duration"				"0.6"
+				"slow_duration"			"0.6"
 			}
 		}
 	}
@@ -8749,7 +8091,7 @@
 		"ItemShopTags"					"int;armor;regen_health;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"vod;veil of discord"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -8841,7 +8183,7 @@
 		"ItemShopTags"					"int;armor;regen_health;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"guardian greaves"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"ItemAlertable"					"1"
 
 		// Special	
@@ -8973,7 +8315,7 @@
 		"ItemShopTags"					"int;regen_health"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"rod of atos"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -9068,7 +8410,7 @@
 		"ItemQuality"					"epic"
 		"ItemAliases"					"abyssal blade"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -9170,7 +8512,7 @@
 		"ItemShopTags"					"str;damage;evasion"
 		"ItemQuality"					"artifact"
 		"ItemAliases"					"heaven's halberd"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -10034,7 +9376,7 @@
 		"ItemShopTags"					"damage"
 		"ItemQuality"					"epic"
 		"ItemShareability"				"ITEM_NOT_SHAREABLE"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		"ItemSellable"					"0"
 		"ItemKillable"					"0"
 		"ItemPurchasable"				"0"
@@ -10727,7 +10069,7 @@
 		"ItemShopTags"					"int;regen_mana;move_speed;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"aether lens"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
 		
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -10787,22 +10129,17 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_damage"			"10"
+				"bonus_agility"			"15"
 			}
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_speed"			"10"
+				"bonus_strength"		"15"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_strength"		"10"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"base_attack_range"		"130"
+				"base_attack_range"		"140"
 			}
 		}
 	}
