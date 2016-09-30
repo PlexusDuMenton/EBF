@@ -1,6 +1,6 @@
  .GameInfo
 {
-    width:100%;
+    width:90%;
     flow-children: down;
 }
  
@@ -13,7 +13,7 @@ Label
  
 #Title
 {
-    flow-children: right;
+    flow-children: down;
 }
 
 #TitleIcon
@@ -27,8 +27,7 @@ Label
 {
     color: #ffac0c;
     font-size: 64px;
-    margin-left: 16px;
-    margin-top: 16px;
+    margin-top: 10px;
     text-transform: uppercase;
     vertical-align: center;
 }
@@ -37,8 +36,6 @@ Label
 {
 }
 
-#BossText,
-#LifeText,
 #ItemsText
 {
     width: 45%;
@@ -48,84 +45,65 @@ Label
 {
 	font-size: 20px;
     font-weight: bold;
-	margin-top: 36px;
+	margin-top: 10px;
 	text-transform: uppercase;
 }
 
 #ObjectiveHeader
 {
-	margin-top: 18px;
+	margin-top: 10px;
 }
 
 #Boss
 {
-    margin-top: -55px;
+    margin-top: 10px;
 }
 
 #BossText
 {
-    margin-top: 100px;
-	margin-right: 10px;
 	text-align: right;
-}
-
-#BossImage
-{
-    margin-top: 60px;
-    width: 290px;
-    height: 170px;
 }
 
 #Life
 {
-    margin-top: -100px;
+    margin-top: 10px;
 }
 
 #LifeText
 {
-    margin-top: 120px;
-	margin-left: 180px;
 }
 
 #Items
 {
-    margin-top: -50px;
-}
-
-#ItemsImage
-{
-    width: 250px;
-    height: 250px;
+    margin: 0px;
+	width: 100%;
 }
 
 #ItemsText
 {
-    margin-top: 10px;
-	margin-right: 10px;
+    margin: 0px;
 	text-align: right;
 }
 
 #TipsHeader
 {
-	margin-top: -1px;
+	margin-bottom: 10px;
 }
 
 #Tips
 {
 	flow-children: down;
-	margin-right: 92px;
-	margin-top: 18px;
+	margin-top: 10px;
 }
 
 .TipText
 {
-	margin-left: 50px;
-    margin-top: 20px;
+	margin-top: 10px;
 }
 
 .Info
 {
-    flow-children: right;
+    flow-children: down;
     width: 100%;
 }
 

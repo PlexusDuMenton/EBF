@@ -8,12 +8,17 @@ function Update(){
 $.Schedule(0.5, Update);
 CustomNetTables.SubscribeNetTableListener
 	data = CustomNetTables.GetTableValue( "New_Game_plus", "NG")
+	core = 0
+	key2 = ""
 	if (typeof data != 'undefined') {
-	if (data.NG == 1){ 
-	$("#Asura_Core").visible = true;}
+		if (data.NG == 1){ 
+			$("#Asura_Core").visible = true;
+			key2 = "player_" + ID.toString()
+			if(CustomNetTables.GetTableValue( "Asura_core", key2) != null){
+				core = CustomNetTables.GetTableValue( "Asura_core", key2).core
+			}
+		}
 	}
-	key2 = "player_" + ID.toString()
-	core = CustomNetTables.GetTableValue( "Asura_core", key2).core
 	if (typeof core != 'undefined') {
 	$("#core_number").text = core;
 	
