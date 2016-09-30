@@ -188,9 +188,9 @@ function On_Spell_Start( keys )
 			end
 		end
 	else
-		if fire + wind + ice >= 7.5 and fire + wind + ice < 15 then
+		if fire + wind + ice >= 7.5 and fire + wind + ice < 12 then
 			global_heal( keys, fire, ice, wind)
-		elseif fire + wind + ice >= 15 then
+		elseif fire + wind + ice >= 12 then
             caster.last_used_skill = "arcana_laser"
             arcana_laser(keys,ice,fire,wind)
             Cooldown(keys,15)
@@ -237,7 +237,7 @@ function Heavy_Ice_Projectile(keys,ice,wind)
                             local explosion_position = (casterPoint+(fv * 1300))
                             StartSoundEventFromPosition("Hero_Crystal.CrystalNova",explosion_position)
                             local caster = keys.caster 
-                            local damage_AoE = caster:GetLevel()*(ice + wind)^4*2 + (ice + wind)*1300
+                            local damage_AoE = (keys.caster:GetLevel()^0.5)*(ice + wind)^4 + (ice + wind)*600
                             local radius = ice*25 + 400
                             local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
                                                       explosion_position,
@@ -251,8 +251,9 @@ function Heavy_Ice_Projectile(keys,ice,wind)
                             for _,unit in pairs(nearbyUnits) do
                                     local damageTableAoe = {victim = unit,
                                                 attacker = caster,
-                                                damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                                                damage = damage_AoE,
                                                 damage_type = DAMAGE_TYPE_MAGICAL,
+												ability = keys.ability
                                                 }
                                     ApplyDamage(damageTableAoe)
                         
@@ -277,7 +278,7 @@ end
 
 function Explosive_IceFlame(keys,ice,fire)
         local caster = keys.caster 
-        local damage_AoE = caster:GetLevel()*(ice + fire)^4*2 + (ice + fire)*2000
+        local damage_AoE = (keys.caster:GetLevel()^0.5)*(ice + fire)^4*1.25 + (ice + fire)*1500
         local radius = ice*25 + 400
         local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
                                   caster:GetAbsOrigin(),
@@ -291,11 +292,12 @@ function Explosive_IceFlame(keys,ice,fire)
         for _,unit in pairs(nearbyUnits) do
                 local damageTableAoe = {victim = unit,
                             attacker = caster,
-                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                            damage = damage_AoE,
                             damage_type = DAMAGE_TYPE_MAGICAL,
+							ability = keys.ability
                             }
                 ApplyDamage(damageTableAoe)
-                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()^0.6/2))*25))
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "iceflame_display", {duration = 5})
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier", {duration = 5})
                 unit:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*(20) ) )
@@ -313,6 +315,9 @@ function Explosive_IceFlame(keys,ice,fire)
         caster:EmitSound("Hero_Techies.Suicide")
         ParticleManager:SetParticleControl(fire_explosion_effect, 0, caster:GetAbsOrigin())
         ParticleManager:SetParticleControl(fire_explosion_effect, 5, caster:GetAbsOrigin())
+		Timers:CreateTimer(5,function()
+                        ParticleManager:DestroyParticle( fire_explosion_effect, false)
+                end)
 end
 
 function IceFlame_Ball(keys,ice,fire)
@@ -362,6 +367,9 @@ function arcana_laser(keys,ice,fire)
             arcana_laser_effect = ParticleManager:CreateParticle( "particles/arcana_laser.vpcf", PATTACH_ABSORIGIN_FOLLOW, keys.caster )
             ParticleManager:SetParticleControlEnt( arcana_laser_effect, 0, caster, PATTACH_POINT_FOLLOW, "attach_hitloc", caster:GetAbsOrigin(), true )
     end)
+	Timers:CreateTimer(5,function()
+                        ParticleManager:DestroyParticle( arcana_laser_effect, false)
+                end)
 
 
     -- Spawn projectile
@@ -408,7 +416,7 @@ end
 
 function Fire_Explosion(keys,wind,fire)
         local caster = keys.caster 
-        local damage_AoE = caster:GetLevel()*(wind + fire)^4*2 + (wind + fire)*2000
+        local damage_AoE = (keys.caster:GetLevel()^0.5)*(wind + fire)^4*2 + (wind + fire)*2000
         local radius = wind*25 + 400
         local nearbyUnits = FindUnitsInRadius(caster:GetTeam(),
                                   caster:GetAbsOrigin(),
@@ -422,17 +430,21 @@ function Fire_Explosion(keys,wind,fire)
         for _,unit in pairs(nearbyUnits) do
                 local damageTableAoe = {victim = unit,
                             attacker = caster,
-                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                            damage = damage_AoE,
                             damage_type = DAMAGE_TYPE_MAGICAL,
+							ability = keys.ability
                             }
                 ApplyDamage(damageTableAoe)
                 keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5+1})
-                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+                Fire_Dot(keys, caster, unit,math.floor((fire/2)^2*((keys.caster:GetLevel()^0.6/2))*25))
         end
         fire_explosion_effect = ParticleManager:CreateParticle("particles/fire_ball_explosion.vpcf", PATTACH_ABSORIGIN , caster)
         caster:EmitSound("Hero_Techies.Suicide")
         ParticleManager:SetParticleControl(fire_explosion_effect, 0, caster:GetAbsOrigin())
         ParticleManager:SetParticleControl(fire_explosion_effect, 5, caster:GetAbsOrigin())
+		Timers:CreateTimer(5,function()
+                        ParticleManager:DestroyParticle( fire_explosion_effect, false)
+                end)
 end
 
 function fire_ball(keys,wind,fire)
@@ -846,7 +858,7 @@ function ice_spike(keys,ice)
 
     keys.caster:EmitSound("Hero_Crystal.CrystalNova")
     local radius = 100 + 25*ice
-    local damage_AoE = keys.caster:GetLevel()*ice^4*8
+    local damage_AoE =  (keys.caster:GetLevel()^0.5)*ice^4*3
     local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
                                   location,
                                   nil,
@@ -860,8 +872,9 @@ function ice_spike(keys,ice)
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                            damage = damage_AoE,
                             damage_type = DAMAGE_TYPE_MAGICAL,
+							ability = keys.ability
                             }
                 ApplyDamage(damageTableAoe)
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier_display", {duration = 5})
@@ -888,7 +901,7 @@ function frost_spike(keys,ice)
 
     keys.caster:EmitSound("Hero_Crystal.CrystalNova")
     local radius = 300 + 25*ice
-    local damage_AoE = keys.caster:GetLevel()*ice^4*8
+    local damage_AoE = (keys.caster:GetLevel()^0.5)*ice^4*3
     local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
                                   keys.caster:GetAbsOrigin(),
                                   nil,
@@ -902,8 +915,9 @@ function frost_spike(keys,ice)
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                            damage = damage_AoE,
                             damage_type = DAMAGE_TYPE_MAGICAL,
+							ability = keys.ability
                             }
                 ApplyDamage(damageTableAoe)
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier_display", {duration = 5})
@@ -932,7 +946,7 @@ function frost_kiss(keys,ice) -- 6 ICE
 
     keys.caster:EmitSound("Hero_Crystal.CrystalNova")
     local radius = 300 + 25*ice
-    local damage_AoE = keys.caster:GetLevel()*ice^4*0.5
+    local damage_AoE = (keys.caster:GetLevel()^0.5)*ice^4*0.25
     local nearbyUnits = FindUnitsInRadius(keys.caster:GetTeam(),
                                   keys.caster:GetAbsOrigin(),
                                   nil,
@@ -946,8 +960,9 @@ function frost_kiss(keys,ice) -- 6 ICE
         if unit ~= keys.caster then
                 local damageTableAoe = {victim = unit,
                             attacker = keys.caster,
-                            damage = damage_AoE/(1+caster:GetIntellect()/1600),
+                            damage = damage_AoE,
                             damage_type = DAMAGE_TYPE_MAGICAL,
+							ability = keys.ability
                             }
                 ApplyDamage(damageTableAoe)
                 keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "ice_freeze_display", {duration = (ice/5)})

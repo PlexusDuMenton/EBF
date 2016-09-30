@@ -29,7 +29,6 @@
 		"item" "item_desolator4"
 		"item" "item_orb_of_shadows"
 		"item" "item_heart_boots"
-		"item" "item_midas_greave"
 		"item" "item_blink_boots"
 		"item" "item_pixels_guard"
 		
@@ -115,12 +114,20 @@
 	"item" "item_redium_lens"
 	"item" "item_sunium_lens"
 	"item" "item_omni_lens"
+	"item" "item_bloodthorn"
+	"item" "item_bloodthorn2"
+	"item" "item_bloodthorn3"
+	"item" "item_bloodthorn4"
+	"item" "item_purethorn"
 	}
 	// Level 3 - Purple Recipes
 	"defense"
 	{
 	"item" "item_hood_of_defiance"
 	"item" "item_blade_mail"
+	"item" "item_blade_mail2"
+	"item" "item_blade_mail3"
+	"item" "item_blade_mail4"
 	"item" "item_vanguard"
 	"item" "item_soul_booster"
 	"item" "item_black_king_bar"
@@ -149,7 +156,12 @@
 	// Level 4 - Orange / Orb / Artifacts
 	"artifacts"
 	{
-	"item" "item_asura_sword"
+		"item" "item_asura_sword"
+		"item" "item_ghost"
+		"item" "item_ghost_scepter2"
+		"item" "item_ghost_scepter3"
+		"item" "item_ghost_scepter4"
+		"item" "item_ghost_scepter5"
 	}
 	"sideshop1"
 	{

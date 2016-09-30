@@ -24,6 +24,210 @@
 	//  DOTA_ABILITY_BEHAVIOR_DIRECTIONAL = 1024 : This ability has a direction from the hero		
 	//  DOTA_ABILITY_BEHAVIOR_IMMEDIATE = 2048 : This ability does not interrupt other abilities
 	//
+	
+	//=================================================================================================================
+	// Ghost
+	//=================================================================================================================
+	"item_ghost"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"37"												// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"FightRecapLevel"				"1"
+		
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"35.0"		 
+		"AbilitySharedCooldown"			"ethereal"
+		"HasPureCooldown"				"1"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"350"
+		"ItemShopTags"					"int;agi;str;hard_to_tag"
+		"ItemQuality"					"component"
+		"ItemAliases"					"ghost scepter"
+
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_all_stats"		"5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"4.0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"extra_spell_damage_percent"	"-40"
+			}
+		}
+	}
+	
+	//=================================================================================================================
+	// Recipe: Bloodthorn
+	//=================================================================================================================
+	"item_recipe_bloodthorn"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"245"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"Model"							"models/props_gameplay/recipe.vmdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"150"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_bloodthorn"
+		"ItemRequirements"
+		{
+			"01"						"item_orchid;item_lesser_crit"
+		}
+	}
+	
+	//=================================================================================================================
+	// Bloodthorn
+	//=================================================================================================================
+	"item_bloodthorn"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"250"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"FightRecapLevel"				"1"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"900"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"13.0"
+		"AbilitySharedCooldown"			"orchid"
+		"PiercesDisableReduction"		"1"
+		"HasPureCooldown"				"1"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100"
+		"ItemCost"						"7195"
+		"ItemShopTags"					"int;attack_speed;damage;regen_mana;damage;hard_to_tag"
+		"ItemQuality"					"rare"
+		"ItemAliases"					"orchid malevolence"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_intellect"		"25"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attack_speed"	"30"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"60"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana_regen"		"150"
+			}			
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"crit_chance"			"20"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"crit_multiplier"		"175"
+			}	
+			"07"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"silence_damage_percent"	"30"
+			}	
+			"08"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"silence_duration"		"5"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"target_crit_multiplier"		"145"
+			}
+		}
+	}
+	
+	//=================================================================================================================
+	// Blade Mail
+	//=================================================================================================================
+	"item_blade_mail"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"127"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+		// Stats		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"20.0"
+
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"25"
+		"ItemCost"						"420"
+		"ItemShopTags"					"damage;armor;int;hard_to_tag"
+		"ItemQuality"					"epic"
+		"ItemAliases"					"blade mail"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		// Special	
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"			"22"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"			"6"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_intellect"		"10"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"4"
+			}
+		}
+	}
 
 	//=================================================================================================================
 	// Blink dagger
@@ -3927,6 +4131,8 @@
 		"ItemShopTags"					"int;attack_speed;damage;regen_mana;damage;hard_to_tag"
 		"ItemQuality"					"rare"
 		"ItemAliases"					"orchid malevolence"
+		"PiercesDisableReduction"		"1"
+		"HasPureCooldown"				"1"
 		
 		
 		// Special	
@@ -5098,6 +5304,11 @@
 	    "ItemQuality"                   "rare"
 	    "ItemAliases"                   "refresher orb"
 	    "ItemDeclarations"              "DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+		
+		"precache"
+		{
+			"particle"	"particles/items2_fx/refresher.vpcf"
+		}
 	    
 	    "AbilitySpecial"
 	    {
@@ -5135,6 +5346,17 @@
 	            "ScriptFile"        "lua_item/simple_item.lua"
 	            "Function"          "refresher"
 	        }
+			"FireEffect"
+			{
+				"EffectName"	"particles/items2_fx/refresher.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Target"		"CASTER"
+			}
+			"FireSound"
+			{
+				"EffectName"	"DOTA_Item.Refresher.Activate"
+				"Target"		"CASTER"
+			}
 	    }
 	    
 	    "Modifiers"
@@ -5260,7 +5482,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"cooldown_ranged_tooltip"		"0"
+				"cooldown_ranged_tooltip"		"0.5"
 			}
 		}
 	}
@@ -6086,7 +6308,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bash_chance"			"5"
+				"bash_chance"			"0"
 			}
 			"04"
 			{
@@ -7079,32 +7301,6 @@
 			}
 		}
 	}
-	
-	//=================================================================================================================
-	// Recipe: Sange
-	//=================================================================================================================
-	"item_recipe_sange"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"161"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"120"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_sange"
-		"ItemRequirements"
-		{
-			"01"						"item_ogre_axe;item_belt_of_strength"
-		}
-	}
-	
 	//=================================================================================================================
 	// Sange
 	//=================================================================================================================
@@ -10098,7 +10294,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"spell_amp"				"25"
+				"spell_amp"				"10"
 			}
 		}
 	}

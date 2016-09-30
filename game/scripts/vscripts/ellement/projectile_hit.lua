@@ -14,7 +14,7 @@ function projectile_hit(keys)
 
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_PURE,
 		                        }
@@ -24,11 +24,11 @@ function projectile_hit(keys)
 		if lastskill == "Heavy_Ice_Projectile" then
 			local target = keys.target
 		    local caster = keys.caster
-		    local damage_Hit = keys.caster:GetLevel()*(ice+wind)^4*fire
+		    local damage_Hit = ((keys.caster:GetLevel()^0.5)*(ice+wind)^4*fire)/2
 
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600)/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -49,17 +49,17 @@ function projectile_hit(keys)
 		    local caster = keys.caster
 		    local fire = caster.invocation_power_fire
 		    local ice = caster.invocation_power_ice
-		    local damage_Hit = keys.caster:GetLevel()*(ice+fire)^4*4
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*(ice+fire)^4
 
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
 
-		    local damage_AoE = caster:GetLevel()*fire^4*2 + ice^4 + ((ice+fire)*40)^2
+		    local damage_AoE = (caster:GetLevel()^0.9)*fire^4*2 + ice^4 + ((ice+fire)*40)^2
 		    local radius = 500
 		    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
 		                              target:GetAbsOrigin(),
@@ -75,10 +75,10 @@ function projectile_hit(keys)
 		                        attacker = caster,
 		                        ability = keys.ability,
 		                        damage = damage_AoE,
-		                        damage_type = DAMAGE_TYPE_PHYSICAL,
+		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
-	            	Fire_Dot(keys,caster, unit,math.floor(((fire)^2*((keys.caster:GetLevel()/2)^2)*25)))
+	            	Fire_Dot(keys,caster, unit,math.floor(((fire)^2*((keys.caster:GetLevel()^0.6/2)^2)*25)))
 	            	keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "iceflame_display", {duration = 5})
 	                keys.ability:ApplyDataDrivenModifier(keys.caster, unit, "slow_modifier", {duration = 5})
 	                unit:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*(25) ) )
@@ -97,6 +97,9 @@ function projectile_hit(keys)
 			target:EmitSound("Hero_Techies.Suicide")
 			ParticleManager:SetParticleControl(fire_spear_explosion_effect, 0, target:GetAbsOrigin())
 			ParticleManager:SetParticleControl(fire_spear_explosion_effect, 5, target:GetAbsOrigin())
+			Timers:CreateTimer(5,function()
+                        ParticleManager:DestroyParticle( fire_spear_explosion_effect , false)
+                end)
 		end
 
 		if lastskill == "fire_ball" then
@@ -104,17 +107,17 @@ function projectile_hit(keys)
 		    local caster = keys.caster
 		    local fire = caster.invocation_power_fire
 		    local wind = caster.invocation_power_wind
-		    local damage_Hit = keys.caster:GetLevel()*fire^4 * (1+ice^1.5) * (1+wind)
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*fire^4 * (1+ice^1.5) * (1+wind)
 
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
 
-		    local damage_AoE = caster:GetLevel()*fire^4 * (1+ice^1.5) * (1+wind)
+		    local damage_AoE = (caster:GetLevel()^0.9)*fire^4 * (1+ice^1.5) * (1+wind)
 		    local radius = 250*ice
 		    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
 		                              target:GetAbsOrigin(),
@@ -128,21 +131,14 @@ function projectile_hit(keys)
 		    for _,unit in pairs(nearbyUnits) do
 		            local damageTableAoe = {victim = unit,
 		                        attacker = caster,
-		                        damage = damage_AoE/(1+(caster:GetIntellect()/1600)),
+		                        damage = damage_AoE,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
 		            keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5+1})
-	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel())^2)*25))
+	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()^0.6)*25)))
 
-	            	fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , unit)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, unit:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, unit:GetAbsOrigin())
-
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
 		    end
 
 			ProjectileManager:DestroyLinearProjectile(keys.caster.projectile_table[1])
@@ -150,32 +146,25 @@ function projectile_hit(keys)
 			target:EmitSound("Hero_Techies.Suicide")
 			ParticleManager:SetParticleControl(fire_spear_explosion_effect, 0, target:GetAbsOrigin())
 			ParticleManager:SetParticleControl(fire_spear_explosion_effect, 5, target:GetAbsOrigin())
+			Timers:CreateTimer(5,function()
+                        ParticleManager:DestroyParticle( fire_spear_explosion_effect , false)
+                end)
 		end
 
 		if lastskill == "steam_tempest" then
 
 			local fire = keys.caster.invocation_power_fire
 			local ice = keys.caster.invocation_power_ice
-			local damage_Hit = (keys.caster:GetLevel()*(ice^3*2 + fire^3*3)*1.5 + (ice+fire)*200)*2
+			local damage_Hit = ((keys.caster:GetLevel()^0.5)*(ice^3*2 + fire^3*3)*1.5 + (ice+fire)*200)*2
 			keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 6})
 			keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier_display", {duration = 6})
 	        keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier", {duration = 6})
 	        keys.target:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*3) )
 
-	        fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
-
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
-
-	        
-
-	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3*wind/2*ice)^2*((keys.caster:GetLevel()/2)^1.5)*10),5+1)
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3*wind/2*ice)^2*((keys.caster:GetLevel()^0.6/2))*10),5+1)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -192,26 +181,16 @@ function projectile_hit(keys)
 
 			local fire = keys.caster.invocation_power_fire
 			local ice = keys.caster.invocation_power_ice
-			local damage_Hit = keys.caster:GetLevel()*(ice^3*0.5 + fire^3*0.6)*5 + (ice+fire)*2000
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*(ice^3*0.5 + fire^3*0.6)*5 + (ice+fire)*2000
 			keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 6})
 			keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier_display", {duration = 6})
 	        keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier", {duration = 6})
 	        keys.target:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*3) )
 
-	        fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
-
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
-
-	        
-
-	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3+ice/2+wind/2)^2.5*((keys.caster:GetLevel()/2)^1.5)*10),fire/2)
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3+ice/2+wind/2)^2.5*((keys.caster:GetLevel()^0.6/2))*10),fire/2)
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -227,7 +206,7 @@ function projectile_hit(keys)
 
 			local fire = keys.caster.invocation_power_fire
 			local ice = keys.caster.invocation_power_ice
-			local damage_Hit = keys.caster:GetLevel()*((ice)^4 + (fire)^4)*2 + (ice*fire)*4000
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*((ice)^4 + (fire)^4)*2 + (ice*fire)*4000
 			print (damage_Hit)
 			keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier_display", {duration = 11})
 	        keys.ability:ApplyDataDrivenModifier(keys.caster, keys.target, "slow_modifier", {duration = 11})
@@ -245,7 +224,7 @@ function projectile_hit(keys)
 
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -259,10 +238,10 @@ function projectile_hit(keys)
 
 		if lastskill == "wind_stream" then
 			local wind = keys.caster.invocation_power_wind
-			local damage_Hit = keys.caster:GetLevel()*wind^4*4 + (wind)*500
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*wind^4*4 + (wind)*500
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
@@ -276,7 +255,7 @@ function projectile_hit(keys)
 		if lastskill == "Blizzard" then
 			local wind = keys.caster.invocation_power_wind
 			local ice = keys.caster.invocation_power_ice
-			local damage_Hit = keys.caster:GetLevel()*(ice+wind)^4 * 0.5 + (ice+wind)*500
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*(ice+wind)^4 * 0.3 + (ice+wind)*250
 			keys.ability:ApplyDataDrivenModifier(caster, target, "slow_modifier_display", {duration = 5+(wind/4)})
 	        keys.ability:ApplyDataDrivenModifier(caster, target, "slow_modifier", {duration = 5+(ice/2)+(wind/3)})
 	        target:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*30) )
@@ -292,7 +271,7 @@ function projectile_hit(keys)
 
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -310,7 +289,7 @@ function projectile_hit(keys)
 			local caster = keys.caster
 			local wind = keys.caster.invocation_power_wind
 			local ice = keys.caster.invocation_power_ice
-			local damage_Hit = keys.caster:GetLevel()*(ice+wind)^4 *0.5 + (ice+wind)*1000
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*(ice+wind)^4 *0.3 + (ice+wind)*500
 			keys.ability:ApplyDataDrivenModifier(caster, target, "slow_modifier_display", {duration = 5+(wind/4)})
 	        keys.ability:ApplyDataDrivenModifier(caster, target, "slow_modifier", {duration = 5+(wind/4)})
 	        target:SetModifierStackCount( "slow_modifier", keys.ability, math.floor(ice*20) )
@@ -328,7 +307,7 @@ function projectile_hit(keys)
 
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -345,22 +324,14 @@ function projectile_hit(keys)
 			local caster = keys.caster
 			local wind = keys.caster.invocation_power_wind
 			local fire = keys.caster.invocation_power_fire
-			local damage_Hit = keys.caster:GetLevel()*(fire+wind)^4 + (fire+wind)*1000
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*(fire+wind)^4 + (fire+wind)*1000
 			keys.duration = (wind/4)
 			keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 5+(wind/4)})
 
-			fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
-
-	                Timers:CreateTimer(5+(wind/4),function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
-
-	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel())^2)),3+(wind/4))
+	       	Fire_Dot(keys,keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel()^0.6))),3+(wind/4))
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -378,21 +349,13 @@ function projectile_hit(keys)
 			local caster = keys.caster
 			local wind = keys.caster.invocation_power_wind
 			local fire = keys.caster.invocation_power_fire
-			local damage_Hit = keys.caster:GetLevel()*(fire+wind)^4*0.5 + (fire+wind)*1000 
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*(fire+wind)^4*0.5 + (fire+wind)*1000 
 			keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 5+(wind/4)})
-	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel()/2)^1.5)*40),5+(wind/4))
-
-	        fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
-
-	                Timers:CreateTimer(5+(wind/4),function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire)^2*((keys.caster:GetLevel()^0.6/2))*40),5+(wind/4))
 
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -407,10 +370,10 @@ function projectile_hit(keys)
 		if lastskill == "Turnado" then
 
 			local wind = keys.caster.invocation_power_wind
-			local damage_Hit = keys.caster:GetLevel()*wind^3*5 + (wind)*1000
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*wind^3*5 + (wind)*1000
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -425,10 +388,10 @@ function projectile_hit(keys)
 		if lastskill == "Tempest" then
 
 			local wind = keys.caster.invocation_power_wind
-			local damage_Hit = keys.caster:GetLevel()*wind^3*5 + (wind)*500
+			local damage_Hit = (keys.caster:GetLevel()^0.5)*wind^3*5 + (wind)*500
 		    local damageTableHit = {victim = keys.target,
 		                        attacker = keys.caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -444,24 +407,18 @@ function projectile_hit(keys)
 			local target = keys.target
 		    local caster = keys.caster
 		    local fire = caster.invocation_power_fire
-		    local damage_Hit = keys.caster:GetLevel()*fire^4*2 + (fire)*500
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*fire^4*2 + (fire)*500
 		    print (damage_Hit)
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
 		    keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 5})
-		    fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
 
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
-	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()^0.6/2))*25))
 		end
 
 		if lastskill == "iceshard2" then
@@ -469,10 +426,10 @@ function projectile_hit(keys)
 		    local caster = keys.caster
 		    local ice = caster.invocation_power_ice
 		    local wind = caster.invocation_power_wind
-		    local damage_Hit = keys.caster:GetLevel()*wind^4*3 + (ice+wind)*500
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*wind^4*1.25 + (ice+wind)*250
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -493,10 +450,10 @@ function projectile_hit(keys)
 		    local caster = keys.caster
 		    local ice = caster.invocation_power_ice
 		    local wind = caster.invocation_power_wind
-		    local damage_Hit = keys.caster:GetLevel()*wind^4*30 + (ice+wind)*1000
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*wind^4*10 + (ice+wind)*500
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
@@ -516,40 +473,34 @@ function projectile_hit(keys)
 			local target = keys.target
 		    local caster = keys.caster
 		    local fire = caster.invocation_power_fire
-		    local damage_Hit = keys.caster:GetLevel()*fire^4*2 + (fire)*250
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*fire^4*2 + (fire)*250
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
 		    keys.ability:ApplyDataDrivenModifier(caster, target, "fire_dot_display", {duration = 5})
-		    fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , keys.target)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, keys.target:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, keys.target:GetAbsOrigin())
 
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
-	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	        Fire_Dot(keys,keys.caster, keys.target,math.floor((fire/3)^2*((keys.caster:GetLevel()^0.6/2))*25))
 		end
 
 		if lastskill == "explosive_fire_spear" then
 			local target = keys.target
 		    local caster = keys.caster
 		    local fire = caster.invocation_power_fire
-		    local damage_Hit = keys.caster:GetLevel()*fire^4*4 + (fire)*2000
+		    local damage_Hit = (keys.caster:GetLevel()^0.5)*fire^4*4 + (fire)*2000
 
 		    local damageTableHit = {victim = target,
 		                        attacker = caster,
-		                        damage = damage_Hit/(1+caster:GetIntellect()/1600),
+		                        damage = damage_Hit,
 		                        ability = keys.ability,
 		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		    ApplyDamage(damageTableHit)
 
-		    local damage_AoE = caster:GetLevel()*fire^4*0.5
+		    local damage_AoE = (caster:GetLevel()^0.9)*fire^4*0.5
 		    print (damage_Hit)
 		    print (damage_AoE)
 		    local radius = 500 + 25*fire
@@ -565,22 +516,15 @@ function projectile_hit(keys)
 		    for _,unit in pairs(nearbyUnits) do
 		            local damageTableAoe = {victim = unit,
 		                        attacker = caster,
-		                        damage = damage_AoE/(1+(caster:GetIntellect()/1600)),
+		                        damage = damage_AoE,
 		                        ability = keys.ability,
-		                        damage_type = DAMAGE_TYPE_PHYSICAL,
+		                        damage_type = DAMAGE_TYPE_MAGICAL,
 		                        }
 		            ApplyDamage(damageTableAoe)
 		            keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot_display", {duration = 5})
 	            	keys.ability:ApplyDataDrivenModifier(caster, unit, "fire_dot", {duration = 5})
-	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()/2)^1.5)*25))
+	            	Fire_Dot(keys,caster, unit,math.floor((fire/3)^2*((keys.caster:GetLevel()^0.6/2))*25))
 
-	            	fire_debuff_effect = ParticleManager:CreateParticle("particles/fire_debuff.vpcf", PATTACH_ABSORIGIN , unit)
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 0, unit:GetAbsOrigin())
-	                ParticleManager:SetParticleControl(fire_debuff_effect, 1, unit:GetAbsOrigin())
-
-	                Timers:CreateTimer(5,function()
-				            ParticleManager:DestroyParticle( fire_debuff_effect, false)
-				    end)
 		    end
 
 			ProjectileManager:DestroyLinearProjectile(keys.caster.projectile_table[1])
@@ -600,7 +544,7 @@ function Fire_Dot(keys,caster,target,Damage,duration)
 	end
 	local damageTableDOT = {victim = target,
 	                    attacker = caster,
-	                    damage = Damage/(1+(caster:GetIntellect()/1600)),
+	                    damage = Damage,
 	                    ability = keys.ability,
 	                    damage_type = DAMAGE_TYPE_MAGICAL,
 	                    }
