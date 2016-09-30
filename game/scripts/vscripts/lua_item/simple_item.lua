@@ -1,11 +1,13 @@
 require( "libraries/Timers" )
 require( "lua_abilities/Check_Aghanim" )
+require("libraries/utility")
 
 function refresher( keys )
     local caster = keys.caster
-    
+    local item = keys.ability
     -- Reset cooldown for abilities
-    local no_refresh_skill = {["mirana_arrow"] = true}
+    local no_refresh_skill = {["arc_warden_tempest_double"] = true}
+	local refresher_shared = {["item_octarine_core4"] = true,["item_octarine_core5"] = true,["item_asura_core"] = true,["item_refresher"] = true}
     for i = 0, caster:GetAbilityCount() - 1 do
         local ability = caster:GetAbilityByIndex( i )
         if ability and ability ~= keys.ability and not no_refresh_skill[ ability:GetAbilityName() ] then
@@ -14,16 +16,64 @@ function refresher( keys )
     end
     for i=0, 5, 1 do
         local current_item = keys.caster:GetItemInSlot(i)
-        if current_item ~= nil then
-            if current_item:GetName() ~= "item_refresher" then  --Refresher Orb does not refresh itself.
-                current_item:EndCooldown()
-            end
+        if current_item ~= nil and current_item ~= item then
+            current_item:EndCooldown()
+			print(current_item:GetName())
+			if refresher_shared[ current_item:GetName() ] then
+				current_item:StartCooldown(item:GetCooldownTimeRemaining())
+			end
         end
     end
 end
 
+function OrchidInit(keys) -- prevent int scaling from messing with my shit
+	keys.target.oldhp = keys.target:GetHealth()
+	keys.target.orchiddamage = 0
+end
 
+function OrchidAmp(keys)
+	local target = keys.unit
+	for k,v in pairs(keys) do
+		print(k,v)
+	end
+	if not target:IsAlive() then return end
+	if not target.orchiddamage then target.orchiddamage = 0 end
+	if not target.oldhp then target.oldhp = target:GetHealth() end
+	local damage = target.oldhp - target:GetHealth()
+	target.oldhp = target:GetHealth()
+	if damage <= 0 then return end
+	local amp = keys.ability:GetSpecialValueFor("silence_damage_percent") / 100
+	target.orchiddamage = target.orchiddamage + damage * amp
+end
 
+function OrchidPop(keys)
+	local target = keys.target
+	ApplyDamage({victim = keys.target, attacker = keys.caster, damage = target.orchiddamage, damage_type = keys.ability:GetAbilityDamageType(), ability = keys.ability})
+	target.orchiddamage = 0
+end
+
+function Bash(keys)
+	local damage_table = {}
+
+	damage_table.attacker = keys.caster
+	damage_table.damage_type = DAMAGE_TYPE_PURE
+	damage_table.ability = keys.ability
+	damage_table.victim = keys.target
+	damage_table.damage = keys.bash/get_aether_multiplier(keys.caster)
+
+	ApplyDamage(damage_table)
+end
+
+function DumbScepterFix(keys)
+	if not keys.caster:HasModifier("modifier_item_ultimate_scepter") and keys.caster:GetUnitName() ~="npc_dota_courier" then
+		keys.caster:RemoveItem(keys.ability)
+		local scepter = keys.caster:AddItem(CreateItem("item_ultimate_scepter", keys.caster, keys.caster))  --This should be put into the same slot that the removed item was in.
+		keys.caster:AddNewModifier(keys.caster,nil,"modifier_item_ultimate_scepter", keys.ability)
+		keys.caster:RemoveItem(scepter)
+		keys.caster:AddNewModifier(keys.caster,nil,"modifier_item_ultimate_scepter", keys.ability)
+		keys.caster:AddItem(CreateItem("item_ultimate_amulet", keys.caster, keys.caster))
+	end
+end
 
 -- Clears the force attack target upon expiration
 function BerserkersCallEnd( keys )
@@ -41,7 +91,7 @@ function Cooldown_powder(keys)
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
         item:StartCooldown(45)
     end
-    if GetMapName() == "epic_boss_fight_hard" then
+    if GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
         item:StartCooldown(35)
     end
     if GetMapName() == "epic_boss_fight_normal" then
@@ -57,32 +107,79 @@ function Cooldown_pixels(keys)
     if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" then
         item:StartCooldown(18)
     end
-    if GetMapName() == "epic_boss_fight_hard" then
-        item:StartCooldown(15)
+    if GetMapName() == "epic_boss_fight_hard" or GetMapName() == "epic_boss_fight_boss_master" then
+        item:StartCooldown(16)
     end
     if GetMapName() == "epic_boss_fight_normal" then
-        item:StartCooldown(12)
+        item:StartCooldown(14)
     end
 end
 
-function ares_powder(keys)
+LinkLuaModifier( "modifier_tauntmail", "lua_item/modifier_tauntmail.lua" ,LUA_MODIFIER_MOTION_NONE )
+
+function tauntarmor(keys)
     local caster = keys.caster
-    local radius = keys.item:GetLevelSpecialValueFor("Radius", 0)
+    local radius = keys.ability:GetSpecialValueFor("radius")
+	local base_threat = keys.ability:GetSpecialValueFor("base_threat")
+	local threat_pe = keys.ability:GetSpecialValueFor("threat_per_enemy")
+	local duration = keys.ability:GetSpecialValueFor("duration")
+	caster:AddNewModifier(caster,keys.ability, "modifier_tauntmail", {duration = duration})
+	if not caster.threat then caster.threat = 0 end
+	caster.threat = caster.threat + base_threat
+	caster.lastHit = GameRules:GetGameTime()
     caster.ennemyunit = FindUnitsInRadius(caster:GetTeam(),
                               caster:GetAbsOrigin(),
                               nil,
                               radius,
-                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_TEAM_ENEMY,
                               DOTA_UNIT_TARGET_ALL,
                               DOTA_UNIT_TARGET_FLAG_NONE,
                               FIND_ANY_ORDER,
                               false)
     for _,unit in pairs(caster.ennemyunit) do
         unit:SetForceAttackTarget(nil)
-        if caster:IsAlive() then
+        if caster:IsAlive() and unit then
+			caster.threat = caster.threat + threat_pe
             local order = 
             {
-                UnitIndex = target:entindex(),
+                UnitIndex = unit:entindex(),
+                OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
+                TargetIndex = caster:entindex()
+            }
+            ExecuteOrderFromTable(order)
+        else
+            unit:Stop()
+        end
+        unit:SetForceAttackTarget(caster)
+    end
+	local event_data =
+	{
+		threat = caster.threat,
+		lastHit = caster.lastHit,
+		aggro = caster.aggro or 0
+	}
+	local player = caster:GetPlayerOwner()
+	CustomGameEventManager:Send_ServerToPlayer( player, "Update_threat", event_data )
+end
+
+function ares_powder(keys)
+    local caster = keys.caster
+    local radius = keys.ability:GetLevelSpecialValueFor("Radius", 0)
+    caster.ennemyunit = FindUnitsInRadius(caster:GetTeam(),
+                              caster:GetAbsOrigin(),
+                              nil,
+                              radius,
+                              DOTA_UNIT_TARGET_TEAM_ENEMY,
+                              DOTA_UNIT_TARGET_ALL,
+                              DOTA_UNIT_TARGET_FLAG_NONE,
+                              FIND_ANY_ORDER,
+                              false)
+    for _,unit in pairs(caster.ennemyunit) do
+        unit:SetForceAttackTarget(nil)
+        if caster:IsAlive() and unit then
+            local order = 
+            {
+                UnitIndex = unit:entindex(),
                 OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET,
                 TargetIndex = caster:entindex()
             }
@@ -93,8 +190,10 @@ function ares_powder(keys)
         unit:SetForceAttackTarget(caster)
     end
 end
-function ares_powder_end(keys)
 
+function ares_powder_end(keys)
+	local caster = keys.caster
+	if not caster.ennemyunit then return end
     for _,unit in pairs(caster.ennemyunit) do
         unit:SetForceAttackTarget(nil)
     end
@@ -161,13 +260,15 @@ function scale_asura(keys)
     local caster = keys.caster
     local item = keys.ability
     
-        Timers:CreateTimer(2.0,function()
+        Timers:CreateTimer(0.1,function()
                 local stack = GameRules._roundnumber
                 caster:SetModifierStackCount( "scale_per_round_heart", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_plate", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_rapier", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_staff", caster, stack)
                 caster:SetModifierStackCount( "scale_per_round_sword", caster, stack)
+				caster:SetModifierStackCount( "scale_per_round_core", caster, stack)
+				caster:SetModifierStackCount( "scale_per_round_wand", caster, stack)
                 caster:SetModifierStackCount( "scale_display", caster, stack)
                 if Have_Item(caster,item:GetName()) == true then
                     return 2.0
@@ -211,15 +312,37 @@ end
 function Pierce(keys)
     local caster = keys.caster
     local target = keys.target
+	if target:IsIllusion() then return end
     local item = keys.ability
-	local int_scaling = 1+(caster:GetIntellect()/1600)
     local percent = item:GetLevelSpecialValueFor("Pierce_percent", 0)
-    local damage = (keys.damage_on_hit*percent*0.01)/int_scaling
+    local damage = (keys.damage_on_hit*percent*0.01)
+	if caster:IsIllusion() then
+		damage = damage/7
+	end
     local damageTable = {victim = target,
                 attacker = caster,
-                damage = damage,
+                damage = damage/get_aether_multiplier(caster),
                 damage_type = DAMAGE_TYPE_PURE,
-                ability = keys.ability,
+                ability = item,
+                }
+    ApplyDamage(damageTable)
+end
+
+function SharedPierce(keys)
+    local caster = keys.caster
+    local target = keys.target
+	if target:IsIllusion() then return end
+    local item = keys.ability
+    local percent = item:GetLevelSpecialValueFor("target_pierce", 0)
+    local damage = (keys.damage_on_hit*percent*0.01)
+	if caster:IsIllusion() then
+		damage = damage/7
+	end
+    local damageTable = {victim = target,
+                attacker = caster,
+                damage = damage/get_aether_multiplier(caster),
+                damage_type = DAMAGE_TYPE_PURE,
+                ability = item,
                 }
     ApplyDamage(damageTable)
 end
@@ -229,12 +352,15 @@ function Pierce_Splash(keys)
     local caster = keys.caster
     local target = keys.target
     local item = keys.ability
-    local radius = item:GetLevelSpecialValueFor("radius", 0)
-    local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
-	local percent_p = item:GetLevelSpecialValueFor("Pierce_percent", 0)
-	local int_scaling = 1+(caster:GetIntellect()/1600)
-    local damage = keys.damage_on_hit*0.01/int_scaling
-    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
+	if target:IsIllusion() then return end
+    local radius = item:GetSpecialValueFor("radius")
+    local percent = item:GetSpecialValueFor("splash_damage")
+	local percent_p = item:GetSpecialValueFor("Pierce_percent") / 100
+    local damage = keys.damage_on_hit
+	if caster:IsIllusion() then
+		damage = damage/7
+	end
+    local nearbyUnits = FindUnitsInRadius(DOTA_TEAM_BADGUYS,
                               target:GetAbsOrigin(),
                               nil,
                               radius,
@@ -243,23 +369,12 @@ function Pierce_Splash(keys)
                               DOTA_UNIT_TARGET_FLAG_NONE,
                               FIND_ANY_ORDER,
                               false)
-    for _,unit in pairs(nearbyUnits) do
-        if unit ~= target then
-            local damageTable = {victim = unit,
-                        attacker = caster,
-                        damage = damage*(1-percent_p),
-                        damage_type = DAMAGE_TYPE_PHYSICAL,
-                        ability = keys.ability
-                        }
-            ApplyDamage(damageTable)
-        end
-    end
 	for _,unit in pairs(nearbyUnits) do
 		local damageTable = {victim = unit,
                 attacker = caster,
-                damage = damage*percent_p,
+                damage = (damage*percent_p)/get_aether_multiplier(caster),
                 damage_type = DAMAGE_TYPE_PURE,
-                ability = keys.ability
+                ability = item
                 }
 		ApplyDamage(damageTable)
 	end
@@ -281,7 +396,10 @@ function ToggleItem(keys)
 		if current_item ~= nil then
 			if current_item:GetName() == "item_dummy_datadriven" then
 				keys.caster:RemoveItem(current_item)
+			elseif current_item:GetName() == keys.ItemName then
+				current_item:StartCooldown(1)
 			end
+
 		end
 	end
 end
@@ -292,7 +410,7 @@ function LightningJump(keys)
 	local ability = keys.ability
 	local jump_delay = 0.25
 	local radius = 800
-	
+	if caster:IsIllusion() then return end
 	-- Removes the hidden modifier
 	target:RemoveModifierByName("modifier_arc_lightning_hammer")
 	
@@ -371,6 +489,8 @@ function NewInstance(keys)
 	local ability = keys.ability
 	local target = keys.target
 	
+	if caster:IsIllusion() then return end
+	
 	-- Keeps track of the total number of instances of the ability (increments on cast)
 	if ability.instance == nil then
 		ability.instance = 0
@@ -391,18 +511,15 @@ function NewInstance(keys)
     ParticleManager:SetParticleControl(lightningBolt,1,Vector(target:GetAbsOrigin().x,target:GetAbsOrigin().y,target:GetAbsOrigin().z + target:GetBoundingMaxs().z ))   
 end
 
-function CD_divine_armor(keys)
-    keys.ability:StartCooldown(33)
-end
-
 function CD_Bahamut(keys)
     for _,unit in pairs ( Entities:FindAllByName( "npc_dota_*")) do
         if unit:GetTeam() == DOTA_TEAM_GOODGUYS then
             for itemSlot = 0, 5, 1 do --a For loop is needed to loop through each slot and check if it is the item that it needs to drop
                     if unit ~= nil then --checks to make sure the killed unit is not nonexistent.
                         local Item = unit:GetItemInSlot( itemSlot ) -- uses a variable which gets the actual item in the slot specified starting at 0, 1st slot, and ending at 5,the 6th slot.
-                        if Item ~= nil and Item:GetName() == "item_bahamut_chest" or Item ~= nil and Item:GetName() == "item_asura_plate" then
-                            Item:StartCooldown(40)
+                        if Item ~= nil and (Item:GetName() == "item_bahamut_chest" or Item:GetName() == "item_asura_plate") then
+							Item:EndCooldown()
+                            Item:StartCooldown(Item:GetCooldown(-1))
                         end
                     end
             end
@@ -424,30 +541,42 @@ function CD_Bahamut(keys)
 end
 
 function CD_pure(keys)
-    local CD = keys.cooldown
-    if keys.ability:GetCooldownTimeRemaining() <=CD then
+    local CD = keys.ability:GetCooldown(-1)
+    if keys.ability:GetCooldownTimeRemaining() <= CD then
+		keys.ability:EndCooldown()
         keys.ability:StartCooldown(CD)
     end
 end
 
-function item_blink_boots_check_charge(keys)
+
+
+function item_blink_boots_start_charge(keys)
     local item = keys.ability
 
     if item:GetCurrentCharges() == 0 then item:SetCurrentCharges(1) end
     if item.blink_charge == nil then item:SetCurrentCharges(3) end
 
     item.blink_charge = true
-    item.blink_next_charge = GameRules:GetGameTime() + 8
+	
+	local mult = 1
+	if keys.caster:FindAbilityByName("perk_mobility") then
+		mult = 1 - (keys.caster:FindAbilityByName("perk_mobility"):GetSpecialValueFor("mobility_reduction"))/100
+	end
+    item.blink_next_charge = GameRules:GetGameTime() + 8*get_octarine_multiplier(keys.caster)*mult
+end
 
-    Timers:CreateTimer(0.3,function() 
-        if item.blink_charge == true then
-            if GameRules:GetGameTime() >= item.blink_next_charge and item:GetCurrentCharges() < 3 then
-                item:SetCurrentCharges(item:GetCurrentCharges()+1)
-                item.blink_next_charge = GameRules:GetGameTime() + 8
-            end
-            return 0.3
+function item_blink_boots_check_charge(keys)
+	local item = keys.ability
+    if item.blink_charge == true then
+        if GameRules:GetGameTime() >= item.blink_next_charge and item:GetCurrentCharges() < 3 then
+			local mult = 1
+			if keys.caster:FindAbilityByName("perk_mobility") then
+				mult = 1 - (keys.caster:FindAbilityByName("perk_mobility"):GetSpecialValueFor("mobility_reduction"))/100
+			end
+            item:SetCurrentCharges(item:GetCurrentCharges()+1)
+            item.blink_next_charge = GameRules:GetGameTime() + 8*get_octarine_multiplier(keys.caster)*mult
         end
-    end)
+    end
 end
 
 function item_blink_boots_stop_charge(keys)
@@ -459,8 +588,8 @@ function item_blink_boots_blink(keys)
     local item = keys.ability
     local caster = keys.caster
     if item:GetCurrentCharges() > 0 then
-        local nMaxBlink = 1500 
-        local nClamp = 1200
+        local nMaxBlink = 1500 + get_aether_range(caster)
+        local nClamp = 1500 + get_aether_range(caster)
         local vPoints = item:GetCursorPosition() 
         local vOrigin = caster:GetAbsOrigin()
 
@@ -473,10 +602,8 @@ function item_blink_boots_blink(keys)
         caster:SetAbsOrigin(vPoints)
         FindClearSpaceForUnit(caster, vPoints, false)
         ParticleManager:CreateParticle("particles/items_fx/blink_dagger_end.vpcf", PATTACH_ABSORIGIN, caster)
-        if item:GetCurrentCharges() == 3 then
-            item.blink_next_charge = GameRules:GetGameTime() + 8
-        end
         item:SetCurrentCharges(item:GetCurrentCharges()-1)
+		item.blink_next_charge = GameRules:GetGameTime() + 8*get_octarine_multiplier(caster)
         if item:GetCurrentCharges() == 0 then
             item:StartCooldown(item.blink_next_charge - GameRules:GetGameTime())
         end
@@ -489,7 +616,7 @@ function item_dagon_datadriven_on_spell_start(keys)
     local item = keys.ability
     local int_multiplier = item:GetLevelSpecialValueFor("damage_per_int", 0) 
     local damage = caster:GetIntellect() * int_multiplier + item:GetLevelSpecialValueFor("damage_base", 0) 
-    print (damage)
+    local damageType = DAMAGE_TYPE_MAGICAL
     local dagon_particle = ParticleManager:CreateParticle("particles/dagon_mystic.vpcf",  PATTACH_ABSORIGIN_FOLLOW, keys.caster)
     ParticleManager:SetParticleControlEnt(dagon_particle, 1, keys.target, PATTACH_POINT_FOLLOW, "attach_hitloc", keys.target:GetAbsOrigin(), false)
     local particle_effect_intensity = (200 + caster:GetIntellect()^0.2) --Control Point 2 in Dagon's particle effect takes a number between 400 and 800, depending on its level.
@@ -497,9 +624,16 @@ function item_dagon_datadriven_on_spell_start(keys)
     
     keys.caster:EmitSound("DOTA_Item.Dagon.Activate")
     keys.target:EmitSound("DOTA_Item.Dagon5.Target")
-        
-    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,ability = keys.ability,})
+    if item:GetName() == "item_asura_staff" and keys.target:GetBaseMagicalResistanceValue() >= 100  then
+		damageType = DAMAGE_TYPE_PURE
+		local pure_resist = (keys.target:GetBaseMagicalResistanceValue() - 100)/100
+		damage = damage * (1-pure_resist)
+	elseif item:GetName() == ("item_asura_wand") and keys.target:GetBaseMagicalResistanceValue() >= 10 then
+		damageType = DAMAGE_TYPE_PURE
+	end
+    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = damageType, ability = item})
 end
+
 
 function ShowPopup( data )
     if not data then return end
@@ -532,7 +666,7 @@ end
 
 
 function dev_armor(keys)
-    local killedUnit = EntIndexToHScript( keys.caster_entindex )
+    local killedUnit = caster.keys
     local origin = killedUnit:GetAbsOrigin()
     Timers:CreateTimer(0.03,function()
         killedUnit:RespawnHero(false, false, false)
@@ -547,10 +681,10 @@ function check_admin(keys)
     local ID = caster:GetPlayerID()
     if ID ~= nil and PlayerResource:IsValidPlayerID( ID ) then
         if PlayerResource:GetSteamAccountID( ID ) == 42452574 or PlayerResource:GetSteamAccountID( ID ) == 36111451 then
-            print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
+            Say(nil,"A God is among us", false)
         else
             Timers:CreateTimer(0.3,function()
-				Notifications:Top(pID, {text="YOU HAVE NO RIGHT TO HAVE THIS ITEM!", duration=3})
+				Notifications:Top(ID, {text="YOU HAVE NO RIGHT TO HAVE THIS ITEM!", duration=3})
                 caster:RemoveItem(item)
             end)
         end
@@ -565,10 +699,9 @@ function Berserker_damage(keys)
     local health_reduction = item:GetLevelSpecialValueFor("health_percent_lose", item:GetLevel()-1) * caster:GetMaxHealth() * 0.01
 
     if caster:IsRealHero() then
-        caster:SetHealth(caster:GetHealth()-health_reduction)
-        if caster:GetHealth() <=0 then
-          caster:SetHealth(1)
-        end
+		local sacrifice = caster:GetHealth() - health_reduction
+		if sacrifice <= 0 then sacrifice = 1 end
+        caster:SetHealth(sacrifice)
     end
 end
 
@@ -604,7 +737,7 @@ function veil(keys)
     local item = keys.ability
     local point = keys.target_points[1]
 
-    local Magical_ress_reduction = item:GetLevelSpecialValueFor("MR_debuff", 0)
+    local Magical_ress_reduction = item:GetLevelSpecialValueFor("resist_remove", 0)
     local active_duration = item:GetLevelSpecialValueFor("active_duration", 0)
     local debuff_radius = item:GetLevelSpecialValueFor("debuff_radius", 0)
     local debuff = "veil_debuff"
@@ -636,9 +769,8 @@ end
 function scythe_decay(keys)
     local item = keys.ability
 	local target = keys.target
-	local magic_reduction = keys.magic_reduction
-    local new_armor_target =  0
-    new_armor_target =  math.floor(target:GetBaseMagicalResistanceValue()  + magic_reduction)
+	local magic_reduction = math.abs(keys.magic_reduction)
+    local new_armor_target =  math.floor(target:GetBaseMagicalResistanceValue() - magic_reduction)
     target:SetBaseMagicalResistanceValue(new_armor_target)
     end
 
@@ -646,9 +778,9 @@ function restoremagicress(keys)
     print ("test")
     local item = keys.ability
     local unit = keys.target
-    local magic_reduction = keys.magic_reduction
+    local magic_reduction = math.abs(keys.magic_reduction)
     --unit.oldMR = true
-    unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() - magic_reduction)
+    unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() + magic_reduction)
 end
 
 function Splash(keys)
@@ -658,7 +790,7 @@ function Splash(keys)
     local radius = item:GetLevelSpecialValueFor("radius", 0)
     local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
     local damage = keys.damage_on_hit*percent*0.01
-    local nearbyUnits = FindUnitsInRadius(target:GetTeam(),
+    local nearbyUnits = FindUnitsInRadius(DOTA_TEAM_BADGUYS,
                               target:GetAbsOrigin(),
                               nil,
                               radius,
@@ -672,7 +804,7 @@ function Splash(keys)
             local damageTable = {victim = unit,
                         attacker = caster,
                         damage = damage,
-                        damage_type = DAMAGE_TYPE_PHYSICAL,
+                        damage_type = DAMAGE_TYPE_PHYSICAL/get_aether_multiplier(caster),
                         ability = keys.ability,
                         }
             ApplyDamage(damageTable)
@@ -719,15 +851,20 @@ function Splash_melee(keys)
     local radius = item:GetLevelSpecialValueFor("radius", 0)
     local percent = item:GetLevelSpecialValueFor("splash_damage", 0)
     local damage = keys.damage_on_hit*percent*0.01
-	local damagefilter = 1+(caster:GetIntellect()/1600)
+	if target:IsIllusion() then return end
+	if caster:IsIllusion() then
+		damage = damage/7
+	end
     if caster:IsRangedAttacker() == false then
         local damageTable = {victim = target,
 							attacker = caster,
-                            damage = damage/damagefilter,
-                            ability = keys.ability,
+                            damage = damage/get_aether_multiplier(caster),
+                            ability = item,
                             damage_type = DAMAGE_TYPE_PURE,
                             }
         ApplyDamage(damageTable)
+		if not caster:IsIllusion() then
 		DoCleaveAttack( caster, target, item, damage, radius, "particles/econ/items/faceless_void/faceless_void_weapon_bfury/faceless_void_weapon_bfury_cleave.vpcf" )
+		end
     end
 end
