@@ -44,10 +44,10 @@ function invoker_replace_orb(keys, particle_filepath)
             keys.caster.invoked_orbs_particle_attach[4] = "attach_hitloc"
         end
         if keys.caster:GetLevel() >= 40 then 
-            keys.caster.invoked_orbs_particle_attach[5] = "attach_orb1"
+            keys.caster.invoked_orbs_particle_attach[5] = "attach_attack1"
         end
         if keys.caster:GetLevel() >=50 then 
-            keys.caster.invoked_orbs_particle_attach[6] = "attach_orb2"
+            keys.caster.invoked_orbs_particle_attach[6] = "attach_attack2"
         end
     end
 
@@ -177,17 +177,32 @@ function replace_ellement_modifiers(keys)
             if orb_name == "invoker_wind_ellement" then
                 local quas_ability = keys.caster:FindAbilityByName("invoker_wind_ellement")
                 if quas_ability ~= nil then
-                    quas_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_wind_modifiers", nil)
+					if not keys.caster:HasModifier("ellement_wind_modifiers") then
+						quas_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_wind_modifiers", nil)
+						keys.caster:SetModifierStackCount( "ellement_wind_modifiers", quas_ability, 1)
+					else
+						keys.caster:SetModifierStackCount( "ellement_wind_modifiers", quas_ability, keys.caster:GetModifierStackCount( "ellement_wind_modifiers", quas_ability ) + 1)
+					end
                 end
             elseif orb_name == "invoker_fire_ellement" then
                 local wex_ability = keys.caster:FindAbilityByName("invoker_fire_ellement")
                 if wex_ability ~= nil then
-                    wex_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_fire_modifiers", nil)
+                    if not keys.caster:HasModifier("ellement_fire_modifiers") then
+						wex_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_fire_modifiers", nil)
+						keys.caster:SetModifierStackCount( "ellement_fire_modifiers", wex_ability, 1)
+					else
+						keys.caster:SetModifierStackCount( "ellement_fire_modifiers", wex_ability, keys.caster:GetModifierStackCount( "ellement_fire_modifiers", wex_ability ) + 1)
+					end
                 end
             elseif orb_name == "invoker_ice_ellement" then
                 local exort_ability = keys.caster:FindAbilityByName("invoker_ice_ellement")
                 if exort_ability ~= nil then
-                    exort_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_ice_modifiers", nil)
+                    if not keys.caster:HasModifier("ellement_ice_modifiers") then
+						exort_ability:ApplyDataDrivenModifier(keys.caster, keys.caster, "ellement_ice_modifiers", nil)
+						keys.caster:SetModifierStackCount( "ellement_ice_modifiers", exort_ability, 1)
+					else
+						keys.caster:SetModifierStackCount( "ellement_ice_modifiers", exort_ability, keys.caster:GetModifierStackCount( "ellement_ice_modifiers", exort_ability ) + 1)
+					end
                 end
             end
         end

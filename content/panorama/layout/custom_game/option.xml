@@ -27,6 +27,11 @@
 					<Label hittest="false" id="hp_bar_total" text="0.00"/>
 					<Label hittest="false" html="true" id="hp_bar_name" text="BOSS NAME"/>
 				</Panel>
+				<Panel id="threat_bar_parent" hittest="false">
+					<Button id="threatamount" onactivate='tell_threat()'>
+						<Label hittest="false" id="threat_bar_amount" text= "0"/>
+					</Button>
+				</Panel>
 			</Panel>
 			
 			<Panel id="DPS_main" hittest="false">

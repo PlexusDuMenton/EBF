@@ -70,6 +70,27 @@ $("#DPS_main").visible = false;
 		}
 
 
+		
+GameEvents.Subscribe( "Update_threat", update_threat);
+function update_threat(arg)
+{
+	var threat = arg.threat.toFixed(1);
+	$("#threat_bar_amount").text = threat.toString();
+	if (arg.aggro != null && arg.aggro == 1){
+		$("#threat_bar_amount").style.color = "#FF0000"
+	} else if (arg.aggro != null && arg.aggro == 2){
+		$("#threat_bar_amount").style.color = "#FF8100"
+	} else {
+		$("#threat_bar_amount").style.color= "#2FFF00"
+	}
+}
+
+function tell_threat()
+{
+	var ID = Players.GetLocalPlayer()
+	GameEvents.SendCustomGameEventToServer( "Tell_Threat", { pID: ID} );
+}
+
 
 UpdateHB()
 
@@ -82,7 +103,7 @@ $.Schedule(0.025, UpdateHB);
 		$("#hp_bar_parent_health").style.clip = "rect( 0% ," + ((data.HP/data.Max_HP)*77.3+22.7) + "%" + ", 100% ,0% )";
 		$("#hp_bar_current").text = Number((data.HP).toFixed(0));
 		$("#hp_bar_total").text = Number((data.Max_HP).toFixed(0));
-		$("#hp_bar_name").text = "#"+data.Name;
+		$("#hp_bar_name").text = data.elite + $.Localize( "#" + data.Name );
 		if (data.Max_MP != 0){
 			$("#hp_bar_parent_mana").style.clip = "rect( 0% ," + ((data.MP/data.Max_MP)*63.1+27.0) + "%" + ", 100% ,0% )";
 		} else{
@@ -98,8 +119,6 @@ $.Schedule(0.025, UpdateHB);
 
 	} else { $("#hp_bar_general").visible = false}
 }
-
-
 	UpdateDPS()
 
 function UpdateDPS(){
@@ -109,7 +128,7 @@ function UpdateDPS(){
 	if (typeof data != 'undefined') {
 		$("#damage").text = Number((data.Hero_Damage).toFixed(0));;
 		$("#TD").text = Number((data.Team_Damage).toFixed(0));
-		var time = CustomNetTables.GetTableValue( "time", "time").time
+		var time = Game.GetGameTime()
 		var dps = (data.Hero_Damage/(time - data.First_hit))
 		$("#DPS").text = Number((dps).toFixed(2));
 	}

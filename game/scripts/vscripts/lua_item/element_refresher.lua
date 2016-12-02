@@ -1,3 +1,5 @@
+require("libraries/utility")
+
 function item_element_refresher_check_charge(keys)
     local item = keys.ability
     local caster = keys.caster
@@ -49,34 +51,6 @@ function item_element_refresher_refresh(keys)
 			Notifications:Top(pID, {text="You must be invoker to use this item", duration=3})
         end
     end
-end
-
-function get_octarine_multiplier(caster)
-    local octarine_multiplier = 1
-    for itemSlot = 0, 5, 1 do
-        local Item = caster:GetItemInSlot( itemSlot )
-        if Item ~= nil and Item:GetName() == "item_octarine_core" then
-            if octarine_multiplier > 0.75 then
-                octarine_multiplier = 0.75
-            end
-        end
-        if Item ~= nil and Item:GetName() == "item_octarine_core2" then
-            if octarine_multiplier > 0.67 then
-                octarine_multiplier = 0.67
-            end
-        end
-        if Item ~= nil and Item:GetName() == "item_octarine_core3" then
-            if octarine_multiplier > 0.5 then
-                octarine_multiplier = 0.5
-            end
-        end
-        if Item ~= nil and Item:GetName() == "item_octarine_core4" then
-            if octarine_multiplier > 0.33 then
-                octarine_multiplier = 0.33
-            end
-        end
-    end
-    return octarine_multiplier
 end
 
 function get_charge_time(caster)

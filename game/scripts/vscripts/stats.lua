@@ -4,7 +4,7 @@ HP_PER_STR = 18
 HP_REGEN_PER_STR = 0.025
 MANA_PER_INT = 3
 MANA_REGEN_PER_INT = 0.035
-ARMOR_PER_AGI = 0.10
+ARMOR_PER_AGI = 0.08
 ATKSPD_PER_AGI = 0.15
 DMG_PER_INT = 0.75
 MAX_MOVE_SPEED = 1500
@@ -78,6 +78,8 @@ function stats:ModifyStatBonuses(unit)
 
 			local armor_stacks = agility * armor_adjustment * 100
 			hero:SetModifierStackCount("modifier_physical_armor_bonus", hero, armor_stacks)
+			
+			hero:SetPhysicalArmorBaseValue(agility * armor_adjustment)
 
 			-- Attack Speed Bonus
 			if not hero:HasModifier("modifier_attackspeed_bonus_constant") then

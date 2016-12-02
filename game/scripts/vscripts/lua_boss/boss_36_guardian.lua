@@ -11,7 +11,7 @@ end
 
 function creation(keys)
 	local caster = keys.caster
-	caster.Charge = 1000
+	caster.Charge = caster:GetMaxMana()
 	caster.weak = false
 	create_shield_particle(keys)
 	keys.ability:ApplyDataDrivenModifier( caster, caster, "invincible", {} )
@@ -46,11 +46,33 @@ function creation(keys)
 					caster:RemoveModifierByName( "invincible" )
                     caster.have_shield = false
 				else
-					caster.Charge = caster.Charge - 1
+					if GetMapName() == "epic_boss_fight_impossible" then
+							caster.Charge = caster.Charge - 2
+						elseif GetMapName() == "epic_boss_fight_challenger" then
+							caster.Charge = caster.Charge - 1
+						elseif  GetMapName() == "epic_boss_fight_hard" then
+							caster.Charge = caster.Charge - 3
+						elseif GetMapName() == "epic_boss_fight_boss_master" then
+							caster.Charge = caster.Charge - 1
+						else
+							caster.Charge = caster.Charge - 4
+						end
 				end
 			else
 				if caster.Charge < caster:GetMaxMana() then
-					caster.Charge = caster.Charge + (1000/(7.5*10))
+					local chargeSpeed
+				    if GetMapName() == "epic_boss_fight_impossible" then
+						chargeSpeed = 10
+					elseif GetMapName() == "epic_boss_fight_challenger" then
+						chargeSpeed = 10
+					elseif  GetMapName() == "epic_boss_fight_hard" then
+						chargeSpeed = 15
+					elseif GetMapName() == "epic_boss_fight_boss_master" then
+						chargeSpeed = 10
+					else
+						chargeSpeed = 20
+					end
+					caster.Charge = caster.Charge + (1000/(7.5*chargeSpeed))
 				else
 					caster.weak = false
                     caster.have_shield = true
@@ -68,12 +90,12 @@ function flaming_fist(keys)
 
     -- Inheritted variables
     local caster = keys.caster
-    caster.Charge = caster.Charge - 200
+    caster.Charge = caster.Charge - keys.ability:GetManaCost(-1)
 	if caster.Charge < 0 then caster.Charge = 0 end
     local targetPoint = keys.target_points[1]
     local ability = keys.ability
-    local radius = 1000
-    local attack_interval = 0.05
+    local radius = ability:GetSpecialValueFor("radius")
+    local attack_interval = 0.20
     local casterModifierName = "modifier_sleight_of_fist_caster_datadriven"
     local particleSlashName = "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_tgt.vpcf"
     local particleTrailName = "particles/units/heroes/hero_ember_spirit/ember_spirit_sleightoffist_trail.vpcf"
@@ -115,7 +137,7 @@ function flaming_fist(keys)
                     -- Move hero there
                     FindClearSpaceForUnit( caster, target:GetAbsOrigin(), false )
                     
-                    caster:PerformAttack( target, true, false, true, false )
+                    caster:PerformAttack( target, true, false, true, false, false )
                     
                     -- Slash particles
                     local slashFxIndex = ParticleManager:CreateParticle( particleSlashName, PATTACH_ABSORIGIN_FOLLOW, target )
@@ -143,12 +165,12 @@ function flaming_fist(keys)
             return nil
         end
     )
+	ability:StartCooldown(ability:GetCooldown(-1))
 end
 
 function hell_on_earth(keys)
 	local caster = keys.caster
-    keys.ability:StartCooldown(5)
-	caster.Charge = caster.Charge - 50
+	caster.Charge = caster.Charge - keys.ability:GetManaCost(-1)
 	local damage = 50000
 	if GetMapName() == "epic_boss_fight_impossible" then
 		damage = 300000
@@ -258,4 +280,23 @@ function createAOEDamage(keys,particlesname,location,size,damage,damage_type,dur
 	        end
 	    end
 	end)
+end
+
+function Charge_damage( event )
+    local caster = event.caster
+	if not caster.weak then
+		if GetMapName() == "epic_boss_fight_impossible" then
+			caster.Charge = caster.Charge - 1
+		elseif GetMapName() == "epic_boss_fight_challenger" then
+			caster.Charge = caster.Charge - 1
+		elseif  GetMapName() == "epic_boss_fight_hard" then
+			caster.Charge = caster.Charge - 2
+		elseif GetMapName() == "epic_boss_fight_boss_master" then
+			caster.Charge = caster.Charge - 1
+		else
+			caster.Charge = caster.Charge - 3
+		end
+		print(caster.Charge)
+	end
+    if caster.Charge <= 0 then caster.Charge = 0 end
 end

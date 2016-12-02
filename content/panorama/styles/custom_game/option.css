@@ -33,6 +33,15 @@ margin-right: 450px;
     font-weight: bold;
 	color: #FFFFFF;
 }
+
+#threatamount
+ {
+	horizontal-align: middle;
+	vertical-align: middle;
+	width: 100%;
+}
+
+
 #dps_text
  {
 	font-size: 20px;
@@ -72,7 +81,7 @@ margin-right: 450px;
 {
   horizontal-align: right;
   vertical-align: top;
-	  margin-right: 50px;
+	  margin-right: 300px;
   width: 200px;
     height: 40px;
  }
@@ -245,8 +254,28 @@ margin-right: 450px;
   #hp_bar_name
 {
 	margin-left: 180px;
-	font-size: 23px;
+	font-size: 19px;
     font-weight: bold;
-	margin-top: 63px;
+	margin-top: 71px;
+	vertical-align: center;
+	color: #FFFFFF;
+ }
+ 
+#threat_bar_parent
+{
+	background-color: gradient( linear, 100% 0%, 100% 100%, from( #272b30 ), color-stop( 0.6, #181a1e ), to( #181a1e ) );
+	border: 1px solid #000000;
+	width: 80px;
+    height: 30px;
+	margin-left: 166px;
+	margin-top: 100px;
+	z-index: -10;
+}
+
+#threat_bar_amount
+{
+	margin: 4px;
+	horizontal-align: middle;
+	vertical-align: middle;
 	color: #FFFFFF;
  }

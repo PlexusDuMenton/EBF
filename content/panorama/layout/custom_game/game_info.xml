@@ -12,14 +12,12 @@
 		<Label id="HowToPlayHeader" class="Header" html="true" text="#game_info_header_how_to_play" />
 		<Panel id="Boss" class="Info">
 			<Label id="BossText" html="true" text="#game_info_boss" />
-			<Image id="BossImage" src="file://{images}/custom_game/game_info/boss.png" />
 		</Panel>
 		<Panel id="Life" class="Info">
 			<Label id="LifeText" html="true" text="#game_info_life" />
 		</Panel>
 		<Panel id="Items" class="Info">
 			<Label id="ItemsText" html="true" text="#game_info_items" />
-			<Image id="ItemsImage" src="file://{images}/custom_game/game_info/items.png" />
 		</Panel>
 		<Label id="TipsHeader" class="Header" html="true" text="#game_info_tips_header" />
 		<Panel id="Tips" class="Info">
