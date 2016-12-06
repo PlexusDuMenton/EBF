@@ -1197,6 +1197,128 @@ function CHoldoutGameMode:_CheckForDefeat()
 		if PlayerNumberRadiant == 0 or Life._life == 0 then
 			self:_OnLose()
 		end
+endfunction CHoldoutGameMode:_RefreshPlayers()
+	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+			if PlayerResource:HasSelectedHero( nPlayerID ) then
+				local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+				if hero ~=nil then
+					if not hero:IsAlive() then
+						hero:RespawnHero(false, false, false)
+					end
+					hero:SetHealth( hero:GetMaxHealth() )
+					hero:SetMana( hero:GetMaxMana() )
+				end
+			end
+		end
+	end
+end
+
+
+function CHoldoutGameMode:_CheckForDefeat()
+	if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		return
+	end
+	self._check_dead = false
+	local AllRPlayersDead = true
+	local PlayerNumberRadiant = 0
+	for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+		if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+			PlayerNumberRadiant = PlayerNumberRadiant + 1
+			if not PlayerResource:HasSelectedHero( nPlayerID ) and self._nRoundNumber == 1 and self._currentRound == nil then
+				AllRPlayersDead = false
+			elseif PlayerResource:HasSelectedHero( nPlayerID ) then
+				local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+				if hero and hero:IsAlive() then
+					AllRPlayersDead = false
+				end
+			end
+		end
+	end
+
+
+		if AllRPlayersDead and PlayerNumberRadiant>0 then 
+			self._check_dead = true
+			if self._entPrepTimeQuest then
+				self:_RefreshPlayers()
+				return
+			end
+			for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+				if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+					if PlayerResource:HasSelectedHero( nPlayerID ) then
+						local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+						for slot = 0,5 do
+							if hero:GetItemInSlot(slot) ~= nil and hero:GetItemInSlot(slot):GetName() == "item_ressurection_stone" then
+								print (hero:GetItemInSlot(slot):GetCooldownTimeRemaining() , hero:GetItemInSlot(slot):GetCooldownTime() - 5)
+								if  hero:GetItemInSlot(slot):GetCooldownTimeRemaining() >= hero:GetItemInSlot(slot):GetCooldownTime() - 5 then
+									self._check_dead = false
+								end
+							end
+						end
+						if hero:GetName() == "npc_dota_hero_skeleton_king" then
+							local ability = hero:FindAbilityByName("skeleton_king_reincarnation")
+							local reincarnation_CD = 0
+							local reincarnation_CD_total = 0
+							local reincarnation_level = 0
+							reincarnation_CD = ability:GetCooldownTimeRemaining()
+							reincarnation_level = ability:GetLevel()
+							reincarnation_CD_total = ability:GetCooldown(reincarnation_level-1)
+							reincarnation_CD_total = reincarnation_CD_total * get_octarine_multiplier(hero)
+							if reincarnation_level >= 1 and reincarnation_CD >= reincarnation_CD_total - 5 then
+								self._check_dead = false
+							end
+						end
+					end
+				end
+			end
+			Timers:CreateTimer(3,function()
+				for nPlayerID = 0, DOTA_MAX_TEAM_PLAYERS-1 do
+					if PlayerResource:GetTeam( nPlayerID ) == DOTA_TEAM_GOODGUYS then
+						if not PlayerResource:HasSelectedHero( nPlayerID ) and self._nRoundNumber == 1 and self._currentRound == nil then
+							self._check_dead = false
+						elseif PlayerResource:HasSelectedHero( nPlayerID ) then
+							local hero = PlayerResource:GetSelectedHeroEntity( nPlayerID )
+							if hero and hero:IsAlive() then
+								self._check_dead = false
+							end
+						end
+					end
+				end
+
+				if self._check_dead == true and Life._life > 0 then
+					if self._currentRound ~= nil then
+						self._currentRound:End()
+						self._currentRound = nil
+					end
+					self._flPrepTimeEnd = GameRules:GetGameTime() + 20
+					Life._life = Life._life - 1
+					GameRules._live = Life._life
+					GameRules._used_live = GameRules._used_live + 1 
+					Life:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
+		   			LifeBar:SetTextReplaceValue( QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE, Life._life )
+					self._check_dead = false
+					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_creature")) do
+						if unit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
+							unit:ForceKill(true)
+						end
+					end
+					for _,unit in pairs ( Entities:FindAllByName( "npc_dota_hero*")) do
+						if unit:GetTeamNumber() == DOTA_TEAM_GOODGUYS then
+							local totalgold = unit:GetGold() + ((((self._nRoundNumber/1.5)+5)/((Life._life/2) +0.5))*500)
+				            unit:SetGold(0 , false)
+				            unit:SetGold(totalgold, true)
+			        	end
+					end
+					if delay ~= nil then
+						self._flPrepTimeEnd = GameRules:GetGameTime() + tonumber( delay )
+					end
+					self:_RefreshPlayers()
+				end
+			end)
+		end
+		if PlayerNumberRadiant == 0 or Life._life == 0 then
+			self:_OnLose()
+		end
 end
 
 

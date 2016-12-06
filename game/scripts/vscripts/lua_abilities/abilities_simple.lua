@@ -42,6 +42,8 @@ function refresh_haste_armor(keys)
     caster:SetModifierStackCount( "haste_armor_bonus", ability, caster:GetIdealSpeed() )
 end
 
+
+
 function ground_smash(keys)
     local caster = keys.caster
     local ability = keys.ability
@@ -1597,7 +1599,6 @@ function Chen_Bless(keys)
 end
 
 function Devour_doom(keys)
-    print ('devour function has been called')
     local modifierName = "iseating"
     local caster = keys.caster
     local target = keys.target
@@ -1605,8 +1606,13 @@ function Devour_doom(keys)
     local level = ability:GetLevel()
     local gold = ability:GetLevelSpecialValueFor("total_gold", level-1)
     local duration = ability:GetLevelSpecialValueFor("duration", level-1)
-    local kill_rand = math.random(1,100)
-    gold = gold
+	
+	local death = ability:GetLevelSpecialValueFor("death_perc", level-1)
+    local kill_rand = math.random(100)
+	local boss_curr target:GetHealth()
+	local boss_perc = (boss_curr/(target:GetMaxHealth()))*100
+	local mod_perc = death*(death/boss_perc) -- Scale chance up as HP goes down
+
     ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = duration})
     target:SetModifierStackCount( modifierName, ability, 1)
     ability:StartCooldown(duration)
@@ -1624,6 +1630,15 @@ function Devour_doom(keys)
             unit:SetGold(totalgold, true)
         end
     end
+	if mod_perc >= kill_rand and boss_perc <= death  then
+		local damage_table = {}
+		damage_table.victim = target
+		damage_table.attacker = caster
+		damage_table.ability = ability
+		damage_table.damage_type = DAMAGE_TYPE_PURE
+		damage_table.damage = boss_curr +1
+		ApplyDamage(damage_table)
+	end
 end
 
 function decay( keys )
@@ -2107,6 +2122,34 @@ function spiked_carapace_reflect( keys )
       ApplyDamage(damageTable)
     end
 
+end
+
+function HunterInTheNight( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local modifier = keys.modifier
+
+	if not GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, caster, ("modifier_hunter_in_the_night_buff_ebf"), {})
+	else
+		if caster:HasModifier(modifier) then caster:RemoveModifierByName(modifier) end
+	end
+end
+
+function Void( keys )
+	local caster = keys.caster
+	local ability = keys.ability
+	local target = keys.target
+	local modifier = keys.modifier
+
+	local duration_day = ability:GetLevelSpecialValueFor("duration_day", (ability:GetLevel() - 1))
+	local duration_night = ability:GetLevelSpecialValueFor("duration_night", (ability:GetLevel() - 1))
+
+	if GameRules:IsDaytime() then
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_day})
+	else
+		ability:ApplyDataDrivenModifier(caster, target, modifier, {duration = duration_night})
+	end
 end
 
 -- Stops the sound from playing

@@ -2996,7 +2996,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core2"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3008,7 +3008,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_intelligence"	"150"
+				"bonus_intelligence"				"150"
 			}
 			"02"
 			{
@@ -3038,18 +3038,64 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"50"
+				"hero_lifesteal"		"33"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"50"
+				"creep_lifesteal"		"33"
 			}	
-			"09"
+		}
+		"Modifiers"
+		{
+			"passive"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"active_duration"		"7"
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
 			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
 		}
 	}
 
@@ -3096,7 +3142,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core3"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3138,18 +3184,69 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"50"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"50"
 			}	
 			"09"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"active_duration"		"7"
 			}
+		}		
+				"Modifiers"
+		{
+			"passive"
+			{
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
+			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
 		}
 	}
 	//=================================================================================================================
@@ -4856,7 +4953,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core4"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -4898,12 +4995,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"67"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"67"
 			}	
 			"09"
 			{
@@ -4911,7 +5008,59 @@
 				"active_duration"		"7"
 			}
 		}
+				"Modifiers"
+		{
+			"passive"
+			{
+				"Passive" "1"
+				"IsHidden"		"1"
+				"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"			"%bonus_cooldown"
+					"MODIFIER_PROPERTY_HEALTH_BONUS"				"%bonus_health"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_MANA_BONUS"					"%bonus_mana"
+				}
+			}
+			"lifesteal"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"ApplyModifier"
+					{
+						"Target" "CASTER"
+						"ModifierName" "spell_lifesteal"
+					}
+     			}
+     			"OnDestroy"
+     			{
+		        	"RemoveModifier"
+			        {
+			            "ModifierName" "spell_lifesteal"
+			            "Target" "CASTER"
+			        }
+     			}
+	    	}
+	    	"spell_lifesteal"
+	    	{
+	    		"IsHidden"                  "1"
+	        	"OnDealDamage"
+				{
+					"Lifesteal"
+					{
+						"Target"			"ATTACKER"
+						"LifestealPercent"	"%creep_lifesteal"
+					}
+				}
+	    	}
+		}
 	}
+	
 	//=================================================================================================================
 	// Recipe: veil of discorde 2
 	//=================================================================================================================
