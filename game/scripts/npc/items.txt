@@ -1044,7 +1044,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"50"
+				"bonus_mana_regen"		"1"
 			}
 		}
 	}
@@ -2479,7 +2479,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"100"
+				"bonus_mana_regen"		"2"
 			}
 		}
 	}
@@ -2680,87 +2680,6 @@
 	}
 
 	//=================================================================================================================
-	// Recipe: Hand of Midas
-	//=================================================================================================================
-	"item_recipe_hand_of_midas"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"64"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"Model"							"models/props_gameplay/recipe.mdl"
-		
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"310"	
-		"ItemShopTags"					""
-		"ItemAliases"					"hom"
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_hand_of_midas"
-		"ItemRequirements"
-		{
-			"01"						"item_gloves"		
-		}
-	}
-	
-	//=================================================================================================================
-	// Hand of Midas
-	//=================================================================================================================
-	"item_hand_of_midas"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"65"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_CREEP"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600"
-		"AbilityCastPoint"				"0.0"
-		"AbilityCooldown"				"100.0"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"
-		"ItemCost"						"410"
-		"ItemShopTags"					"attack_speed;hard_to_tag"
-		"ItemQuality"					"common"
-		"ItemAliases"					"hand of midas"
-		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
-		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_attack_speed"	"30"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"xp_multiplier"			"2.5"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_gold"			"190"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"transmute_cast_range_tooltip"			"600"
-			}
-		}
-	}
-
-	//=================================================================================================================
 	// Recipe: Oblivion Staff
 	//=================================================================================================================
 	"item_recipe_oblivion_staff"
@@ -2823,8 +2742,8 @@
 			}
 			"04"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"75"
+				"var_type"				"FIELD_FLOAT"
+				"bonus_mana_regen"		"1.5"
 			}
 		}
 	}
@@ -2884,8 +2803,8 @@
 			}
 			"02"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"125"
+				"var_type"				"FIELD_FLOAT"
+				"bonus_mana_regen"		"2.5"
 			}
 			"03"
 			{
@@ -3743,7 +3662,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"mana_regen"			"50"
+				"mana_regen"			"1"
 			}
 			"02"
 			{
@@ -3941,7 +3860,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"150"
+				"bonus_mana_regen"		"3"
 			}
 			"05"
 			{
@@ -4031,7 +3950,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"150"
+				"bonus_mana_regen"		"3"
 			}			
 			"05"
 			{
@@ -4114,7 +4033,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"150"
+				"bonus_mana_regen"		"3"
 			}
 			"03"
 			{
@@ -5189,7 +5108,7 @@
 	        "02"
 	        {
 	            "var_type"                          "FIELD_INTEGER"
-	            "bonus_mana_regen_percentage"       "200"
+	            "bonus_mana_regen_percentage"       "4"
 	        }
 	        "03"
 	        {
@@ -5623,7 +5542,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"200"
+				"bonus_mana_regen"		"4"
 			}
 			"05"
 			{
@@ -5740,7 +5659,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"150"
+				"bonus_mana_regen"		"3"
 			}
 			"04"
 			{
@@ -5828,8 +5747,8 @@
 			}
 			"04"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"125"
+				"var_type"				"FIELD_FLOAT"
+				"bonus_mana_regen"		"2.5"
 			}			
 			"05"
 			{
@@ -6101,7 +6020,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"100"
+				"bonus_mana_regen"		"2"
 			}
 		}
 	}
@@ -8109,7 +8028,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"mana_regen"			"50"
+				"mana_regen"			"1"
 			}
 			"03"
 			{
@@ -8252,7 +8171,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"100"
+				"bonus_mana_regen"		"2"
 			}
 			"06"
 			{
@@ -8262,12 +8181,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"25"
+				"hero_lifesteal"		"0"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"5"
+				"creep_lifesteal"		"0"
 			}	
 			"09"
 			{
@@ -8460,7 +8379,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen_pct"	"50"
+				"bonus_mana_regen_pct"	"1"
 			}
 			"03"
 			{
@@ -8545,8 +8464,8 @@
 			}
 			"02"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen_pct"	"75"
+				"var_type"				"FIELD_FLOAT"
+				"bonus_mana_regen_pct"	"1.5"
 			}
 			"03"
 			{

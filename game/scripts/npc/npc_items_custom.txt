@@ -1415,7 +1415,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"mana_regen_pct"		"10"
+				"mana_regen_pct"		"5"
 			}
 			"03"
 			{
@@ -2340,7 +2340,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"			"3"
+				"bonus_mana_regen"			"6"
 			}
 			"06"
 			{
@@ -2996,7 +2996,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE_STACKING"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core2"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3028,29 +3028,40 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"300"
+				"bonus_mana_regen"		"20"
 			}
 			"06"
 			{
 				"var_type"				"FIELD_INTEGER"
 				"bonus_cooldown"		"33"
-			}
+			}	
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"50"
-			}			
-			"08"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"50"
+				"spell_lifesteal"		"0"
 			}	
-			"09"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"active_duration"		"7"
-			}
 		}
+		"Modifiers"
+	    {
+	        "octarina_passive_2"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"
+       				"MODIFIER_PROPERTY_MANA_BONUS" 			"%bonus_mana"
+       				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"		"%bonus_cooldown"
+     			}
+     		}
+     		//"SpellLifeSteal"
+     		//{
+     		//}
+	    }
 	}
 
 	//=================================================================================================================
@@ -3096,7 +3107,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core3"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -3123,12 +3134,12 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50"
+				"bonus_health_regen"	"20"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"1000"
+				"bonus_mana_regen"		"50"
 			}
 			"06"
 			{
@@ -3138,12 +3149,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"0"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"0"
 			}	
 			"09"
 			{
@@ -3151,6 +3162,28 @@
 				"active_duration"		"7"
 			}
 		}
+		"Modifiers"
+	    {
+	        "octarina_passive_3"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"
+       				"MODIFIER_PROPERTY_MANA_BONUS" 			"%bonus_mana"
+       				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"		"%bonus_cooldown"
+     			}
+     		}
+     		//"SpellLifeSteal"
+     		//{
+     		//}
+	    }
+		
 	}
 	//=================================================================================================================
 	// Recipe: Battlefury 2
@@ -3238,8 +3271,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		        }
 		    }
 
@@ -3259,7 +3292,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"300"
+				"bonus_mana_regen"		"20"
 			}
 			"04"
 			{
@@ -4597,7 +4630,7 @@
 			"08"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"			"20"
+				"bonus_mana_regen"			"50"
 			}
 			"09"
 			{
@@ -4856,7 +4889,7 @@
 		"ItemQuality"					"rare"
 		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
 		"ItemAliases"					"mana;mb;octarine core"
-		"BaseClass"						"item_octarine_core"
+		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_octarine_core4"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_TO_SPECTATORS"
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
@@ -4883,12 +4916,12 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"100"
+				"bonus_health_regen"	"20"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"2000"
+				"bonus_mana_regen"		"100"
 			}
 			"06"
 			{
@@ -4898,12 +4931,12 @@
 			"07"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"hero_lifesteal"		"75"
+				"hero_lifesteal"		"0"
 			}			
 			"08"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"creep_lifesteal"		"75"
+				"creep_lifesteal"		"0"
 			}	
 			"09"
 			{
@@ -4911,6 +4944,28 @@
 				"active_duration"		"7"
 			}
 		}
+		"Modifiers"
+	    {
+	        "octarina_passive_4"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"
+       				"MODIFIER_PROPERTY_MANA_BONUS" 			"%bonus_mana"
+       				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_intelligence"
+					"MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE"		"%bonus_cooldown"
+     			}
+     		}
+     		//"SpellLifeSteal"
+     		//{
+     		//}
+	    }
+		
 	}
 	//=================================================================================================================
 	// Recipe: veil of discorde 2
@@ -5022,7 +5077,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50"
+				"bonus_health_regen"	"25"
 			}
 			"02"
 			{
@@ -5066,13 +5121,13 @@
 				"IsHidden"		"1"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
-					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"  "%bonus_mana_regen"
 				}
 			}
 
@@ -5203,7 +5258,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"200"
+				"bonus_health_regen"	"50"
 			}
 			"02"
 			{
@@ -5247,13 +5302,13 @@
 				"IsHidden"		"1"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
-					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"  "%bonus_mana_regen"
 				}
 			}
 
@@ -5807,7 +5862,7 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-		            "MODIFIER_PROPERTY_MANA_BONUS " "%bonus_mana"
+		            "MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
 		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
 		        }
 		    }
@@ -5817,7 +5872,7 @@
 			"01"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana_regen"							"15"
+				"bonus_mana_regen"							"5"
 			}
 			"02"
 			{
@@ -5885,7 +5940,7 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-		            "MODIFIER_PROPERTY_MANA_BONUS " "%bonus_mana"
+		            "MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
 		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
 		        }
 		    }
@@ -5895,12 +5950,12 @@
 			"01"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana_regen"							"50"
+				"bonus_mana_regen"							"10"
 			}
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana"							"1000"
+				"bonus_mana"							"500"
 			}
 			"03"
 			{
@@ -5963,7 +6018,7 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-		            "MODIFIER_PROPERTY_MANA_BONUS " "%bonus_mana"
+		            "MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
 		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
 		        }
 		    }
@@ -5973,12 +6028,12 @@
 			"01"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana_regen"							"100"
+				"bonus_mana_regen"							"20"
 			}
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana"							"6000"
+				"bonus_mana"							"1500"
 			}
 			"03"
 			{
@@ -6042,7 +6097,7 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" "%bonus_mana_regen"
-		            "MODIFIER_PROPERTY_MANA_BONUS " "%bonus_mana"
+		            "MODIFIER_PROPERTY_MANA_BONUS" "%bonus_mana"
 		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_int"
 		        }
 		    }
@@ -6052,12 +6107,12 @@
 			"01"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana_regen"							"200"
+				"bonus_mana_regen"							"50"
 			}
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana"							"25000"
+				"bonus_mana"							"5000"
 			}
 			"03"
 			{
@@ -6193,12 +6248,12 @@
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana_regen"							"200"
+				"bonus_mana_regen"							"20"
 			}
 			"03"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana"							"5000"
+				"bonus_mana"							"1000"
 			}
 			"04"
 			{
@@ -6343,7 +6398,7 @@
 			"02"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_mana"							"5000"
+				"bonus_mana"							"1000"
 			}
 			"03"
 			{
@@ -7078,7 +7133,7 @@
 		//-------------------------------------------------------------------------------------------------------------
 		"Modifiers"
 		{
-    		"b_fury"
+    		"storm_fury"
     		{
 		        "Passive" "1"  
 		        "IsHidden" "1"  
@@ -7116,8 +7171,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		        }
 		    }
 
@@ -7137,12 +7192,12 @@
 			"023"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50"
+				"bonus_health_regen"	"20"
 			}
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"400"
+				"bonus_mana_regen"		"20"
 			}
 			"05"
 			{
@@ -7250,8 +7305,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		        }
 		    }
 
@@ -7266,12 +7321,12 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"6"
+				"bonus_health_regen"	"5"
 			}
 			"03"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"150"
+				"bonus_mana_regen"		"5"
 			}
 			"04"
 			{
@@ -7345,7 +7400,7 @@
 		
     	"Modifiers"
     	{	
-    		"Piercing"
+    		"meleeF_Piercing"
     		{
     			"Properties"
 		        {
@@ -7384,8 +7439,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -7413,12 +7468,12 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"20"
+				"bonus_health_regen"	"10"
 			}
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"250"
+				"bonus_mana_regen"		"30"
 			}
 			"06"
 			{
@@ -7500,7 +7555,7 @@
 					}
 				}
 			}
-    		"b_fury"
+    		"midas_fury_passive"
     		{
 		        "Passive" "1"  
 		        "IsHidden" "1"  
@@ -7538,8 +7593,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -7572,7 +7627,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"400"
+				"bonus_mana_regen"		"35"
 			}
 			"06"
 			{
@@ -7663,7 +7718,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50 75 100 150"
+				"bonus_health_regen"	"15 30 45 60"
 			}
 			"05"
 			{
@@ -7776,8 +7831,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -7889,7 +7944,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50 75 100 150"
+				"bonus_health_regen"	"15 30 45 60"
 			}
 			"05"
 			{
@@ -8002,8 +8057,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -8115,7 +8170,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50 75 100 150"
+				"bonus_health_regen"	"15 30 45 60"
 			}
 			"05"
 			{
@@ -8228,8 +8283,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -8341,7 +8396,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_health_regen"	"50 75 100 150"
+				"bonus_health_regen"	"15 30 45 60"
 			}
 			"05"
 			{
@@ -8452,8 +8507,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -8591,7 +8646,7 @@
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
-					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"  "%bonus_mana_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 				}
 			}
 
@@ -8661,7 +8716,7 @@
 			"07"
 			{
 				"var_type"								"FIELD_INTEGER"
-				"bonus_mana_regen"					"125"
+				"bonus_mana_regen"					"20"
 			}
 			"08"
 			{
@@ -8785,7 +8840,7 @@
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
-					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"  "%bonus_mana_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 				}
 			}
 
@@ -8855,7 +8910,7 @@
 			"07"
 			{
 				"var_type"								"FIELD_INTEGER"
-				"bonus_mana_regen"					"125"
+				"bonus_mana_regen"					"20"
 			}
 			"08"
 			{
@@ -8972,6 +9027,271 @@
      			}
 	    	}
 	    }
+	}
+	//======================================================================================================
+	//==============tank booster================================================================================
+	//======================================================================================================
+	"item_recipe_tank_booster"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1251"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"2780"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_tank_booster"
+		"ItemRequirements"
+		{
+			"01"						"item_soul_booster;item_vitality_booster;item_orb_of_doom"
+		}
+	}
+	"item_tank_booster"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1252"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_tank_booster"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"9000"
+		"ItemShopTags"					"int"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "health_per_str"                "20"
+	        }
+	        "02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health"			"10000"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"150"
+			}
+	    }
+
+	    "Modifiers"
+	    {
+	        "passive"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"
+       				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+     			}
+     		}
+     		"health_booster_effect"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnRemoved"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster_end"
+		        	}
+
+     			}
+     			"OnCreated"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster"
+		        	}
+     			}
+     			
+	    	}
+	    }
+	}
+	//======================================================================================================
+	//==============Blood Booster================================================================================
+	//======================================================================================================
+	"item_recipe_blood_booster"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1253"														// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"BaseClass"						"item_recipe_arcane_boots"
+		"Model"							"models/props_gameplay/recipe.mdl"
+		
+		// Item Info
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemCost"						"3155"	
+		"ItemShopTags"					""
+		
+		// Recipe
+		//-------------------------------------------------------------------------------------------------------------
+		"ItemRecipe"					"1"
+		"ItemResult"					"item_blood_booster"
+		"ItemRequirements"
+		{
+			"01"						"item_tank_booster;item_lifestealtank;item_orb_divine"
+		}
+	}
+	"item_blood_booster"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"							"1254"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_blood_booster"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemKillable"					"1"
+		"ItemSellable"					"1"
+		"ItemDroppable"					"1"
+		"ItemCost"						"35000"
+		"ItemShopTags"					"int"
+		"ItemQuality"					"artifact"
+		"ItemAliases"					"ring"
+		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
+		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
+
+		"AbilitySpecial"
+	    {
+	        "01"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "health_per_str"                "35"
+	        }
+	        "02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health"			"30000"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana"			"1000"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_all"				"600"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_armor"				"150"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_health_regen"		"80"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage"				"1000"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_mana_regen"			"10"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lifesteal"					"30"
+			}
+			"10"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"					"800"
+			}
+	    }
+
+	    "Modifiers"
+	    {
+	        "blood_booster_passive"
+	        {
+	        	"IsHidden"                  "1"
+            	"Passive"                	"1"
+            	"Attributes"    "MODIFIER_ATTRIBUTE_MULTIPLE"
+	        	"Properties"
+     			{
+       				"MODIFIER_PROPERTY_HEALTH_BONUS" 				"%bonus_health"
+       				"MODIFIER_PROPERTY_MANA_BONUS" 				"%bonus_mana"
+       				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
+					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
+					"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"  		"%bonus_health_regen"
+					"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"  		"%bonus_mana_regen"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"%bonus_armor"
+					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"		"%bonus_damage"
+     			}
+     		}
+     		"blood_booster_effect"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster"
+		        	}
+     			}
+     			"OnDestroy"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster_end"
+		        	}
+     			}
+	    	}
+			"activeaoetank_2"
+			{
+				"Passive" "1"
+				"IsHidden" "1"
+				"Aura" "lifestealtank_2"
+				"Aura_Radius" "%radius"
+				"Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Aura_Types" "DOTA_UNIT_TARGET_ALL"
+			}
+
+			"lifestealtank_2"
+			{	
+				"OnAttackLanded"
+				{
+					"Lifesteal"
+					{
+						"Target"				"CASTER"
+						"LifestealPercent"		"%lifesteal"
+					}
+				}
+			}
+		}
 	}
 	//=================================================================================================================
 		// Chronos shard
@@ -9107,7 +9427,7 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"ID"							"1257"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
+		"ID"							"9257"				// unique ID number for this item.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
 		"BaseClass"						"item_datadriven"
 		"AbilityTextureName"			"item_midas_greave"
@@ -9122,10 +9442,10 @@
 		"ItemDisassembleRule"			"DOTA_ITEM_DISASSEMBLE_ALWAYS"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_TEAMMATES | DECLARE_PURCHASES_IN_SPEECH | DECLARE_PURCHASES_TO_SPECTATORS"
 		"precache"
-    {
-        "particle"  "particles/units/heroes/hero_alchemist/alchemist_lasthit_coins.vpcf"
-        "particle"  "particles/units/heroes/hero_alchemist/alchemist_lasthit_msg_gold.vpcf"
-    }
+	    {
+	        "particle"  "particles/units/heroes/hero_alchemist/alchemist_lasthit_coins.vpcf"
+	        "particle"  "particles/units/heroes/hero_alchemist/alchemist_lasthit_msg_gold.vpcf"
+	    }
 
 		// Special	
 		//-------------------------------------------------------------------------------------------------------------
@@ -9525,7 +9845,7 @@
 		        {
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"		"%bonus_agi"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_int"
-					"MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE"			"%mana_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_str"
 		        }
 
@@ -9612,7 +9932,7 @@
 			"04"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"mana_regen"							"300"
+				"mana_regen"							"100"
 			}
 			"05"
 			{
@@ -9793,14 +10113,19 @@
 	        "02"
 	        {
 	            "var_type"              "FIELD_INTEGER"
-	            "damage_base"                "1000"
+	            "bonus_mana"       "6000"
 	        }
 	        "03"
 	        {
 	            "var_type"              "FIELD_INTEGER"
-	            "damage_per_int"                "20"
+	            "damage_base"                "10000"
 	        }
 	        "04"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "damage_per_int"                "20"
+	        }
+	        "05"
 	        {
 	            "var_type"              "FIELD_INTEGER"
 	            "range_tooltip"         "1200"
@@ -9828,6 +10153,7 @@
 	            "Properties"
 	            {
 	                "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"       "%bonus_intellect"
+	                "MODIFIER_PROPERTY_MANA_BONUS"       "%bonus_mana"
 	            }
 	        }
 	    }
@@ -10517,7 +10843,7 @@
 		
     	"Modifiers"
     	{	
-    		"Piercing"
+    		"rage_melee"
     		{
     			"Properties"
 		        {
@@ -10556,8 +10882,8 @@
 		        "Properties"
 		        {
 		            "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" "%bonus_damage"
-		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" "%bonus_health_regen"
-		            "MODIFIER_PROPERTY_MANA_REGEN_PERCENTAGE" "%bonus_mana_regen"
+		            "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" 			"%bonus_health_regen"
+       				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" 			"%bonus_mana_regen"
 		            "MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"		"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_AGILITY_BONUS"			"%bonus_all"
 					"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS"		"%bonus_all"
@@ -10649,7 +10975,7 @@
 			"05"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana_regen"		"250"
+				"bonus_mana_regen"		"40"
 			}
 			"06"
 			{
@@ -11077,7 +11403,7 @@
 		"ItemResult"					"item_s_a_y_3"
 		"ItemRequirements"
 		{
-			"01"						"item_s_a_y_2"
+			"01"						"item_s_a_y_2;item_tank_booster"
 		}
 	}
 	"item_s_a_y_3"
@@ -11159,6 +11485,7 @@
 		            "MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%bonus_all"
 		        	"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%bonus_speed"
 		        	"MODIFIER_PROPERTY_HEALTH_BONUS" 			"%bonus_health"
+		        	"MODIFIER_PROPERTY_MANA_BONUS" 			"%bonus_mana"
 		        }
 		    }
 		    "item_sange_and_yasha_2_debuff"
@@ -11195,6 +11522,27 @@
 		            "MODIFIER_STATE_DISARMED" "MODIFIER_STATE_VALUE_ENABLED"
 		        }
 		    }
+		    "say3_booster_effect"
+     		{
+     			"Passive"                	"1"
+     			"IsHidden"                  "1"
+     			"OnCreated"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster"
+		        	}
+     			}
+     			"OnRemoved"
+     			{
+	     			"RunScript"
+		        	{
+		        		"ScriptFile"			"lua_item/simple_item.lua"
+						"Function"				"tank_booster_end"
+		        	}
+     			}
+	    	}
 		}
 		"AbilitySpecial"
 		{
@@ -11216,38 +11564,48 @@
 			"04"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_speed"							"75"
+				"bonus_mana"							"500"
 			}
 			"05"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"bonus_speed_percent"							"10"
+				"bonus_speed"							"75"
 			}
 			"06"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"slow_percentage"							"-45"
+				"bonus_speed_percent"							"10"
 			}
 			"07"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"attack_speed_slow"							"-100"
+				"slow_percentage"							"-45"
 			}
 			"08"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"duration"							"3"
+				"attack_speed_slow"							"-100"
 			}
 			"09"
 			{
 				"var_type"							"FIELD_INTEGER"
-				"proc_chance"							"25"
+				"duration"							"3"
 			}
 			"10"
 			{
 				"var_type"							"FIELD_INTEGER"
+				"proc_chance"							"25"
+			}
+			"11"
+			{
+				"var_type"							"FIELD_INTEGER"
 				"disarm_duration"							"5"
 			}
+			"12"
+	        {
+	            "var_type"              "FIELD_INTEGER"
+	            "health_per_str"                "25"
+	        }
 
 		}
 	}
@@ -11341,7 +11699,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana"			"1250"
+				"bonus_mana"			"250"
 			}
 			"02"
 			{
@@ -11422,7 +11780,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana"			"2500"
+				"bonus_mana"			"1000"
 			}
 			"02"
 			{
@@ -11504,7 +11862,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_mana"			"5000"
+				"bonus_mana"			"3000"
 			}
 			"02"
 			{

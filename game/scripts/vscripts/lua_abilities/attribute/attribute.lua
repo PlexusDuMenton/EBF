@@ -1,10 +1,10 @@
 
-if lua_attribute_bonus == nil then
-	lua_attribute_bonus = class({})
+if shield_faith == nil then
+	shield_faith = class({})
 end
 
-LinkLuaModifier( "lua_attribute_bonus_modifier", "lua_abilities/attribute/lua_attribute_bonus_modifier.lua", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "shield_faith_modifier", "skill/shield_faith/shield_faith_modifier.lua", LUA_MODIFIER_MOTION_NONE )
 
-function lua_attribute_bonus:GetIntrinsicModifierName()
-	return "lua_attribute_bonus_modifier"
+function shield_faith:GetIntrinsicModifierName()
+	return "shield_faith_modifier"
 end

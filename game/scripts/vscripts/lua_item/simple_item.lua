@@ -61,10 +61,10 @@ end
 function simple_item:midas_gold(bonus) -- Runs whenever the simple_item.lua is ran
     if simple_item._totalgold == nil then 
         simple_item._totalgold = 0 
+        CustomGameEventManager:Send_ServerToAllClients("create_midas_display", {})
     end
     simple_item._totalgold = simple_item._totalgold + bonus
-    CustomNetTables:SetTableValue( "midas","total", {gold = simple_item._totalgold } )
-
+    CustomGameEventManager:Send_ServerToAllClients("Update_Midas_Gold", {gold = simple_item._totalgold})
 end
 
 function Cooldown_powder(keys)
@@ -118,42 +118,20 @@ function ares_powder_end(keys)
     end
 end
 
+LinkLuaModifier( "healthBooster", "modifier/healthBooster.lua", LUA_MODIFIER_MOTION_NONE )
+
+
 function tank_booster(keys)
     local caster = keys.caster
     local item = keys.ability
-    print ("test")
-    local modifierName = "health_booster"
-    caster.tank_booster = true
-    local health_stacks = 0
-    
-    if caster:IsRealHero() then 
-        Timers:CreateTimer(0.5,function()
-            health_stacks = caster:GetStrength()
-            if caster:GetModifierStackCount( modifierName, item ) ~= health_stacks and caster.tank_booster == true and item ~= nil then
-                item:ApplyDataDrivenModifier( caster, caster, modifierName, {})
-                caster:SetModifierStackCount( modifierName, caster, health_stacks)
-                adjute_HP(keys)
-            end
-            return 0.5
-        end)
-    end
+    caster:RemoveModifierByName( "healthBooster" )
+    Timers:CreateTimer(0.1,function()
+        caster:AddNewModifier(hero, item, "healthBooster",{})
+    end)
 end
-
-
-
-function adjute_HP(keys)
-    local caster = keys.caster
-    local ability = keys.ability
-    local modifierName = "health_fix"
-    ability:ApplyDataDrivenModifier( caster, caster, modifierName, {duration = 0.1})
-    caster:SetModifierStackCount( modifierName, ability, 1)
-end
-
 function tank_booster_end(keys)
     local caster = keys.caster
-    caster.tank_booster = false
-    caster:SetModifierStackCount("health_booster", caster, 0)
-    caster:RemoveModifierByName( "health_booster" )
+    caster:RemoveModifierByName( "healthBooster" )
 end
 
 function Have_Item(unit,item_name)
@@ -250,7 +228,6 @@ function Pierce(keys)
                 attacker = caster,
                 damage = damage,
                 damage_type = DAMAGE_TYPE_PURE,
-                ability = keys.ability,
                 }
     ApplyDamage(damageTable)
 end
@@ -362,7 +339,7 @@ function item_dagon_datadriven_on_spell_start(keys)
     keys.caster:EmitSound("DOTA_Item.Dagon.Activate")
     keys.target:EmitSound("DOTA_Item.Dagon5.Target")
         
-    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,ability = keys.ability,})
+    ApplyDamage({victim = keys.target, attacker = keys.caster, damage = damage, damage_type = DAMAGE_TYPE_MAGICAL,})
 end
 
 function ShowPopup( data )
@@ -468,7 +445,7 @@ function check_admin(keys)
             print ("Here is the Nerf hammer in the hand of the great lord FrenchDeath")
         else
             Timers:CreateTimer(0.3,function()
-				Notifications:Top(pID, {text="YOU HAVE NO RIGHT TO HAVE THIS ITEM!", duration=3})
+                FireGameEvent( 'custom_error_show', { player_ID = ID, error = "YOU HAVE NO RIGHT TO HAVE THIS ITEM!" } )
                 caster:RemoveItem(item)
             end)
         end
@@ -638,7 +615,6 @@ function Splash(keys)
                         attacker = caster,
                         damage = damage,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
-                        ability = keys.ability,
                         }
             ApplyDamage(damageTable)
         end
@@ -666,7 +642,6 @@ function Splash_melee(keys)
             local damageTable = {victim = unit,
                                 attacker = caster,
                                 damage = damage,
-                                ability = keys.ability,
                                 damage_type = DAMAGE_TYPE_PURE,
                                 }
             ApplyDamage(damageTable)

@@ -209,11 +209,6 @@ function ice_on_spell_start(keys)
 end
 
 function reset(keys)
-    --Initialization for storing the orb list, if not already done.
-    if keys.caster.invoked_orbs_particle == nil then
-        keys.caster.invoked_orbs_particle = {}
-    end
-
     local number = 1
     if keys.caster:GetLevel() >= 50 then
         number = 6

@@ -46,7 +46,7 @@ function item_element_refresher_refresh(keys)
             end
         else 
             local pID = caster:GetPlayerID() 
-			Notifications:Top(pID, {text="You must be invoker to use this item", duration=3})
+            FireGameEvent( 'custom_error_show', { player_ID = pID, _error = "You must be invoker to use this item." } )
         end
     end
 end

@@ -12,6 +12,8 @@ require("internal/util")
 function CHoldoutGameRound:ReadConfiguration( kv, gameMode, roundNumber )
 	self._gameMode = gameMode
 	self._nRoundNumber = roundNumber
+
+
 	self._szRoundQuestTitle = kv.round_quest_title or "#DOTA_Quest_Holdout_Round"
 	self._szRoundTitle = kv.round_title or string.format( "Round%d", roundNumber )
 
@@ -42,18 +44,21 @@ function CHoldoutGameRound:Precache()
 end
 
 function CHoldoutGameRound:spawn_treasure()
-	local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
-	Timers:CreateTimer(0.03,function()
-		local max_player = DOTA_MAX_TEAM_PLAYERS
-		WID = math.RandomInt(0,max_player)
-		if PlayerResource:GetConnectionState(WID) == 2 then
-			local player = PlayerResource:GetPlayer(WID)
-			local hero = player:GetAssignedHero() 
-			hero:AddItem(Item_spawn)
-		else
-			return 0.03
-		end
-	end)
+	random = math.random(0,100)
+	if (random > 80) then
+		local Item_spawn = CreateItem( "item_present_treasure", nil, nil )
+		Timers:CreateTimer(0.03,function()
+			local max_player = DOTA_MAX_TEAM_PLAYERS
+			WID = math.random(0,max_player)
+			if PlayerResource:GetConnectionState(WID) == 2 then
+				local player = PlayerResource:GetPlayer(WID)
+				local hero = player:GetAssignedHero() 
+				hero:AddItem(Item_spawn)
+			else
+				return 0.03
+			end
+		end)
+	end
 end
 
 function CHoldoutGameRound:Begin()
@@ -68,9 +73,9 @@ function CHoldoutGameRound:Begin()
 	self._nAsuraCoreRemaining = 0
 
 	local PlayerNumber = PlayerResource:GetTeamPlayerCount() 
-	print (PlayerNumber)
+	
 	local GoldMultiplier = (((PlayerNumber-self._DisconnectedPlayer)+0.56)/1.8)*0.15
-	print (GoldMultiplier)
+
 
 	ListenToGameEvent( "player_reconnected", Dynamic_Wrap( CHoldoutGameRound, 'OnPlayerReconnected' ), self )
 	ListenToGameEvent( "player_disconnect", Dynamic_Wrap( CHoldoutGameRound, 'OnPlayerDisconnected' ), self )
@@ -78,19 +83,9 @@ function CHoldoutGameRound:Begin()
 
 	local roundNumber = self._nRoundNumber
 	self._nGoldRemainingInRound = self._nMaxGold * GoldMultiplier * 1.1
-	if GameRules._NewGamePlus == true then
-		self._nGoldRemainingInRound = (self._nGoldRemainingInRound + 30000) * (roundNumber^0.4)
-		print (self._nGoldRemainingInRound)
-		if self._nGoldRemainingInRound > 75000 then
-			while self._nGoldRemainingInRound > 50000 do
-				print ("adding on asura core", self._nAsuraCoreRemaining)
-				self._nGoldRemainingInRound = self._nGoldRemainingInRound- 50000
-				self._nAsuraCoreRemaining = self._nAsuraCoreRemaining + 1 
-			end
-			self._nAsuraCoreRemaining = math.ceil(self._nAsuraCoreRemaining/(PlayerNumber-self._DisconnectedPlayer))
-			print (self._nAsuraCoreRemaining)
-		end
-	end
+
+	CustomGameEventManager:Send_ServerToAllClients("UpdateRound", {roundNumber = self._nRoundNumber,roundTitle = self._szRoundQuestTitle})
+
 
 	self._nGoldBagsRemaining = self._nBagCount
 	self._nGoldBagsExpired = 0
@@ -203,15 +198,6 @@ function CHoldoutGameRound:OnNPCSpawned( event )
 
 	if spawnedUnit:GetTeamNumber() == DOTA_TEAM_BADGUYS then
 		table.insert( self._vEnemiesRemaining, spawnedUnit )
-		if self._nAsuraCoreRemaining>0 then
-			if nCoreUnitsRemaining > 1 then
-				spawnedUnit.Asura_To_Give = 1
-				self._nAsuraCoreRemaining = self._nAsuraCoreRemaining - 1
-			elseif nCoreUnitsRemaining <= 1 then
-				spawnedUnit.Asura_To_Give = self._nAsuraCoreRemaining
-				self._nAsuraCoreRemaining = 0
-			end
-		end
 		local ability = spawnedUnit:FindAbilityByName("true_sight_boss")
 		if not ability ~= nil then
 			if GetMapName() == "epic_boss_fight_impossible" or GetMapName() == "epic_boss_fight_challenger" or GetMapName() == "epic_boss_fight_boss_master" then spawnedUnit:AddAbility('true_sight_boss') end

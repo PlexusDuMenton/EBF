@@ -25,18 +25,35 @@ function creation(keys)
 	end)
 
     if GetMapName() == "epic_boss_fight_impossible" then
-        caster:SetMaxHealth(15000000) 
+        caster:SetMaxHealth(100000000) 
     elseif GetMapName() == "epic_boss_fight_challenger" then
-        caster:SetMaxHealth(20000000) 
+        caster:SetMaxHealth(15000000) 
     elseif  GetMapName() == "epic_boss_fight_hard" then
-        caster:SetMaxHealth(10000000) 
+        caster:SetMaxHealth(60000000) 
     elseif GetMapName() == "epic_boss_fight_boss_master" then
-        caster:SetMaxHealth(7500000) 
+        caster:SetMaxHealth(4000000) 
     else
-        caster:SetMaxHealth(5000000) 
+        caster:SetMaxHealth(3000000) 
     end
 
-	Timers:CreateTimer( 0.1, function()
+
+    local difficulty_multiplier = (PlayerResource:GetTeamPlayerCount() / 7)^0.2
+    caster.MaxEHP = difficulty_multiplier*caster:GetMaxHealth()
+    
+    caster:SetBaseDamageMin(difficulty_multiplier*caster:GetBaseDamageMin())
+    caster:SetBaseDamageMax(difficulty_multiplier*caster:GetBaseDamageMax())
+    caster:SetPhysicalArmorBaseValue(difficulty_multiplier*caster:GetPhysicalArmorBaseValue())
+    caster.EHP_MULT = 1 
+    caster:SetMaxHealth(200000)
+        caster:SetHealth(200000)
+        local EHP_MULT = (caster.MaxEHP/200000)
+        caster.EHP_MULT = EHP_MULT
+        caster:SetBaseHealthRegen(caster:GetBaseHealthRegen()/EHP_MULT)
+        caster:AddNewModifier(caster, caster, "bossHealthRescale",{})
+
+    Timers:CreateTimer( 0.1, function()
+        
+	
 		if caster:IsAlive() == true then
 			if caster.weak == false then
 				if caster.Charge <= 0 then
@@ -46,11 +63,11 @@ function creation(keys)
 					caster:RemoveModifierByName( "invincible" )
                     caster.have_shield = false
 				else
-					caster.Charge = caster.Charge - 1
+					caster.Charge = caster.Charge - 5
 				end
 			else
 				if caster.Charge < caster:GetMaxMana() then
-					caster.Charge = caster.Charge + (1000/(7.5*10))
+					caster.Charge = caster.Charge + 10
 				else
 					caster.weak = false
                     caster.have_shield = true

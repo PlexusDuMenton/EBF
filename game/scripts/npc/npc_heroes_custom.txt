@@ -1,12 +1,24 @@
 "DOTAHeroes"
 {
+
+	"npc_dota_hero_base_ebf"
+	{
+		"override_hero"     "npc_dota_hero_base"
+
+
+		"StatusHealth"				"200"									// Base health.
+		"StatusMana"				"300"										// Base mana.
+	}
+
 	//=================================================================================================================
 	// HERO: skywrath
 	//=================================================================================================================
 	"npc_dota_hero_chen_ebf"
 	{
 		"override_hero"			"npc_dota_hero_chen"
-		"Ability4"					"chen_holy_bless"					// Ability 4
+		"Ability6"					"chen_holy_bless"					// Ability 4
+		"Ability10"					"special_bonus_mp_regen_1"					// Ability 4
+		"Ability14"					"special_bonus_mp_regen_2"					// Ability 4
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
@@ -15,7 +27,7 @@
 	"npc_dota_hero_clinkz_ebf"
 	{
 		"override_hero"			"npc_dota_hero_clinkz"
-		"Ability4"					"clinkz_death_pact_custom"					// Ability 4
+		"Ability6"					"clinkz_death_pact_custom"					// Ability 4
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
@@ -38,7 +50,7 @@
 		"Ability2"					"invoker_ice_ellement"					// Ability 2
 		"Ability3"					"invoker_wind_ellement"					// Ability 3
 		"Ability4"					"invoker_combine"					// Ability 4
-		"Ability5"					""					// Ability 5
+		"Ability5"					"generic_hidden"					// Ability 5
 		"Ability6"					"invoker_reset"					// Ability 6
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
@@ -57,16 +69,17 @@
 	"npc_dota_hero_obsidian_destroyer_ebf"
 	{
 		"override_hero"			"npc_dota_hero_obsidian_destroyer"
-		"Ability4"					"outworld_otherworld_ressource"					// Ability 2
+		"Ability6"					"outworld_otherworld_ressource"					// Ability 2
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
-	// HERO: skywrath
+	// HERO: Pudge !
 	//=================================================================================================================
 	"npc_dota_hero_pudge_ebf"
 	{
 		"override_hero"			"npc_dota_hero_pudge"
 		"Ability3"					"pudge_flesh_heap_datadriven"					// Ability 4
+		"Ability14"				"special_bonus_mp_regen_2"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
@@ -85,7 +98,8 @@
 	{
 		"override_hero"			"npc_dota_hero_skywrath_mage"
 		"Ability2"					"skywrath_mage_concussive_shot_datadriven"					// Ability 4
-		"Ability4"					"skywrath_mage_mystic_flare_datadriven"					// Ability 4
+		"Ability6"					"skywrath_mage_mystic_flare_datadriven"					// Ability 4
+		"Ability16"				"special_bonus_mp_regen_4"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
@@ -107,7 +121,7 @@
 		"Ability1"					"spectre_spectral_dagger"					// Ability 1
 		"Ability2"					"spectre_ebf_desolate"					// Ability 2
 		"Ability3"					"spectre_dispersion"						// Ability 3
-		"Ability4"				"spectre_ebf_haunt"
+		"Ability6"				"spectre_ebf_haunt"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	//=================================================================================================================
@@ -145,28 +159,28 @@
 		"Ability1"					"legion_commander_overwhelming_odds"					// Ability 1
 		"Ability2"					"legion_commander_press_the_attack"					// Ability 2
 		"Ability3"					"legion_commander_moment_of_courage"						// Ability 3
-		"Ability4"				"lc_ebf_war_fury"
+		"Ability6"				"lc_ebf_war_fury"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 
 	"npc_dota_hero_zuus_ebf"
 	{
 		"override_hero"			"npc_dota_hero_zuus"
-		"Ability4"				"zeus_ebf_thundergod_legacy"
+		"Ability6"				"zeus_ebf_thundergod_legacy"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_tinker_ebf"
 	{
 		"override_hero"			"npc_dota_hero_tinker"
 		"Ability2"				"tinker_missile_ebf"
-		"Ability4"				"tinker_rearm_datadriven"
+		"Ability6"				"tinker_rearm_datadriven"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_axe_ebf"
 	{
 		"override_hero"			"npc_dota_hero_axe"
 		"Ability3"				"axe_counter_helix_datadriven"
-		"Ability4"				"axe_ultimate"
+		"Ability6"				"axe_ultimate"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_nyx_assassin_ebf"
@@ -174,18 +188,21 @@
 		"override_hero"			"npc_dota_hero_nyx_assassin"
 		"Ability2"				"nyx_hide"
 		"Ability3"				"nyx_assassin_carapace"
+		"Ability11"				"special_bonus_mp_regen_2"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_witch_doctor_ebf"
 	{
 		"override_hero"			"npc_dota_hero_witch_doctor"
-		"Ability4"				"witch_doctor_witch_control"
+		"Ability6"				"witch_doctor_witch_control"
+		"Ability13"				"special_bonus_mp_regen_2"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_wisp_ebf"
 	{
 		"override_hero"			"npc_dota_hero_wisp"
 		"Ability7"				"wisp_sacrifice"
+		"Ability15"				"special_bonus_mp_regen_2"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
 	"npc_dota_hero_crystal_maiden_ebf"
@@ -193,6 +210,7 @@
 		"override_hero"			"npc_dota_hero_crystal_maiden"
 		"Ability2"				"crystal_maiden_crystal_spear"
 		"Ability3"				"crystal_maiden_frozen_aura"
+		"Ability13"				"special_bonus_mp_regen_4"
 		"VisionNighttimeRange"		"1800"	
 	}								// Range of vision at night time.
 	"npc_dota_hero_bloodseeker_ebf"
@@ -226,4 +244,125 @@
 		"Ability3"				"necro_death_aura"
 		"VisionNighttimeRange"		"1800"									// Range of vision at night time.
 	}
+
+	"npc_dota_hero_omniknight_ebf"
+	{
+		"override_hero"			"npc_dota_hero_omniknight"
+		"Ability10"				"special_bonus_mp_regen_2"
+		"Ability12"				"special_bonus_mp_regen_1"
+	}
+
+	"npc_dota_hero_jakiro_ebf"
+	{
+		"override_hero"			"npc_dota_hero_jakiro"
+		"Ability10"				"special_bonus_mp_regen_2"
+		"Ability15"				"special_bonus_mp_regen_1"
+	}
+	"npc_dota_hero_ancient_apparition_ebf"
+	{
+		"override_hero"			"npc_dota_hero_ancient_apparition"
+		"Ability10"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_silencer_ebf"
+	{
+		"override_hero"			"npc_dota_hero_silencer"
+		"Ability12"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_chaos_knight_ebf"
+	{
+		"override_hero"			"npc_dota_hero_chaos_knight"
+		"Ability14"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_ogre_magi_ebf"
+	{
+		"override_hero"			"npc_dota_hero_ogre_magi"
+		"Ability10"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_disruptor_ebf"
+	{
+		"override_hero"			"npc_dota_hero_disruptor"
+		"Ability14"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_tusk_ebf"
+	{
+		"override_hero"			"npc_dota_hero_tusk"
+		"Ability10"				"special_bonus_mp_regen_2"
+		"Ability11"				"special_bonus_mp_regen_1"
+	}
+	"npc_dota_hero_earth_spirit_ebf"
+	{
+		"override_hero"			"npc_dota_hero_earth_spirit"
+		"Ability15"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_phoenix_ebf"
+	{
+		"override_hero"			"npc_dota_hero_phoenix"
+		"Ability10"				"special_bonus_mp_regen_1"
+		"Ability13"				"special_bonus_mp_regen_2"
+	}
+	"npc_dota_hero_oracle_ebf"
+	{
+		"override_hero"			"npc_dota_hero_oracle"
+		"Ability11"				"special_bonus_mp_regen_1"
+		"Ability13"				"special_bonus_mp_regen_2"
+	}
+
+	//Somebody will love you techies
+	"npc_dota_hero_techies_ebf"
+	{
+		"override_hero"			"npc_dota_hero_techies"
+		"Ability10"				"special_bonus_mp_regen_1"
+		"Ability15"				"special_bonus_mp_regen_2"
+	}
+
+	"npc_dota_hero_winter_wyvern_ebf"
+	{
+		"override_hero"			"npc_dota_hero_winter_wyvern"
+		"Ability10"				"special_bonus_mp_regen_2"
+	}
+
+	"npc_dota_hero_puck_ebf"
+	{
+		"override_hero"			"npc_dota_hero_puck"
+		"Ability16"				"special_bonus_mp_regen_4"
+	}
+
+	"npc_dota_hero_lich_ebf"
+	{
+		"override_hero"			"npc_dota_hero_lich"
+		"Ability15"				"special_bonus_mp_regen_4"
+	}
+
+	"npc_dota_hero_lion_ebf"
+	{
+		"override_hero"			"npc_dota_hero_lion"
+		"Ability13"				"special_bonus_mp_regen_2"
+	}
+
+	"npc_dota_hero_enigma_ebf"
+	{
+		"override_hero"			"npc_dota_hero_enigma"
+		"Ability13"				"special_bonus_mp_regen_2"
+	}
+
+	"npc_dota_hero_venomancer_ebf"
+	{
+		"override_hero"			"npc_dota_hero_venomancer"
+		"Ability11"				"special_bonus_mp_regen_2"
+	}
+
+	"npc_dota_hero_dragon_knight_ebf"
+	{
+		"override_hero"			"npc_dota_hero_dragon_knight"
+		"Ability14"				"special_bonus_mp_regen_4"
+	}
+	"npc_dota_hero_skeleton_king_ebf"
+	{
+		"override_hero"			"npc_dota_hero_skeleton_king"
+		"Ability3"				"skeleton_king_mortal_strike_ebf"
+		"Ability13"				"special_bonus_mp_regen_2"
+		"Ability15"				"special_bonus_mp_regen_4"
+
+	}
+
 }
