@@ -102,26 +102,6 @@ margin-right: 450px;
   width: 220px;
   height: 180px;
  }
- 
- #option_mute_sound
- {
-  horizontal-align: left;
-  vertical-align: top;
-  margin-left: 10px;
-  margin-top: 15px;
-  width: 200px;
-  height: 50px;
- }
-  #option_unmute_sound
-{
-  horizontal-align: left;
-  vertical-align: top;
-  margin-top: 15px;
-  margin-left: 10px;
-  width: 200px;
-  height: 50px;
- }
- 
   #option_health_bar
 {
   horizontal-align: left;
@@ -160,22 +140,6 @@ margin-right: 450px;
     font-weight: bold;
 	color: #FFFFFF;
  }
-    #text_sound_1
-	{
-	font-size: 15px;
-	margin-left: 15px;
-	margin-top: 15px;
-    font-weight: bold;
-	color: #FFFFFF;
- }
-    #text_sound_2
-{
-	font-size: 15px;
-	margin-left: 15px;
-	margin-top: 15px;
-    font-weight: bold;
-	color: #FFFFFF;
- }
 
  .hp_bar_panel
 {
@@ -184,14 +148,39 @@ margin-right: 450px;
     overflow: clip;
 }
 
+#hp_bar_BG
+{
+  horizontal-align: right;
+    vertical-align: top;
+  margin-top: 35px;
+  width: 1244px;
+    height: 62px;
+}
 #hp_bar_parent_health
-#hp_bar_parent_mana
+{
+  horizontal-align: right;
+    vertical-align: top;
+  margin-top: 35px;
+  width: 1244px;
+    height: 62px;
+}
+
 #hp_bar_parent_shield
 {
-	horizontal-align: right;
+  horizontal-align: right;
     vertical-align: top;
-	width: 561px;
-    height: 157px;
+  margin-top: 35px;
+  width: 1244px;
+    height: 62px;
+}
+
+#hp_bar_parent_overlay
+{
+  horizontal-align: right;
+    vertical-align: top;
+  margin-top: 35px;
+  width: 1244px;
+    height: 62px;
 }
 
 #hp_bar_general
@@ -199,54 +188,47 @@ margin-right: 450px;
   horizontal-align: left;
   vertical-align: top;
  margin-left: 300px;
- margin-top: 50px;
-  width: 561px;
-    height: 157px;
+ margin-top: 100px;
+  width: 1244px;
+    height: 200px;
  }
  
  
- #hp_bar_mana
  #hp_bar_health
 {
     horizontal-align: right;
     vertical-align: top;
-    width: 561px;
-    height: 157px;
+    margin-top: 0px;
+    width: 1244px;
+    height: 62px;
 	clip: rect( 0%, 100%, 100%, 0% );
     z-index:5;
 
     background-position: 0% 0%;
  }
  
+#hp_bar_parent_label
+{
+  margin-left: 0px;
+  margin-top: 0px;
+ }
+
  #hp_bar_current
 {
-	margin-left: 200px;
-	font-size: 18px;
-	margin-top: 15px;
+	margin-left: 50px;
+	font-size: 23px;
+	margin-top: 53px;
     font-weight: bold;
-	color: #ABBFA0;
+  text-align: center;
+	color: #FFDDEE;
  }
-  #hp_bar_slash
-{
-	margin-left: 300px;
-	font-size: 18px;
-	margin-top: 15px;
-    font-weight: bold;
-	color: #ABBFA0;
- }
-  #hp_bar_total
-{
-	margin-left: 320px;
-	font-size: 18px;
-	margin-top: 15px;
-    font-weight: bold;
-	color: #ABBFA0;
- }
+
   #hp_bar_name
 {
-	margin-left: 180px;
-	font-size: 23px;
+  margin-left: 50px;
+  font-size: 30px;
+  margin-top: 10px;
     font-weight: bold;
-	margin-top: 63px;
-	color: #FFFFFF;
+  text-align: center;
+  color: #FFFFFF;
  }

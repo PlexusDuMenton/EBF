@@ -11,12 +11,7 @@
 			<Image id="BG_Image" src="file://{images}/custom_game/NG_Vote/BG.png"/>
 			<Label hittest="false" id="question" text="Do you want to enter NewGame+ ?"/>
 			<Label hittest="false" id="time_nb" text="60"/>
-			<Label hittest="false" id="timer" text="seconds remaining"/>
-			<Label hittest="false" id="confirmation"/>
-			<Label hittest="false" id="noheader" text="No"/>
-			<Label hittest="false" id="yesheader" text="Yes"/>
-			<Label hittest="false" id="noresults" text="0 votes"/>
-			<Label hittest="false" id="yesresults" text="0 votes"/>
+			<Label hittest="false" id="timer" text="second remaining"/>
 			<Button id="Vote_Yes" onactivate='Yes()'>
 				<Image id="yes_button" src="file://{images}/custom_game/NG_Vote/Yes_Button.png"/>
 			</Button>
